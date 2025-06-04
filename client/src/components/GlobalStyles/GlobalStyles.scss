@@ -28,7 +28,7 @@ body {
 
 /* Chiều rộng thanh cuộn */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: $width-scrollbar;
 }
 
 /* Track của thanh cuộn (nền phía sau) */

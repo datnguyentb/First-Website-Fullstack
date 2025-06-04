@@ -13,3 +13,7 @@
     margin-top: $header-height;
     padding-top: 15px;
 }
+
+.content {
+    margin-right: calc($width-right-slidebar + $width-scrollbar);
+}
