@@ -1,0 +1,84 @@
+.wrapper {
+    max-width: 100%;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: $font-medium;
+}
+
+.subtitle {
+    margin-bottom: 1.4rem;
+    font-weight: $font-regular;
+    color: $black;
+}
+
+.label {
+    font-size: 1.4rem;
+    font-weight: $font-semi-bold;
+}
+
+.form-group + .form-group {
+    margin-top: 20px;
+}
+
+.form-control {
+    width: 100%;
+    height: 45px;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 0.25rem;
+}
+
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 1rem;
+}
+
+.btn-login-email,
+.btn-register-email {
+    margin-top: 25px;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: $secondary-color;
+    color: $white;
+    border: none;
+}
+
+.divider {
+    text-align: center;
+    margin: 1rem 0;
+    color: #aaa;
+}
+
+.btn-login {
+    height: 45px;
+    border-radius: 3px;
+}
+
+.btn-google {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}

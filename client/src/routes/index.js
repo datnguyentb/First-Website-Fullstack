@@ -1,21 +1,30 @@
-import Home from "../pages/Home"
-import Todo from "../pages/Todo"
-import MainLayout from "../layouts/MainLayout"
+import { Home, Todo } from '../pages';
+import { Login, Register } from '../pages/Auth';
+import { MainLayout, AuthLayout } from '../layouts';
+import config from '../config';
 
 const publicRoutes = [
     {
-        path:  "/",
+        path: config.routes.home,
         component: Home,
-        layout: MainLayout
+        layout: MainLayout,
     },
     {
-        path:  "/todo",
+        path: config.routes.todo,
         component: Todo,
-    }
-]
+    },
+    {
+        path: config.routes.login,
+        component: Login,
+        layout: AuthLayout,
+    },
+    {
+        path: config.routes.register,
+        component: Register,
+        layout: AuthLayout,
+    },
+];
 
-const privateRoutes = [
+const privateRoutes = [];
 
-]
-
-export { publicRoutes, privateRoutes }
+export { publicRoutes, privateRoutes };

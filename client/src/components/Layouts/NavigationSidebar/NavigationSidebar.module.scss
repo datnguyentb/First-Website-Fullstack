@@ -1,0 +1,133 @@
+.wrapper {
+    z-index: 2;
+    position: fixed;
+    width: $width-navigationSidebar;
+    bottom: 0;
+    background-color: $white;
+    box-shadow: 5px 4px 20px rgba(0, 0, 0, 0.25);
+    top: 0;
+    left: 0;
+    padding: 0 15px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 24px;
+    width: 110px;
+    margin: 0 auto;
+    h2 {
+        font-size: 18px;
+        margin-top: 8px;
+        span {
+            color: #007aff;
+        }
+    }
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    position: relative;
+    padding: 12.5px 12px;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: #f3f3f3;
+    }
+
+    &.active {
+        background-color: #f5f5f5;
+        font-weight: 600;
+
+        svg {
+            color: $primary-color;
+        }
+
+        span.title {
+            font-weight: $font-bold;
+            color: $primary-color;
+        }
+    }
+
+    svg {
+        width: 28px;
+        height: 28px;
+        fill: #333;
+    }
+
+    span.title {
+        font-size: 1.5rem;
+        font-weight: $font-medium;
+    }
+}
+
+.badge {
+    background-color: $primary-color;
+    color: $white;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.divider {
+    margin: 20px 0;
+    height: 1px;
+    width: 100%;
+    background-color: $black;
+    opacity: 17%;
+}
+
+.sign-in-box {
+    background-color: $primary-color;
+    opacity: 90%;
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-bottom: auto;
+
+    p {
+        font-size: 1.2rem;
+        font-weight: $font-medium;
+        margin-bottom: 10px;
+    }
+}
+
+.sign-in-btn {
+    border: 1px solid $white;
+    color: $white;
+
+    &:hover {
+        background-color: $white;
+        color: $primary-color;
+    }
+}
+
+.logout {
+    margin-top: auto;
+    button {
+        width: 100%;
+        justify-content: center;
+        font-weight: 600;
+        color: #e64420;
+        border-color: #e64420;
+    }
+}

@@ -1,0 +1,15 @@
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+.main-content {
+    width: 100%;
+    margin-left: $width-navigationSidebar;
+}
+
+.content-container {
+    margin-top: $header-height;
+    padding-top: 15px;
+}

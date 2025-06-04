@@ -1,0 +1,62 @@
+$width-auth: 539px;
+$height-auth: 769px;
+
+.wrapper {
+    // dùng nếu cần ở đây cũng được
+}
+
+.cotainer {
+    height: $height-auth;
+    // border: 1px solid $black;
+}
+
+.size-custom {
+    width: $width-auth;
+    height: 100%;
+}
+
+.paragrap-box {
+    height: 243px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 52px 34px;
+    background-color: $black;
+    opacity: 70%;
+}
+
+.main-text {
+    h3 {
+        color: $white;
+        font-size: 2.1rem;
+        font-weight: $font-medium;
+    }
+}
+
+.more-info-article {
+    opacity: 100%;
+    padding-top: 35px;
+    p {
+        color: $white;
+        margin: 0;
+        font-size: 14px;
+        font-weight: $font-regular;
+    }
+}
+
+.director {
+    svg {
+        width: 46px;
+        height: 46px;
+        color: $white;
+        opacity: 60%;
+    }
+
+    svg + svg {
+        margin-left: 18px;
+    }
+}
+
+.content-auth-inner {
+    max-width: 354px;
+}

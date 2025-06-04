@@ -1,28 +1,50 @@
 // ⬆️ BẮT BUỘC: @use phải trên cùng
-@use 'variables';
 @use 'mixins';
 @use 'reset';
 
 // ✅ Sau đó mới tới import font và CSS thuần
 @import 'normalize.css';
 @import 'bootstrap/dist/css/bootstrap.min.css';
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 // ✅ Cuối cùng là các CSS rule
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
 }
 
 html {
-  font-size: 62.5%;
+    font-size: 62.5%;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  color: #333;
-  background-color: #f4f4f4;
-  font-size: 1.6rem;
+    font-family: $thirty-font;
+    font-weight: 400;
+    color: #333;
+    background-color: #f4f4f4;
+    font-size: 1.6rem;
+}
+
+/* Chiều rộng thanh cuộn */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track của thanh cuộn (nền phía sau) */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Thanh cuộn chính (thumb) */
+::-webkit-scrollbar-thumb {
+    background: rgba($secondary-color, 0.4);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Khi hover vào thumb */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba($primary-color, 0.6);
 }
