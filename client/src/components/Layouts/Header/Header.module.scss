@@ -5,17 +5,19 @@
     height: $header-height;
     width: 100%;
     background-color: $white;
-    box-shadow: 8px 3px 20px rgba(0, 0, 0, 0.25);
     z-index: 1;
+    background-color: transparent;
 }
 
 .container {
     height: 100%;
     display: flex;
+    background-color: $white;
     justify-content: space-between;
     align-items: center;
-    margin-left: $width-navigationSidebar;
     padding: 0 32px;
+    margin-left: $width-navigationSidebar;
+    box-shadow: 8px 3px 20px rgba(0, 0, 0, 0.25);
 }
 
 .nav-back {

@@ -14,7 +14,7 @@ const eventMock = {
     description: 'Immerse yourself in electrifying performances',
     date: 'Apr 20, 2025',
     time: '5:00 PM - 11:00 PM',
-    imageSrc: desktopBackground.desktip_3, // giả định đường dẫn ảnh
+    imageSrc: desktopBackground.piture_1, // giả định đường dẫn ảnh
     altText: 'upcomming event',
     buttonText: 'View Details',
 };

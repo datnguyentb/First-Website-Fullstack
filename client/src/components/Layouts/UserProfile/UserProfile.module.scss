@@ -1,0 +1,179 @@
+.wrapper {
+    // Optional: Add transitions or animations if needed
+}
+
+.cover-page {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+.profile-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 24px;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #dee2e6;
+    }
+}
+
+.name {
+    font-size: 1.8rem; // Slightly larger than base for emphasis
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.location {
+    font-size: 1.6rem; // Base font size
+    color: #888;
+    margin-bottom: 16px;
+}
+
+.edit {
+    font-size: 1.6rem; // Base font size
+    padding: 10px 20px;
+    border-radius: 999px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    margin-bottom: 24px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #c82333;
+    }
+}
+
+.edit-btn {
+    font-size: 1.5rem; // Base font size
+    background-color: $secondary-color;
+    color: $white;
+}
+
+.position {
+    font-size: 1.6rem; // Base font size
+    color: #555;
+    margin: 30px 0;
+    line-height: 1.8;
+    padding: 0 50px;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+
+    div {
+        text-align: center;
+
+        strong {
+            display: block;
+            font-size: 1.8rem; // Slightly larger for emphasis
+            color: #000;
+        }
+
+        div {
+            font-size: 1.6rem; // Base font size
+            color: #666;
+        }
+    }
+}
+
+.showMore {
+    padding: 12px 24px;
+    font-size: 1.6rem; // Base font size
+    font-weight: 600;
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+    border-radius: 999px;
+    transition: 0.3s ease;
+
+    &:hover {
+        background-color: #c82333;
+    }
+}
+
+.close_icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    svg {
+        color: #dc3545;
+        font-size: 2.5rem; // Adjusted to match base font size
+    }
+}
+
+// Responsive adjustments for smaller devices
+@media (max-width: 576px) {
+    .container {
+        max-width: 90%;
+        padding: 40px 20px;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+
+    .name {
+        font-size: 1.6rem;
+    }
+
+    .edit {
+        padding: 8px 16px;
+        font-size: 1.6rem;
+    }
+
+    .stats div strong {
+        font-size: 1.6rem;
+    }
+
+    .stats div div {
+        font-size: 1.4rem; // Slightly smaller for compactness
+    }
+
+    .showMore {
+        font-size: 1.6rem;
+        padding: 10px 20px;
+    }
+}
