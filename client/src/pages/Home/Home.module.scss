@@ -1,8 +1,18 @@
 .wrapper {
     min-height: 1000px;
-    background-color: #ccc;
+    // background-color: #ccc;
 }
 
-.content-container {
-    height: 300px;
+.slider-wrapper {
+    height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.story {
+    overflow: hidden;
+}
+
+.post_wrapper {
+    width: 100%;
 }

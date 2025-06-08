@@ -12,6 +12,7 @@ const publicRoutes = [
     {
         path: config.routes.todo,
         component: Todo,
+        layout: MainLayout,
     },
     {
         path: config.routes.login,

@@ -2,15 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './NavigationSidebar.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faHome,
-    faListCheck,
-    faMusic,
-    faMessage,
-    faUserGroup,
-    faCircleInfo,
-    faArrowRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '~/components/Button';
 import Img from '~/components/Img';

@@ -1,18 +1,27 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import Slider from '~/components/Slider/Slider';
-import { desktopBackground } from '../../assets/imgs/background';
+import Slider from '../../components/Slider';
+import Story from '../../components/Story';
+import { bg_slider } from '../../assets/imgs/background_slider';
+import Post from '../../components/Post';
 
 const cx = classNames.bind(styles);
 
-const defaultImages = [desktopBackground.piture_1, desktopBackground.piture_4, desktopBackground.piture_5];
+const defaultImages = [bg_slider.bg_slider_1, bg_slider.bg_slider_2, bg_slider.bg_slider_3];
 
 function Home() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content-container')}>
-                <Slider ArrImg={defaultImages} autoSlide={5000} direction />
-                <div className={cx('story')}></div>
+                <div className={cx('slider-wrapper')}>
+                    <Slider ArrImg={defaultImages} autoSlide={5000} />
+                </div>
+                <div className={cx('story', 'mt-5')}>
+                    <Story />
+                </div>
+                <div className={cx('post_wrapper', 'mt-3')}>
+                    <Post />
+                </div>
             </div>
         </div>
     );

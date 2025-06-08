@@ -1,0 +1,110 @@
+$width-story: 117px;
+$height-story: 184px;
+
+.wrapper {
+    width: 100%;
+    height: $height-story;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-wrapper {
+    display: flex;
+    white-space: nowrap; // Tránh wrap xuống dòng nếu dùng inline
+    scroll-behavior: smooth;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.item + .item {
+    margin-left: 10px;
+}
+
+.item {
+    flex: 0 0 auto;
+    width: $width-story;
+    height: $height-story;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.avatar-icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 10px;
+    left: 10px;
+}
+
+.name {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: $white;
+    font-size: 1.2rem;
+}
+
+.avatar_img {
+    border: 2px solid blue;
+}
+
+.add-story {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: $width-story;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.add-icon {
+    margin-top: -15%;
+    color: $white;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid $white;
+    background-color: $primary-color;
+
+    svg {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.dir-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $secondary-icon;
+    font-size: 3rem;
+    background-color: $white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $secondary-background-hover;
+    }
+}
+
+.dir-right {
+    right: 10px;
+}
+
+.dir-left {
+    left: 10px;
+}

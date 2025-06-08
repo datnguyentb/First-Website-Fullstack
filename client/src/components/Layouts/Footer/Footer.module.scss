@@ -170,7 +170,7 @@
     font-size: 1.4rem;
 
     &:hover {
-        background-color: darken($primary-color, 10%);
+        background-color: rgba($primary-color, 10%);
     }
 }
 

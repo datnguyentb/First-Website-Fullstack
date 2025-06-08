@@ -13,9 +13,10 @@ function Img({
     circle = false,
     shadow = false,
     bordered = false,
+    darkOverlay = false,
     ...props
 }) {
-    const [imgSrc, setImgSrc] = useState(src || fallback); // fallback nếu src rỗng
+    const [imgSrc, setImgSrc] = useState(src || fallback);
 
     useEffect(() => {
         setImgSrc(src || fallback);
@@ -27,18 +28,20 @@ function Img({
         }
     };
 
-    const classNames = cx(
+    const imgClassNames = cx(
         {
             circle,
             shadow,
             bordered,
+            'dark-overlay': darkOverlay,
         },
         className,
     );
 
     return (
         <div className={cx('wrapper')}>
-            <img src={imgSrc} alt={alt} onError={handleError} loading="lazy" className={classNames} {...props} />
+            <img src={imgSrc} alt={alt} onError={handleError} loading="lazy" className={imgClassNames} {...props} />
+            {darkOverlay && <div className={cx('dark-overlay')}></div>}
         </div>
     );
 }

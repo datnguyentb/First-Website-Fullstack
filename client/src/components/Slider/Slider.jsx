@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 import styles from './Slider.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Img from '~/components/Img';
-import { desktopBackground } from '../../assets/imgs/background';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);

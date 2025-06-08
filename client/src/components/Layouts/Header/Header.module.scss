@@ -65,3 +65,31 @@
     display: flex;
     gap: 12px;
 }
+
+.user-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.your-post-btn {
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+}
+
+.user_notice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        cursor: pointer;
+    }
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}

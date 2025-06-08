@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Auth.module.scss';
+import Button from '~/components/Button';
 import { svg_icon } from '../../assets/imgs/svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -60,6 +62,11 @@ function Login() {
                     <img src={svg_icon.google_svg} alt="Google" width="20" height="20" />
                     Continue with Google
                 </button>
+                <div className={cx('btn-home', 'd-flex', 'justify-content-center')}>
+                    <Button className={cx('icon-home')} to="/">
+                        <FontAwesomeIcon icon={faHouse} />
+                    </Button>
+                </div>
             </form>
         </div>
     );

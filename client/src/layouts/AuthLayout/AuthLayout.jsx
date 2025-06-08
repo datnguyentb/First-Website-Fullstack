@@ -1,9 +1,11 @@
 import classNames from 'classnames/bind';
+import Slider from '../../components/Slider';
 import styles from './Auth.module.scss';
-import Img from '../../components/Img/Img';
 import { authBackground } from '../../assets/imgs/background';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
+
+const ArrImg = [authBackground.mobile_login_1, authBackground.mobile_login_2, authBackground.mobile_login_3];
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +15,7 @@ function AuthLayout({ children }) {
             <div className={cx('cotainer', 'd-flex', 'flex-row', 'justify-content-center', 'align-items-center')}>
                 <div className={cx('more', 'size-custom', 'd-sm-none', 'd-lg-block')}>
                     <div className={cx('more-content', 'position-relative h-100')}>
-                        <Img src={authBackground.mobile_login_3} />
+                        <Slider ArrImg={ArrImg} autoSlide={3000} />
                         <div className={cx('paragrap-box', ' position-absolute')}>
                             <div className={cx('main-text')}>
                                 <h3>
