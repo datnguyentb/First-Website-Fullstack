@@ -1,10 +1,34 @@
 import PropTypes from 'prop-types';
+
 import classNames from 'classnames/bind';
 import styles from './Todo.module.scss';
+import todoListdb from '../../databseFake/todoListdb';
+import TodoItem from '../../components/TodoItem';
+import Focus from '../../components/Focus/Focus';
 
 const cx = classNames.bind(styles);
 function Todo() {
-    return <div className={cx('wrapper')}></div>;
+    //Trả về định dạng ngày
+
+    return (
+        <>
+            <div className={cx('wrapper')}>
+                <div className={cx('sticky-wall-wrapper')}>
+                    <div>
+                        <div className={cx('sticky-wall', 'row', 'gy-5', 'gx-5')}>
+                            {todoListdb.map((item, index) => (
+                                <TodoItem key={index} item={item} className={cx('col-3')} />
+                            ))}
+                            <TodoItem blank className={cx('col-3')} />
+                        </div>
+                    </div>
+                </div>
+                <div className={cx('focus', 'mt-5')}>
+                    <Focus />
+                </div>
+            </div>
+        </>
+    );
 }
 
 Todo.propTypes = {

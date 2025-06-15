@@ -1,0 +1,12 @@
+.wrapper {
+    min-height: 2000px;
+}
+
+.media-control-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: $width-navigationSidebar;
+    background-color: #3a3a3a;
+    height: $media-control-bar;
+}

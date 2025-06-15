@@ -24,6 +24,33 @@
     }
 }
 
+.wrapper.style_2 {
+    display: flex;
+    padding: 5px;
+    border-radius: 50%;
+    min-width: auto;
+    width: 32px;
+    height: 32px;
+    .icon {
+        font-size: 1.6rem;
+    }
+
+    &:hover {
+        background-color: rgba($white, 0.1);
+    }
+
+    .title {
+        display: none;
+    }
+
+    .icon {
+        color: $white;
+    }
+    &.active .icon {
+        color: rgba($link-text-hover, 0.6);
+    }
+}
+
 .icon + .title,
 .title + .icon {
     margin-left: 8px;

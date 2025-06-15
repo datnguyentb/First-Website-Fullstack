@@ -70,7 +70,7 @@ function NavigationSidebar() {
                     ))}
                 </nav>
 
-                <hr className={cx('divider')} />
+                <hr className={cx('line')} />
 
                 <div className={cx('sign-in-box')}>
                     <p>Sign in to access your personalized features</p>

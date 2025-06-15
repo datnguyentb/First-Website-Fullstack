@@ -27,6 +27,14 @@ body {
     font-size: 1.6rem;
 }
 
+hr.line {
+    margin: 20px 0;
+    height: 1px;
+    width: 100%;
+    background-color: $black;
+    opacity: 17%;
+}
+
 /* Chiều rộng thanh cuộn */
 ::-webkit-scrollbar {
     width: $width-scrollbar;

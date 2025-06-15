@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
-import styles from './MainLayout.module.scss';
-import { Header, Footer, NavigationSidebar, RightSlidebarDefault } from '../../components/Layouts';
+import styles from './NoRightSlidebar.module.scss';
+import { Header, NavigationSidebar } from '../../components/Layouts';
 
 const cx = classNames.bind(styles);
 
-function MainLayout({ children }) {
+function NoRightSlidebar({ children }) {
     return (
         <div className={cx('wrapper', 'd-flex')}>
             <NavigationSidebar />
@@ -12,16 +12,12 @@ function MainLayout({ children }) {
                 <Header />
                 <div className={cx('content-container', 'd-flex')}>
                     <div className={cx('content', 'flex-grow-1')}>
-                        <div className={cx('primary-content')}>
-                            {children}
-                            <Footer />
-                        </div>
+                        <div className={cx('primary-content')}>{children}</div>
                     </div>
-                    <RightSlidebarDefault />
                 </div>
             </div>
         </div>
     );
 }
 
-export default MainLayout;
+export default NoRightSlidebar;

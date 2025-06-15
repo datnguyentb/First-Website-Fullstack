@@ -1,0 +1,56 @@
+.wrapper {
+    position: fixed;
+    top: calc($header-height + 15px);
+    flex-direction: column;
+    right: 0;
+    bottom: $media-control-bar;
+    width: $width-right-slidebar;
+    background-color: $white;
+    padding: 17.5px 8px 0 8px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: $white;
+}
+
+.option-bar {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+}
+
+.tab-group {
+    background-color: #fdf6f3;
+    border-radius: 20px;
+    border: 1px solid rgba($black, 0.4);
+    overflow: hidden;
+    .tab {
+        font-size: 1.4rem;
+        line-height: 30px;
+        padding: 0 10px;
+        cursor: pointer;
+        font-weight: $font-regular;
+    }
+
+    .tab-active {
+        background-color: #e3d6d0;
+        border-radius: 20px;
+        font-weight: $font-medium;
+    }
+}
+
+.icon-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #fdf6f3;
+    border-radius: 50%;
+    border: 1px solid rgba($black, 0.4);
+    cursor: pointer;
+
+    &:hover {
+        background-color: #e3d6d0;
+    }
+}
+
+.playlist_wrapper {
+    overflow-y: auto;
+}

@@ -1,0 +1,36 @@
+.wrapper {
+    height: 100vh;
+    width: calc(100vw - $width-scrollbar);
+    position: relative;
+}
+
+.main-content {
+    width: 100%;
+}
+
+.content-container {
+    margin-top: $header-height;
+    padding-top: 15px;
+}
+
+.content {
+    margin-left: $width-navigationSidebar;
+    margin-right: calc($width-right-slidebar);
+    padding: 0 30px;
+}
+
+.primary-content {
+    margin: 0 auto;
+    max-width: 1200px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.media-control-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: $width-navigationSidebar;
+    background-color: #3a3a3a;
+    height: $media-control-bar;
+}

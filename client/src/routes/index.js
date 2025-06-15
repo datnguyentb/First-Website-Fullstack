@@ -1,6 +1,6 @@
-import { Home, Todo } from '../pages';
+import { Home, Todo, MusicPlayer } from '../pages';
 import { Login, Register } from '../pages/Auth';
-import { MainLayout, AuthLayout } from '../layouts';
+import { MainLayout, AuthLayout, NoRightSlidebar } from '../layouts';
 import config from '../config';
 
 const publicRoutes = [
@@ -23,6 +23,11 @@ const publicRoutes = [
         path: config.routes.register,
         component: Register,
         layout: AuthLayout,
+    },
+    {
+        path: config.routes.musicPlayer,
+        component: MusicPlayer,
+        layout: NoRightSlidebar,
     },
 ];
 

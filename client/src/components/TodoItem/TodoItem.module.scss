@@ -1,0 +1,80 @@
+p {
+    margin-bottom: 0 !important;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: $font-semi-bold;
+}
+
+.item {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100%;
+    min-height: 200px;
+    border-radius: 5px;
+
+    .edit {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        svg {
+            font-size: 2rem;
+            color: rgba($black, 0.5);
+        }
+    }
+}
+
+.todo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: $font-medium;
+    color: rgba($black, 0.6);
+}
+
+.todo + .todo {
+    margin-top: 10px;
+}
+
+.todo-time {
+    font-weight: $font-medium;
+    align-items: center;
+}
+
+.todo-time-icon {
+    svg {
+        font-size: 2.4rem;
+    }
+}
+
+.date {
+    font-size: 1.5rem;
+}
+
+.hour {
+    font-size: 1.2rem;
+}
+
+.check-done {
+    cursor: pointer;
+}
+
+.blank {
+    background-color: #ececec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .add-btn {
+        svg {
+            font-size: 4.8rem;
+        }
+    }
+}
