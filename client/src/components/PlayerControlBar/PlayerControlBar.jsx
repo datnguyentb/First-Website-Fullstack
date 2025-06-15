@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './PlayerControlBar.module.scss';
 import { Img, Button, SoundCloudPlayer } from '../../components';
@@ -12,7 +12,6 @@ import {
     faRepeat,
     faVolumeHigh,
     faVolumeLow,
-    faVolumeOff,
     faVolumeMute,
     faHeart,
     faEllipsis,
@@ -27,12 +26,49 @@ function formatTime(ms) {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-function PlayerControlBar({ data, id }) {
+function PlayerControlBar({ data, id, onSongChange }) {
     const widgetRef = useRef(null);
     const [currentSong, setCurrentSong] = useState(data.find((song) => song.id === id));
+    const [volume, setVolume] = useState(50); // mặc định 50%
+    const [isShuffle, setIsShuffle] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
+
+    useEffect(() => {
+        const newSong = data.find((song) => song.id === id);
+        if (newSong) {
+            setCurrentSong(newSong);
+        }
+    }, [id, data]);
+
+    const handleForward = useCallback(() => {
+        const currentIndex = data.findIndex((item) => item.id === currentSong.id);
+
+        if (currentIndex !== -1) {
+            const nextIndex = (currentIndex + 1) % data.length;
+            const nextSong = data[nextIndex];
+            setCurrentSong(nextSong);
+
+            if (onSongChange) {
+                onSongChange(nextSong);
+            }
+        }
+    }, [data, currentSong, onSongChange]);
+
+    const handleBackward = () => {
+        const currentIndex = data.findIndex((item) => item.id === currentSong.id);
+
+        if (currentIndex > 0) {
+            const prevSong = data[currentIndex - 1];
+            setCurrentSong(prevSong);
+
+            if (onSongChange) {
+                onSongChange(prevSong);
+            }
+        }
+        // Nếu currentIndex === 0 thì không làm gì
+    };
 
     useEffect(() => {
         const widget = widgetRef.current;
@@ -40,17 +76,20 @@ function PlayerControlBar({ data, id }) {
 
         const handlePlay = () => setIsPlaying(true);
         const handlePause = () => setIsPlaying(false);
+        const handleFinish = () => {
+            handleForward(); // tự động chuyển bài tiếp theo
+        };
 
         widget.bind(window.SC.Widget.Events.PLAY, handlePlay);
         widget.bind(window.SC.Widget.Events.PAUSE, handlePause);
+        widget.bind(window.SC.Widget.Events.FINISH, handleFinish);
 
         return () => {
             widget.unbind(window.SC.Widget.Events.PLAY, handlePlay);
             widget.unbind(window.SC.Widget.Events.PAUSE, handlePause);
+            widget.unbind(window.SC.Widget.Events.FINISH, handleFinish);
         };
-    }, [currentSong.srcCode]);
-
-    console.log(duration);
+    }, [currentSong, handleForward]);
 
     // console.log(duration);
 
@@ -80,21 +119,13 @@ function PlayerControlBar({ data, id }) {
         });
     };
 
-    const handleForward = () => {
-        const currentIndex = data.findIndex((item) => item.id === currentSong.id);
-
-        if (currentIndex !== -1) {
-            const nextIndex = (currentIndex + 1) % data.length;
-            setCurrentSong(data[nextIndex]);
-        }
-    };
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('d-none')} onClick={handlechosseSong}>
                 <SoundCloudPlayer
                     trackId={currentSong.srcCode}
                     ref={widgetRef}
+                    volume={volume}
                     onReady={(widget) => {
                         widget.getDuration((dur) => {
                             setDuration(dur);
@@ -141,8 +172,12 @@ function PlayerControlBar({ data, id }) {
 
             <div className={cx('controller')}>
                 <div className={cx('main-controller')}>
-                    <Button className={cx('active')} style_2 leftIcon={<FontAwesomeIcon icon={faShuffle} />} />
-                    <Button style_2 leftIcon={<FontAwesomeIcon icon={faBackwardStep} />} />
+                    <Button
+                        className={cx(isShuffle && 'active')}
+                        style_2
+                        leftIcon={<FontAwesomeIcon icon={faShuffle} />}
+                    />
+                    <Button onClick={handleBackward} style_2 leftIcon={<FontAwesomeIcon icon={faBackwardStep} />} />
                     <Button
                         style_2
                         onClick={togglePlay}
@@ -160,22 +195,24 @@ function PlayerControlBar({ data, id }) {
             </div>
             <div className={cx('player-utils')}>
                 <div className={cx('volume', 'd-flex')}>
-                    <div>
-                        <div className={cx('volume-icon', 'volume_high')}>
-                            <FontAwesomeIcon icon={faVolumeHigh} />
+                    <div className={cx('volume-control', 'd-flex')}>
+                        <div className={cx('volume-icon')}>
+                            {volume >= 50 ? (
+                                <FontAwesomeIcon icon={faVolumeHigh} />
+                            ) : volume > 0 ? (
+                                <FontAwesomeIcon icon={faVolumeLow} />
+                            ) : (
+                                <FontAwesomeIcon icon={faVolumeMute} />
+                            )}
                         </div>
-                        <div className={cx('volume-icon', 'volume_low', 'd-none')}>
-                            <FontAwesomeIcon icon={faVolumeLow} />
-                        </div>
-                        <div className={cx('volume-icon', 'volume_off', 'd-none')}>
-                            <FontAwesomeIcon icon={faVolumeOff} />
-                        </div>
-                        <div className={cx('volume-icon', 'volume_xmark', 'd-none')}>
-                            <FontAwesomeIcon icon={faVolumeMute} />
-                        </div>
-                    </div>
-                    <div className={cx('sound-percent')}>
-                        <div className={cx('sound-percent-line')}></div>
+                        <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={volume}
+                            onChange={(e) => setVolume(parseInt(e.target.value))}
+                            className={cx('volume-slider', 'ms-2')}
+                        />
                     </div>
                 </div>
             </div>

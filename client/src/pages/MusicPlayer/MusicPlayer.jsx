@@ -9,6 +9,7 @@ import { songsdb } from '../../databseFake/songsdb';
 const cx = classNames.bind(styles);
 
 const fakeCurrentPlaylist = songsdb.slice(0, 20);
+var i = 1;
 
 function MusicPlayer() {
     const [currentPlay, setCurrentPlay] = useState(songsdb[0]);
@@ -29,6 +30,8 @@ function MusicPlayer() {
         }
     }
 
+    console.log(i + 1);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content')}>hi</div>
@@ -41,7 +44,13 @@ function MusicPlayer() {
                 />
             </div>
             <div className={cx('media-control-bar')}>
-                <PlayerControlBar data={currentPlaylist} id={currentPlay.id} />
+                <PlayerControlBar
+                    onSongChange={(song) => {
+                        setCurrentPlay(song);
+                    }}
+                    data={currentPlaylist}
+                    id={currentPlay.id}
+                />
             </div>
         </div>
     );
