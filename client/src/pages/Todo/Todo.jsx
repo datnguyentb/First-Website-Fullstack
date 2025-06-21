@@ -2,9 +2,8 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames/bind';
 import styles from './Todo.module.scss';
-import todoListdb from '../../databseFake/todoListdb';
-import TodoItem from '../../components/TodoItem';
-import Focus from '../../components/Focus/Focus';
+import todoListdb from '~/databseFake/todoListdb';
+import { TodoItem, Focus } from './components';
 
 const cx = classNames.bind(styles);
 function Todo() {

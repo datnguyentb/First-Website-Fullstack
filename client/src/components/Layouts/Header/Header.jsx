@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import Button from '../../Button';
-import Img from '../../Img';
-import { UserProfile } from '../../Layouts';
-import currentUser from '../../../databseFake/currentUser';
-import UserDropdown from '../../UserDropdown/UserDropdown';
+import { Button, Img } from '~/components';
+import currentUser from '~/databseFake/currentUser';
+import { UserDropdown, UserProfile } from './components';
 
 const cx = classNames.bind(styles);
 

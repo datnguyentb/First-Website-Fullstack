@@ -1,0 +1,40 @@
+.wrapper {
+    cursor: pointer;
+    overflow: hidden;
+
+    .album-img {
+        position: relative; // 🔥 thêm dòng này
+        aspect-ratio: 1 / 1;
+        transition: transform 0.4s ease-in-out;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2); // lớp phủ mờ
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1;
+        }
+    }
+
+    &:hover .album-img {
+        transform: scale(1.05);
+    }
+
+    &:hover .album-img::before {
+        opacity: 1;
+    }
+}
+
+h3.title {
+    font-size: 1.2rem;
+    font-weight: $font-regular !important;
+}
+
+.img-part {
+    aspect-ratio: 1 / 1;
+}

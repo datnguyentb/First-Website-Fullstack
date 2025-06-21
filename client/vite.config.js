@@ -21,4 +21,8 @@ export default defineConfig({
             },
         },
     },
+    server: {
+        host: true, // Cho phép truy cập từ 127.0.0.1
+        port: 5173,
+    },
 });

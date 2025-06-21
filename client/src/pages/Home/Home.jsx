@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import Slider from '../../components/Slider';
-import Story from '../../components/Story';
-import { bg_slider } from '../../assets/imgs/background_slider';
-import Post from '../../components/Post';
+import Slider from '~/components/Slider';
+import { Story, Post } from './components';
+import { bg_slider } from '~/assets/imgs/background_slider';
 
 const cx = classNames.bind(styles);
 

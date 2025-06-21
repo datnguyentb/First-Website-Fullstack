@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
-import { PlayerControlBar } from '../../components';
-import { RightSlidebarMusicPlayer } from '../../components/Layouts';
+import { TopBar, PlayerControlBar, RightSlidebarMusicPlayer, SuggestedList, AlbumList } from './components';
+import { Section } from '~/components';
 
 import { songsdb } from '../../databseFake/songsdb';
 
 const cx = classNames.bind(styles);
 
 const fakeCurrentPlaylist = songsdb.slice(0, 20);
-var i = 1;
 
 function MusicPlayer() {
     const [currentPlay, setCurrentPlay] = useState(songsdb[0]);
@@ -22,19 +21,33 @@ function MusicPlayer() {
             if (!result) return;
             setCurrentPlay(result);
             setHistory((prev) => {
-                // Xóa bản cũ nếu có
                 const filtered = prev.filter((song) => song.id !== id);
-                // Thêm bài hát mới lên đầu
                 return [result, ...filtered];
             });
         }
     }
 
-    console.log(i + 1);
-
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('content')}>hi</div>
+            <div className={cx('content')}>
+                <TopBar data={currentPlaylist} />
+
+                <div className={cx('mt-5')}>
+                    <Section title_2="Gợi ý cho bạn">
+                        <SuggestedList data={currentPlaylist} />
+                    </Section>
+                </div>
+                <div className={cx('mt-5')}>
+                    <Section title_2="Giai điệu đón hè">
+                        <AlbumList data={currentPlaylist} number={6} col={6} />
+                    </Section>
+                </div>
+                <div className={cx('mt-5')}>
+                    <Section title_2="Nhạc hot thịnh hành">
+                        <AlbumList data={currentPlaylist} number={6} col={6} />
+                    </Section>
+                </div>
+            </div>
             <div className="right-slidebar">
                 <RightSlidebarMusicPlayer
                     onClick={(id) => handleSetCurrentSong(id)}

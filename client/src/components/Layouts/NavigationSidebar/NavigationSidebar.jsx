@@ -51,7 +51,7 @@ function NavigationSidebar() {
         <div className={cx('wrapper')}>
             <div className={cx('container')}>
                 <div className={cx('logo')}>
-                    <Img src={logo_img.main_logo} alt="OnlineShopping" />
+                    <Img src={logo_img.main_logo} alt="Twirl" />
                 </div>
 
                 <nav className={cx('nav')}>

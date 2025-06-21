@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
+import ScrollToTop from './ScrollToTop';
 
 function App() {
     document.addEventListener('contextmenu', function (e) {
@@ -9,6 +10,7 @@ function App() {
     return (
         <div className="App">
             <Router>
+                <ScrollToTop />
                 <Routes>
                     {publicRoutes.map((route, index) => {
                         const Page = route.component;
