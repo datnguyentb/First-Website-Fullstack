@@ -20,7 +20,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    object-fit: cover;
+    overflow: hidden;
 }
 
 .name {
@@ -56,8 +56,6 @@
 }
 
 .section {
-    margin-bottom: 12px;
-
     ul {
         list-style: none;
         padding: 0;
@@ -65,33 +63,50 @@
     }
 
     li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 6px 4px;
-        border-radius: 6px;
+        font-family: Inter;
         cursor: pointer;
-        transition: background 0.2s;
-
         &:hover {
-            background-color: #f5f5f5;
+            background-color: rgba($primary-color, 0.2);
+        }
+        .icon {
+            font-size: 1.8rem;
+            color: rgba($black, 0.7);
         }
 
-        i {
-            margin-right: 8px;
+        .item {
+            font-size: 1.4rem;
+            font-weight: $font-regular;
+            padding-left: 0;
+            padding-right: 0;
+            justify-content: start;
+            color: rgba($black, 0.7);
         }
+    }
+}
 
-        span {
-            flex: 1;
-        }
+.section {
+    margin-top: 12px;
+}
+
+li.no-hover {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li.no-hover:hover {
+    background-color: transparent;
+    cursor: default !important;
+
+    .item {
+        cursor: default !important;
     }
 }
 
 .section-title {
     font-weight: 600;
     font-size: 12px;
-    color: #888;
-    margin-bottom: 4px;
+    color: $black;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }

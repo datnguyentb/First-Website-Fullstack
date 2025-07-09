@@ -15,8 +15,12 @@ function Header() {
     const [showProfile, setShowProfile] = useState(false);
 
     useEffect(() => {
-        setUserLogin(currentUser);
+        setUserLogin(null);
     }, []);
+
+    const handleShowProfile = () => {
+        setShowProfile(true);
+    };
 
     const handleCloseProfile = () => {
         setShowProfile(false);
@@ -27,7 +31,6 @@ function Header() {
             <div className={cx('container')}>
                 <Button
                     className={cx('nav-back')}
-                    onClick={() => setShowProfile(true)}
                     leftIcon={<FontAwesomeIcon icon={faCircleChevronLeft} className={cx('icon')} />}
                 >
                     <span className={cx('ms-3')}>Back</span>
@@ -54,7 +57,7 @@ function Header() {
                                 interactive
                                 render={(attrs, contentRef) => (
                                     <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
-                                        <UserDropdown />
+                                        <UserDropdown user_onclick={handleShowProfile} />
                                     </div>
                                 )}
                             >

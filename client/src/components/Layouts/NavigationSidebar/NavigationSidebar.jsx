@@ -4,9 +4,10 @@ import styles from './NavigationSidebar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import Button from '~/components/Button';
-import Img from '~/components/Img';
 import { logo_img } from '~/assets/imgs/logo'; // chỉnh đường dẫn phù hợp
+import { Button, Img } from '~/components';
+import currentUser from '~/databseFake/currentUser';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +47,10 @@ const navOptions = [
 
 function NavigationSidebar() {
     const location = useLocation();
+    const [userLogin, setUserLogin] = useState(null);
+    useEffect(() => {
+        setUserLogin(currentUser);
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -72,12 +77,14 @@ function NavigationSidebar() {
 
                 <hr className={cx('line')} />
 
-                <div className={cx('sign-in-box')}>
-                    <p>Sign in to access your personalized features</p>
-                    <Button to="/auth/login" className={cx('sign-in-btn')} rounded>
-                        Sign in
-                    </Button>
-                </div>
+                {!userLogin && (
+                    <div className={cx('sign-in-box')}>
+                        <p>Sign in to access your personalized features</p>
+                        <Button to="/auth/login" className={cx('sign-in-btn')} rounded>
+                            Sign in
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );
