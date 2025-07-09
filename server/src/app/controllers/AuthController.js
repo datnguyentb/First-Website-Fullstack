@@ -3,6 +3,7 @@ import { generateToken } from '../../utils/jwt.js';
 import { error as errorResponse, success as successRespone } from '../../utils/response.js';
 import { registerValidator, loginValidator } from '../../validations/auth.js';
 import ERROR_CODES from '../../constants/errorCodes.js';
+import { authenticateJWT } from '../../middleware/auth.js';
 
 class AuthController {
     register(req, res, next) {
@@ -23,7 +24,6 @@ class AuthController {
                     return null;
                 }
 
-                // Tạo người dùng mới
                 const newUser = new User({
                     first_name,
                     last_name,
@@ -34,13 +34,12 @@ class AuthController {
             })
             .then((savedUser) => {
                 if (savedUser) {
-                    // Đăng ký thành công, render lại trang đăng ký và hiển thị thông báo
                     return successRespone(res, 'Đăng ký thành công', {});
                 }
             })
             .catch((err) => {
                 console.error(err);
-                next(err); // truyền lỗi cho middleware xử lý
+                next(err);
             });
     }
 
@@ -96,6 +95,28 @@ class AuthController {
                 next(err);
             });
     }
+
+    checkToken = async (req, res) => {
+        try {
+            if (!req.user) {
+                return errorResponse(res, 'Chưa đăng nhập hoặc token không hợp lệ', ERROR_CODES.UNAUTHORIZED);
+            }
+
+            const userId = req.user.id;
+
+            const user = await User.findById(userId).select('-password');
+            if (!user) {
+                return errorResponse(res, 'Người dùng không tồn tại', ERROR_CODES.UNAUTHORIZED);
+            }
+
+            return successRespone(res, 'Token hợp lệ', {
+                user,
+            });
+        } catch (error) {
+            console.error('❌ Lỗi khi kiểm tra token:', error);
+            return errorResponse(res, 'Lỗi máy chủ', ERROR_CODES.SERVER_ERROR);
+        }
+    };
 }
 
 export default new AuthController();

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './Auth.module.scss';
 import { Img, Button } from '~/components';
@@ -12,6 +13,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);
 
 function Login() {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [isRemember, setIsRemember] = useState(false);
 
@@ -37,6 +39,7 @@ function Login() {
             });
             alert('Đăng nhập thành công!');
             localStorage.setItem('token', res.data.data.token);
+            navigate('/');
         } catch (error) {
             console.error('Đăng nhập thất bại:', error.response.data);
             alert('Đăng nhập thất bại!');

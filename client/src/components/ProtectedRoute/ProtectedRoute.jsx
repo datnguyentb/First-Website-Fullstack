@@ -3,9 +3,8 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 function ProtectedRoute({ children }) {
-    const [isValid, setIsValid] = useState(null); 
+    const [isValid, setIsValid] = useState(null);
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
 
     useEffect(() => {
         const verifyToken = async () => {
@@ -21,12 +20,19 @@ function ProtectedRoute({ children }) {
                     },
                 });
 
-                console.log('✅ Token hợp lệ');
                 setIsValid(true);
             } catch (error) {
-                console.error('❌ Token không hợp lệ:', error.response?.data || error.message);
+                if (error.response) {
+                    console.error('📦 Chi tiết từ backend:', {
+                        status: error.response.status,
+                        data: error.response.data,
+                    });
+                } else {
+                    console.error('🛑 Không thể kết nối đến backend:', error.message);
+                }
+
                 localStorage.clear();
-                setIsValid(false); // Token sai hoặc hết hạn
+                setIsValid(false);
             }
         };
 

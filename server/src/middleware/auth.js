@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
 export const authenticateJWT = (req, res, next) => {
-    console.log('authHeader:', authHeader);
     const authHeader = req.headers.authorization;
 
     // Kiểm tra xem có header Authorization và bắt đầu bằng "Bearer"
@@ -29,7 +28,7 @@ export const authenticateJWT = (req, res, next) => {
     } catch (err) {
         return res.status(401).json({
             success: false,
-            message: 'Token không hợp lệ hoặc đã hết hạn',
+            message: 'Token không hợp lệ hoặc đã hết hạn hihi',
         });
     }
 };
