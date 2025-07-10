@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import axios from 'axios';
+import authApi from '~/api/authApi';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styles from './Auth.module.scss';
-import { Img, Button } from '~/components';
+import { Img, Button, Alert } from '~/components';
 import { logo_img } from '~/assets/imgs/logo';
 import { svg_icon } from '../../assets/imgs/svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,13 @@ function Login() {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [isRemember, setIsRemember] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAlert, SetShowAlert] = useState(false);
+    const [alert, setAlert] = useState({
+        type: '',
+        title: '',
+        message: '',
+    });
 
     const [formData, setFormData] = useState({
         email: '',
@@ -30,19 +37,40 @@ function Login() {
         }));
     };
 
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            const res = await axios.post(`http://localhost:5000/auth/login`, {
+            const res = await authApi.login({
                 email: formData.email,
                 password: formData.password,
             });
-            alert('Đăng nhập thành công!');
             localStorage.setItem('token', res.data.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.data.user));
+            setAlert({
+                type: 'success',
+                title: 'Success!',
+                message: res.data.message,
+            });
+            SetShowAlert(true);
+            await delay(2000);
             navigate('/');
         } catch (error) {
-            console.error('Đăng nhập thất bại:', error.response.data);
-            alert('Đăng nhập thất bại!');
+            if (error.response) {
+                setAlert({
+                    type: 'error',
+                    title: 'Error!',
+                    message: error.response.data.message || 'An error occurred. Please try again.',
+                });
+                SetShowAlert(true);
+                setTimeout(() => SetShowAlert(false), 4000);
+            } else {
+                console.error('Request error:', error.message);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -56,6 +84,8 @@ function Login() {
 
     return (
         <div className={cx('wrapper')}>
+            {showAlert && <Alert type={alert.type} title={alert.title} message={alert.message} />}
+
             <div className={cx('d-flex', 'justify-content-center', 'logo-forward-home')}>
                 <Button to="/">
                     <Img src={logo_img.main_logo} />
@@ -85,6 +115,7 @@ function Login() {
                             name="password"
                             placeholder="Enter your password"
                             className={cx('form-control')}
+                            autoComplete="new-password"
                             required
                             onChange={handleChange}
                         />
@@ -110,7 +141,7 @@ function Login() {
                 </div>
 
                 <button type="submit" className={cx('btn-login-email', 'btn-login')}>
-                    Login Account
+                    {loading ? <span className={cx('spinner')} /> : 'Login Account'}
                 </button>
 
                 <div className={cx('divider')}>Or</div>

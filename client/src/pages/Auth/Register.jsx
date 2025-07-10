@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styles from './Auth.module.scss';
-import { Button, Img } from '~/components';
+import { Button, Img, Alert } from '~/components';
 import { svg_icon } from '../../assets/imgs/svg';
 import { logo_img } from '~/assets/imgs/logo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,13 @@ const cx = classNames.bind(styles);
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [showAlert, SetShowAlert] = useState(false);
+    const [alert, setAlert] = useState({
+        type: '',
+        title: '',
+        message: '',
+    });
 
     const [formData, setFormData] = useState({
         first_name: '',
@@ -34,15 +41,11 @@ function Register() {
         }));
     };
 
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (formData.password !== formData.confirm_password) {
-            alert('Passwords do not match!');
-            return;
-        }
-
-        console.log('Form data:', formData);
+        setLoading(true);
 
         try {
             const res = await axios.post(`http://localhost:5000/auth/register`, {
@@ -53,19 +56,34 @@ function Register() {
                 confirm_password: formData.confirm_password,
             });
 
-            console.log('Đăng ký thành công:', res.data);
-            alert('Đăng ký thành công!');
-            // Reset form:
-            setFormData({ first_name: '', last_name: '', email: '', password: '', confirm_password: '' });
+            setAlert({
+                type: 'success',
+                title: 'Success!',
+                message: res.data.message,
+            });
+            SetShowAlert(true);
+            await delay(2000);
             navigate('/auth/login');
         } catch (error) {
-            console.error('Đăng ký thất bại:', error);
-            alert('Đăng ký thất bại!');
+            if (error.response) {
+                setAlert({
+                    type: 'error',
+                    title: 'Error!',
+                    message: error.response.data.message || 'An error occurred. Please try again.',
+                });
+                SetShowAlert(true);
+                setTimeout(() => SetShowAlert(false), 4000);
+            } else {
+                console.error('Request error:', error.message);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className={cx('wrapper')}>
+            {showAlert && <Alert type={alert.type} title={alert.title} message={alert.message} />}
             <div className={cx('d-flex', 'justify-content-center', 'logo-forward-home')}>
                 <Button to="/">
                     <Img src={logo_img.main_logo} />
@@ -74,7 +92,7 @@ function Register() {
             <h2 className={cx('title')}>Hi, Welcome</h2>
             <p className={cx('subtitle')}>Join us now and start your job hunt journey with us.</p>
 
-            <form className={cx('form', 'mt-3')} onSubmit={handleSubmit}>
+            <form className={cx('form', 'mt-3')} autoComplete="off" onSubmit={handleSubmit}>
                 <div className={cx('d-flex', 'justify-content-between', 'align-items-center')}>
                     <div className={cx('form-group', 'me-3')}>
                         <label className={cx('label')}>First Name</label>
@@ -109,6 +127,7 @@ function Register() {
                         name="email"
                         placeholder="Enter your email"
                         className={cx('form-control')}
+                        autoComplete="email"
                         required
                         value={formData.email}
                         onChange={handleChange}
@@ -123,6 +142,7 @@ function Register() {
                             name="password"
                             placeholder="Enter your password"
                             className={cx('form-control')}
+                            autoComplete="new-password"
                             required
                             value={formData.password}
                             onChange={handleChange}
@@ -152,7 +172,7 @@ function Register() {
                 </div>
 
                 <button type="submit" className={cx('btn-register-email', 'btn-login')}>
-                    Create Account
+                    {loading ? <span className={cx('spinner')} /> : 'Create Account'}
                 </button>
 
                 <div className={cx('divider')}>Or</div>

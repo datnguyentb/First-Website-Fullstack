@@ -5,7 +5,6 @@ import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
-import currentUser from '~/databseFake/currentUser';
 import { UserDropdown, UserProfile } from './components';
 
 const cx = classNames.bind(styles);
@@ -15,7 +14,7 @@ function Header() {
     const [showProfile, setShowProfile] = useState(false);
 
     useEffect(() => {
-        setUserLogin(null);
+        setUserLogin(JSON.parse(localStorage.getItem('user')));
     }, []);
 
     const handleShowProfile = () => {
@@ -27,7 +26,7 @@ function Header() {
     };
     return (
         <div className={cx('wrapper')}>
-            <div>{currentUser && showProfile && <UserProfile onClose={handleCloseProfile} />}</div>
+            <div>{userLogin && showProfile && <UserProfile onClose={handleCloseProfile} />}</div>
             <div className={cx('container')}>
                 <Button
                     className={cx('nav-back')}
@@ -57,12 +56,12 @@ function Header() {
                                 interactive
                                 render={(attrs, contentRef) => (
                                     <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
-                                        <UserDropdown user_onclick={handleShowProfile} />
+                                        <UserDropdown currentUser={userLogin} user_onclick={handleShowProfile} />
                                     </div>
                                 )}
                             >
                                 <div className={cx('user-avatar', 'ms-3')}>
-                                    <Img src={userLogin.Img} />
+                                    <Img src={userLogin.avatar_url} />
                                 </div>
                             </Tippy>
                         </div>

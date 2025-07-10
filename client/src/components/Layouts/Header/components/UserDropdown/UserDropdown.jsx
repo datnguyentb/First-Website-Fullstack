@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import classNames from 'classnames/bind';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowRightFromBracket,
@@ -16,64 +17,60 @@ import { Button, Img } from '~/components';
 
 const cx = classNames.bind(styles);
 
-const MENU = [
+const getUserMenu = (navigate, user_onclick) => [
     [
         {
             title: 'Profile',
-            onClick: () => {},
             icon: <FontAwesomeIcon icon={faUser} />,
-            to: '',
+            onClick: user_onclick,
         },
         {
             title: 'Dashboard',
             icon: <FontAwesomeIcon icon={faChartArea} />,
-            to: '',
         },
         {
             title: 'My Posts',
             icon: <FontAwesomeIcon icon={faFileLines} />,
-            to: '',
         },
         {
             title: 'Notifications',
             icon: <FontAwesomeIcon icon={faBell} />,
-            to: '',
         },
     ],
     [
         {
             title: 'Language (vi)',
             icon: <FontAwesomeIcon icon={faEarthAsia} />,
-            to: '',
         },
         {
             title: 'Help',
             icon: <FontAwesomeIcon icon={faCircleInfo} />,
-            to: '',
         },
         {
             title: 'Log out',
             icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-            to: '',
+            onClick: () => {
+                localStorage.clear();
+                navigate('/auth/login');
+            },
         },
     ],
 ];
 
-function UserDropdownPanel({ user_onclick }) {
+function UserDropdownPanel({ currentUser, user_onclick }) {
     const [darkMode, setDarkMode] = useState(false);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        MENU[0][0].onClick = user_onclick;
-    }, []);
+    const MENU = useMemo(() => getUserMenu(navigate, user_onclick), [navigate, user_onclick]);
 
     return (
         <div className={cx('wrapper')} tabIndex={-1}>
             <div className={cx('header')}>
                 <div className={cx('avatar')}>
-                    <Img src="https://i.pravatar.cc/40" alt="avatar" />
+                    <Img src={currentUser.avatar_url} alt="avatar" />
                 </div>
                 <div>
-                    <p className={cx('name')}>Nguyễn Tiến Đạt</p>
+                    <p className={cx('name')}>{`${currentUser.last_name} ${currentUser.first_name}`}</p>
                     <span className={cx('badge')}>BASIC</span>
                 </div>
             </div>
@@ -110,7 +107,7 @@ function UserDropdownPanel({ user_onclick }) {
                         </label>
                     </li>
                     {MENU[1].map((item, index) => (
-                        <li key={index}>
+                        <li key={index} onClick={item.onClick}>
                             <Button className={cx('item')} icon_className={cx('icon')} leftIcon={item.icon}>
                                 {item.title}
                             </Button>

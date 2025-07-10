@@ -12,7 +12,7 @@ class AuthController {
         // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp không
         const { error } = registerValidator(req.body);
         if (error) {
-            return errorResponse(res, 'Dữ liệu không hợp lệ', ERROR_CODES.VALIDATION_ERROR, {
+            return errorResponse(res, 'Dữ liệu không hợp lệ.', ERROR_CODES.VALIDATION_ERROR, {
                 [error.details[0].path[0]]: error.details[0].message,
             });
         }
@@ -74,18 +74,18 @@ class AuthController {
 
                 const token = generateToken({
                     id: user._id,
-                    email: user.email,
-                    role: user.role,
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    avatar_url: user.avatar_src,
+                    bio: user.bio,
                 });
 
                 return successRespone(res, 'Đăng nhập thành công', {
                     token,
                     user: {
-                        _id: user._id,
-                        name: user.name,
-                        email: user.email,
-                        phone: user.phone,
-                        avatarUrl: user.avatarUrl,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        avatar_url: user.avatar_src,
                         role: user.role,
                     },
                 });
@@ -101,7 +101,6 @@ class AuthController {
             if (!req.user) {
                 return errorResponse(res, 'Chưa đăng nhập hoặc token không hợp lệ', ERROR_CODES.UNAUTHORIZED);
             }
-
             const userId = req.user.id;
 
             const user = await User.findById(userId).select('-password');
