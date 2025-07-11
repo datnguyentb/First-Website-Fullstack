@@ -1,12 +1,12 @@
-// middlewares/auth.js
 import jwt from 'jsonwebtoken';
+import User from '../models/User.js'; // Nhớ import model User
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
-export const authenticateJWT = (req, res, next) => {
+export const authenticateJWT = async (req, res, next) => {
+    // 👈 thêm async
     const authHeader = req.headers.authorization;
 
-    // Kiểm tra xem có header Authorization và bắt đầu bằng "Bearer"
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({
             success: false,
@@ -17,18 +17,22 @@ export const authenticateJWT = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     try {
-        // Giải mã token
         const decoded = jwt.verify(token, JWT_SECRET);
 
-        // Gắn user từ token vào request
-        req.user = decoded;
+        const user = await User.findById(decoded.id); // ✅ chỗ dùng await
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'Người dùng không tồn tại',
+            });
+        }
 
-        // Tiếp tục tới route tiếp theo
+        req.user = user;
         next();
     } catch (err) {
         return res.status(401).json({
             success: false,
-            message: 'Token không hợp lệ hoặc đã hết hạn hihi',
+            message: 'Token không hợp lệ hoặc đã hết hạn!',
         });
     }
 };

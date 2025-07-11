@@ -70,7 +70,7 @@ function UserDropdownPanel({ currentUser, user_onclick }) {
                     <Img src={currentUser.avatar_url} alt="avatar" />
                 </div>
                 <div>
-                    <p className={cx('name')}>{`${currentUser.last_name} ${currentUser.first_name}`}</p>
+                    <p className={cx('name')}>{`${currentUser.first_name} ${currentUser.last_name}`}</p>
                     <span className={cx('badge')}>BASIC</span>
                 </div>
             </div>

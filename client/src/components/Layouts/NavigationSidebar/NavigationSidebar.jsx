@@ -6,7 +6,6 @@ import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } fr
 import { Link, useLocation } from 'react-router-dom';
 import { logo_img } from '~/assets/imgs/logo'; // chỉnh đường dẫn phù hợp
 import { Button, Img } from '~/components';
-import currentUser from '~/databseFake/currentUser';
 import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
@@ -49,7 +48,7 @@ function NavigationSidebar() {
     const location = useLocation();
     const [userLogin, setUserLogin] = useState(null);
     useEffect(() => {
-        setUserLogin(currentUser);
+        setUserLogin(JSON.parse(localStorage.getItem('user')));
     }, []);
 
     return (

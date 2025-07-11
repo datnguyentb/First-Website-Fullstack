@@ -3,7 +3,6 @@ import { generateToken } from '../../utils/jwt.js';
 import { error as errorResponse, success as successRespone } from '../../utils/response.js';
 import { registerValidator, loginValidator } from '../../validations/auth.js';
 import ERROR_CODES from '../../constants/errorCodes.js';
-import { authenticateJWT } from '../../middleware/auth.js';
 
 class AuthController {
     register(req, res, next) {
@@ -52,7 +51,7 @@ class AuthController {
                 [error.details[0].path[0]]: error.details[0].message,
             });
         }
-        User.findOne({ email })
+        User.findOne({ email, role: 'user' })
             .then(async (user) => {
                 if (!user) {
                     return errorResponse(res, 'Email không tồn tại', ERROR_CODES.EMAIL_NOT_FOUND);
@@ -76,7 +75,7 @@ class AuthController {
                     id: user._id,
                     first_name: user.first_name,
                     last_name: user.last_name,
-                    avatar_url: user.avatar_src,
+                    avatar_url: user.avatar_url,
                     bio: user.bio,
                 });
 
@@ -85,7 +84,7 @@ class AuthController {
                     user: {
                         first_name: user.first_name,
                         last_name: user.last_name,
-                        avatar_url: user.avatar_src,
+                        avatar_url: user.avatar_url,
                         role: user.role,
                     },
                 });
@@ -96,26 +95,9 @@ class AuthController {
             });
     }
 
-    checkToken = async (req, res) => {
-        try {
-            if (!req.user) {
-                return errorResponse(res, 'Chưa đăng nhập hoặc token không hợp lệ', ERROR_CODES.UNAUTHORIZED);
-            }
-            const userId = req.user.id;
-
-            const user = await User.findById(userId).select('-password');
-            if (!user) {
-                return errorResponse(res, 'Người dùng không tồn tại', ERROR_CODES.UNAUTHORIZED);
-            }
-
-            return successRespone(res, 'Token hợp lệ', {
-                user,
-            });
-        } catch (error) {
-            console.error('❌ Lỗi khi kiểm tra token:', error);
-            return errorResponse(res, 'Lỗi máy chủ', ERROR_CODES.SERVER_ERROR);
-        }
-    };
+    checkToken(req, res) {
+        return successRespone(res, 'Token hợp lệ', {});
+    }
 }
 
 export default new AuthController();

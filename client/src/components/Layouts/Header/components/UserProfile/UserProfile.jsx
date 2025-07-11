@@ -1,68 +1,88 @@
 import classNames from 'classnames/bind';
+import userApi from '~/api/userApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './UserProfile.module.scss';
-import { faCircleXmark, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { authBackground } from '~/assets/imgs/background';
-import { Button, Img } from '~/components';
+import { faCommentDots, faEllipsis, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Button, Img, Loading } from '~/components';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-const userInformation = {
-    name: 'John Doe',
-    username: 'johndoe',
-    location: 'New York, United States',
-    bio: 'I’m a passionate web developer and digital specialist with a strong interest in creating user-centered designs and building responsive.',
-    avatar_href: 'https://example.com/avatar.jpg',
-    followers: 120,
-    following: 150,
-    posts: 30,
-};
-
 function UserProfile(onClose) {
+    const [userLogin, setUserLogin] = useState();
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await userApi.getUserById('me');
+                setUserLogin(res.data.data);
+            } catch (error) {
+                console.error('Error fetching user login:', error);
+            } finally {
+                //
+            }
+        };
+        fetchUser();
+    }, []);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('cover-page')}>
                 <div className={cx('profile-box')}>
-                    <div className={cx('container')}>
-                        <div className={cx('close_icon')} onClick={() => onClose.onClose()}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </div>
-
-                        <div className={cx('avatar')}>
-                            <Img src={authBackground.mobile_login_2} alt="avatar" />
-                        </div>
-
-                        <h2 className={cx('name')}>{userInformation.name}</h2>
-                        <p className={cx('location')}>{userInformation.location}</p>
-                        <Button
-                            small
-                            leftIcon={<FontAwesomeIcon icon={faPenToSquare} />}
-                            className={cx('edit-btn', 'fw-bold')}
-                        >
-                            Edit
-                        </Button>
-
-                        <p className={cx('position')}>{userInformation.bio}</p>
-
-                        <div className={cx('stats', 'd-flex', 'justify-content-space-between')}>
-                            <div>
-                                <strong>{userInformation.followers}</strong>
-                                <div className="small">Followers</div>
+                    {!userLogin ? (
+                        <Loading />
+                    ) : (
+                        <div className={cx('container')}>
+                            <div className={cx('header', 'd-flex', 'justify-content-between', 'align-items-center')}>
+                                <h2 className={cx('header-title')}>Profile</h2>
+                                <div className={cx('close_icon')} title="Close" onClick={() => onClose.onClose()}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </div>
                             </div>
-                            <div>
-                                <strong>{userInformation.following}</strong>
-                                <div className="small">Following</div>
-                            </div>
-                            <div>
-                                <strong>{userInformation.posts}</strong>
-                                <div className="small">Posts</div>
-                            </div>
-                        </div>
+                            <div className={cx('content')}>
+                                <div className={cx('avatar')}>
+                                    <Img src={userLogin.avatar_url} alt="avatar" />
+                                </div>
+                                <h3 className={cx('username')}>{userLogin.username || '@datnguyen99'}</h3>
+                                <h2 className={cx('name')}>{`${userLogin.first_name} ${userLogin.last_name}`}</h2>
+                                <div className={cx('joined', 'd-flex', 'justify-content-center', 'align-items-center')}>
+                                    <span className={cx('member')}>Member</span>
+                                    <div className={cx('line')}></div>
+                                    <span className={cx('date')}>
+                                        Joined {new Date(userLogin.createdAt).toLocaleDateString()}
+                                    </span>
+                                </div>
+                                <Button
+                                    small
+                                    outline
+                                    leftIcon={<FontAwesomeIcon icon={faUser} />}
+                                    className={cx('btn-custom', 'fw-bold')}
+                                >
+                                    Follow
+                                </Button>
+                                <Button
+                                    small
+                                    outline
+                                    leftIcon={<FontAwesomeIcon icon={faCommentDots} />}
+                                    className={cx('btn-custom', 'fw-bold')}
+                                >
+                                    Message
+                                </Button>
+                                <Button
+                                    small
+                                    outline
+                                    leftIcon={<FontAwesomeIcon icon={faEllipsis} />}
+                                    className={cx('btn-custom', 'fw-bold')}
+                                >
+                                    More
+                                </Button>
 
-                        <Button rounded primary>
-                            Show more
-                        </Button>
-                    </div>
+                                <p className={cx('bio')}>{userLogin.bio}</p>
+                            </div>
+
+                            <Button rounded primary>
+                                Show more
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

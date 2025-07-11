@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+import authApi from '~/api/authApi';
 
 function ProtectedRoute({ children }) {
     const [isValid, setIsValid] = useState(null);
@@ -14,7 +14,7 @@ function ProtectedRoute({ children }) {
             }
 
             try {
-                await axios.get('http://localhost:5000/auth/check-token', {
+                await authApi.checkToken({
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -22,12 +22,9 @@ function ProtectedRoute({ children }) {
                 setIsValid(true);
             } catch (error) {
                 if (error.response) {
-                    console.error('📦 Chi tiết từ backend:', {
-                        status: error.response.status,
-                        data: error.response.data,
-                    });
+                    console.error('🛑 Đăng nhập không thành công. Hãy đăng nhập lại!');
                 } else {
-                    console.error('🛑 Không thể kết nối đến backend:', error.message);
+                    console.error('🛑 Không thể kết nối đến sever:', error.message);
                 }
 
                 localStorage.clear();

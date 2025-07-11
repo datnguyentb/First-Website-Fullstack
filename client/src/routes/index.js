@@ -1,5 +1,5 @@
 import { Home, Todo, MusicPlayer } from '../pages';
-import { Login, Register } from '../pages/Auth';
+import { Login, Register, AdminLogin } from '../pages/Auth';
 import { MainLayout, AuthLayout, NoRightSlidebar } from '../layouts';
 import config from '../config';
 
@@ -28,6 +28,10 @@ const publicRoutes = [
         path: config.routes.musicPlayer,
         component: MusicPlayer,
         layout: NoRightSlidebar,
+    },
+    {
+        path: config.routes.adminLogin,
+        component: AdminLogin,
     },
 ];
 

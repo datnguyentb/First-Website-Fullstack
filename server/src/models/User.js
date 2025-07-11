@@ -1,22 +1,65 @@
+// models/User.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userSchema = new mongoose.Schema({
-    first_name: { type: String, required: true, trim: true, min: 2, max: 255 },
-    last_name: { type: String, required: true, trim: true, min: 2, max: 255 },
-    email: { type: String, required: true, lowercase: true, trim: true, unique: true, min: 6, max: 255 },
-    password: { type: String, required: true, min: 6, max: 255 },
-    isActive: { type: Boolean, default: false },
-    birthdate: { type: Date, default: null },
-    avatar_src: { type: String, default: '' },
-    gender: { type: String, enum: ['male', 'female', 'other'] },
-    location: { type: String, default: '' },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' },
-    bio: { type: String, default: '' },
-    createdAt: { type: Date, default: Date.now },
-});
+// 🧩 Định nghĩa schema cho người dùng
+const userSchema = new mongoose.Schema(
+    {
+        first_name: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: 2,
+            maxlength: 255,
+        },
+        last_name: {
+            type: String,
+            required: true,
+            trim: true,
+            minlength: 2,
+            maxlength: 255,
+        },
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+            trim: true,
+            minlength: 6,
+            maxlength: 255,
+        },
+        password: {
+            type: String,
+            required: true,
+            minlength: 6,
+            maxlength: 255,
+        },
+        isActive: { type: Boolean, default: false },
+        birthdate: { type: Date, default: null },
+        avatar_url: { type: String, default: '' },
+        gender: {
+            type: String,
+            enum: ['male', 'female', 'other'],
+            default: 'other',
+        },
+        location: { type: String, default: '' },
+        role: {
+            type: String,
+            enum: ['user', 'admin'],
+            default: 'user',
+        },
+        bio: { type: String, default: '' },
 
-// 👉 Mã hóa mật khẩu trước khi save
+        // 👥 Quan hệ xã hội
+        followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+        following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+        friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+    },
+    {
+        timestamps: true, // ✅ Tự động thêm createdAt & updatedAt
+    },
+);
+
+// 🔐 Mã hóa mật khẩu trước khi lưu
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     try {
@@ -28,12 +71,21 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-// 👉 So sánh mật khẩu (dùng khi login)
+// 🔐 So sánh mật khẩu (dùng khi đăng nhập)
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// 👉 Đảm bảo email là duy nhất
+// 📌 Đảm bảo email là duy nhất
 userSchema.index({ email: 1 }, { unique: true });
 
+// 🚫 Ẩn mật khẩu khi chuyển user thành JSON
+userSchema.set('toJSON', {
+    transform: (doc, ret) => {
+        delete ret.password;
+        return ret;
+    },
+});
+
+// ✅ Xuất model
 export default mongoose.model('User', userSchema);

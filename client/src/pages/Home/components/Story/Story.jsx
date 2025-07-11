@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Story.module.scss';
-import currentUser from '~/databseFake/currentUser';
 import { Img } from '~/components';
 import { faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Storydb from '~/databseFake/storydb';
@@ -22,7 +21,12 @@ function Story() {
     const wrapperRef = useRef(null);
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [numberStoryDisplay, setNumberStoryDisplay] = useState(0); // mặc định tạm
+    const [userLogin, setUserLogin] = useState(null);
+    const [numberStoryDisplay, setNumberStoryDisplay] = useState(0);
+
+    useEffect(() => {
+        setUserLogin(JSON.parse(localStorage.getItem('user')));
+    }, []);
 
     // ✅ Cập nhật số lượng story hiển thị dựa trên độ rộng của wrapper
     useEffect(() => {
@@ -75,14 +79,21 @@ function Story() {
     return (
         <div ref={wrapperRef} className={cx('wrapper')}>
             <div ref={sliderRef} className={cx('story-wrapper')}>
-                <div className={cx('item', 'first')}>
-                    <Img darkOverlay className={cx('avatar')} src={currentUser.avatar_link} alt={currentUser.name} />
-                    <div className={cx('add-story')}>
-                        <div className={cx('add-icon')}>
-                            <FontAwesomeIcon icon={faPlus} />
+                {userLogin && (
+                    <div className={cx('item', 'first')}>
+                        <Img
+                            darkOverlay
+                            className={cx('avatar')}
+                            src={userLogin.avatar_url}
+                            alt={`${userLogin.first_name} ${userLogin.last_name}`}
+                        />
+                        <div className={cx('add-story')}>
+                            <div className={cx('add-icon')}>
+                                <FontAwesomeIcon icon={faPlus} />
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
                 {Storydb.map((story, index) => {
                     const user = getUserById(story.userId);
                     return (

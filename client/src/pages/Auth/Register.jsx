@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import authApi from '~/api/authApi';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -48,7 +48,7 @@ function Register() {
         setLoading(true);
 
         try {
-            const res = await axios.post(`http://localhost:5000/auth/register`, {
+            const res = await authApi.register({
                 first_name: formData.first_name,
                 last_name: formData.last_name,
                 email: formData.email,
