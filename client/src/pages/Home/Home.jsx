@@ -20,6 +20,7 @@ function Home() {
                 </div>
                 <div className={cx('post_wrapper', 'mt-3')}>
                     <Post />
+                    <Post />
                 </div>
             </div>
         </div>

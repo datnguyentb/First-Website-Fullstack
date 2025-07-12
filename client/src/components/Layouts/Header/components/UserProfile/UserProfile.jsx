@@ -13,7 +13,9 @@ function UserProfile(onClose) {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await userApi.getUserById('me');
+                const user = JSON.parse(localStorage.getItem('user'));
+                const userId = user?._id;
+                const res = await userApi.getUserById(userId);
                 setUserLogin(res.data.data);
             } catch (error) {
                 console.error('Error fetching user login:', error);
@@ -30,7 +32,7 @@ function UserProfile(onClose) {
                     {!userLogin ? (
                         <Loading />
                     ) : (
-                        <div className={cx('container')}>
+                        <div className={cx('container', 'd-flex', 'flex-column', 'justify-content-between')}>
                             <div className={cx('header', 'd-flex', 'justify-content-between', 'align-items-center')}>
                                 <h2 className={cx('header-title')}>Profile</h2>
                                 <div className={cx('close_icon')} title="Close" onClick={() => onClose.onClose()}>
@@ -78,9 +80,11 @@ function UserProfile(onClose) {
                                 <p className={cx('bio')}>{userLogin.bio}</p>
                             </div>
 
-                            <Button rounded primary>
-                                Show more
-                            </Button>
+                            <div className={cx('action-btn', 'd-flex', 'justify-content-center')}>
+                                <Button rounded primary>
+                                    Show more
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </div>

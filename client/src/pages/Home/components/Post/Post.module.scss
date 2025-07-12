@@ -1,92 +1,84 @@
 .wrapper {
-    width: 100%;
-    height: 100%;
+    max-width: 700px;
+    border-radius: 12px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     background-color: $white;
-    overflow: hidden;
-    border-radius: 20px;
-    display: flex;
+    padding: 16px;
 }
 
-.user-infor {
-}
+.post-header {
+    margin-bottom: 12px;
+    .avatar-img {
+        width: 50px;
+        height: 50px;
 
-.img-box {
-    width: 300px;
-    max-height: 400px;
-    display: flex;
-    align-items: stretch;
-}
+        .avatar {
+            border-radius: 50%;
+        }
+    }
 
-.content {
-    padding: 20px 30px;
-    flex: 1;
-}
-
-.header {
-    display: flex;
-    padding-right: 20px;
-    justify-content: space-between;
-}
-
-.user-infor {
-    display: flex;
-}
-
-.avatar-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: blue 2px solid;
-}
-
-.name-user {
-    font-size: 1.4rem;
-    font-weight: $font-bold;
-}
-
-.created-at {
-    display: flex;
-    flex-direction: row;
-    font-size: 1.2rem;
-    font-weight: $font-medium;
-    color: rgba(0, 0, 0, 0.6);
-}
-
-.like {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.like-icon {
-    display: flex;
-    font-size: 3rem;
-    justify-content: center;
-    color: #e9253b;
-    cursor: pointer;
-}
-
-.post {
-    h3 {
-        font-size: 1.4rem;
-        font-weight: $font-medium;
+    .name {
+        font-size: 1.8rem;
+        margin: 0;
         color: $black;
+    }
+
+    .time {
+        color: #888;
+        font-size: 1.4rem;
     }
 }
 
 .post-content {
-    p {
-        font-size: 1.2rem;
+    .post-text {
+        margin-bottom: 12px !important;
+    }
+
+    .one {
+        width: 100%;
+    }
+
+    .post-images {
+        .post-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    }
+}
+
+.post-stats {
+    display: flex;
+    gap: 12px;
+    margin: 12px 0;
+    font-size: 1.3rem;
+    color: #666;
+
+    .like-count,
+    .comment-count {
         font-weight: $font-regular;
     }
 }
 
-.more {
-    font-size: 1.2rem;
-    font-weight: $font-semi-bold;
-
-    &:hover {
-        text-decoration: underline;
+.post-actions {
+    margin-top: 12px;
+    button {
+        background: #eee;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: background 0.3s ease;
+        font-size: 1.3rem;
+        font-weight: $font-regular;
+
+        &:hover {
+            background: #ddd;
+        }
+    }
+
+    button + button {
+        margin-left: 8px;
     }
 }

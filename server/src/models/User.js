@@ -1,4 +1,3 @@
-// models/User.js
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -34,6 +33,25 @@ const userSchema = new mongoose.Schema(
             maxlength: 255,
         },
         isActive: { type: Boolean, default: false },
+        status: {
+            type: String,
+            enum: ['active', 'locked'],
+            default: 'active',
+        },
+        lockReason: {
+            type: String,
+            default: '',
+        },
+        lockedAt: {
+            type: Date,
+        },
+        lockHistory: [
+            {
+                reason: String,
+                lockedAt: Date,
+                unlockedAt: Date,
+            },
+        ],
         birthdate: { type: Date, default: null },
         avatar_url: { type: String, default: '' },
         gender: {
@@ -48,14 +66,12 @@ const userSchema = new mongoose.Schema(
             default: 'user',
         },
         bio: { type: String, default: '' },
-
-        // 👥 Quan hệ xã hội
         followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
     },
     {
-        timestamps: true, // ✅ Tự động thêm createdAt & updatedAt
+        timestamps: true,
     },
 );
 

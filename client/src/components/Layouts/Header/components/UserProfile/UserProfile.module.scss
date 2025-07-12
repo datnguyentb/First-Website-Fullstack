@@ -129,19 +129,8 @@
     padding: 0 50px;
 }
 
-.showMore {
-    padding: 12px 24px;
-    font-size: 1.6rem; // Base font size
-    font-weight: 600;
-    background-color: #dc3545;
-    border: none;
-    color: #fff;
-    border-radius: 999px;
-    transition: 0.3s ease;
-
-    &:hover {
-        background-color: #c82333;
-    }
+.action-btn {
+    padding: 20px 30px;
 }
 
 // Responsive adjustments for smaller devices

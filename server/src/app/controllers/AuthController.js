@@ -3,6 +3,7 @@ import { generateToken } from '../../utils/jwt.js';
 import { error as errorResponse, success as successRespone } from '../../utils/response.js';
 import { registerValidator, loginValidator } from '../../validations/auth.js';
 import ERROR_CODES from '../../constants/errorCodes.js';
+import { userResponse } from '../../transformers/userResponse.js';
 
 class AuthController {
     register(req, res, next) {
@@ -67,7 +68,7 @@ class AuthController {
                     name: user.name,
                     email: user.email,
                     phone: user.phone,
-                    avatarUrl: user.avatarUrl,
+                    avatar_url: user.avatar_url,
                     role: user.role,
                 };
 
@@ -81,12 +82,7 @@ class AuthController {
 
                 return successRespone(res, 'Đăng nhập thành công', {
                     token,
-                    user: {
-                        first_name: user.first_name,
-                        last_name: user.last_name,
-                        avatar_url: user.avatar_url,
-                        role: user.role,
-                    },
+                    user: userResponse(user, ['_id', 'first_name', 'last_name', 'avatar_url', 'bio']),
                 });
             })
             .catch((err) => {
