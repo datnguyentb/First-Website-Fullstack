@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './MusicPlayer.module.scss';
 import { TopBar, PlayerControlBar, RightSlidebarMusicPlayer, SuggestedList, AlbumList } from './components';
@@ -14,6 +14,10 @@ function MusicPlayer() {
     const [currentPlay, setCurrentPlay] = useState(songsdb[0]);
     const [currentPlaylist, setCurrentPlaylist] = useState(fakeCurrentPlaylist);
     const [history, setHistory] = useState([]);
+
+    useEffect(() => {
+        document.title = 'Twirl | Music';
+    }, []);
 
     function handleSetCurrentSong(id) {
         if (currentPlay.id !== id) {

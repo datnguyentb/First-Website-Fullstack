@@ -14,10 +14,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './UserDropdown.module.scss';
 import { Button, Img } from '~/components';
+import baseUrl from '~/helper/baseUrl';
+import { useUser } from '~/contexts/useUser';
 
 const cx = classNames.bind(styles);
 
-const getUserMenu = (navigate, user_onclick) => [
+const getUserMenu = (navigate, user_onclick, setUser) => [
     [
         {
             title: 'Profile',
@@ -51,26 +53,28 @@ const getUserMenu = (navigate, user_onclick) => [
             icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
             onClick: () => {
                 localStorage.clear();
+                setUser(null);
                 navigate('/auth/login');
             },
         },
     ],
 ];
 
-function UserDropdownPanel({ currentUser, user_onclick }) {
+function UserDropdownPanel({ user_onclick }) {
+    const { user, setUser } = useUser();
     const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
-    const MENU = useMemo(() => getUserMenu(navigate, user_onclick), [navigate, user_onclick]);
+    const MENU = useMemo(() => getUserMenu(navigate, user_onclick, setUser), [navigate, user_onclick, setUser]);
 
     return (
         <div className={cx('wrapper')} tabIndex={-1}>
             <div className={cx('header')}>
                 <div className={cx('avatar')}>
-                    <Img src={currentUser.avatar_url} alt="avatar" />
+                    <Img src={baseUrl(user.avatarUrl)} alt="avatar" />
                 </div>
                 <div>
-                    <p className={cx('name')}>{`${currentUser.first_name} ${currentUser.last_name}`}</p>
+                    <p className={cx('name')}>{`${user.firstName} ${user.lastName}`}</p>
                     <span className={cx('badge')}>BASIC</span>
                 </div>
             </div>

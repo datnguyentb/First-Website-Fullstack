@@ -5,6 +5,8 @@ const routes = {
     register: '/auth/register',
     musicPlayer: '/music',
     adminLogin: '/admin',
+    adminDashboard: '/admin/dashboard',
+    adminUsers: '/admin/users',
 };
 
 export default routes;

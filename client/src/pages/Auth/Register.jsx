@@ -24,11 +24,11 @@ function Register() {
     });
 
     const [formData, setFormData] = useState({
-        first_name: '',
-        last_name: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
-        confirm_password: '',
+        confirmPassword: '',
     });
 
     const navigate = useNavigate();
@@ -49,11 +49,11 @@ function Register() {
 
         try {
             const res = await authApi.register({
-                first_name: formData.first_name,
-                last_name: formData.last_name,
+                firstName: formData.firstName,
+                lastName: formData.lastName,
                 email: formData.email,
                 password: formData.password,
-                confirm_password: formData.confirm_password,
+                confirmPassword: formData.confirmPassword,
             });
 
             setAlert({
@@ -97,30 +97,30 @@ function Register() {
                     <div className={cx('form-group', 'me-3')}>
                         <label className={cx('label')}>First Name</label>
                         <input
-                            name="first_name"
+                            name="firstName"
                             type="text"
                             placeholder="First Name"
                             className={cx('form-control')}
                             required
-                            value={formData.first_name}
+                            value={formData.firstName}
                             onChange={handleChange}
                         />
                     </div>
                     <div className={cx('form-group', 'mt-0', 'ms-3')}>
                         <label className={cx('label')}>Last Name</label>
                         <input
-                            name="last_name"
+                            name="lastName"
                             type="text"
                             placeholder="Last Name"
                             className={cx('form-control')}
                             required
-                            value={formData.last_name}
+                            value={formData.lastName}
                             onChange={handleChange}
                         />
                     </div>
                 </div>
 
-                <div className={cx('form-group')}>
+                <div className={cx('form-group', 'form-group-email')}>
                     <label className={cx('label')}>Email Address</label>
                     <input
                         type="email"
@@ -158,11 +158,11 @@ function Register() {
                     <div className={cx('password-input')}>
                         <input
                             type={showConfirmPassword ? 'text' : 'password'}
-                            name="confirm_password"
+                            name="confirmPassword"
                             placeholder="Enter your password"
                             className={cx('form-control')}
                             required
-                            value={formData.confirm_password}
+                            value={formData.confirmPassword}
                             onChange={handleChange}
                         />
                         <span className={cx('toggle-password')} onClick={() => setShowConfirmPassword((prev) => !prev)}>

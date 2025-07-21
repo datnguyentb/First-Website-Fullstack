@@ -1,17 +1,18 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import mongooseDelete from 'mongoose-delete';
 
 // 🧩 Định nghĩa schema cho người dùng
 const userSchema = new mongoose.Schema(
     {
-        first_name: {
+        firstName: {
             type: String,
             required: true,
             trim: true,
             minlength: 2,
             maxlength: 255,
         },
-        last_name: {
+        lastName: {
             type: String,
             required: true,
             trim: true,
@@ -25,6 +26,10 @@ const userSchema = new mongoose.Schema(
             trim: true,
             minlength: 6,
             maxlength: 255,
+        },
+        phone: {
+            type: String,
+            default: '',
         },
         password: {
             type: String,
@@ -45,6 +50,12 @@ const userSchema = new mongoose.Schema(
         lockedAt: {
             type: Date,
         },
+        hiddenPosts: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Post',
+            },
+        ],
         lockHistory: [
             {
                 reason: String,
@@ -52,8 +63,8 @@ const userSchema = new mongoose.Schema(
                 unlockedAt: Date,
             },
         ],
-        birthdate: { type: Date, default: null },
-        avatar_url: { type: String, default: '' },
+        birthdate: { type: Date, default: new Date('2000-01-01') },
+        avatarUrl: { type: String, default: '' },
         gender: {
             type: String,
             enum: ['male', 'female', 'other'],
@@ -74,6 +85,12 @@ const userSchema = new mongoose.Schema(
         timestamps: true,
     },
 );
+
+// Kích hoạt plugin
+userSchema.plugin(mongooseDelete, {
+    deletedAt: true,
+    overrideMethods: 'all',
+});
 
 // 🔐 Mã hóa mật khẩu trước khi lưu
 userSchema.pre('save', async function (next) {

@@ -4,10 +4,13 @@ import classNames from 'classnames/bind';
 import styles from './Todo.module.scss';
 import todoListdb from '~/databseFake/todoListdb';
 import { TodoItem, Focus } from './components';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 function Todo() {
-    //Trả về định dạng ngày
+    useEffect(() => {
+        document.title = 'Twirl | Todo';
+    }, []);
 
     return (
         <>

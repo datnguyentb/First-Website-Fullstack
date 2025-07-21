@@ -35,6 +35,11 @@ hr.line {
     opacity: 17%;
 }
 
+//Tippy
+.tippy-box {
+    z-index: 1050 !important; /* Thấp hơn modal */
+}
+
 /* Chiều rộng thanh cuộn */
 ::-webkit-scrollbar {
     width: $width-scrollbar;

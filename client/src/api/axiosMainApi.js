@@ -1,8 +1,8 @@
 import axios from 'axios';
+import baseUrl from '~/helper/baseUrl';
 
 const axiosMainApi = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000',
-    headers: { 'Content-Type': 'application/json' },
+    baseURL: baseUrl(),
 });
 
 axiosMainApi.interceptors.request.use((config) => {

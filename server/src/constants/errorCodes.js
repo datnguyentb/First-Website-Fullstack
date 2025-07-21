@@ -8,6 +8,7 @@ const ERROR_CODES = {
 
     // User
     USER_ALREADY_ACTIVE: 'USER_ALREADY_ACTIVE',
+    USER_LOCKED: 'USER_LOCKED',
     USER_INACTIVE: 'USER_INACTIVE',
 
     // Common

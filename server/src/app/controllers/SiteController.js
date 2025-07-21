@@ -1,8 +1,8 @@
-import { success } from '../../utils/response.js';
+import { success as successResponse } from '../../utils/response.js';
 
 class SiteController {
     index(req, res) {
-        return success(res, 'Đăng nhập thành công', {
+        return successResponse(res, 'Đăng nhập thành công', {
             token: 'abc.def.ghi',
         });
     }

@@ -10,11 +10,13 @@ import styles from './Auth.module.scss';
 import { Img, Button, Alert } from '~/components';
 import { logo_img } from '~/assets/imgs/logo';
 import { svg_icon } from '~/assets/imgs/svg';
+import { useUser } from '~/contexts/useUser';
 
 const cx = classNames.bind(styles);
 
 function Login() {
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     // State
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -57,6 +59,7 @@ function Login() {
                 message: res.data.message,
             });
             setShowAlert(true);
+            setUser(user);
 
             await delay(2000);
             navigate('/');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminLogin.module.scss';
 
@@ -6,6 +6,10 @@ const cx = classNames.bind(styles);
 
 const AdminLogin = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
+
+    useEffect(() => {
+        document.title = 'Twirl | Admin Login';
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

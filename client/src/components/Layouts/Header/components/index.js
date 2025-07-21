@@ -1,2 +1,2 @@
 export { default as UserDropdown } from './UserDropdown';
-export { default as UserProfile } from './UserProfile';
+export { default as UserProfile } from '../../../UserProfile';

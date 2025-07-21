@@ -6,6 +6,8 @@ import { Img } from '~/components';
 import { faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Storydb from '~/databseFake/storydb';
 import fakeUserDB from '~/databseFake/Userdb';
+import baseUrl from '~/helper/baseUrl';
+import { useUser } from '~/contexts/useUser';
 
 const cx = classNames.bind(styles);
 const ITEM_WIDTH = 117 + 10; // width + margin (nếu có)
@@ -20,13 +22,9 @@ function Story() {
     const nextRef = useRef(null);
     const wrapperRef = useRef(null);
 
+    const { user } = useUser();
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [userLogin, setUserLogin] = useState(null);
     const [numberStoryDisplay, setNumberStoryDisplay] = useState(0);
-
-    useEffect(() => {
-        setUserLogin(JSON.parse(localStorage.getItem('user')));
-    }, []);
 
     // ✅ Cập nhật số lượng story hiển thị dựa trên độ rộng của wrapper
     useEffect(() => {
@@ -79,13 +77,13 @@ function Story() {
     return (
         <div ref={wrapperRef} className={cx('wrapper')}>
             <div ref={sliderRef} className={cx('story-wrapper')}>
-                {userLogin && (
+                {user && (
                     <div className={cx('item', 'first')}>
                         <Img
                             darkOverlay
                             className={cx('avatar')}
-                            src={userLogin.avatar_url}
-                            alt={`${userLogin.first_name} ${userLogin.last_name}`}
+                            src={baseUrl(user.avatarUrl)}
+                            alt={`${user.firstName} ${user.lastName}`}
                         />
                         <div className={cx('add-story')}>
                             <div className={cx('add-icon')}>

@@ -1,21 +1,19 @@
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronLeft, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
 import { UserDropdown, UserProfile } from './components';
+import baseUrl from '~/helper/baseUrl';
+import { useUser } from '~/contexts/useUser';
 
 const cx = classNames.bind(styles);
 
 function Header() {
-    const [userLogin, setUserLogin] = useState(null);
+    const { user } = useUser();
     const [showProfile, setShowProfile] = useState(false);
-
-    useEffect(() => {
-        setUserLogin(JSON.parse(localStorage.getItem('user')));
-    }, []);
 
     const handleShowProfile = () => {
         setShowProfile(true);
@@ -24,16 +22,11 @@ function Header() {
     const handleCloseProfile = () => {
         setShowProfile(false);
     };
+
     return (
         <div className={cx('wrapper')}>
-            <div>{userLogin && showProfile && <UserProfile onClose={handleCloseProfile} />}</div>
+            <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
             <div className={cx('container')}>
-                <Button
-                    className={cx('nav-back')}
-                    leftIcon={<FontAwesomeIcon icon={faCircleChevronLeft} className={cx('icon')} />}
-                >
-                    <span className={cx('ms-3')}>Back</span>
-                </Button>
                 <div className={cx('input-box')}>
                     <div className={cx('search-icon')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
@@ -45,23 +38,27 @@ function Header() {
                         placeholder="Search for courses, articles, videos..."
                     />
                 </div>
-                {userLogin ? (
+                {user ? (
                     <div className={cx('user-wrapper')}>
-                        <div className={cx('your-post')}>
-                            <Button className={cx('your-post-btn')}>Your Post</Button>
-                        </div>
                         <div className={cx('user_notice')}>
                             <Tippy
                                 placement="bottom"
                                 interactive
                                 render={(attrs, contentRef) => (
-                                    <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
-                                        <UserDropdown currentUser={userLogin} user_onclick={handleShowProfile} />
+                                    <div
+                                        className="box"
+                                        tabIndex="-1"
+                                        ref={(el) => {
+                                            if (contentRef) contentRef.current = el;
+                                        }}
+                                        {...attrs}
+                                    >
+                                        <UserDropdown user_onclick={handleShowProfile} />
                                     </div>
                                 )}
                             >
                                 <div className={cx('user-avatar', 'ms-3')}>
-                                    <Img src={userLogin.avatar_url} />
+                                    <Img src={baseUrl(user.avatarUrl)} />
                                 </div>
                             </Tippy>
                         </div>

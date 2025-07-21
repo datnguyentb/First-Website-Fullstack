@@ -1,0 +1,28 @@
+h2.title {
+    font-size: 2.4rem;
+    font-weight: $font-bold;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    font-size: 14px;
+    color: #666;
+}
+
+.card p {
+    font-size: 24px;
+    font-weight: bold;
+}

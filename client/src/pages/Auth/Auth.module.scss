@@ -1,3 +1,8 @@
+$border-box-shadow:
+    0 0 0 1px #e0e0e0,
+    0 2px 4px 0 rgba(0, 0, 0, 0.07),
+    0 1px 1.5px 0 rgba(0, 0, 0, 0.05);
+
 .wrapper {
     max-width: 100%;
 }
@@ -18,21 +23,29 @@
 }
 
 .label {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: $font-semi-bold;
+    color: rgba($black, 0.6);
 }
 
-.form-group + .form-group {
-    margin-top: 20px;
+.form-group {
+    padding: 8px 0;
 }
 
 .form-control {
     width: 100%;
-    height: 45px;
-    padding: 0.75rem;
+    height: 36px;
+    padding: 8px 12px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 6px;
     margin-top: 0.25rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
 }
 
 .password-input {
@@ -43,6 +56,7 @@
     position: absolute;
     right: 12px;
     top: 50%;
+    color: rgba($black, 0.4);
     transform: translateY(-50%);
     cursor: pointer;
 }

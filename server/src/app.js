@@ -5,9 +5,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import db_connect from './config/database/index.js';
 import session from 'express-session';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 //connect to DB
@@ -30,6 +33,9 @@ app.use(
         cookie: { secure: false }, // dùng secure: true nếu chạy HTTPS
     }),
 );
+
+//truy cập vào thư mục upload
+app.use('/uploads', express.static(path.join(process.cwd(), 'src/uploads')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

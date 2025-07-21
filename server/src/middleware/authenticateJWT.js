@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js'; // Nhớ import model User
+import { success as successResponse, error as errorResponse } from '../utils/response.js';
+import ERROR_CODES from '../constants/errorCodes.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key';
 
@@ -19,12 +21,16 @@ export const authenticateJWT = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
 
-        const user = await User.findById(decoded.id); // ✅ chỗ dùng await
+        const user = await User.findById(decoded.id);
         if (!user) {
             return res.status(401).json({
                 success: false,
                 message: 'Người dùng không tồn tại',
             });
+        }
+
+        if (user.lockedAt) {
+            return errorResponse(res, 'Tài khoản của bạn đã bị khóa', ERROR_CODES.USER_LOCKED);
         }
 
         req.user = user;

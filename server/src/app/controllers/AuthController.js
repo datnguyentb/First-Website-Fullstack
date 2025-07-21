@@ -3,11 +3,11 @@ import { generateToken } from '../../utils/jwt.js';
 import { error as errorResponse, success as successRespone } from '../../utils/response.js';
 import { registerValidator, loginValidator } from '../../validations/auth.js';
 import ERROR_CODES from '../../constants/errorCodes.js';
-import { userResponse } from '../../transformers/userResponse.js';
+import { formatItem } from '../../utils/formatter.js';
 
 class AuthController {
     register(req, res, next) {
-        const { first_name, last_name, email, password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
 
         // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp không
         const { error } = registerValidator(req.body);
@@ -25,8 +25,8 @@ class AuthController {
                 }
 
                 const newUser = new User({
-                    first_name,
-                    last_name,
+                    firstName,
+                    lastName,
                     email,
                     password,
                 });
@@ -68,21 +68,21 @@ class AuthController {
                     name: user.name,
                     email: user.email,
                     phone: user.phone,
-                    avatar_url: user.avatar_url,
+                    avatarUrl: user.avatarUrl,
                     role: user.role,
                 };
 
                 const token = generateToken({
                     id: user._id,
-                    first_name: user.first_name,
-                    last_name: user.last_name,
-                    avatar_url: user.avatar_url,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    avatarUrl: user.avatarUrl,
                     bio: user.bio,
                 });
 
                 return successRespone(res, 'Đăng nhập thành công', {
                     token,
-                    user: userResponse(user, ['_id', 'first_name', 'last_name', 'avatar_url', 'bio']),
+                    user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
                 });
             })
             .catch((err) => {

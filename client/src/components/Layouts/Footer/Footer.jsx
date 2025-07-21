@@ -17,38 +17,37 @@ function Footer() {
                 <div className={cx('info-block')}>
                     <div className={cx('text-group')}>
                         <p>
-                            <strong>Website cá nhân:</strong> Đạt Nguyễn
+                            <strong>Personal Website:</strong> Đạt Nguyễn
                         </p>
                         <p>
-                            <strong>Địa chỉ:</strong> TP. Hồ Chí Minh
+                            <strong>Address:</strong> Vu Thu District, Thai Binh Province
                         </p>
                         <p>
                             <strong>Email:</strong> dat.nt170499@gmail.com
                         </p>
                         <p>
-                            <strong>SĐT:</strong> +84 123 456 789
+                            <strong>Phone:</strong> +84 866743122
                         </p>
                     </div>
                 </div>
 
                 <div className={cx('info-block')}>
-                    <h4>Về Tôi</h4>
+                    <h4>About Me</h4>
                     <p>
-                        Tôi là một lập trình viên đam mê với web. Đây là nơi lưu giữ những dự án, bài viết và chia sẻ cá
-                        nhân.
+                        I'm a passionate web developer. This is where I keep my projects, articles, and personal shares.
                     </p>
                 </div>
 
                 <div className={cx('info-block')}>
-                    <h4>Kết nối</h4>
+                    <h4>Connect</h4>
                     <p>
-                        <a href="https://github.com/yourgithub" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/datnguyentb" target="_blank" rel="noopener noreferrer">
                             GitHub
                         </a>
                     </p>
                     <p>
-                        <a href="https://linkedin.com/in/yourlinkedin" target="_blank" rel="noopener noreferrer">
-                            LinkedIn
+                        <a href="https://www.youtube.com/@DatNguyen-xv6bh" target="_blank" rel="noopener noreferrer">
+                            YouTube
                         </a>
                     </p>
                     <p>
