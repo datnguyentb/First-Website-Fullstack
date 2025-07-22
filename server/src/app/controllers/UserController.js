@@ -46,29 +46,39 @@ class UserController {
         );
     }
 
-    updateUser = async (req, res) => {
+    updateAvatar = async (req, res) => {
         try {
-            const user = req.body;
-
-            let oldAvatarPath = null;
-
-            // Nếu có file mới thì cập nhật avatar mới và chuẩn bị đường dẫn xóa ảnh cũ
-            if (req.file) {
-                const newAvatarUrl = `/uploads/avatars/${req.file.filename}`;
-                user.avatarUrl = newAvatarUrl;
-
-                // Chỉ lấy ảnh cũ nếu có upload ảnh mới
-                if (req.user.avatar_url) {
-                    oldAvatarPath = path.join(process.cwd(), 'src', req.user.avatarUrl);
-                }
+            if (!req.file) {
+                return errorResponse(res, 'Không tìm thấy file ảnh gửi lên');
             }
 
-            const updatedUser = await User.findByIdAndUpdate(req.user._id, user, { new: true });
+            const newAvatarUrl = `/uploads/avatars/${req.file.filename}`;
+            const oldAvatarPath = req.user.avatarUrl ? path.join(process.cwd(), 'src', req.user.avatarUrl) : null;
 
-            // Chỉ xóa nếu có ảnh mới được upload và có ảnh cũ tồn tại
+            const updatedUser = await User.findByIdAndUpdate(req.user._id, { avatarUrl: newAvatarUrl }, { new: true });
+
+            // Xoá ảnh cũ nếu tồn tại
             if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
                 fs.unlinkSync(oldAvatarPath);
             }
+
+            successResponse(
+                res,
+                'Cập nhật avatar thành công',
+                formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
+            );
+        } catch (error) {
+            console.error(error);
+            errorResponse(res, 'Có lỗi xảy ra khi cập nhật avatar');
+        }
+    };
+
+    // PATCH /users/update-info
+    updateMeInfo = async (req, res) => {
+        try {
+            const filtered = req.filteredBody || {};
+
+            const updatedUser = await User.findByIdAndUpdate(req.user._id, filtered, { new: true });
 
             successResponse(
                 res,
@@ -77,7 +87,7 @@ class UserController {
             );
         } catch (error) {
             console.error(error);
-            errorResponse(res, 'Có lỗi xảy ra khi cập nhật thông tin người dùng');
+            errorResponse(res, 'Có lỗi xảy ra khi cập nhật thông tin');
         }
     };
 }

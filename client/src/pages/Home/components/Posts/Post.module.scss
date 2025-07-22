@@ -46,20 +46,20 @@
             color: #888;
         }
     }
+}
 
-    .setting-icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        cursor: pointer;
-        width: 44px;
-        height: 44px;
-        padding: 8px;
+.setting-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
 
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }
 

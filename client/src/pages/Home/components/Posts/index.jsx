@@ -1,4 +1,4 @@
-import { Post } from '../../components';
+import Post from './Post.jsx';
 import { usePosts } from '~/contexts/usePost';
 
 function Posts() {

@@ -5,7 +5,8 @@ import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
-import { UserDropdown, UserProfile } from './components';
+import UserDropdownPanel from './components/UserDropdown';
+import UserProfile from '~/components/UserProfile/index.jsx';
 import baseUrl from '~/helper/baseUrl';
 import { useUser } from '~/contexts/useUser';
 
@@ -45,15 +46,8 @@ function Header() {
                                 placement="bottom"
                                 interactive
                                 render={(attrs, contentRef) => (
-                                    <div
-                                        className="box"
-                                        tabIndex="-1"
-                                        ref={(el) => {
-                                            if (contentRef) contentRef.current = el;
-                                        }}
-                                        {...attrs}
-                                    >
-                                        <UserDropdown user_onclick={handleShowProfile} />
+                                    <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
+                                        <UserDropdownPanel user_onclick={handleShowProfile} />
                                     </div>
                                 )}
                             >
