@@ -30,7 +30,7 @@ function EditProfile({ onCancel, onUpdate }) {
         handleImagePreview(selectedFile, setPreview, preview);
     };
 
-    // 👉 Save user
+    //[PUT] Save user
     const handleSaveUser = async () => {
         const result = await Swal.fire({
             title: 'Xác nhận lưu',

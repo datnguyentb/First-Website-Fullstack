@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import userApi from '~/api/userApi';
 import { useUser } from '~/contexts/useUser';
+import useFetchMeProfile from '~/hooks/user/useFetchMeProfile';
 import { formatDate } from '~/utils/dateUtils';
 
 export const useEditProfile = () => {
@@ -22,26 +22,19 @@ export const useEditProfile = () => {
         avatarUrl: '',
     });
 
-    //[GET] User
+    // [GET] User
+    const { userData, loading, error } = useFetchMeProfile();
+
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await userApi.getUserByIdAll(user.id);
-                const data = res.data.data;
-
-                if (data.birthdate) {
-                    data.birthdate = formatDate(data.birthdate);
-                }
-
-                setForm(data);
-                setInitialForm(data);
-            } catch (error) {
-                console.error('Lỗi khi tải thông tin người dùng:', error);
-            }
-        };
-
-        fetchUser();
-    }, [user.id]);
+        if (userData) {
+            const updated = {
+                ...userData,
+                birthdate: formatDate(userData.birthdate),
+            };
+            setForm(updated);
+            setInitialForm(updated);
+        }
+    }, [userData]);
 
     // 👉 Revoke preview URL when unmounted
     useEffect(() => {
@@ -56,5 +49,19 @@ export const useEditProfile = () => {
         setDisabled(!isChanged);
     }, [form, initialForm]);
 
-    return { user, setUser, form, setForm, preview, setPreview, file, setFile, disabled, setDisabled, setInitialForm };
+    return {
+        user,
+        setUser,
+        form,
+        setForm,
+        preview,
+        setPreview,
+        file,
+        setFile,
+        disabled,
+        setDisabled,
+        setInitialForm,
+        loading,
+        error,
+    };
 };

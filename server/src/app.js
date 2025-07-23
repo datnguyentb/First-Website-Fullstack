@@ -1,5 +1,6 @@
 import express from 'express';
 import routes from './routes/index.js';
+import adminRoutes from './routes/admin/index.js';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -41,5 +42,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev')); // middleware log
 routes(app);
+adminRoutes(app);
 
 export default app;

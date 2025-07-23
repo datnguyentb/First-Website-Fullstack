@@ -1,9 +1,9 @@
-import User from '../../models/User.js';
-import { generateToken } from '../../utils/jwt.js';
-import { error as errorResponse, success as successRespone } from '../../utils/response.js';
-import { registerValidator, loginValidator } from '../../validations/auth.js';
-import ERROR_CODES from '../../constants/errorCodes.js';
-import { formatItem } from '../../utils/formatter.js';
+import User from '../models/User.js';
+import { generateToken } from '../utils/jwt.js';
+import { error as errorResponse, success as successRespone } from '../utils/response.js';
+import { registerValidator, loginValidator } from '../validations/auth.js';
+import ERROR_CODES from '../constants/errorCodes.js';
+import { formatItem } from '../utils/formatter.js';
 
 class AuthController {
     register(req, res, next) {

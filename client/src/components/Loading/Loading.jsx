@@ -8,7 +8,6 @@ function Loading() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('spinner')}></div>
-            <p>Đang tải dữ liệu...</p>
         </div>
     );
 }

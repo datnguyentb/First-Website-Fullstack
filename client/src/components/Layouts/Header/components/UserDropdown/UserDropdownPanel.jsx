@@ -52,7 +52,8 @@ const getUserMenu = (navigate, user_onclick, setUser) => [
             title: 'Log out',
             icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
             onClick: () => {
-                localStorage.clear();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
                 setUser(null);
                 navigate('/auth/login');
             },

@@ -1,7 +1,7 @@
-import { success as successResponse, error as errorResponse } from '../../utils/response.js';
-import Post from '../../models/Post.js';
-import User from '../../models/User.js';
-import { formatItems, formatItem } from '../../utils/formatter.js';
+import { success as successResponse, error as errorResponse } from '../utils/response.js';
+import Post from '../models/Post.js';
+import User from '../models/User.js';
+import { formatItems, formatItem } from '../utils/formatter.js';
 
 class PostController {
     async create(req, res, next) {
@@ -16,7 +16,7 @@ class PostController {
             const post = new Post({
                 content,
                 privacy,
-                authorId: req.user.id, // giả sử đã dùng middleware JWT rồi set req.user
+                authorId: req.user.id,
                 images: req.files?.map((file) => `/uploads/posts/${file.filename}`) || [],
             });
 
@@ -148,7 +148,6 @@ class PostController {
     }
 
     async deletePost(req, res, next) {
-        console.log('running');
         try {
             const postId = req.params.id;
             const userId = req.user._id;

@@ -5,7 +5,7 @@ import ImageUpload from './ImageUpload';
 
 const cx = classNames.bind(styles);
 
-function PostActions({ onSubmit, isPosting, isPostValid, imageInputRef, handleImageSelect, privacyOptionRef }) {
+function PostActions({ onSubmit, loading, isPostValid, imageInputRef, handleImageSelect, privacyOptionRef }) {
     return (
         <div className={cx('d-flex', 'justify-content-between', 'mt-3')}>
             <div className={cx('attached', 'd-flex')}>
@@ -18,8 +18,8 @@ function PostActions({ onSubmit, isPosting, isPostValid, imageInputRef, handleIm
             </div>
 
             <div>
-                <Button onClick={onSubmit} primary disabled={!isPostValid || isPosting}>
-                    {isPosting ? <div className={cx('spinner')}></div> : 'Đăng bài'}
+                <Button onClick={onSubmit} primary disabled={!isPostValid || loading}>
+                    {loading ? <div className={cx('spinner')}></div> : 'Đăng bài'}
                 </Button>
             </div>
         </div>

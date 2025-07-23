@@ -5,12 +5,12 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-import authApi from '~/api/authApi';
 import styles from './Auth.module.scss';
 import { Img, Button, Alert } from '~/components';
 import { logo_img } from '~/assets/imgs/logo';
 import { svg_icon } from '~/assets/imgs/svg';
 import { useUser } from '~/contexts/useUser';
+import useLogin from '~/hooks/auth/useLogin';
 
 const cx = classNames.bind(styles);
 
@@ -18,11 +18,12 @@ function Login() {
     const navigate = useNavigate();
     const { setUser } = useUser();
 
+    const { Login, loading, setLoading } = useLogin();
+
     // State
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [isRemember, setIsRemember] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [alert, setAlert] = useState({ type: '', title: '', message: '' });
 
@@ -44,31 +45,23 @@ function Login() {
     // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
-        try {
-            const res = await authApi.login(formData);
-            const { token, user } = res.data.data;
-
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
+        const res = await Login(formData);
+        if (res.data) {
             setAlert({
                 type: 'success',
                 title: 'Success!',
-                message: res.data.message,
+                message: res.message,
             });
             setShowAlert(true);
-            setUser(user);
-
+            setUser(res.data.user);
             await delay(2000);
+            setLoading(false);
             navigate('/');
-        } catch (error) {
-            const message = error.response?.data?.message || 'An error occurred. Please try again.';
-            setAlert({ type: 'error', title: 'Error!', message });
+        } else {
+            setAlert({ type: 'error', title: 'Error!', message: res.message });
             setShowAlert(true);
             setTimeout(() => setShowAlert(false), 4000);
-        } finally {
             setLoading(false);
         }
     };

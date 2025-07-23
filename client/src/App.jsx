@@ -12,25 +12,28 @@ function App() {
     return (
         <div className="App">
             <Router>
-                <UserProvider>
-                    <Routes>
-                        {publicRoutes.map((route, index) => {
-                            const Page = route.component;
-                            const Layout = route.layout ? route.layout : Fragment;
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        <Layout>
-                                            <Page />
-                                        </Layout>
-                                    }
-                                />
-                            );
-                        })}
-                    </Routes>
-                </UserProvider>
+                <Routes>
+                    {publicRoutes.map((route, index) => {
+                        const Page = route.component;
+                        const Layout = route.layout ? route.layout : Fragment;
+
+                        const isAdminRoute = route.path.startsWith('/admin');
+
+                        const element = (
+                            <Layout>
+                                <Page />
+                            </Layout>
+                        );
+
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={isAdminRoute ? element : <UserProvider>{element}</UserProvider>}
+                            />
+                        );
+                    })}
+                </Routes>
             </Router>
             <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} closeOnClick pauseOnHover />
         </div>

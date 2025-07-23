@@ -7,6 +7,7 @@ const routes = {
     adminLogin: '/admin',
     adminDashboard: '/admin/dashboard',
     adminUsers: '/admin/users',
+    adminPosts: '/admin/posts',
 };
 
 export default routes;

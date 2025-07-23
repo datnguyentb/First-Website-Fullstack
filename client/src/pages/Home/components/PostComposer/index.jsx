@@ -3,18 +3,18 @@ import styles from './postComposer.module.scss';
 import { useRef } from 'react';
 import { usePostComposer } from './usePostComposer';
 import { usePosts } from '~/contexts/usePost';
-import postApi from '~/api/postApi';
 import { toast } from 'react-toastify';
 
 import PostTextarea from './PostTextarea';
 import ImagePreviewList from './ImagePreviewList';
 import PostActions from './PostActions';
+import useCreatePost from '~/hooks/post/useCreatePost';
 
 const cx = classNames.bind(styles);
 
 function PostComposer() {
-    const { isPosting, setIsPosting, text, setText, selectedImages, setSelectedImages, previewImages, isPostValid } =
-        usePostComposer();
+    const { createPost, loading } = useCreatePost();
+    const { text, setText, selectedImages, setSelectedImages, previewImages, isPostValid } = usePostComposer();
 
     const imageInputRef = useRef();
     const privacyOptionRef = useRef();
@@ -63,23 +63,17 @@ function PostComposer() {
         formData.append('privacy', privacyOptionRef.current?.value);
         selectedImages.forEach((file) => formData.append('posts', file));
 
-        try {
-            setIsPosting(true);
-            const res = await postApi.creatPost(formData);
-            setPosts((prev) => [res.data.data, ...prev]);
+        const result = await createPost(formData);
 
-            // Reset
+        if (result) {
+            setPosts((prev) => [result, ...prev]);
+            toast.success('Đăng bài thành công!');
             setText('');
             setSelectedImages([]);
             if (imageInputRef.current) imageInputRef.current.value = null;
             if (privacyOptionRef.current) privacyOptionRef.current.value = 'private';
-
-            toast.success('Đăng bài thành công!');
-        } catch (err) {
-            console.error('Lỗi đăng bài:', err);
-            toast.error('Lỗi khi đăng bài!');
-        } finally {
-            setIsPosting(false);
+        } else {
+            toast.error('Đăng bài thất bại!');
         }
     };
 
@@ -89,7 +83,7 @@ function PostComposer() {
             <ImagePreviewList previewImages={previewImages} handleRemovePreview={handleRemovePreview} />
             <PostActions
                 onSubmit={handlePostSubmit}
-                isPosting={isPosting}
+                loading={loading}
                 isPostValid={isPostValid}
                 imageInputRef={imageInputRef}
                 handleImageSelect={handleImageSelect}

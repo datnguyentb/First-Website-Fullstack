@@ -1,6 +1,6 @@
-import User from '../../models/User.js';
-import { success as successResponse, error as errorResponse } from '../../utils/response.js';
-import { formatItem } from '../../utils/formatter.js';
+import User from '../models/User.js';
+import { success as successResponse, error as errorResponse } from '../utils/response.js';
+import { formatItem } from '../utils/formatter.js';
 import fs from 'fs';
 import path from 'path';
 

@@ -1,50 +1,42 @@
 import classNames from 'classnames/bind';
-import { useNavigate } from 'react-router-dom';
 import Slider from '../../components/Slider';
 import styles from './Auth.module.scss';
 import { authBackground } from '../../assets/imgs/background';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import authApi from '~/api/authApi';
+import { Navigate } from 'react-router-dom';
 
 const ArrImg = [authBackground.mobile_login_1, authBackground.mobile_login_2, authBackground.mobile_login_3];
 
 const cx = classNames.bind(styles);
 
 function AuthLayout({ children }) {
+    const [isValid, setIsValid] = useState(null);
     const token = localStorage.getItem('token');
-    const navigate = useNavigate();
 
     useEffect(() => {
         const verifyToken = async () => {
             if (!token) {
+                setIsValid(false); // Không có token
                 return;
             }
 
             try {
-                await axios.get('http://localhost:5000/auth/check-token', {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                navigate('/');
-            } catch (error) {
-                if (error.response) {
-                    console.error('📦 Chi tiết từ backend:', {
-                        status: error.response.status,
-                        data: error.response.data,
-                    });
-                } else {
-                    console.error('🛑 Không thể kết nối đến backend:', error.message);
-                }
-
-                localStorage.clear();
+                await authApi.checkToken();
+                setIsValid(true);
+            } catch {
+                setIsValid(false);
             }
         };
 
         verifyToken();
-    }, [token, navigate]);
+    }, [token]);
+
+    if (isValid) {
+        return <Navigate to="/" replace />;
+    }
     return (
         <div className={cx('wrapper', 'd-flex', 'justify-content-center', 'align-items-center', 'vh-100')}>
             <div className={cx('cotainer', 'd-flex', 'flex-row', 'justify-content-center', 'align-items-center')}>

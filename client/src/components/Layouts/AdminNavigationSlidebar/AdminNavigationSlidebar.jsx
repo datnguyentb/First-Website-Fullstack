@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './AdminNavigationSlidebar.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -10,20 +10,22 @@ const MENU = [
         to: '/admin/dashboard',
     },
     {
-        title: 'Người dùng',
+        title: 'Users',
         to: '/admin/users',
     },
     {
-        title: 'Bài viết',
+        title: 'Posts',
         to: '/admin/posts',
     },
     {
-        title: 'Cài đặt',
+        title: 'Settings',
         to: '/admin/setting',
     },
 ];
 
 function AdminNavigationSlidebar() {
+    const location = useLocation();
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('logo')}>Admin</div>

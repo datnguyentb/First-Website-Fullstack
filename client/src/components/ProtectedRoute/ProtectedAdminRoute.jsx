@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import authApi from '~/api/authApi';
+import Loading from '../Loading';
+import authAdminApi from '~/api/admin/authAdminApi';
 
-function ProtectedRoute({ children }) {
+function ProtectedAdminRoute({ children }) {
     const [isValid, setIsValid] = useState(null);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('adminToken');
 
     useEffect(() => {
         const verifyToken = async () => {
@@ -14,7 +15,7 @@ function ProtectedRoute({ children }) {
             }
 
             try {
-                await authApi.checkToken({
+                await authAdminApi.checkToken({
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -27,7 +28,8 @@ function ProtectedRoute({ children }) {
                     console.error('🛑 Không thể kết nối đến sever:', error.message);
                 }
 
-                localStorage.clear();
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('admin');
                 setIsValid(false);
             }
         };
@@ -37,16 +39,16 @@ function ProtectedRoute({ children }) {
 
     // Đang kiểm tra token
     if (isValid === null) {
-        return <div>Đang kiểm tra đăng nhập...</div>;
+        return <Loading />;
     }
 
     // Token không hợp lệ → chuyển về trang login
     if (!isValid) {
-        return <Navigate to="/auth/login" replace />;
+        return <Navigate to="/admin" replace />;
     }
 
     // Token hợp lệ → render component con
     return children;
 }
 
-export default ProtectedRoute;
+export default ProtectedAdminRoute;

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import authApi from '~/api/authApi';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -9,13 +8,16 @@ import { svg_icon } from '../../assets/imgs/svg';
 import { logo_img } from '~/assets/imgs/logo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import useRegister from '~/hooks/auth/useRegister';
 
 const cx = classNames.bind(styles);
 
 function Register() {
+    const { Register, loading, setLoading, message } = useRegister();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+
     const [showAlert, SetShowAlert] = useState(false);
     const [alert, setAlert] = useState({
         type: '',
@@ -47,15 +49,16 @@ function Register() {
         e.preventDefault();
         setLoading(true);
 
-        try {
-            const res = await authApi.register({
-                firstName: formData.firstName,
-                lastName: formData.lastName,
-                email: formData.email,
-                password: formData.password,
-                confirmPassword: formData.confirmPassword,
-            });
+        const form = {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+        };
 
+        const res = await Register(form);
+        if (res) {
             setAlert({
                 type: 'success',
                 title: 'Success!',
@@ -63,20 +66,16 @@ function Register() {
             });
             SetShowAlert(true);
             await delay(2000);
+            setLoading(false);
             navigate('/auth/login');
-        } catch (error) {
-            if (error.response) {
-                setAlert({
-                    type: 'error',
-                    title: 'Error!',
-                    message: error.response.data.message || 'An error occurred. Please try again.',
-                });
-                SetShowAlert(true);
-                setTimeout(() => SetShowAlert(false), 4000);
-            } else {
-                console.error('Request error:', error.message);
-            }
-        } finally {
+        } else {
+            setAlert({
+                type: 'error',
+                title: 'Error!',
+                message: message,
+            });
+            SetShowAlert(true);
+            setTimeout(() => SetShowAlert(false), 4000);
             setLoading(false);
         }
     };

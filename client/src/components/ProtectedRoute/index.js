@@ -1,1 +1,2 @@
-export { default } from './ProtectedRoute.jsx';
+export { default as ProtectedUserRoute } from './ProtectedUserRoute.jsx';
+export { default as ProtectedAdminRoute } from './ProtectedAdminRoute.jsx';

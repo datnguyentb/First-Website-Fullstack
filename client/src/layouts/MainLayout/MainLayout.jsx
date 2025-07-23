@@ -1,13 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
 import { Header, Footer, NavigationSidebar, RightSlidebarDefault } from '../../components/Layouts';
-import ProtectedRoute from '~/components/ProtectedRoute';
+import { ProtectedUserRoute } from '~/components/ProtectedRoute';
 
 const cx = classNames.bind(styles);
 
 function MainLayout({ children }) {
     return (
-        <ProtectedRoute>
+        <ProtectedUserRoute>
             <div className={cx('wrapper', 'd-flex')}>
                 <NavigationSidebar />
                 <div className={cx('main-content')}>
@@ -23,7 +23,7 @@ function MainLayout({ children }) {
                     </div>
                 </div>
             </div>
-        </ProtectedRoute>
+        </ProtectedUserRoute>
     );
 }
 

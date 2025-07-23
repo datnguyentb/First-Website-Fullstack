@@ -1,24 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminLogin.module.scss';
+import useAdminLogin from '~/hooks/admin/auth/useAdminLogin';
+import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import authAdminApi from '~/api/admin/authAdminApi';
 
 const cx = classNames.bind(styles);
 
 const AdminLogin = () => {
+    const [isValid, setIsValid] = useState(null);
+    const token = localStorage.getItem('adminToken');
+    const { Login, loading, setLoading } = useAdminLogin();
     const [formData, setFormData] = useState({ email: '', password: '' });
 
     useEffect(() => {
         document.title = 'Twirl | Admin Login';
     }, []);
 
+    //Check Login
+    useEffect(() => {
+        const verifyToken = async () => {
+            if (!token) {
+                setIsValid(false); // Không có token
+                return;
+            }
+
+            try {
+                await authAdminApi.checkToken();
+                setIsValid(true);
+            } catch {
+                setIsValid(false);
+            }
+        };
+
+        verifyToken();
+    }, [token]);
+
+    if (isValid) {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
+
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    // Helpers
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: gọi API login admin
-        console.log('Admin login with:', formData);
+        const res = await Login(formData);
+        if (res) {
+            toast.success('Login successful!', { autoClose: 1000 });
+            await delay(1000);
+            setLoading(false);
+            return <Navigate to="/admin/dashboard" replace />;
+        } else {
+            toast.error('Login failed. Please try again.', { autoClose: 1000 });
+            setLoading(false);
+        }
     };
 
     return (
@@ -55,7 +97,7 @@ const AdminLogin = () => {
                 </div>
 
                 <button type="submit" className={cx('btn btn-dark', 'w-100', 'btn-custom')}>
-                    Login
+                    {loading ? <span className={cx('spinner')} /> : 'Login'}
                 </button>
             </form>
         </div>
