@@ -16,20 +16,20 @@ class PostController {
             const post = new Post({
                 content,
                 privacy,
-                authorId: req.user.id,
+                author: req.user.id,
                 images: req.files?.map((file) => `/uploads/posts/${file.filename}`) || [],
             });
 
             // Lưu vào database
             await post.save();
-            await post.populate('authorId', '_id avatarUrl firstName lastName');
+            await post.populate('author', '_id avatarUrl firstName lastName');
 
             // Trả về kết quả thành công
             return successResponse(
                 res,
                 'Tạo bài viết thành công',
                 formatItem(post, [
-                    'authorId',
+                    'author',
                     'commentCount',
                     'content',
                     'createdAt',
@@ -72,13 +72,13 @@ class PostController {
 
             await post.save();
             await post.populate('likes', '_id avatarUrl firstName lastName');
-            await post.populate('authorId', '_id avatarUrl firstName lastName');
+            await post.populate('author', '_id avatarUrl firstName lastName');
 
             return successResponse(
                 res,
                 hasLiked ? 'Unliked successfully' : 'Liked successfully',
                 formatItem(post, [
-                    'authorId',
+                    'author',
                     'commentCount',
                     'content',
                     'createdAt',
@@ -109,7 +109,7 @@ class PostController {
 
             const filter = {
                 $or: [
-                    { authorId: currentUserId }, // Bài viết của mình
+                    { author: currentUserId }, // Bài viết của mình
                     { privacy: 'public' }, // Công khai
                     {
                         privacy: 'friends', // Của bạn bè
@@ -120,14 +120,14 @@ class PostController {
 
             const posts = await Post.find(filter)
                 .sort({ createdAt: -1 })
-                .populate('authorId', '_id avatarUrl firstName lastName')
+                .populate('author', '_id avatarUrl firstName lastName')
                 .populate('likes', '_id firstName lastName');
 
             return successResponse(
                 res,
                 'Lấy danh sách bài viết thành công',
                 formatItems(posts, [
-                    'authorId',
+                    'author',
                     'commentCount',
                     'content',
                     'createdAt',
@@ -157,7 +157,7 @@ class PostController {
                 return errorResponse(res, 'Không tìm thấy bài viết.');
             }
 
-            if (post.authorId.toString() !== userId.toString()) {
+            if (post.author.toString() !== userId.toString()) {
                 return errorResponse(res, 'Không có quyền xóa bài viết này.');
             }
 

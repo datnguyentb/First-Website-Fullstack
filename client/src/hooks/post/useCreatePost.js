@@ -15,7 +15,8 @@ const useCreatePost = () => {
             const post = await postApi.creatPost(form);
             return post.data.data;
         } catch (err) {
-            toast.error('Lỗi khi đăng bài!');
+            const message = err?.response?.data?.message || 'Lỗi khi đăng bài!';
+            toast.error(message);
             setError(err);
             return null;
         } finally {

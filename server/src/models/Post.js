@@ -4,7 +4,7 @@ import mongooseDelete from 'mongoose-delete';
 
 const postSchema = new mongoose.Schema(
     {
-        authorId: {
+        author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,

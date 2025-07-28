@@ -24,7 +24,7 @@ class AdminPostController {
     getAllPost = async (req, res, next) => {
         try {
             const posts = await Post.findWithDeleted()
-                .populate('authorId', 'firstName lastName email avatarUrl')
+                .populate('author', 'firstName lastName email avatarUrl')
                 .sort({ createdAt: -1 });
 
             successRespone(res, 'Get Success!', posts);
@@ -39,7 +39,7 @@ class AdminPostController {
             const userId = req.user._id;
             const { reason } = req.body;
 
-            const post = await Post.findOne({ _id: postId }).populate('authorId', 'firstName lastName email avatarUrl');
+            const post = await Post.findOne({ _id: postId }).populate('author', 'firstName lastName email avatarUrl');
 
             if (!post) {
                 return errorResponse(res, 'Không tìm thấy bài viết.');
@@ -68,7 +68,7 @@ class AdminPostController {
             const postId = req.params.id;
 
             const post = await Post.findOneDeleted({ _id: postId }).populate(
-                'authorId',
+                'author',
                 'firstName lastName email avatarUrl',
             );
 

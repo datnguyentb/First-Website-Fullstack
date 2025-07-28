@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 export function usePost(post, user) {
     const [userInfor, setUserInfor] = useState({
-        avatarUrl: post.authorId.avatarUrl,
-        firstName: post.authorId.firstName,
-        lastName: post.authorId.lastName,
+        avatarUrl: post.author.avatarUrl,
+        firstName: post.author.firstName,
+        lastName: post.author.lastName,
     });
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likeCount || 0);
@@ -14,7 +14,7 @@ export function usePost(post, user) {
     const [isAuthor, setIsAuthor] = useState(false);
 
     useEffect(() => {
-        if (user && user._id === post.authorId._id) {
+        if (user && user._id === post.author._id) {
             setIsAuthor(true);
             setUserInfor({
                 avatarUrl: user.avatarUrl,
@@ -22,7 +22,7 @@ export function usePost(post, user) {
                 lastName: user.lastName,
             });
         }
-    }, [user, post.authorId._id]);
+    }, [user, post.author._id]);
 
     useEffect(() => {
         if (user && post.likes) {

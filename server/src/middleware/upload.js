@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { fileTypeFromFile } from 'file-type';
+import { error as errorRespone } from '../utils/response.js';
 
 // Lấy __dirname trong ES module
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -50,7 +51,15 @@ function createSecureUploader(subfolder, maxCount = 1) {
 
         // Thực hiện upload
         upload(req, res, async (err) => {
-            if (err) return res.status(400).json({ error: err.message });
+            if (err) {
+                // 👇 Bắt lỗi file quá lớn rõ ràng
+                if (err.code === 'LIMIT_FILE_SIZE') {
+                    return errorRespone(res, 'File size should not exceed 5MB', 'FILE_TOO_LARGE');
+                }
+
+                // 👇 Các lỗi multer khác
+                return errorRespone(res, err.message || 'Upload failed');
+            }
 
             // Lấy danh sách file
             const files = maxCount === 1 ? (req.file ? [req.file] : []) : req.files;

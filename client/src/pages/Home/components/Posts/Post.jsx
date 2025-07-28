@@ -70,7 +70,7 @@ function Post({ post, setPosts }) {
     // =================== RENDER ===================
     return (
         <div className={cx('wrapper', 'mt-5')}>
-            {showUserProfile && <UserProfile onClose={handleCloseProfile} userId={post.authorId._id} />}
+            {showUserProfile && <UserProfile onClose={handleCloseProfile} userId={post.author._id} />}
 
             {/* Post Header */}
             <div className={cx('d-flex', 'justify-content-between')}>

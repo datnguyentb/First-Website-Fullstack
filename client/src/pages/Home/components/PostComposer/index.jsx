@@ -73,7 +73,7 @@ function PostComposer() {
             if (imageInputRef.current) imageInputRef.current.value = null;
             if (privacyOptionRef.current) privacyOptionRef.current.value = 'private';
         } else {
-            toast.error('Đăng bài thất bại!');
+            //
         }
     };
 

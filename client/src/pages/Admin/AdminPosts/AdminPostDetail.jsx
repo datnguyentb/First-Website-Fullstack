@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 function AdminPostDetail({ post, onClose, onSoftDelete, onDeleteForever, onRestore }) {
     if (!post) return null;
 
-    const { authorId, _id, createdAt, privacy, deleted, tag, likeCount, commentCount, isEdited, reportedBy } = post;
+    const { author, _id, createdAt, privacy, deleted, tag, likeCount, commentCount, isEdited, reportedBy } = post;
 
     return (
         <div className={cx('post-detail')}>
@@ -58,15 +58,15 @@ function AdminPostDetail({ post, onClose, onSoftDelete, onDeleteForever, onResto
                     {/* Author Info */}
                     <div className={cx('column')}>
                         <h4>Author Information</h4>
-                        <img className={cx('avatar')} src={baseUrl(authorId.avatarUrl)} alt="avatar" />
+                        <img className={cx('avatar')} src={baseUrl(author.avatarUrl)} alt="avatar" />
                         <p>
-                            <strong>ID:</strong> {authorId._id}
+                            <strong>ID:</strong> {author._id}
                         </p>
                         <p>
-                            <strong>Name:</strong> {authorId.firstName} {authorId.lastName}
+                            <strong>Name:</strong> {author.firstName} {author.lastName}
                         </p>
                         <p>
-                            <strong>Email:</strong> {authorId.email}
+                            <strong>Email:</strong> {author.email}
                         </p>
                     </div>
                 </div>

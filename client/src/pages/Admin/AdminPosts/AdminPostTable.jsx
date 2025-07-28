@@ -26,7 +26,7 @@ function AdminPostTable({ post, setPostId, index, indexActive, onShow }) {
                     </td>
                 )}
 
-                <td>{`${post.authorId.firstName} ${post.authorId.lastName}`}</td>
+                <td>{`${post.author.firstName} ${post.author.lastName}`}</td>
                 <td>
                     <span className={cx('badge', `badge-${typePrivacy}`)}>{post.privacy}</span>
                     {post.deleted && <span className={cx('badge', 'badge-deleted')}>Deleted</span>}
