@@ -11,9 +11,11 @@ export function usePost(post, user) {
     const [burstVisible, setBurstVisible] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [settingVisible, setSettingVisible] = useState(false);
+    const [isAuthor, setIsAuthor] = useState(false);
 
     useEffect(() => {
         if (user && user._id === post.authorId._id) {
+            setIsAuthor(true);
             setUserInfor({
                 avatarUrl: user.avatarUrl,
                 firstName: user.firstName,
@@ -30,6 +32,7 @@ export function usePost(post, user) {
         }
     }, [post.likes, user]);
     return {
+        isAuthor,
         userInfor,
         liked,
         setLiked,

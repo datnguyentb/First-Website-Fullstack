@@ -7,6 +7,7 @@ import { requireRole } from '../../middleware/requireRole.js';
 const router = express.Router();
 
 //AuthController
+router.get('/check-token', authenticateJWT, requireRole('admin'), AdminAuthController.checkToken);
 router.post('/login', AdminAuthController.login);
 router.get('/check-token', authenticateJWT, requireRole('admin'), AdminAuthController.checkToken);
 

@@ -19,7 +19,7 @@ function PostActions({ onSubmit, loading, isPostValid, imageInputRef, handleImag
 
             <div>
                 <Button onClick={onSubmit} primary disabled={!isPostValid || loading}>
-                    {loading ? <div className={cx('spinner')}></div> : 'Đăng bài'}
+                    {loading ? <div className={cx('spinner')}></div> : 'Publish'}
                 </Button>
             </div>
         </div>

@@ -68,7 +68,6 @@ class UserController {
                 formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
             );
         } catch (error) {
-            console.error(error);
             errorResponse(res, 'Có lỗi xảy ra khi cập nhật avatar');
         }
     };
@@ -86,7 +85,6 @@ class UserController {
                 formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
             );
         } catch (error) {
-            console.error(error);
             errorResponse(res, 'Có lỗi xảy ra khi cập nhật thông tin');
         }
     };

@@ -38,7 +38,6 @@ class AuthController {
                 }
             })
             .catch((err) => {
-                console.error(err);
                 next(err);
             });
     }
@@ -86,7 +85,6 @@ class AuthController {
                 });
             })
             .catch((err) => {
-                console.error(err);
                 next(err);
             });
     }

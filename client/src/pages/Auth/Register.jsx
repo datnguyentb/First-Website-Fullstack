@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,9 @@ import useRegister from '~/hooks/auth/useRegister';
 const cx = classNames.bind(styles);
 
 function Register() {
+    useEffect(() => {
+        document.title = 'Twirl | Register';
+    }, []);
     const { Register, loading, setLoading, message } = useRegister();
 
     const [showPassword, setShowPassword] = useState(false);

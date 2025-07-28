@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import styles from './Post.module.scss';
 import UserProfile from '~/components/UserProfile/index.jsx';
-import postApi from '~/api/postApi';
 import { useUser } from '~/contexts/useUser';
 import PostHeader from './PostHeader';
 import PostMoreAction from './PostMoreAction';
@@ -10,14 +9,16 @@ import PostContent from './PostContent';
 import PostStatus from './PostStatus';
 import PostActions from './PostActions';
 import { usePost } from './usePost';
+import useLikePost from '~/hooks/post/useLikePost';
 
 const cx = classNames.bind(styles);
 
 // =================== COMPONENT ===================
 function Post({ post, setPosts }) {
     const { user } = useUser();
-    //Lấy useEffect và useState
+    //get useEffect and useState
     const {
+        isAuthor,
         userInfor,
         liked,
         setLiked,
@@ -31,11 +32,13 @@ function Post({ post, setPosts }) {
         setSettingVisible,
     } = usePost(post, user);
 
-    //Click nút like
+    //call Api
+    const { likePost } = useLikePost();
+
+    //Like Post
     const handleClickLike = async () => {
         try {
-            const res = await postApi.likePost(post._id);
-            const updatedPost = res.data.data;
+            const updatedPost = await likePost(post._id);
 
             const isNowLiked = !liked;
             setLiked(isNowLiked);
@@ -54,10 +57,8 @@ function Post({ post, setPosts }) {
         }
     };
 
-    //toggleSetting thì ẩn và hiển
+    //show and hide menuSetting
     const handleToggleSetting = () => setSettingVisible((prev) => !prev);
-
-    //Ấn ra ngoài ẩn setting
     const handleClickOutsideSetting = () => setSettingVisible(false);
 
     //Close Profile
@@ -79,6 +80,7 @@ function Post({ post, setPosts }) {
                     handleClickOutsideSetting={handleClickOutsideSetting}
                     handleToggleSetting={handleToggleSetting}
                     post={post}
+                    isAuthor={isAuthor}
                 />
             </div>
 

@@ -1,5 +1,5 @@
 // pages/Login.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +15,9 @@ import useLogin from '~/hooks/auth/useLogin';
 const cx = classNames.bind(styles);
 
 function Login() {
+    useEffect(() => {
+        document.title = 'Twirl | Login';
+    }, []);
     const navigate = useNavigate();
     const { setUser } = useUser();
 

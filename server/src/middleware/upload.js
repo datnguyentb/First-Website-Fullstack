@@ -90,7 +90,6 @@ function createSecureUploader(subfolder, maxCount = 1) {
 
                 next(); // ✅ OK → chuyển tiếp controller
             } catch (error) {
-                console.error('File check failed:', error);
                 return res.status(500).json({ error: 'File verification failed' });
             }
         });

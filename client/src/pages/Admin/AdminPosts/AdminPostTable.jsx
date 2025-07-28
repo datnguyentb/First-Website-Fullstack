@@ -5,10 +5,16 @@ import baseUrl from '~/helper/baseUrl';
 
 const cx = classNames.bind(styles);
 
-function AdminPostTable({ post, index }) {
+function AdminPostTable({ post, setPostId, index, indexActive, onShow }) {
     index += 1;
+    const typePrivacy = post.privacy === 'private' ? 'private' : post.privacy === 'public' ? 'public' : 'friend';
+    const isActive = indexActive === index;
+    const handleClickPost = async () => {
+        await setPostId(post._id);
+        onShow(post, index);
+    };
     return (
-        <tbody>
+        <tbody className={cx('post-table', isActive && 'active')} onClick={handleClickPost}>
             <tr>
                 <td>{index}</td>
                 {post.content ? (
@@ -22,8 +28,8 @@ function AdminPostTable({ post, index }) {
 
                 <td>{`${post.authorId.firstName} ${post.authorId.lastName}`}</td>
                 <td>
-                    <span className={cx('badge', 'badge-public')}>{post.privacy}</span>
-                    <span className={cx('badge', 'badge-deleted')}>Deleted</span>
+                    <span className={cx('badge', `badge-${typePrivacy}`)}>{post.privacy}</span>
+                    {post.deleted && <span className={cx('badge', 'badge-deleted')}>Deleted</span>}
                 </td>
                 <td>{formatDateTimeFullEN(post.createdAt)}</td>
                 <td>

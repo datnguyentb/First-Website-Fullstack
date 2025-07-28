@@ -48,7 +48,6 @@ class AdminAuthController {
                 });
             })
             .catch((err) => {
-                console.error(err);
                 next(err);
             });
     }

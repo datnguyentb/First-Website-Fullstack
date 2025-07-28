@@ -142,7 +142,6 @@ class PostController {
                 ]),
             );
         } catch (err) {
-            console.error('Get all posts error:', err);
             return errorResponse(res, 'Lấy danh sách bài viết thất bại');
         }
     }
@@ -162,7 +161,6 @@ class PostController {
                 return errorResponse(res, 'Không có quyền xóa bài viết này.');
             }
 
-            post.deletedBy = userId;
             await post.delete(); // Xóa mềm
 
             return successResponse(res, 'Xóa bài viết thành công');

@@ -43,14 +43,21 @@ const userSchema = new mongoose.Schema(
             enum: ['active', 'locked'],
             default: 'active',
         },
-        lockReason: {
-            type: String,
-            default: '',
-        },
-        lockedAt: {
-            type: Date,
-        },
+        lockReason: { type: String, default: '' },
+        lockedAt: { type: Date },
         hiddenPosts: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Post',
+            },
+        ],
+        pinnedPosts: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Post',
+            },
+        ],
+        savedPosts: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Post',
@@ -104,7 +111,7 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-// 🔐 So sánh mật khẩu (dùng khi đăng nhập)
+// 🔐 So sánh mật khẩu
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
@@ -120,5 +127,4 @@ userSchema.set('toJSON', {
     },
 });
 
-// ✅ Xuất model
 export default mongoose.model('User', userSchema);

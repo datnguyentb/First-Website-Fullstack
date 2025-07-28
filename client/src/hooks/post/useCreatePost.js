@@ -1,7 +1,7 @@
 // hooks/post/useCreatePost.js
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import postApi from '~/api/postApi';
+import postApi from '~/api/user/postApi';
 
 const useCreatePost = () => {
     const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const useCreatePost = () => {
 
         try {
             const post = await postApi.creatPost(form);
-            return post.data.data; // ✅ return dữ liệu
+            return post.data.data;
         } catch (err) {
             toast.error('Lỗi khi đăng bài!');
             setError(err);

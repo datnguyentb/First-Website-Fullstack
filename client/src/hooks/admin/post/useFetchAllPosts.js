@@ -11,7 +11,7 @@ export default function useFetchAllPosts() {
             setLoading(true);
             try {
                 const res = await postAdminApi.getAllPost();
-                setPosts(res.data);
+                setPosts(res.data.data);
             } catch (err) {
                 setError(err);
             } finally {
@@ -22,5 +22,5 @@ export default function useFetchAllPosts() {
         fetchUser();
     }, []);
 
-    return { posts, loading, error };
+    return { posts, setPosts, loading, error };
 }

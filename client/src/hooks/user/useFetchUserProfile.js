@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import userApi from '~/api/userApi';
+import userApi from '~/api/user/userApi';
 
 export default function useFetchUserProfile(userId, currentUser) {
     const [userData, setUserData] = useState(null);

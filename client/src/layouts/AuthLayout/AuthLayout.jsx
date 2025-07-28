@@ -4,35 +4,15 @@ import styles from './Auth.module.scss';
 import { authBackground } from '../../assets/imgs/background';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowLeft, faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-import authApi from '~/api/authApi';
 import { Navigate } from 'react-router-dom';
+import useCheckToken from '~/hooks/checKToken/useCheckToken';
 
 const ArrImg = [authBackground.mobile_login_1, authBackground.mobile_login_2, authBackground.mobile_login_3];
 
 const cx = classNames.bind(styles);
 
 function AuthLayout({ children }) {
-    const [isValid, setIsValid] = useState(null);
-    const token = localStorage.getItem('token');
-
-    useEffect(() => {
-        const verifyToken = async () => {
-            if (!token) {
-                setIsValid(false); // Không có token
-                return;
-            }
-
-            try {
-                await authApi.checkToken();
-                setIsValid(true);
-            } catch {
-                setIsValid(false);
-            }
-        };
-
-        verifyToken();
-    }, [token]);
+    const { isValid } = useCheckToken();
 
     if (isValid) {
         return <Navigate to="/" replace />;

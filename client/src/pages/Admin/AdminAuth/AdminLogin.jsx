@@ -2,44 +2,29 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminLogin.module.scss';
 import useAdminLogin from '~/hooks/admin/auth/useAdminLogin';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import authAdminApi from '~/api/admin/authAdminApi';
+import useAdminCheckToken from '~/hooks/admin/checKToken/useAdminCheckToken';
 
 const cx = classNames.bind(styles);
 
 const AdminLogin = () => {
-    const [isValid, setIsValid] = useState(null);
-    const token = localStorage.getItem('adminToken');
     const { Login, loading, setLoading } = useAdminLogin();
     const [formData, setFormData] = useState({ email: '', password: '' });
+    const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Twirl | Admin Login';
     }, []);
 
-    //Check Login
+    const { isValid } = useAdminCheckToken();
+
+    // Nếu đã đăng nhập hợp lệ, tự động chuyển hướng vào dashboard
     useEffect(() => {
-        const verifyToken = async () => {
-            if (!token) {
-                setIsValid(false); // Không có token
-                return;
-            }
-
-            try {
-                await authAdminApi.checkToken();
-                setIsValid(true);
-            } catch {
-                setIsValid(false);
-            }
-        };
-
-        verifyToken();
-    }, [token]);
-
-    if (isValid) {
-        return <Navigate to="/admin/dashboard" replace />;
-    }
+        if (isValid) {
+            navigate('/admin/dashboard', { replace: true });
+        }
+    }, [isValid, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,7 +41,7 @@ const AdminLogin = () => {
             toast.success('Login successful!', { autoClose: 1000 });
             await delay(1000);
             setLoading(false);
-            return <Navigate to="/admin/dashboard" replace />;
+            navigate('/admin/dashboard');
         } else {
             toast.error('Login failed. Please try again.', { autoClose: 1000 });
             setLoading(false);
@@ -96,7 +81,7 @@ const AdminLogin = () => {
                     />
                 </div>
 
-                <button type="submit" className={cx('btn btn-dark', 'w-100', 'btn-custom')}>
+                <button type="submit" className={cx('btn btn-dark', 'w-100', 'btn-custom')} disabled={loading}>
                     {loading ? <span className={cx('spinner')} /> : 'Login'}
                 </button>
             </form>

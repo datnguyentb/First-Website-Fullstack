@@ -51,6 +51,19 @@ const postSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        violationReason: {
+            type: String,
+            default: null,
+        },
+        deletedReason: {
+            type: String,
+            default: '',
+        },
+        deletedByAdmin: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            default: null,
+        },
         reportedBy: [
             {
                 user: {
@@ -84,7 +97,6 @@ const postSchema = new mongoose.Schema(
 // Kích hoạt plugin
 postSchema.plugin(mongooseDelete, {
     deletedAt: true,
-    deletedBy: true,
     overrideMethods: 'all',
 });
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import userApi from '~/api/userApi';
+import userApi from '~/api/user/userApi';
 import { toast } from 'react-toastify';
 
 const useUpdateUser = () => {

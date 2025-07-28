@@ -25,7 +25,7 @@ function Dashboard() {
                     {!loadingUser && !errorUser && userCount && <p className={cx('cardValue')}>{userCount.data}</p>}
                 </Link>
 
-                <Link to="/admin/post" className={cx('card')}>
+                <Link to="/admin/posts" className={cx('card')}>
                     <h3 className={cx('cardTitle')}>Bài viết</h3>
                     {!loadingPost && !errorPost && postsCount && <p className={cx('cardValue')}>{postsCount}</p>}
                 </Link>

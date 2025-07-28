@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import userApi from '~/api/userApi';
+import userApi from '~/api/user/userApi';
 import { useUser } from '~/contexts/useUser';
 
 export default function useFetchMeProfile() {

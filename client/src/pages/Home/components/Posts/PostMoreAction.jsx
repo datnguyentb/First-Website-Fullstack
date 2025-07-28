@@ -8,7 +8,7 @@ import MoreSetting from './MoreSetting';
 
 const cx = classNames.bind(styles);
 
-function PostMoreAction({ settingVisible, handleClickOutsideSetting, handleToggleSetting, post }) {
+function PostMoreAction({ settingVisible, handleClickOutsideSetting, handleToggleSetting, post, isAuthor }) {
     return (
         <div>
             <TippyHeadless
@@ -19,7 +19,7 @@ function PostMoreAction({ settingVisible, handleClickOutsideSetting, handleToggl
                 onClickOutside={handleClickOutsideSetting}
                 render={(attrs, ref) => (
                     <div tabIndex="-1" ref={ref} {...attrs}>
-                        <MoreSetting onClick={handleToggleSetting} id={post._id} />
+                        <MoreSetting onClick={handleToggleSetting} id={post._id} isAuthor={isAuthor} />
                     </div>
                 )}
             >

@@ -1,6 +1,6 @@
 // hooks/post/useCreatePost.js
 import { useState } from 'react';
-import authApi from '~/api/authApi';
+import authApi from '~/api/user/authApi';
 
 const useRegister = () => {
     const [loading, setLoading] = useState(false);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import postApi from '~/api/postApi';
+import postApi from '~/api/user/postApi';
 
 export default function useFetchPosts() {
     const [posts, setPosts] = useState([]);
@@ -13,7 +13,6 @@ export default function useFetchPosts() {
                 const res = await postApi.getPostAll();
                 setPosts(res.data?.data || []);
             } catch (error) {
-                console.error('Lỗi tải bài viết:', error);
                 setError(error);
             } finally {
                 setLoading(false);

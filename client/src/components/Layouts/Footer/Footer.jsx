@@ -51,7 +51,12 @@ function Footer() {
                         </a>
                     </p>
                     <p>
-                        <a href="mailto:dat.nt170499@gmail.com">Email</a>
+                        <a
+                            href="mailto:dat.nt170499@gmail.com?subject=Liên hệ&body=Chào%20bạn,%0ATôi%20muốn%20liên%20hệ..."
+                            target="_blank"
+                        >
+                            Email
+                        </a>
                     </p>
                 </div>
             </div>
