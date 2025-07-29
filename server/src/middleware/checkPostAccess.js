@@ -1,13 +1,20 @@
 import Post from '../models/Post.js';
+import {
+    forbiddenResponse,
+    notFoundResponse,
+    badRequestResponse,
+    serverErrorResponse,
+} from '../utils/responseHelper.js';
 
 export const checkPostAccess = async (req, res, next) => {
-    const postId = req.params.postId || req.body.postId;
+    const postId = req.params.id;
     const userId = req.user._id;
+
     try {
         const post = await Post.findById(postId).populate('author');
 
         if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
+            return notFoundResponse(res, 'Post not found');
         }
 
         const isOwner = post.author._id.equals(userId);
@@ -18,22 +25,21 @@ export const checkPostAccess = async (req, res, next) => {
 
             case 'private':
                 if (isOwner) return next();
-                return res.status(403).json({ message: 'You do not have access to this post.' });
+                return forbiddenResponse(res, 'You do not have permission to access this post');
 
             case 'onlyme':
                 if (isOwner) return next();
-                return res.status(403).json({ message: 'This post is private (only me).' });
+                return forbiddenResponse(res, 'This post is visible to the owner only');
 
             case 'friends':
-                // Ví dụ: kiểm tra nếu user là bạn với author
                 const isFriend = post.author.friends.includes(userId);
                 if (isFriend || isOwner) return next();
-                return res.status(403).json({ message: 'Only friends can access this post.' });
+                return forbiddenResponse(res, 'Only friends can access this post');
 
             default:
-                return res.status(400).json({ message: 'Unknown privacy setting.' });
+                return badRequestResponse(res, 'Invalid privacy setting');
         }
     } catch (err) {
-        return res.status(500).json({ message: 'Server error' });
+        return serverErrorResponse(res, 'Failed to verify post access');
     }
 };

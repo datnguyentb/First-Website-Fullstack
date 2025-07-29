@@ -1,4 +1,5 @@
 import { ALLOWED_FIELDS } from '../config/ALLOWED_FIELDS.js';
+import { badRequestResponse } from '../utils/responseHelper.js';
 
 export const filterAllowedFields = (type) => {
     return (req, res, next) => {
@@ -7,18 +8,18 @@ export const filterAllowedFields = (type) => {
 
         for (const field of allowed) {
             const value = req.body[field];
-            // Chấp nhận giá trị rỗng (''), chỉ bỏ qua undefined
+            // Accept empty string (''), only ignore undefined
             if (value !== undefined) {
                 filtered[field] = value;
             }
         }
 
-        // Kiểm tra riêng cho firstName và lastName
+        // Check specifically for firstName and lastName
         const isFirstNameEmpty = !filtered.firstName?.trim();
         const isLastNameEmpty = !filtered.lastName?.trim();
 
         if (isFirstNameEmpty && isLastNameEmpty) {
-            return res.status(400).json({ message: 'Vui lòng nhập ít nhất Họ hoặc Tên.' });
+            return badRequestResponse(res, 'Please provide at least First Name or Last Name.');
         }
 
         req.filteredBody = filtered;

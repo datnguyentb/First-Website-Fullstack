@@ -1,17 +1,26 @@
-export const success = (res, message, data = {}) => {
-    return res.status(200).json({
+// utils/response.js
+
+export const successResponse = (res, message = 'Success', data = {}, statusCode = 200) => {
+    return res.status(statusCode).json({
         success: true,
+        statusCode,
         message,
         data,
     });
 };
 
-export const error = (res, message, errorCode = null, fieldErrors, statusCode = 400) => {
+export const errorResponse = (
+    res,
+    message = 'An error occurred',
+    errorType = null,
+    fieldErrors = null,
+    statusCode = 400,
+) => {
     return res.status(statusCode).json({
         success: false,
-        status: statusCode,
+        statusCode,
         message,
-        errorCode,
-        fieldErrors,
+        errorType, // Tên này thường hay dùng hơn 'errorCode'
+        fieldErrors, // Dành cho validation (Joi, Zod,...)
     });
 };

@@ -1,14 +1,13 @@
 import User from '../../models/User.js';
-import { error as errorResponse, success as successRespone } from '../../utils/response.js';
+import { okResponse, serverErrorResponse } from '../../utils/responseHelper.js';
 
 class AdminUserController {
-    getUserNumber = async (req, res, next) => {
+    getUserNumber = async (req, res) => {
         try {
             const totalUsers = await User.countDocumentsWithDeleted({ role: 'user' });
-
-            successRespone(res, 'Get Success!', totalUsers);
+            return okResponse(res, 'Retrieved user count successfully', totalUsers);
         } catch {
-            errorResponse(res, 'Failed To Get!');
+            return serverErrorResponse(res, 'Failed to retrieve user count');
         }
     };
 }

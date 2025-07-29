@@ -3,108 +3,77 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { fileTypeFromFile } from 'file-type';
-import { error as errorRespone } from '../utils/response.js';
+import { badRequestResponse, serverErrorResponse } from '../utils/responseHelper.js'; // ✅ dùng helper chuẩn hóa
 
-// Lấy __dirname trong ES module
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/**
- * ✅ Tạo storage multer lưu file vào thư mục uploads/<subfolder>
- */
 function createStorage(subfolder) {
-    const dir = path.join(__dirname, `../uploads/${subfolder}`); // Tạo đường dẫn thư mục upload
-
-    // Nếu thư mục chưa tồn tại thì tạo mới
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-    }
+    const dir = path.join(__dirname, `../uploads/${subfolder}`);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
     return multer.diskStorage({
-        // ✅ Thiết lập nơi lưu ảnh
         destination: (req, file, cb) => cb(null, dir),
-
-        // ✅ Đặt tên file ban đầu: dùng đuôi .tmp để chưa tin tưởng định dạng
         filename: (req, file, cb) => {
             const name = Date.now() + '-' + Math.round(Math.random() * 1e9) + `.tmp`;
-            cb(null, name); // ví dụ: 17234523123-983274321.tmp
+            cb(null, name);
         },
     });
 }
 
-/**
- * ✅ Tạo middleware upload + kiểm MIME + sửa lại đuôi file đúng
- * @param {string} subfolder - tên thư mục uploads
- * @param {number} maxCount - số lượng tối đa ảnh cho phép upload (1 hoặc nhiều)
- */
 function createSecureUploader(subfolder, maxCount = 1) {
-    const storage = createStorage(subfolder); // Dùng storage tạo ở trên
-
+    const storage = createStorage(subfolder);
     const multerUpload = multer({
         storage,
-        limits: { fileSize: 5 * 1024 * 1024 }, // Giới hạn: mỗi file max 5MB
+        limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
     });
 
-    // Trả về middleware Express dùng upload
     return (fieldName) => async (req, res, next) => {
-        // Chọn middleware: upload 1 file hoặc nhiều file
         const upload = maxCount === 1 ? multerUpload.single(fieldName) : multerUpload.array(fieldName, maxCount);
 
-        // Thực hiện upload
         upload(req, res, async (err) => {
             if (err) {
-                // 👇 Bắt lỗi file quá lớn rõ ràng
                 if (err.code === 'LIMIT_FILE_SIZE') {
-                    return errorRespone(res, 'File size should not exceed 5MB', 'FILE_TOO_LARGE');
+                    return badRequestResponse(res, 'File size should not exceed 5MB');
                 }
-
-                // 👇 Các lỗi multer khác
-                return errorRespone(res, err.message || 'Upload failed');
+                return badRequestResponse(res, err.message || 'Upload failed');
             }
 
-            // Lấy danh sách file
             const files = maxCount === 1 ? (req.file ? [req.file] : []) : req.files;
-
             if (!files || files.length === 0 || (files.length === 1 && !files[0])) {
-                return next();
+                return next(); // No file uploaded, skip
             }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']; // MIME hợp lệ
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
             try {
-                // ✅ Duyệt từng file để kiểm tra MIME và sửa lại đuôi đúng
                 for (const file of files) {
-                    const type = await fileTypeFromFile(file.path); // Kiểm MIME thực sự từ nội dung file
-
-                    // ❌ MIME không đúng hoặc không phải ảnh
+                    const type = await fileTypeFromFile(file.path);
                     if (!type || !allowedTypes.includes(type.mime)) {
-                        fs.unlinkSync(file.path); // Xoá file
-                        return res.status(400).json({ error: `Invalid file: ${file.originalname}` });
+                        fs.unlinkSync(file.path); // Xóa file không hợp lệ
+                        return badRequestResponse(res, 'Only JPEG, PNG, and WEBP images under 5MB are allowed.');
                     }
 
-                    // ✅ Nếu đuôi thực tế khác với đuôi tạm (.tmp), thì đổi tên lại
-                    const correctExt = '.' + type.ext; // ví dụ ".jpg"
-                    const currentExt = path.extname(file.filename); // đuôi hiện tại là ".tmp"
+                    const correctExt = '.' + type.ext;
+                    const currentExt = path.extname(file.filename);
 
                     if (correctExt !== currentExt) {
-                        const newFilename = file.filename.replace(currentExt, correctExt); // đổi ".tmp" → ".jpg"
+                        const newFilename = file.filename.replace(currentExt, correctExt);
                         const newPath = path.join(path.dirname(file.path), newFilename);
 
-                        fs.renameSync(file.path, newPath); // đổi tên file thực tế
-
-                        // Cập nhật lại trong req.file
+                        fs.renameSync(file.path, newPath);
                         file.filename = newFilename;
                         file.path = newPath;
                     }
                 }
 
-                next(); // ✅ OK → chuyển tiếp controller
+                next(); // Tất cả file đều hợp lệ
             } catch (error) {
-                return res.status(500).json({ error: 'File verification failed' });
+                return serverErrorResponse(res, 'File verification failed');
             }
         });
     };
 }
 
-// 📤 Export các uploader cụ thể để sử dụng trong route
-export const uploadAvatar = createSecureUploader('avatars', 1); // Upload 1 ảnh avatar
-export const uploadPostImage = createSecureUploader('posts', 5); // Upload tối đa 5 ảnh bài viết
+// ✅ Xuất ra middleware cụ thể
+export const uploadAvatar = createSecureUploader('avatars', 1);
+export const uploadPostImage = createSecureUploader('posts', 5);

@@ -1,39 +1,39 @@
 import Post from '../../models/Post.js';
 import Log from '../../models/Log.js';
-import { error as errorResponse, success as successRespone } from '../../utils/response.js';
 import fs from 'fs';
 import path from 'path';
+import { okResponse, notFoundResponse, serverErrorResponse } from '../../utils/responseHelper.js';
 
 class AdminPostController {
-    getPostsNumber = async (req, res, next) => {
+    getPostsNumber = async (req, res) => {
         try {
             const totalPosts = await Post.countDocumentsWithDeleted();
             const reportedPosts = await Post.countDocuments({
                 reportedBy: { $exists: true, $not: { $size: 0 } },
             });
 
-            successRespone(res, 'Get Success!', {
+            return okResponse(res, 'Retrieved post statistics successfully', {
                 totalPosts,
                 reportedPosts,
             });
         } catch {
-            errorResponse(res, 'Failed To Get!');
+            return serverErrorResponse(res, 'Failed to retrieve post statistics');
         }
     };
 
-    getAllPost = async (req, res, next) => {
+    getAllPost = async (req, res) => {
         try {
             const posts = await Post.findWithDeleted()
                 .populate('author', 'firstName lastName email avatarUrl')
                 .sort({ createdAt: -1 });
 
-            successRespone(res, 'Get Success!', posts);
-        } catch (error) {
-            errorResponse(res, 'Failed to get posts!');
+            return okResponse(res, 'Retrieved posts successfully', posts);
+        } catch {
+            return serverErrorResponse(res, 'Failed to retrieve posts');
         }
     };
 
-    softDelete = async (req, res, next) => {
+    softDelete = async (req, res) => {
         try {
             const postId = req.params.id;
             const userId = req.user._id;
@@ -42,7 +42,7 @@ class AdminPostController {
             const post = await Post.findOne({ _id: postId }).populate('author', 'firstName lastName email avatarUrl');
 
             if (!post) {
-                return errorResponse(res, 'Không tìm thấy bài viết.');
+                return notFoundResponse(res, 'Post not found');
             }
 
             post.deletedByAdmin = userId;
@@ -53,17 +53,17 @@ class AdminPostController {
                 type: 'delete',
                 target: 'Post',
                 targetId: postId,
-                actionBy: req.user._id,
+                actionBy: userId,
                 reason: reason || '',
             });
 
-            return successRespone(res, 'Xóa bài viết thành công', post);
-        } catch (error) {
-            return errorResponse(res, 'Lỗi server.');
+            return okResponse(res, 'Post soft-deleted successfully', post);
+        } catch {
+            return serverErrorResponse(res, 'Server error while soft-deleting post');
         }
     };
 
-    restorePost = async (req, res, next) => {
+    restorePost = async (req, res) => {
         try {
             const postId = req.params.id;
 
@@ -73,7 +73,7 @@ class AdminPostController {
             );
 
             if (!post) {
-                return errorResponse(res, 'Không tìm thấy bài viết đã xóa.');
+                return notFoundResponse(res, 'Deleted post not found');
             }
 
             await post.restore();
@@ -88,20 +88,19 @@ class AdminPostController {
                 actionBy: req.user._id,
             });
 
-            return successRespone(res, 'Khôi phục bài viết thành công.', post);
-        } catch (error) {
-            return errorResponse(res, 'Lỗi server.');
+            return okResponse(res, 'Post restored successfully', post);
+        } catch {
+            return serverErrorResponse(res, 'Server error while restoring post');
         }
     };
 
-    forceDeletePost = async (req, res, next) => {
+    forceDeletePost = async (req, res) => {
         try {
             const postId = req.params.id;
-
             const post = await Post.findOneWithDeleted({ _id: postId });
 
             if (!post) {
-                return errorResponse(res, 'Không tìm thấy bài viết.');
+                return notFoundResponse(res, 'Post not found');
             }
 
             if (post.images && post.images.length > 0) {
@@ -122,9 +121,9 @@ class AdminPostController {
                 actionBy: req.user._id,
             });
 
-            return successRespone(res, 'Đã xóa vĩnh viễn bài viết.');
-        } catch (error) {
-            return errorResponse(res, 'Lỗi server.');
+            return okResponse(res, 'Post permanently deleted');
+        } catch {
+            return serverErrorResponse(res, 'Server error while permanently deleting post');
         }
     };
 }

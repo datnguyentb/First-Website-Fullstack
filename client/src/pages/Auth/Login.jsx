@@ -51,6 +51,12 @@ function Login() {
 
         const res = await Login(formData);
         if (res.data) {
+            //lưu token
+            const { token, user } = res.data;
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            //show aleart
             setAlert({
                 type: 'success',
                 title: 'Success!',

@@ -1,59 +1,66 @@
 import User from '../../models/User.js';
 import { generateToken } from '../../utils/jwt.js';
-import { error as errorResponse, success as successRespone } from '../../utils/response.js';
+import {
+    okResponse,
+    badRequestResponse,
+    unauthorizedResponse,
+    serverErrorResponse,
+} from '../../utils/responseHelper.js';
 import { loginValidator } from '../../validations/auth.js';
-import ERROR_CODES from '../../constants/errorCodes.js';
 import { formatItem } from '../../utils/formatter.js';
 
 class AdminAuthController {
-    login(req, res, next) {
+    async login(req, res) {
         const { email, password } = req.body;
         const { error } = loginValidator(req.body);
-        if (!email || !password) {
-            return errorResponse(res, 'Dữ liệu không hợp lệ', ERROR_CODES.VALIDATION_ERROR, {
-                [error.details[0].path[0]]: error.details[0].message,
+
+        if (!email || !password || error) {
+            return badRequestResponse(res, 'Invalid input', {
+                [error?.details?.[0]?.path?.[0] || 'field']: error?.details?.[0]?.message || 'Missing field',
             });
         }
-        User.findOne({ email, role: 'admin' })
-            .then(async (user) => {
-                if (!user) {
-                    return errorResponse(res, 'Email không tồn tại', ERROR_CODES.EMAIL_NOT_FOUND);
-                }
-                const isMatch = await user.comparePassword(password);
-                if (!isMatch) {
-                    return errorResponse(res, 'Mật khẩu không đúng', ERROR_CODES.INVALID_PASSWORD);
-                }
 
-                // Đăng nhập thành công
-                req.session.user = {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    avatarUrl: user.avatarUrl,
-                    role: user.role,
-                };
+        try {
+            const user = await User.findOne({ email, role: 'admin' });
 
-                const token = generateToken({
-                    id: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    avatarUrl: user.avatarUrl,
-                    bio: user.bio,
-                });
+            if (!user) {
+                return unauthorizedResponse(res, 'Email not found');
+            }
 
-                return successRespone(res, 'Đăng nhập thành công', {
-                    token,
-                    user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
-                });
-            })
-            .catch((err) => {
-                next(err);
+            const isMatch = await user.comparePassword(password);
+            if (!isMatch) {
+                return unauthorizedResponse(res, 'Incorrect password');
+            }
+
+            // Successful login
+            req.session.user = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                avatarUrl: user.avatarUrl,
+                role: user.role,
+            };
+
+            const token = generateToken({
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                avatarUrl: user.avatarUrl,
+                bio: user.bio,
             });
+
+            return okResponse(res, 'Login successful', {
+                token,
+                user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
+            });
+        } catch (err) {
+            return serverErrorResponse(res, 'Server error during login');
+        }
     }
 
     checkToken(req, res) {
-        return successRespone(res, 'Token hợp lệ', {});
+        return okResponse(res, 'Token is valid', {});
     }
 }
 

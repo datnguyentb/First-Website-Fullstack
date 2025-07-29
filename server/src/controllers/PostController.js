@@ -1,18 +1,28 @@
-import { success as successResponse, error as errorResponse } from '../utils/response.js';
+import {
+    okResponse,
+    createdResponse,
+    notFoundResponse,
+    forbiddenResponse,
+    badRequestResponse,
+    serverErrorResponse,
+} from '../utils/responseHelper.js';
+
+import { MESSAGE_RESPONSE } from '../constants/index.js';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
 import { formatItems, formatItem } from '../utils/formatter.js';
 
 class PostController {
-    async create(req, res, next) {
+    async create(req, res) {
         try {
-            // Lấy dữ liệu bài viết
             const { content, privacy } = req.body;
+
             if (!content && !req.files) {
-                return errorResponse(res, 'Bạn chưa nhập nội dung');
+                return badRequestResponse(res, MESSAGE_RESPONSE.POST.EMPTY_CONTENT, {
+                    content: 'Chưa nhập nội dung',
+                });
             }
 
-            // Tạo object bài viết mới
             const post = new Post({
                 content,
                 privacy,
@@ -20,14 +30,12 @@ class PostController {
                 images: req.files?.map((file) => `/uploads/posts/${file.filename}`) || [],
             });
 
-            // Lưu vào database
             await post.save();
             await post.populate('author', '_id avatarUrl firstName lastName');
 
-            // Trả về kết quả thành công
-            return successResponse(
+            return createdResponse(
                 res,
-                'Tạo bài viết thành công',
+                MESSAGE_RESPONSE.POST.CREATE_SUCCESS,
                 formatItem(post, [
                     'author',
                     'commentCount',
@@ -44,28 +52,24 @@ class PostController {
                 ]),
             );
         } catch (err) {
-            return errorResponse(res, 'Tạo bài viết thất bại');
+            return serverErrorResponse(res);
         }
     }
 
-    async likePost(req, res, next) {
+    async likePost(req, res) {
         try {
             const postId = req.params.id;
             const userId = req.user._id;
 
             const post = await Post.findById(postId);
-            if (!post) {
-                return res.status(404).json({ message: 'Post not found' });
-            }
+            if (!post) return notFoundResponse(res, MESSAGE_RESPONSE.POST.NOT_FOUND);
 
             const hasLiked = post.likes.includes(userId);
 
             if (hasLiked) {
-                // Đã like → gỡ like
                 post.likes.pull(userId);
                 post.likeCount = Math.max(post.likeCount - 1, 0);
             } else {
-                // Chưa like → thêm like
                 post.likes.push(userId);
                 post.likeCount += 1;
             }
@@ -74,9 +78,9 @@ class PostController {
             await post.populate('likes', '_id avatarUrl firstName lastName');
             await post.populate('author', '_id avatarUrl firstName lastName');
 
-            return successResponse(
+            return okResponse(
                 res,
-                hasLiked ? 'Unliked successfully' : 'Liked successfully',
+                hasLiked ? MESSAGE_RESPONSE.POST.UNLIKE_SUCCESS : MESSAGE_RESPONSE.POST.LIKE_SUCCESS,
                 formatItem(post, [
                     'author',
                     'commentCount',
@@ -92,29 +96,23 @@ class PostController {
                     'location',
                 ]),
             );
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            return serverErrorResponse(res);
         }
     }
 
-    async getAll(req, res, next) {
+    async getAll(req, res) {
         try {
             const currentUserId = req.user._id;
 
-            // Lấy thông tin người dùng hiện tại để có danh sách following & followers
             const currentUser = await User.findById(currentUserId).select('followers following');
-
-            // Tìm bạn bè: người mà vừa follow mình và mình cũng follow lại
             const friends = currentUser.following.filter((id) => currentUser.followers.includes(id));
 
             const filter = {
                 $or: [
-                    { author: currentUserId }, // Bài viết của mình
-                    { privacy: 'public' }, // Công khai
-                    {
-                        privacy: 'friends', // Của bạn bè
-                        author_d: { $in: friends },
-                    },
+                    { author: currentUserId },
+                    { privacy: 'public' },
+                    { privacy: 'friends', author: { $in: friends } },
                 ],
             };
 
@@ -123,9 +121,9 @@ class PostController {
                 .populate('author', '_id avatarUrl firstName lastName')
                 .populate('likes', '_id firstName lastName');
 
-            return successResponse(
+            return okResponse(
                 res,
-                'Lấy danh sách bài viết thành công',
+                MESSAGE_RESPONSE.POST.FETCH_SUCCESS,
                 formatItems(posts, [
                     'author',
                     'commentCount',
@@ -142,30 +140,27 @@ class PostController {
                 ]),
             );
         } catch (err) {
-            return errorResponse(res, 'Lấy danh sách bài viết thất bại');
+            return serverErrorResponse(res, MESSAGE_RESPONSE.POST.FETCH_FAILED);
         }
     }
 
-    async deletePost(req, res, next) {
+    async deletePost(req, res) {
         try {
             const postId = req.params.id;
             const userId = req.user._id;
 
             const post = await Post.findOne({ _id: postId });
-
-            if (!post) {
-                return errorResponse(res, 'Không tìm thấy bài viết.');
-            }
+            if (!post) return notFoundResponse(res, MESSAGE_RESPONSE.POST.NOT_FOUND);
 
             if (post.author.toString() !== userId.toString()) {
-                return errorResponse(res, 'Không có quyền xóa bài viết này.');
+                return forbiddenResponse(res, MESSAGE_RESPONSE.POST.NO_ACCESS);
             }
 
-            await post.delete(); // Xóa mềm
+            await post.delete();
 
-            return successResponse(res, 'Xóa bài viết thành công');
-        } catch (error) {
-            return errorResponse(error, 'Lỗi server.');
+            return okResponse(res, MESSAGE_RESPONSE.POST.DELETE_SUCCESS);
+        } catch (err) {
+            return serverErrorResponse(res);
         }
     }
 }

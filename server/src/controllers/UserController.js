@@ -1,36 +1,38 @@
 import User from '../models/User.js';
-import { success as successResponse, error as errorResponse } from '../utils/response.js';
+import { okResponse, badRequestResponse, notFoundResponse, serverErrorResponse } from '../utils/responseHelper.js';
 import { formatItem } from '../utils/formatter.js';
 import fs from 'fs';
 import path from 'path';
 
 class UserController {
+    // GET /users/:id
     getUserProfile = async (req, res) => {
         const userId = req.params.id;
         try {
             const user = await User.findById(userId);
 
             if (!user) {
-                return res.status(404).json({ message: 'Người dùng không tồn tại' });
+                return notFoundResponse(res, 'User not found');
             }
 
             const isUserLogin = req.user._id.toString() === userId;
-            return successResponse(
+            return okResponse(
                 res,
-                'User information',
+                'User information retrieved successfully',
                 formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt'], {
-                    isUserLogin: isUserLogin,
+                    isUserLogin,
                 }),
             );
         } catch (error) {
-            return errorResponse(res, 'Lỗi khi lấy thông tin người dùng', error.message);
+            return serverErrorResponse(res, 'Error retrieving user information');
         }
     };
 
-    getMe(req, res, next) {
-        return successResponse(
+    // GET /users/me
+    getMe(req, res) {
+        return okResponse(
             res,
-            'Api User information Success',
+            'User information retrieved successfully',
             formatItem(req.user, [
                 'firstName',
                 'lastName',
@@ -46,10 +48,11 @@ class UserController {
         );
     }
 
+    // PATCH /users/update-avatar
     updateAvatar = async (req, res) => {
         try {
             if (!req.file) {
-                return errorResponse(res, 'Không tìm thấy file ảnh gửi lên');
+                return badRequestResponse(res, 'No image file uploaded');
             }
 
             const newAvatarUrl = `/uploads/avatars/${req.file.filename}`;
@@ -57,18 +60,17 @@ class UserController {
 
             const updatedUser = await User.findByIdAndUpdate(req.user._id, { avatarUrl: newAvatarUrl }, { new: true });
 
-            // Xoá ảnh cũ nếu tồn tại
             if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
                 fs.unlinkSync(oldAvatarPath);
             }
 
-            successResponse(
+            return okResponse(
                 res,
-                'Cập nhật avatar thành công',
+                'Avatar updated successfully',
                 formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
             );
         } catch (error) {
-            errorResponse(res, 'Có lỗi xảy ra khi cập nhật avatar');
+            return serverErrorResponse(res, 'Error updating avatar');
         }
     };
 
@@ -79,13 +81,13 @@ class UserController {
 
             const updatedUser = await User.findByIdAndUpdate(req.user._id, filtered, { new: true });
 
-            successResponse(
+            return okResponse(
                 res,
-                'Cập nhật thông tin thành công',
+                'User information updated successfully',
                 formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
             );
         } catch (error) {
-            errorResponse(res, 'Có lỗi xảy ra khi cập nhật thông tin');
+            return serverErrorResponse(res, 'Error updating user information');
         }
     };
 }

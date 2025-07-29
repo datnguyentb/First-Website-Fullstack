@@ -1,96 +1,88 @@
 import User from '../models/User.js';
 import { generateToken } from '../utils/jwt.js';
-import { error as errorResponse, success as successRespone } from '../utils/response.js';
-import { registerValidator, loginValidator } from '../validations/auth.js';
-import ERROR_CODES from '../constants/errorCodes.js';
+import {
+    okResponse,
+    createdResponse,
+    notFoundResponse,
+    badRequestResponse,
+    serverErrorResponse,
+} from '../utils/responseHelper.js';
+import { registerValidator } from '../validations/auth.js';
+import { MESSAGE_RESPONSE } from '../constants/index.js';
 import { formatItem } from '../utils/formatter.js';
 
 class AuthController {
-    register(req, res, next) {
+    async register(req, res) {
         const { firstName, lastName, email, password } = req.body;
 
-        // Kiểm tra xem mật khẩu và xác nhận mật khẩu có khớp không
         const { error } = registerValidator(req.body);
         if (error) {
-            return errorResponse(res, 'Dữ liệu không hợp lệ.', ERROR_CODES.VALIDATION_ERROR, {
-                [error.details[0].path[0]]: error.details[0].message,
+            return badRequestResponse(res, MESSAGE_RESPONSE.AUTH.INVALID_DATA, {
+                password: 'Passwords do not match.',
             });
         }
 
-        User.findOne({ email })
-            .then((user) => {
-                if (user) {
-                    errorResponse(res, 'Email đã tồn tại', ERROR_CODES.EMAIL_EXISTS);
-                    return null;
-                }
-
-                const newUser = new User({
-                    firstName,
-                    lastName,
-                    email,
-                    password,
+        try {
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return badRequestResponse(res, MESSAGE_RESPONSE.AUTH.INVALID_CREDENTIALS, {
+                    email: 'Email already exists.',
                 });
-                return newUser.save();
-            })
-            .then((savedUser) => {
-                if (savedUser) {
-                    return successRespone(res, 'Đăng ký thành công', {});
-                }
-            })
-            .catch((err) => {
-                next(err);
-            });
+            }
+
+            const newUser = new User({ firstName, lastName, email, password });
+            await newUser.save();
+
+            return createdResponse(res, MESSAGE_RESPONSE.AUTH.REGISTER_SUCCESS);
+        } catch (error) {
+            return serverErrorResponse(res);
+        }
     }
 
-    //[POST] /auth/login
-    login(req, res, next) {
+    async login(req, res) {
         const { email, password } = req.body;
-        const { error } = loginValidator(req.body);
+
         if (!email || !password) {
-            return errorResponse(res, 'Dữ liệu không hợp lệ', ERROR_CODES.VALIDATION_ERROR, {
-                [error.details[0].path[0]]: error.details[0].message,
+            return badRequestResponse(res, MESSAGE_RESPONSE.AUTH.INVALID_CREDENTIALS, {
+                error: 'All fields are required.',
             });
         }
-        User.findOne({ email, role: 'user' })
-            .then(async (user) => {
-                if (!user) {
-                    return errorResponse(res, 'Email không tồn tại', ERROR_CODES.EMAIL_NOT_FOUND);
-                }
-                const isMatch = await user.comparePassword(password);
-                if (!isMatch) {
-                    return errorResponse(res, 'Mật khẩu không đúng', ERROR_CODES.INVALID_PASSWORD);
-                }
 
-                // Đăng nhập thành công
-                req.session.user = {
-                    _id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    phone: user.phone,
-                    avatarUrl: user.avatarUrl,
-                    role: user.role,
-                };
+        try {
+            const user = await User.findOne({ email, role: 'user' });
+            if (!user || !(await user.comparePassword(password))) {
+                return notFoundResponse(res, MESSAGE_RESPONSE.AUTH.INVALID_CREDENTIALS);
+            }
 
-                const token = generateToken({
-                    id: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    avatarUrl: user.avatarUrl,
-                    bio: user.bio,
-                });
+            // Gán session nếu cần
+            req.session.user = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                avatarUrl: user.avatarUrl,
+                role: user.role,
+            };
 
-                return successRespone(res, 'Đăng nhập thành công', {
-                    token,
-                    user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
-                });
-            })
-            .catch((err) => {
-                next(err);
+            const token = generateToken({
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                avatarUrl: user.avatarUrl,
+                bio: user.bio,
             });
+
+            return okResponse(res, MESSAGE_RESPONSE.AUTH.LOGIN_SUCCESS, {
+                token,
+                user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
+            });
+        } catch (error) {
+            return serverErrorResponse(res);
+        }
     }
 
     checkToken(req, res) {
-        return successRespone(res, 'Token hợp lệ', {});
+        return okResponse(res, MESSAGE_RESPONSE.AUTH.TOKEN_VALID);
     }
 }
 

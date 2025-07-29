@@ -1,11 +1,13 @@
+import { unauthorizedResponse, forbiddenResponse } from '../utils/responseHelper.js';
+
 export const requireRole = (role) => {
     return async (req, res, next) => {
         if (!req.user) {
-            return res.status(401).json({ message: 'Chưa đăng nhập' });
+            return unauthorizedResponse(res, 'You are not logged in.');
         }
 
         if (req.user.role !== role) {
-            return res.status(403).json({ message: 'Không có quyền truy cập' });
+            return forbiddenResponse(res, 'You do not have permission to access this resource.');
         }
 
         next();
