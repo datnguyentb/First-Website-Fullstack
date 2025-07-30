@@ -5,9 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './contexts/UserContext';
 
 function App() {
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault(); // Ngăn hiện menu mặc định
-    });
+    // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    // });
 
     return (
         <div className="App">

@@ -1,6 +1,6 @@
-import User from '../models/User.js';
-import { okResponse, badRequestResponse, notFoundResponse, serverErrorResponse } from '../utils/responseHelper.js';
-import { formatItem } from '../utils/formatter.js';
+import User from '../../models/User.js';
+import { okResponse, badRequestResponse, notFoundResponse, serverErrorResponse } from '../../utils/responseHelper.js';
+import { formatItem } from '../../utils/formatter.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -34,6 +34,7 @@ class UserController {
             res,
             'User information retrieved successfully',
             formatItem(req.user, [
+                '_id',
                 'firstName',
                 'lastName',
                 'avatarUrl',
@@ -90,6 +91,13 @@ class UserController {
             return serverErrorResponse(res, 'Error updating user information');
         }
     };
+
+    // PATCH /users/update-info
+    followUser = async (req, res) => {};
+
+    unfollowUser = async (req, res) => {};
+
+    getFriends = async (req, res) => {};
 }
 
 export default new UserController();

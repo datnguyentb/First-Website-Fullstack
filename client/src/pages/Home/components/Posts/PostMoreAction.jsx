@@ -14,7 +14,7 @@ function PostMoreAction({ settingVisible, handleClickOutsideSetting, handleToggl
             <TippyHeadless
                 placement="top-end"
                 interactive
-                offset={[0, -20]}
+                offset={[0, -30]}
                 visible={settingVisible}
                 onClickOutside={handleClickOutsideSetting}
                 render={(attrs, ref) => (

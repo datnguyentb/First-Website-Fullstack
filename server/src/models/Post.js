@@ -36,6 +36,10 @@ const postSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
+        isHiddenFromProfile: {
+            type: Boolean,
+            default: false,
+        },
         sharedFromPostId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Post',

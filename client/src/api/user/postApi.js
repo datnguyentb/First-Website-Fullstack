@@ -7,6 +7,8 @@ const postApi = {
     deletePost: (id) => axiosMainApi.delete(`/posts/delete/${id}`),
     likePost: (id) => axiosMainApi.patch(`/posts/post/like/${id}`),
     savePost: (id) => axiosMainApi.put(`/posts/post/save/${id}`),
+    hidePost: (id) => axiosMainApi.put(`/posts/post/hide/${id}`),
+    reportPost: (id, reason) => axiosMainApi.put(`/posts/post/report/${id}`, { reason }),
 };
 
 export default postApi;

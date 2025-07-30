@@ -1,15 +1,15 @@
-import User from '../models/User.js';
-import { generateToken } from '../utils/jwt.js';
+import User from '../../models/User.js';
+import { generateToken } from '../../utils/jwt.js';
 import {
     okResponse,
     createdResponse,
     notFoundResponse,
     badRequestResponse,
     serverErrorResponse,
-} from '../utils/responseHelper.js';
-import { registerValidator } from '../validations/auth.js';
-import { MESSAGE_RESPONSE } from '../constants/index.js';
-import { formatItem } from '../utils/formatter.js';
+} from '../../utils/responseHelper.js';
+import { registerValidator } from '../../validations/auth.js';
+import { MESSAGE_RESPONSE } from '../../constants/index.js';
+import { formatItem } from '../../utils/formatter.js';
 
 class AuthController {
     async register(req, res) {

@@ -38,36 +38,24 @@ const userSchema = new mongoose.Schema(
             maxlength: 255,
         },
         isActive: { type: Boolean, default: false },
-        status: {
+        locked: {
             type: String,
             enum: ['active', 'locked'],
             default: 'active',
         },
-        lockReason: { type: String, default: '' },
         lockedAt: { type: Date },
-        hiddenPosts: [
+        lockReason: { type: String, default: '' },
+        lockHistory: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Post',
+                reason: String,
+                lockedAt: Date,
+                unlockedAt: Date,
             },
         ],
         pinnedPosts: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Post',
-            },
-        ],
-        savedPosts: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Post',
-            },
-        ],
-        lockHistory: [
-            {
-                reason: String,
-                lockedAt: Date,
-                unlockedAt: Date,
             },
         ],
         birthdate: { type: Date, default: new Date('2000-01-01') },

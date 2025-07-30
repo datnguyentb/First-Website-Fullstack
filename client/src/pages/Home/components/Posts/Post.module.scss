@@ -83,7 +83,7 @@
     }
 }
 
-.post-stats {
+.post-status {
     display: flex;
     gap: 12px;
     margin: 12px 0;
@@ -322,6 +322,13 @@
             object-fit: cover;
             display: block;
         }
+    }
+}
+
+//More Setting
+.post-more-setting {
+    .item-btn {
+        font-size: 1.2rem;
     }
 }
 

@@ -1,4 +1,4 @@
-import { successResponse } from '../utils/response.js';
+import { successResponse } from '../../utils/response.js';
 
 class SiteController {
     index(req, res) {

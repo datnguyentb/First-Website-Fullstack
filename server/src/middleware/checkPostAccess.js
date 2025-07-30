@@ -11,7 +11,7 @@ export const checkPostAccess = async (req, res, next) => {
     const userId = req.user._id;
 
     try {
-        const post = await Post.findById(postId).populate('author');
+        const post = await Post.findOne({ _id: postId }).populate('author');
 
         if (!post) {
             return notFoundResponse(res, 'Post not found');
@@ -25,16 +25,13 @@ export const checkPostAccess = async (req, res, next) => {
 
             case 'private':
                 if (isOwner) return next();
-                return forbiddenResponse(res, 'You do not have permission to access this post');
-
-            case 'onlyme':
-                if (isOwner) return next();
                 return forbiddenResponse(res, 'This post is visible to the owner only');
 
-            case 'friends':
-                const isFriend = post.author.friends.includes(userId);
-                if (isFriend || isOwner) return next();
+            case 'friends': {
+                const isFriend = post.author.friends.some((friendId) => friendId.equals(userId));
+                if (isOwner || isFriend) return next();
                 return forbiddenResponse(res, 'Only friends can access this post');
+            }
 
             default:
                 return badRequestResponse(res, 'Invalid privacy setting');

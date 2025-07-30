@@ -1,6 +1,6 @@
 // routes/news.js
 import express from 'express';
-import postController from '../controllers/PostController.js';
+import postController from '../controllers/user/PostController.js';
 import { authenticateJWT, requireRole, uploadPostImage, checkPostAccess } from '../middleware/index.js';
 
 const router = express.Router();

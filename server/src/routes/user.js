@@ -1,5 +1,5 @@
 import express from 'express';
-import UserController from '../controllers/UserController.js';
+import UserController from '../controllers/user/UserController.js';
 import { authenticateJWT, requireRole, filterAllowedFields } from '../middleware/index.js';
 import { uploadAvatar } from '../middleware/upload.js';
 
@@ -15,6 +15,7 @@ router.put(
     filterAllowedFields('user'),
     UserController.updateMeInfo,
 );
+router.get('/me', authenticateJWT, requireRole('user', UserController.getMe));
 router.get('/:id', authenticateJWT, requireRole('user'), UserController.getUserProfile);
 
 export default router;

@@ -1,10 +1,19 @@
-import postApi from '~/api/user/postApi';
+import classNames from 'classnames/bind';
+import styles from './Post.module.scss';
 import { usePosts } from '~/contexts/usePost';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import useSavePost from '~/hooks/postInteraction/useSavePost';
+import useHidePost from '~/hooks/postInteraction/useHidePost';
+import useDeletePost from '~/hooks/admin/post/useDeletePost';
+
+const cx = classNames.bind(styles);
 
 function MoreSetting({ id, onClick, isAuthor }) {
     const { setPosts } = usePosts();
+    const { savePost } = useSavePost();
+    const { hidePost } = useHidePost();
+    const { deletePost } = useDeletePost();
 
     const handleDeletePost = async () => {
         const result = await Swal.fire({
@@ -17,19 +26,15 @@ function MoreSetting({ id, onClick, isAuthor }) {
         });
 
         if (result.isConfirmed) {
-            try {
-                await postApi.deletePost(id);
-                toast.success('Post deleted successfully!');
+            const res = deletePost(id);
+            if (res) {
                 setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
-            } catch (error) {
-                console.error('Error deleting post:', error);
-                toast.error('Failed to delete the post!');
             }
         }
     };
 
     const handleSavePost = async () => {
-        toast.info('Save post feature is under development!');
+        savePost(id);
     };
 
     const handleEditPost = async () => {
@@ -37,7 +42,8 @@ function MoreSetting({ id, onClick, isAuthor }) {
     };
 
     const handleHidePost = async () => {
-        toast.info('Hide post feature is under development!');
+        hidePost(id);
+        setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
     };
 
     const handleReportPost = async () => {
@@ -80,7 +86,7 @@ function MoreSetting({ id, onClick, isAuthor }) {
     };
 
     return (
-        <div>
+        <div className={cx('post-more-setting')}>
             <ul
                 className="dropdown-menu show shadow"
                 style={{
@@ -94,7 +100,11 @@ function MoreSetting({ id, onClick, isAuthor }) {
             >
                 {menuItems.map((item) => (
                     <li key={item.action}>
-                        <button onClick={() => handleAction(item.action)} className="dropdown-item" type="button">
+                        <button
+                            onClick={() => handleAction(item.action)}
+                            className={cx('dropdown-item', 'item-btn')}
+                            type="button"
+                        >
                             {item.label}
                         </button>
                     </li>

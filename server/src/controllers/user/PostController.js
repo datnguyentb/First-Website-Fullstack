@@ -5,12 +5,15 @@ import {
     forbiddenResponse,
     badRequestResponse,
     serverErrorResponse,
-} from '../utils/responseHelper.js';
+} from '../../utils/responseHelper.js';
 
-import { MESSAGE_RESPONSE } from '../constants/index.js';
-import Post from '../models/Post.js';
-import User from '../models/User.js';
-import { formatItems, formatItem } from '../utils/formatter.js';
+import { MESSAGE_RESPONSE } from '../../constants/index.js';
+import Post from '../../models/Post.js';
+import User from '../../models/User.js';
+import SavedPost from '../../models/SavedPost.js';
+import HiddenPost from '../../models/HiddenPost.js';
+
+import { formatItems, formatItem } from '../../utils/formatter.js';
 
 class PostController {
     async create(req, res) {
@@ -105,26 +108,53 @@ class PostController {
         try {
             const currentUserId = req.user._id;
 
+            // Lấy followers/following của user hiện tại
             const currentUser = await User.findById(currentUserId).select('followers following');
             const friends = currentUser.following.filter((id) => currentUser.followers.includes(id));
 
+            // ✅ Lấy danh sách bài viết bị ẩn
+            const hiddenPostDocs = await HiddenPost.find({ user: currentUserId }).select('post');
+            const hiddenPostIds = hiddenPostDocs.map((doc) => doc.post.toString());
+
+            // ✅ Lọc bài viết theo quyền riêng tư và không bị ẩn
             const filter = {
-                $or: [
-                    { author: currentUserId },
-                    { privacy: 'public' },
-                    { privacy: 'friends', author: { $in: friends } },
+                $and: [
+                    {
+                        $or: [
+                            { author: currentUserId },
+                            { privacy: 'public' },
+                            { privacy: 'friends', author: { $in: friends } },
+                        ],
+                    },
+                    {
+                        _id: { $nin: hiddenPostIds },
+                    },
                 ],
             };
 
+            // Lấy danh sách bài viết phù hợp
             const posts = await Post.find(filter)
                 .sort({ createdAt: -1 })
                 .populate('author', '_id avatarUrl firstName lastName')
                 .populate('likes', '_id firstName lastName');
 
+            // ✅ Lấy danh sách bài viết đã lưu
+            const savedPostDocs = await SavedPost.find({ user: currentUserId }).select('post');
+            const savedPostIds = savedPostDocs.map((doc) => doc.post.toString());
+
+            // ✅ Gắn cờ isSaved cho từng bài viết
+            const postsWithSavedStatus = posts.map((post) => {
+                const isSaved = savedPostIds.includes(post._id.toString());
+                return {
+                    ...post.toObject(),
+                    isSaved,
+                };
+            });
+
             return okResponse(
                 res,
                 MESSAGE_RESPONSE.POST.FETCH_SUCCESS,
-                formatItems(posts, [
+                formatItems(postsWithSavedStatus, [
                     'author',
                     'commentCount',
                     'content',
@@ -137,6 +167,7 @@ class PostController {
                     'tags',
                     'video',
                     'location',
+                    'isSaved',
                 ]),
             );
         } catch (err) {
