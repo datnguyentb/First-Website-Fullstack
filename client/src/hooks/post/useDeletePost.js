@@ -18,7 +18,7 @@ const useDeletePost = () => {
         } catch (err) {
             toast.error(err.response.message);
             setError(err);
-            return err;
+            return err.response;
         } finally {
             setLoading(false);
         }

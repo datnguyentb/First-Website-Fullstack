@@ -14,10 +14,8 @@ function MainLayout({ children }) {
                     <Header />
                     <div className={cx('content-container', 'd-flex')}>
                         <div className={cx('content', 'flex-grow-1')}>
-                            <div className={cx('primary-content')}>
-                                {children}
-                                <Footer />
-                            </div>
+                            <div className={cx('primary-content')}>{children}</div>
+                            <Footer />
                         </div>
                         <RightSlidebarDefault />
                     </div>

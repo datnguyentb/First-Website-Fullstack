@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import useSavePost from '~/hooks/postInteraction/useSavePost';
 import useHidePost from '~/hooks/postInteraction/useHidePost';
-import useDeletePost from '~/hooks/admin/post/useDeletePost';
+import useDeletePost from '~/hooks/post/useDeletePost';
 
 const cx = classNames.bind(styles);
 

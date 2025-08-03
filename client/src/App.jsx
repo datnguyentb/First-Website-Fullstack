@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './contexts/UserContext';
+import EventTheme from './layouts/EventTheme';
 
 function App() {
     // document.addEventListener('contextmenu', function (e) {
@@ -11,6 +12,7 @@ function App() {
 
     return (
         <div className="App">
+            <EventTheme />
             <Router>
                 <Routes>
                     {publicRoutes.map((route, index) => {

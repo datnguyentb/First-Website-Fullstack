@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
+import HeadlessTippy from '@tippyjs/react/headless';
 import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
-import UserDropdownPanel from './components/UserDropdown';
-import UserProfile from '~/components/UserProfile/index.jsx';
+import { Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
 import { useUser } from '~/contexts/useUser';
 
@@ -41,6 +41,22 @@ function Header() {
                 </div>
                 {user ? (
                     <div className={cx('user-wrapper')}>
+                        <div>
+                            <HeadlessTippy
+                                trigger="click"
+                                interactive={true}
+                                placement="bottom-start"
+                                render={(attrs) => (
+                                    <div tabIndex="-1" {...attrs}>
+                                        <Notification />
+                                    </div>
+                                )}
+                            >
+                                <div className={cx('bell-icon')}>
+                                    <FontAwesomeIcon icon={faBell} />
+                                </div>
+                            </HeadlessTippy>
+                        </div>
                         <div className={cx('user_notice')}>
                             <Tippy
                                 placement="bottom"

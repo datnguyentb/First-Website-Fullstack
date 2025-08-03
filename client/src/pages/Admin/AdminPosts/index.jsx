@@ -53,9 +53,9 @@ function AdminPost() {
 
     const handleSoftDelete = () => {
         openDialog({
-            title: 'Xác nhận xóa bài viết',
-            confirmText: 'Xóa',
-            reasonTitle: 'Lý do xóa:',
+            title: 'Confirm soft delete post',
+            confirmText: 'Delete',
+            reasonTitle: 'Reason for deletion:',
             sendToUser: true,
             onConfirm: handleSoftDeleteConfirm,
         });
@@ -63,16 +63,16 @@ function AdminPost() {
 
     const handleDeleteForever = () => {
         openDialog({
-            title: 'Xác nhận xóa vĩnh viễn bài viết',
-            confirmText: 'Xóa vĩnh viễn',
+            title: 'Confirm permanent deletion of post',
+            confirmText: 'Delete',
             onConfirm: handleDeleteForeverConfirm,
         });
     };
 
     const handleRestore = () => {
         openDialog({
-            title: 'Xác nhận khôi phục bài viết',
-            confirmText: 'Khôi phục',
+            title: 'Confirm restore post',
+            confirmText: 'Restore',
             onConfirm: handleRestoreConfirm,
         });
     };
@@ -83,8 +83,6 @@ function AdminPost() {
         if (res) {
             reasonRef.current.value = '';
             handleCancelDialog();
-
-            // ✅ Cập nhật danh sách bài viết sau khi xóa
             setPosts((prevPosts) => prevPosts.map((post) => (post._id === postId ? { ...post, deleted: true } : post)));
             setPostDetail(res);
         }
@@ -111,13 +109,13 @@ function AdminPost() {
         }
     };
 
-    // ==== XỬ LÝ BÀI VIẾT ====
-
+    //close Post detail
     const handleOnClose = () => {
         setIsShowPostDetail(false);
         setPostDetail(null);
     };
 
+    //show post detail
     const handleClickPost = (post, index) => {
         setIsShowPostDetail(true);
         setPostDetail(post);
@@ -137,7 +135,7 @@ function AdminPost() {
             {/* Action Dialog */}
             {dialog.show && <AdminPostDialog reasonRef={reasonRef} dialog={dialog} onCancel={handleCancelDialog} />}
 
-            {/* Chi tiết bài viết */}
+            {/* Post detail */}
             {postDetail && isShowPostDetail && (
                 <AdminPostDetail
                     post={postDetail}
@@ -149,7 +147,7 @@ function AdminPost() {
                 />
             )}
 
-            {/* Danh sách bài viết */}
+            {/* Posts list */}
             <AdminPostList
                 setPostId={setPostId}
                 posts={posts}
