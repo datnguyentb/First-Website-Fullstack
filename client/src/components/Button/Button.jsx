@@ -8,6 +8,7 @@ const cx = classNames.bind(styles);
 function Button({
     to,
     href,
+    badge,
     primary = false,
     outline = false,
     text = false,
@@ -67,8 +68,9 @@ function Button({
     return (
         <Comp className={classes} {...props}>
             {leftIcon && <span className={cx('icon', icon_className)}>{leftIcon}</span>}
-            <span className={cx('title')}>{children}</span>
+            {children && <span className={cx('title')}>{children}</span>}
             {rightIcon && <span className={cx('icon', icon_className)}>{rightIcon}</span>}
+            {badge && <span className={cx('badge')}>1</span>}
         </Comp>
     );
 }

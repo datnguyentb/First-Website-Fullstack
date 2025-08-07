@@ -52,9 +52,11 @@ function Header() {
                                     </div>
                                 )}
                             >
-                                <div className={cx('bell-icon')}>
-                                    <FontAwesomeIcon icon={faBell} />
-                                </div>
+                                <Button
+                                    className={cx('bell-icon')}
+                                    badge={5}
+                                    leftIcon={<FontAwesomeIcon icon={faBell} />}
+                                ></Button>
                             </HeadlessTippy>
                         </div>
                         <div className={cx('user_notice')}>

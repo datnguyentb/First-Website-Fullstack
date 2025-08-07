@@ -5,34 +5,44 @@ import EditProfile from './subcomponents/EditProfile';
 import UserProfileHeader from './UserProfileHeader.jsx';
 import UserInfoCard from './UserInfoCard.jsx';
 import UserActionButtons from './UserActionButtons.jsx';
-import { Button, Loading } from '~/components';
+import { Button, FloatingLayer, Loading } from '~/components';
 import { useUserProfile } from './useUserProfile.js';
+import useGetFriendshipStatus from '~/hooks/friendShip/useGetFriendshipStatus';
+import useSendFriendRequest from '~/hooks/friendShip/useSendFriendRequest';
+import useUnfollowUser from '~/hooks/friendShip/useUnfollowUser';
 
 const cx = classNames.bind(styles);
 
 function UserProfile({ onClose, userId }) {
     const { loading, userDisplay, isUserLogin, showEditProfile, setShowEditProfile } = useUserProfile(userId);
+    const {
+        friendshipStatus,
+        setFriendshipStatus,
+        loading: GetFriendshipStatusLoading,
+        error,
+    } = useGetFriendshipStatus(userId);
+    const { sendFriendRequest } = useSendFriendRequest();
+    const { unfollowUser } = useUnfollowUser();
 
     const handleToggleEdit = () => setShowEditProfile((prev) => !prev);
     const handleCloseEdit = () => setShowEditProfile(false);
+    const handleFollowUser = async () => {
+        const res = await sendFriendRequest(userId);
+        if (res) {
+            setFriendshipStatus(res.data.status);
+        }
+    };
 
-    if (loading) {
-        return (
-            <div className={cx('wrapper')}>
-                <div className={cx('cover-page')}>
-                    <Loading
-                        showEditProfile={showEditProfile}
-                        setShowEditProfile={setShowEditProfile}
-                        onClose={onClose}
-                    />
-                </div>
-            </div>
-        );
-    }
+    const handleUnfollowUser = async () => {
+        const res = await unfollowUser(userId);
+        if (res) {
+            setFriendshipStatus(res.data.status);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('cover-page')}>
+            <FloatingLayer onClose={onClose}>
                 <div className={cx('profile-box')}>
                     <div className={cx('container', 'd-flex', 'flex-column')}>
                         {/* Header */}
@@ -45,14 +55,21 @@ function UserProfile({ onClose, userId }) {
                         {/* Main content */}
                         <div className={cx('d-flex', 'flex-column', 'content-wrapper')}>
                             <div className={cx('content')}>
-                                {showEditProfile ? (
+                                {loading ? (
+                                    <Loading />
+                                ) : showEditProfile ? (
                                     <EditProfile onCancel={handleCloseEdit} onUpdate={handleCloseEdit} />
                                 ) : (
                                     <>
                                         <UserInfoCard userDisplay={userDisplay} />
                                         <UserActionButtons
+                                            friendshipStatus={friendshipStatus}
+                                            GetFriendshipStatusLoading={GetFriendshipStatusLoading}
                                             isUserLogin={isUserLogin}
                                             handleShowEdit={handleToggleEdit}
+                                            handleFollowUser={handleFollowUser}
+                                            handleUnfollowUser={handleUnfollowUser}
+                                            friendShipStatus="accepted"
                                         />
                                         <p className={cx('bio')}>{userDisplay.bio}</p>
                                     </>
@@ -60,7 +77,7 @@ function UserProfile({ onClose, userId }) {
                             </div>
 
                             {/* Show more button */}
-                            {!showEditProfile && (
+                            {!showEditProfile && !loading && (
                                 <div className={cx('action-btn', 'd-flex', 'justify-content-center')}>
                                     <Button rounded primary>
                                         Show more
@@ -70,7 +87,7 @@ function UserProfile({ onClose, userId }) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </FloatingLayer>
         </div>
     );
 }

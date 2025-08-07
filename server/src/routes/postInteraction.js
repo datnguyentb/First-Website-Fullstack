@@ -13,6 +13,7 @@ router.patch(
     PostInteractionController.likePost,
 );
 router.put('/save/:postId', authenticateJWT, requireRole('user'), PostInteractionController.savePost);
+router.put('/unsave/:postId', authenticateJWT, requireRole('user'), PostInteractionController.unsavePost);
 router.put('/hide/:postId', authenticateJWT, requireRole('user'), PostInteractionController.hidePost);
 
 export default router;

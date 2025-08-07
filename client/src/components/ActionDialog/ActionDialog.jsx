@@ -1,33 +1,60 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './ActionDialog.module.scss';
+import { Trash2, AlertTriangle, CheckCircle, Info } from 'lucide-react';
 
 const cx = classNames.bind(styles);
 
+const ICON_MAP = {
+    delete: <Trash2 size={48} className={cx('icon', 'delete')} />,
+    report: <AlertTriangle size={48} className={cx('icon', 'report')} />,
+    confirm: <CheckCircle size={48} className={cx('icon', 'confirm')} />,
+    warning: <AlertTriangle size={48} className={cx('icon', 'warning')} />,
+    default: <Info size={48} className={cx('icon', 'default')} />,
+};
+
+const TYPE_CLASS_MAP = {
+    default: 'btn-primary',
+    confirm: 'btn-success',
+    delete: 'btn-danger',
+    report: 'btn-danger',
+    warning: 'btn-warning',
+};
+
 export default function ActionDialog({
-    title = 'Xác nhận hành động',
+    title = 'Are you sure?',
+    description = '',
     children,
-    confirmText = 'Xác nhận',
+    confirmText = 'Confirm',
     onConfirm,
     onCancel,
     reasonTitle,
     timeTitle,
     senToUser,
+    notifyRef,
     reasonRef,
-    timeLokedRef,
+    timeLockedRef,
+    type = 'default',
 }) {
+    const icon = ICON_MAP[type] || ICON_MAP.default;
+    const typeClass = TYPE_CLASS_MAP[type] || 'btn-primary';
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('dialog-container')}>
-                <h2 className="h2 fw-bold mb-3">{title}</h2>
-                <div className={cx('wrapper-2')}>
+                <div className={cx('icon-wrapper')}>{icon}</div>
+
+                <h3 className={cx('dialog-title')}>{title}</h3>
+                {description && <p className={cx('dialog-description')}>{description}</p>}
+
+                <div className={cx('form-area')}>
                     {reasonTitle && (
                         <div className={cx('form-group')}>
                             <label className={cx('form-label')}>{reasonTitle}</label>
                             <textarea
                                 className={cx('form-control')}
                                 rows="3"
-                                placeholder="Nhập lý do khóa..."
+                                placeholder="Enter reason..."
                                 ref={reasonRef}
                             />
                         </div>
@@ -39,8 +66,8 @@ export default function ActionDialog({
                             <input
                                 type="number"
                                 className={cx('form-control')}
-                                placeholder="VD: 7"
-                                ref={timeLokedRef}
+                                placeholder="e.g. 7"
+                                ref={timeLockedRef}
                                 min={1}
                             />
                         </div>
@@ -53,20 +80,22 @@ export default function ActionDialog({
                                 className={cx('form-check-input')}
                                 id="notifyUserCheckbox"
                                 defaultChecked
+                                ref={notifyRef}
                             />
                             <label className={cx('form-check-label')} htmlFor="notifyUserCheckbox">
-                                Gửi thông báo cho người dùng
+                                Notify user
                             </label>
                         </div>
                     )}
                 </div>
-                <div className="mb-4">{children}</div>
 
-                <div className="d-flex justify-content-end gap-2">
+                {children && <div className={cx('custom-content')}>{children}</div>}
+
+                <div className={cx('actions')}>
                     <button onClick={onCancel} className={cx('btn', 'btn-secondary', 'btn-custom')}>
                         Cancel
                     </button>
-                    <button onClick={onConfirm} className={cx('btn', 'btn-primary', 'btn-custom')}>
+                    <button onClick={onConfirm} className={cx('btn', typeClass, 'btn-custom')}>
                         {confirmText}
                     </button>
                 </div>
@@ -77,12 +106,16 @@ export default function ActionDialog({
 
 ActionDialog.propTypes = {
     title: PropTypes.string,
+    description: PropTypes.string,
     children: PropTypes.node,
     confirmText: PropTypes.string,
-    cancelText: PropTypes.string,
     onConfirm: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     reasonTitle: PropTypes.string,
     timeTitle: PropTypes.string,
     senToUser: PropTypes.bool,
+    notifyRef: PropTypes.object,
+    reasonRef: PropTypes.object,
+    timeLockedRef: PropTypes.object,
+    type: PropTypes.string,
 };

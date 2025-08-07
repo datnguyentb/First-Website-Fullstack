@@ -11,7 +11,7 @@ const useUpdateUser = () => {
         setError(null);
 
         try {
-            // 1. Gửi thông tin người dùng (nếu có)
+            // 1. Update user info (if any)
             const res1 = await userApi.updateUserInfo({
                 firstName: form.firstName,
                 lastName: form.lastName,
@@ -24,7 +24,7 @@ const useUpdateUser = () => {
 
             let updatedUser = res1.data.data;
 
-            // 2. Nếu có file avatar thì cập nhật tiếp
+            // 2. If there is an avatar file, upload it
             if (file) {
                 const formData = new FormData();
                 formData.append('avatar', file);
@@ -33,10 +33,10 @@ const useUpdateUser = () => {
                 updatedUser = res2.data.data;
             }
 
-            toast.success('Cập nhật thành công!');
+            toast.success('Profile updated successfully!');
             return updatedUser;
         } catch (err) {
-            toast.error('Cập nhật thất bại!');
+            toast.error('Failed to update profile!');
             setError(err);
             return null;
         } finally {

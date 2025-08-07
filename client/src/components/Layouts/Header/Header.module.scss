@@ -72,16 +72,18 @@
     align-items: center;
 
     .bell-icon {
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
+        padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
+        border-radius: 50%;
+        background-color: #ccc;
         cursor: pointer;
         svg {
             font-size: 20px;
             fill: $black;
-            opacity: 0.5;
 
             &:hover {
                 opacity: 1;
@@ -106,8 +108,8 @@
 }
 
 .user-avatar {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;

@@ -1,8 +1,11 @@
 .wrapper {
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-width: 0px;
     align-items: center;
     justify-content: center;
-    min-width: 100px;
     padding: 9px 20px;
     border-radius: 4px;
     font-size: 1.7rem;
@@ -57,9 +60,11 @@
 }
 
 .icon {
-    display: inline-block;
+    display: flex;
     width: 24px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 // Button types
@@ -110,4 +115,19 @@
 .large {
     padding: 14px 16px;
     min-width: 140px;
+}
+
+.badge {
+    position: absolute;
+    height: 19px;
+    width: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: $white;
+    top: -5px;
+    right: -5px;
 }

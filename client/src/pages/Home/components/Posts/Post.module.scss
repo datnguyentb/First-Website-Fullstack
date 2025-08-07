@@ -81,6 +81,12 @@
             border-radius: 8px;
         }
     }
+
+    a {
+        color: #1d4ed8;
+        text-decoration: underline;
+        font-weight: 500;
+    }
 }
 
 .post-status {
@@ -179,6 +185,10 @@
     .burst span:nth-child(2) {
         animation-delay: 0.1s;
     }
+}
+
+.post-images {
+    cursor: pointer;
 }
 
 .post-images.count-1 {
@@ -327,8 +337,23 @@
 
 //More Setting
 .post-more-setting {
-    .item-btn {
-        font-size: 1.2rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: all 0.2s ease;
+    border-radius: 10px;
+    padding: 8px 0;
+    display: block;
+    background-color: $white;
+    overflow: hidden;
+    min-width: 200px;
+
+    li.item {
+        padding: 8px;
+        margin: 0 8px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        &:hover {
+            background-color: $primary-color-light;
+        }
     }
 }
 

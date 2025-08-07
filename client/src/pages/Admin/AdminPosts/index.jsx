@@ -10,6 +10,7 @@ import AdminPostDialog from './AdminPostDialog';
 import { useRef } from 'react';
 import { Loading } from '~/components';
 import useRestorePost from '~/hooks/admin/post/useRestorePost';
+import { useModal } from '~/contexts/useModalContext';
 
 const cx = classNames.bind(styles);
 
@@ -18,10 +19,8 @@ function AdminPost() {
     const { deletePost } = useDeletePost();
     const { deleteForeverPost } = useDeleteForever();
     const { restorePost } = useRestorePost();
-    const reasonRef = useRef();
+    const { showModal } = useModal();
     const {
-        dialog,
-        setDialog,
         postId,
         setPostId,
         isShowPostDetail,
@@ -32,19 +31,6 @@ function AdminPost() {
         setPostIndexActive,
     } = useAdminPost();
 
-    // ==== XỬ LÝ DIALOG ====
-
-    const openDialog = ({ title, confirmText, reasonTitle, sendToUser = false, onConfirm }) => {
-        setDialog({
-            show: true,
-            title,
-            confirmText,
-            reasonTitle,
-            sendToUser,
-            onConfirm,
-        });
-    };
-
     const handleCancelDialog = () => {
         setDialog((prev) => ({ ...prev, show: false }));
     };
@@ -52,37 +38,42 @@ function AdminPost() {
     // ==== CÁC HÀM HÀNH ĐỘNG ====
 
     const handleSoftDelete = () => {
-        openDialog({
-            title: 'Confirm soft delete post',
-            confirmText: 'Delete',
+        showModal({
+            title: `Confirm soft delete post`,
             reasonTitle: 'Reason for deletion:',
-            sendToUser: true,
-            onConfirm: handleSoftDeleteConfirm,
+            confirmText: 'Delete',
+            type: 'delete',
+            onConfirm: ({ reason, sendToUser }) => {
+                handleSoftDeleteConfirm(reason, sendToUser);
+            },
         });
     };
 
     const handleDeleteForever = () => {
-        openDialog({
-            title: 'Confirm permanent deletion of post',
+        showModal({
+            type: 'delete',
+            title: 'Are you sure?',
+            description: 'Do you really want to delete this post? This action cannot be undone.',
             confirmText: 'Delete',
-            onConfirm: handleDeleteForeverConfirm,
+            onConfirm: () => handleDeleteForeverConfirm(),
         });
     };
 
     const handleRestore = () => {
-        openDialog({
+        showModal({
             title: 'Confirm restore post',
             confirmText: 'Restore',
-            onConfirm: handleRestoreConfirm,
+            type: 'confirm',
+            onConfirm: () => {
+                handleRestoreConfirm();
+            },
         });
     };
 
-    const handleSoftDeleteConfirm = async () => {
-        const res = await deletePost(postId, reasonRef.current.value);
+    const handleSoftDeleteConfirm = async (reason, sendToUser) => {
+        const res = await deletePost(postId, reason);
 
         if (res) {
-            reasonRef.current.value = '';
-            handleCancelDialog();
             setPosts((prevPosts) => prevPosts.map((post) => (post._id === postId ? { ...post, deleted: true } : post)));
             setPostDetail(res);
         }
@@ -91,7 +82,6 @@ function AdminPost() {
     const handleDeleteForeverConfirm = async () => {
         const res = await deleteForeverPost(postId);
         if (res) {
-            handleCancelDialog();
             setIsShowPostDetail(false);
             setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
         }
@@ -100,8 +90,6 @@ function AdminPost() {
     const handleRestoreConfirm = async () => {
         const res = await restorePost(postId);
         if (res) {
-            handleCancelDialog();
-
             setPosts((prevPosts) =>
                 prevPosts.map((post) => (post._id === postId ? { ...post, deleted: false } : post)),
             );
@@ -132,9 +120,6 @@ function AdminPost() {
 
     return (
         <div className={cx('wrapper')}>
-            {/* Action Dialog */}
-            {dialog.show && <AdminPostDialog reasonRef={reasonRef} dialog={dialog} onCancel={handleCancelDialog} />}
-
             {/* Post detail */}
             {postDetail && isShowPostDetail && (
                 <AdminPostDetail

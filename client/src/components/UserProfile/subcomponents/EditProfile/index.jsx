@@ -8,6 +8,7 @@ import EditInfoCard from './EditInfoCard';
 import EditActionBtn from './EditActionBtn';
 import { useEditProfile } from './useEditProfile';
 import useUpdateUser from '~/hooks/user/useUpdateUser';
+import { useModal } from '~/contexts/useModalContext';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,7 @@ function EditProfile({ onCancel, onUpdate }) {
 
     //hook Api
     const { updateUser } = useUpdateUser();
+    const { showModal } = useModal();
 
     // 👉 Handle file upload & preview
     const handleFileChange = (e) => {
@@ -32,31 +34,29 @@ function EditProfile({ onCancel, onUpdate }) {
 
     //[PUT] Save user
     const handleSaveUser = async () => {
-        const result = await Swal.fire({
+        showModal({
             title: 'Xác nhận lưu',
-            text: 'Bạn có muốn lưu lại những chỉnh sửa hồ sơ của mình không?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Xác nhận',
-            cancelButtonText: 'Hủy',
+            description: 'Bạn có muốn lưu lại những chỉnh sửa hồ sơ của mình không?',
+            type: 'confirm',
+            confirmText: 'Xác nhận',
+            onConfirm: async () => {
+                const hasFirstName = form.firstName?.trim();
+                const hasLastName = form.lastName?.trim();
+
+                if (!hasFirstName && !hasLastName) {
+                    toast.error('Vui lòng nhập ít nhất Họ hoặc Tên.');
+                    return;
+                }
+
+                const updatedUser = await updateUser(form, file);
+                if (updatedUser) {
+                    setUser(updatedUser);
+                    onUpdate();
+                    setInitialForm(form);
+                    setDisabled(true);
+                }
+            },
         });
-
-        if (!result.isConfirmed) return;
-
-        const hasFirstName = form.firstName?.trim();
-        const hasLastName = form.lastName?.trim();
-
-        if (!hasFirstName && !hasLastName) {
-            toast.error('Vui lòng nhập ít nhất Họ hoặc Tên.');
-            return;
-        }
-        const updatedUser = await updateUser(form, file);
-        if (updatedUser) {
-            setUser(updatedUser);
-            onUpdate();
-            setInitialForm(form);
-            setDisabled(true);
-        }
     };
 
     return (

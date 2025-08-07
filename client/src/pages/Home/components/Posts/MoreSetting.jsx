@@ -1,40 +1,51 @@
 import classNames from 'classnames/bind';
 import styles from './Post.module.scss';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import { usePosts } from '~/contexts/usePost';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
 import useSavePost from '~/hooks/postInteraction/useSavePost';
 import useHidePost from '~/hooks/postInteraction/useHidePost';
 import useDeletePost from '~/hooks/post/useDeletePost';
+import { useModal } from '~/contexts/useModalContext';
+import useUnsavePost from '~/hooks/postInteraction/useUnsavePost';
 
 const cx = classNames.bind(styles);
 
-function MoreSetting({ id, onClick, isAuthor }) {
+function MoreSetting({ id, isSaved, onClick, isAuthor }) {
+    //Context
     const { setPosts } = usePosts();
+    const { showModal } = useModal();
+
+    //
     const { savePost } = useSavePost();
+    const { unsavePost } = useUnsavePost();
     const { hidePost } = useHidePost();
     const { deletePost } = useDeletePost();
 
     const handleDeletePost = async () => {
-        const result = await Swal.fire({
+        showModal({
+            type: 'delete',
             title: 'Are you sure?',
-            text: 'Do you really want to delete this post?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-            cancelButtonText: 'Cancel',
+            description: 'Do you really want to delete this post?',
+            confirmText: 'Delete',
+            onConfirm: async () => {
+                const res = await deletePost(id);
+                if (res) {
+                    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+                }
+            },
         });
-
-        if (result.isConfirmed) {
-            const res = deletePost(id);
-            if (res) {
-                setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
-            }
-        }
     };
 
     const handleSavePost = async () => {
         savePost(id);
+        setPosts((prevPosts) => prevPosts.map((post) => (post._id === id ? { ...post, isSaved: true } : post)));
+    };
+
+    const handleUnsavePost = async () => {
+        unsavePost(id);
+        setPosts((prevPosts) => prevPosts.map((post) => (post._id === id ? { ...post, isSaved: false } : post)));
     };
 
     const handleEditPost = async () => {
@@ -47,19 +58,57 @@ function MoreSetting({ id, onClick, isAuthor }) {
     };
 
     const handleReportPost = async () => {
-        toast.info('Report feature is under development!');
+        showModal({
+            title: `Report Post`,
+            reasonTitle: 'Reason for reporting this post',
+            confirmText: 'Submit Report',
+            type: 'report',
+            onConfirm: ({ reason }) => {
+                console.log('Report reason:', reason);
+            },
+        });
     };
 
     const menuItems = isAuthor
         ? [
-              { label: '✏️ Edit post', action: 'edit' },
-              { label: '🗑️ Delete post', action: 'delete' },
-              { label: '🙈 Hide post', action: 'hide' },
+              {
+                  label: 'Edit post',
+                  action: 'edit',
+                  icon: <i className="bi bi-pencil-square"></i>,
+              },
+              {
+                  label: 'Delete post',
+                  action: 'delete',
+                  icon: <i className="bi bi-trash3-fill"></i>,
+              },
+              {
+                  label: 'Hide post',
+                  action: 'hide',
+                  icon: <i className="bi bi-x-square-fill"></i>,
+              },
           ]
         : [
-              { label: '💾 Save post', action: 'save' },
-              { label: '🙈 Hide post', action: 'hide' },
-              { label: '🚨 Report', action: 'report' },
+              isSaved
+                  ? {
+                        label: 'Unsave post',
+                        action: 'unsave',
+                        icon: <i className="bi bi-bookmark-x"></i>,
+                    }
+                  : {
+                        label: 'Save post',
+                        action: 'save',
+                        icon: <i className="bi bi-bookmark"></i>,
+                    },
+              {
+                  label: 'Hide post',
+                  action: 'hide',
+                  icon: <i className="bi bi-x-square-fill"></i>,
+              },
+              {
+                  label: 'Report post',
+                  action: 'report',
+                  icon: <i className="bi bi-flag-fill"></i>,
+              },
           ];
 
     const handleAction = (action) => {
@@ -79,6 +128,9 @@ function MoreSetting({ id, onClick, isAuthor }) {
             case 'save':
                 handleSavePost();
                 break;
+            case 'unsave':
+                handleUnsavePost();
+                break;
             default:
                 break;
         }
@@ -87,25 +139,16 @@ function MoreSetting({ id, onClick, isAuthor }) {
 
     return (
         <div className={cx('post-more-setting')}>
-            <ul
-                className="dropdown-menu show shadow"
-                style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '100%',
-                    zIndex: 1000,
-                    display: 'block',
-                    minWidth: '200px',
-                }}
-            >
+            <ul>
                 {menuItems.map((item) => (
-                    <li key={item.action}>
+                    <li key={item.action} className={cx('item')}>
                         <button
                             onClick={() => handleAction(item.action)}
-                            className={cx('dropdown-item', 'item-btn')}
+                            className={cx('d-flex', 'align-item-center')}
                             type="button"
                         >
-                            {item.label}
+                            {item.icon}
+                            <span className={cx('ms-3')}>{item.label}</span>
                         </button>
                     </li>
                 ))}

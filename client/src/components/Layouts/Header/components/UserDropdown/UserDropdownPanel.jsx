@@ -5,11 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowRightFromBracket,
     faBell,
+    faBookmark,
     faChartArea,
     faCircleHalfStroke,
     faCircleInfo,
     faEarthAsia,
     faFileLines,
+    faRectangleXmark,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './UserDropdown.module.scss';
@@ -20,45 +22,51 @@ import { useUser } from '~/contexts/useUser';
 const cx = classNames.bind(styles);
 
 const getUserMenu = (navigate, user_onclick, setUser) => [
-    [
-        {
-            title: 'Profile',
-            icon: <FontAwesomeIcon icon={faUser} />,
-            onClick: user_onclick,
-        },
-        {
-            title: 'Dashboard',
-            icon: <FontAwesomeIcon icon={faChartArea} />,
-        },
-        {
-            title: 'My Posts',
-            icon: <FontAwesomeIcon icon={faFileLines} />,
-        },
-        {
-            title: 'Notifications',
-            icon: <FontAwesomeIcon icon={faBell} />,
-        },
-    ],
-    [
-        {
-            title: 'Language (vi)',
-            icon: <FontAwesomeIcon icon={faEarthAsia} />,
-        },
-        {
-            title: 'Help',
-            icon: <FontAwesomeIcon icon={faCircleInfo} />,
-        },
-        {
-            title: 'Log out',
-            icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-            onClick: () => {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                setUser(null);
-                navigate('/auth/login');
+    {
+        title: 'Personal',
+        data: [
+            {
+                title: 'Profile',
+                icon: <FontAwesomeIcon icon={faUser} />,
+                onClick: user_onclick,
             },
-        },
-    ],
+            {
+                title: 'My Posts',
+                icon: <FontAwesomeIcon icon={faFileLines} />,
+            },
+            {
+                title: 'Saved Posts',
+                icon: <FontAwesomeIcon icon={faBookmark} />,
+            },
+            {
+                title: 'Hidden Posts',
+                icon: <FontAwesomeIcon icon={faRectangleXmark} />,
+            },
+        ],
+    },
+    {
+        title: 'Settings',
+        data: [
+            {
+                title: 'Language (vi)',
+                icon: <FontAwesomeIcon icon={faEarthAsia} />,
+            },
+            {
+                title: 'Help',
+                icon: <FontAwesomeIcon icon={faCircleInfo} />,
+            },
+            {
+                title: 'Log out',
+                icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
+                onClick: () => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    setUser(null);
+                    navigate('/auth/login');
+                },
+            },
+        ],
+    },
 ];
 
 function UserDropdownPanel({ user_onclick }) {
@@ -82,44 +90,24 @@ function UserDropdownPanel({ user_onclick }) {
 
             <button className={cx('upgrade-btn')}>Nâng cấp tài khoản</button>
 
-            <div className={cx('section')}>
-                <p className={cx('section-title')}>Personal</p>
-                <ul>
-                    {MENU[0].map((item, index) => (
-                        <li key={index} onClick={item.onClick}>
-                            <Button className={cx('item')} icon_className={cx('icon')} leftIcon={item.icon}>
-                                {item.title}
-                            </Button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <div className={cx('section')}>
-                <p className={cx('section-title')}>Settings</p>
-                <ul>
-                    <li className={cx('no-hover')}>
-                        <Button
-                            className={cx('item')}
-                            leftIcon={<FontAwesomeIcon icon={faCircleHalfStroke} />}
-                            icon_className={cx('icon')}
-                        >
-                            Dark mode
-                        </Button>
-                        <label className={cx('switch')}>
-                            <input type="checkbox" checked={darkMode} onChange={() => setDarkMode(!darkMode)} />
-                            <span className={cx('slider')}></span>
-                        </label>
-                    </li>
-                    {MENU[1].map((item, index) => (
-                        <li key={index} onClick={item.onClick}>
-                            <Button className={cx('item')} icon_className={cx('icon')} leftIcon={item.icon}>
-                                {item.title}
-                            </Button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            {MENU.map((item, index) => (
+                <div key={index} className={cx('section')}>
+                    <p className={cx('section-title')}>{item.title}</p>
+                    <ul>
+                        {item.data.map((children_item, index_children_item) => (
+                            <li key={index_children_item} onClick={children_item.onClick}>
+                                <Button
+                                    className={cx('item')}
+                                    icon_className={cx('icon')}
+                                    leftIcon={children_item.icon}
+                                >
+                                    {children_item.title}
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ))}
         </div>
     );
 }

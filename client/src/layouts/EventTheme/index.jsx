@@ -2,7 +2,7 @@ import SnowEffect from './SnowEffect';
 import TetEffect from './TetEffect';
 
 function EventTheme() {
-    return <TetEffect />;
+    return <SnowEffect />;
 }
 
 export default EventTheme;

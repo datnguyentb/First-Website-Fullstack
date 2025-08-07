@@ -12,16 +12,31 @@ function PostMoreAction({ settingVisible, handleClickOutsideSetting, handleToggl
     return (
         <div>
             <TippyHeadless
-                placement="top-end"
+                placement="bottom-end"
                 interactive
-                offset={[0, -30]}
+                offset={[0, 0]}
                 visible={settingVisible}
                 onClickOutside={handleClickOutsideSetting}
                 render={(attrs, ref) => (
                     <div tabIndex="-1" ref={ref} {...attrs}>
-                        <MoreSetting onClick={handleToggleSetting} id={post._id} isAuthor={isAuthor} />
+                        <MoreSetting
+                            isSaved={post.isSaved}
+                            onClick={handleToggleSetting}
+                            id={post._id}
+                            isAuthor={isAuthor}
+                        />
                     </div>
                 )}
+                popperOptions={{
+                    modifiers: [
+                        {
+                            name: 'flip',
+                            options: {
+                                fallbackPlacements: [],
+                            },
+                        },
+                    ],
+                }}
             >
                 <div onClick={handleToggleSetting} className={cx('setting-icon')}>
                     <FontAwesomeIcon icon={faEllipsis} />

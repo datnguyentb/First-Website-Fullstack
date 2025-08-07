@@ -40,7 +40,25 @@ class PostInteractionController {
                 post: postId,
             });
 
-            return createdResponse(res, 'Post saved successfully', saved);
+            return createdResponse(res, 'Saved successfully', saved);
+        } catch (error) {
+            return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
+        }
+    }
+
+    async unsavePost(req, res) {
+        try {
+            const userId = req.user._id;
+            const postId = req.params.postId;
+
+            // Tìm và xoá bản ghi đã lưu
+            const deleted = await SavedPost.findOneAndDelete({ user: userId, post: postId });
+
+            if (!deleted) {
+                return notFoundResponse(res, 'You have not saved this post yet');
+            }
+
+            return okResponse(res, 'Unsaved successfully');
         } catch (error) {
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
         }
