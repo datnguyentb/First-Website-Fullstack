@@ -1,4 +1,5 @@
 import Post from '../models/Post.js';
+import Friendship from '../models/Friendship.js';
 import {
     forbiddenResponse,
     notFoundResponse,
@@ -19,17 +20,25 @@ export const checkPostAccess = async (req, res, next) => {
 
         const isOwner = post.author._id.equals(userId);
 
+        if (isOwner) return next();
+
         switch (post.privacy) {
             case 'public':
                 return next();
 
             case 'private':
-                if (isOwner) return next();
                 return forbiddenResponse(res, 'This post is visible to the owner only');
 
             case 'friends': {
-                const isFriend = post.author.friends.some((friendId) => friendId.equals(userId));
-                if (isOwner || isFriend) return next();
+                const isFriend = await Friendship.exists({
+                    status: 'accepted',
+                    $or: [
+                        { requester: userId, recipient: post.author._id },
+                        { requester: post.author._id, recipient: userId },
+                    ],
+                });
+
+                if (isFriend) return next();
                 return forbiddenResponse(res, 'Only friends can access this post');
             }
 

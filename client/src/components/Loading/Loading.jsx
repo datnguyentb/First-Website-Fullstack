@@ -4,9 +4,10 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-function Loading() {
+function Loading({ small }) {
+    const className = cx('wrapper', { small });
     return (
-        <div className={cx('wrapper')}>
+        <div className={className}>
             <div className={cx('spinner')}></div>
         </div>
     );

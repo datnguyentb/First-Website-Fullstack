@@ -23,7 +23,7 @@ function PostComposer() {
     const handleImageSelect = (e) => {
         const files = [...e.target.files];
         if (files.length + selectedImages.length > 5) {
-            toast.warning('Chỉ chọn tối đa 5 ảnh!');
+            toast.warning('Please select no more than 5 images.');
             e.target.value = '';
             return;
         }
@@ -47,7 +47,7 @@ function PostComposer() {
         }
 
         if (selectedImages.length + pasted.length > 5) {
-            toast.warning('Tối đa 5 ảnh!');
+            toast.warning('Please select no more than 5 images.');
             return;
         }
         setSelectedImages((prev) => [...prev, ...pasted]);
@@ -67,7 +67,7 @@ function PostComposer() {
 
         if (result) {
             setPosts((prev) => [result, ...prev]);
-            toast.success('Đăng bài thành công!');
+            toast.success('Your post has been published!');
             setText('');
             setSelectedImages([]);
             if (imageInputRef.current) imageInputRef.current.value = null;

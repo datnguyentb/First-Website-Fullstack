@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    // user-select: none;
+    user-select: none;
     border: none;
 }
 
@@ -35,11 +35,6 @@ hr.line {
     opacity: 17%;
 }
 
-//Tippy
-.tippy-box {
-    z-index: 1050 !important; /* Thấp hơn modal */
-}
-
 /* Chiều rộng thanh cuộn */
 ::-webkit-scrollbar {
     width: $width-scrollbar;
@@ -47,7 +42,7 @@ hr.line {
 
 /* Track của thanh cuộn (nền phía sau) */
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #f1f1f1;
     border-radius: 10px;
 }
 

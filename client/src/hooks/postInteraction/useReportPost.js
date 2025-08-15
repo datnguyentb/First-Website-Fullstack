@@ -6,10 +6,11 @@ import postInteractionApi from '~/api/user/postInteractionApi';
 const useReportPost = () => {
     const [loading, setLoading] = useState(false);
 
-    const reportPost = async (postId) => {
+    const reportPost = async (postId, reason) => {
         setLoading(true);
 
         try {
+            const res = await postInteractionApi.reportPost(postId, reason);
             toast.success(res.data.message);
             return res;
         } catch (error) {

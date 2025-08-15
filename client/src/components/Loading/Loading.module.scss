@@ -6,6 +6,14 @@
     margin-top: 40px;
 }
 
+.small {
+    margin: 0;
+    .spinner {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 .spinner {
     width: 40px;
     height: 40px;
@@ -13,7 +21,6 @@
     border-top: 4px solid #007bff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: 12px;
 }
 
 @keyframes spin {

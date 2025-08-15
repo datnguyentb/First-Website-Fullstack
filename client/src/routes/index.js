@@ -1,6 +1,6 @@
 import { Home, Todo, MusicPlayer, AdminDashboard } from '../pages';
 import { Login, Register } from '../pages/Auth';
-import { AdminLogin, AdminUser, AdminPosts } from '~/pages/Admin';
+import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
 import { MainLayout, AuthLayout, NoRightSlidebar, AdminLayout } from '../layouts';
 import config from '../config';
 
@@ -47,6 +47,11 @@ const publicRoutes = [
     {
         path: config.routes.adminPosts,
         component: AdminPosts,
+        layout: AdminLayout,
+    },
+    {
+        path: config.routes.adminMusic,
+        component: AdminMusic,
         layout: AdminLayout,
     },
 ];

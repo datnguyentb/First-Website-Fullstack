@@ -15,7 +15,7 @@ const useLikePost = () => {
             const post = await postApi.likePost(post_id);
             return post.data.data;
         } catch (err) {
-            toast.error('Không thành công!');
+            toast.error(err.response.message);
             setError(err);
             return null;
         } finally {

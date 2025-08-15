@@ -14,7 +14,7 @@ const useDeletePost = () => {
         try {
             const res = await postApi.deletePost(post_id);
             toast.success(res.data.message);
-            return res.data.data;
+            return res.data;
         } catch (err) {
             toast.error(err.response.message);
             setError(err);

@@ -87,6 +87,13 @@
         text-decoration: underline;
         font-weight: 500;
     }
+
+    .see-more {
+        color: #1877f2;
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+    }
 }
 
 .post-status {

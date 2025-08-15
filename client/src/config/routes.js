@@ -8,6 +8,7 @@ const routes = {
     adminDashboard: '/admin/dashboard',
     adminUsers: '/admin/users',
     adminPosts: '/admin/posts',
+    adminMusic: '/admin/music',
 };
 
 export default routes;

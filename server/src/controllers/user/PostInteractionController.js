@@ -1,5 +1,7 @@
 import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
+import ReportPost from '../../models/Report.js';
+import mongoose from 'mongoose';
 
 import {
     okResponse,
@@ -14,14 +16,6 @@ import { MESSAGE_RESPONSE } from '../../constants/index.js';
 import { formatItem } from '../../utils/formatter.js';
 
 class PostInteractionController {
-    async likePost(req, res) {
-        try {
-            //
-        } catch (err) {
-            return serverErrorResponse(res);
-        }
-    }
-
     async savePost(req, res) {
         try {
             const userId = req.user._id;
@@ -82,8 +76,47 @@ class PostInteractionController {
                 post: postId,
             });
 
-            return createdResponse(res, 'Post hidden successfully', hidden);
+            return createdResponse(res, 'Post hidden successfully');
         } catch (error) {
+            return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
+        }
+    }
+
+    async reportPost(req, res) {
+        try {
+            const postId = req.params.postId;
+            const reason = req.body.reason;
+            const userId = req.user._id;
+
+            if (!mongoose.Types.ObjectId.isValid(postId)) {
+                return badRequestResponse(res, 'Invalid post ID');
+            }
+
+            if (!reason || !reason.trim()) {
+                return badRequestResponse(res, 'Reason for reporting is required');
+            }
+
+            const existingReport = await ReportPost.findOne({
+                reporter: userId,
+                targetType: 'post',
+                targetId: postId,
+            });
+
+            if (existingReport) {
+                return badRequestResponse(res, 'You have already reported this post');
+            }
+
+            // Create new report
+            const newReport = await ReportPost.create({
+                reporter: userId,
+                targetType: 'post',
+                targetId: postId,
+                reason: reason.trim(),
+            });
+
+            return createdResponse(res, 'Post reported successfully', newReport);
+        } catch (error) {
+            console.error('Error reporting post:', error);
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
         }
     }

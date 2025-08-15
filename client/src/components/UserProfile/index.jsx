@@ -15,13 +15,9 @@ const cx = classNames.bind(styles);
 
 function UserProfile({ onClose, userId }) {
     const { loading, userDisplay, isUserLogin, showEditProfile, setShowEditProfile } = useUserProfile(userId);
-    const {
-        friendshipStatus,
-        setFriendshipStatus,
-        loading: GetFriendshipStatusLoading,
-        error,
-    } = useGetFriendshipStatus(userId);
-    const { sendFriendRequest } = useSendFriendRequest();
+    const { friendshipStatus, setFriendshipStatus, error } = useGetFriendshipStatus(userId);
+
+    const { sendFriendRequest, loading: followLoading } = useSendFriendRequest();
     const { unfollowUser } = useUnfollowUser();
 
     const handleToggleEdit = () => setShowEditProfile((prev) => !prev);
@@ -64,7 +60,7 @@ function UserProfile({ onClose, userId }) {
                                         <UserInfoCard userDisplay={userDisplay} />
                                         <UserActionButtons
                                             friendshipStatus={friendshipStatus}
-                                            GetFriendshipStatusLoading={GetFriendshipStatusLoading}
+                                            followLoading={followLoading}
                                             isUserLogin={isUserLogin}
                                             handleShowEdit={handleToggleEdit}
                                             handleFollowUser={handleFollowUser}

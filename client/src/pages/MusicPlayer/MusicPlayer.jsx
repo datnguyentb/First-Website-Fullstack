@@ -5,6 +5,7 @@ import { TopBar, PlayerControlBar, RightSlidebarMusicPlayer, SuggestedList, Albu
 import { Section } from '~/components';
 
 import { songsdb } from '../../databseFake/songsdb';
+import useSearch from '~/hooks/spotify/useSearch';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +15,23 @@ function MusicPlayer() {
     const [currentPlay, setCurrentPlay] = useState(songsdb[0]);
     const [currentPlaylist, setCurrentPlaylist] = useState(fakeCurrentPlaylist);
     const [history, setHistory] = useState([]);
+    const { searchApi } = useSearch();
+
+    //test search
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        if (!query.trim()) return;
+
+        try {
+            const res = await searchApi(query, 'artist', 1);
+            setResults(res);
+        } catch (err) {
+            console.error('Lỗi tìm kiếm:', err);
+        }
+    };
 
     useEffect(() => {
         document.title = 'Twirl | Music';
@@ -31,14 +49,30 @@ function MusicPlayer() {
         }
     }
 
+    const trackId = '2h1KRcol4TvqCl1Lf8RWio';
+
     return (
         <div className={cx('wrapper')}>
+            <div style={{ padding: '20px' }}>
+                <form onSubmit={handleSearch}>
+                    <input
+                        type="text"
+                        placeholder="Nhập tên bài hát..."
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        style={{ padding: '8px', width: '300px' }}
+                    />
+                    <button type="submit" style={{ padding: '8px' }}>
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
             <div className={cx('content')}>
                 <TopBar data={currentPlaylist} />
 
                 <div className={cx('mt-5')}>
                     <Section title_2="Gợi ý cho bạn">
-                        <SuggestedList data={currentPlaylist} />
+                        <SuggestedList />
                     </Section>
                 </div>
                 <div className={cx('mt-5')}>

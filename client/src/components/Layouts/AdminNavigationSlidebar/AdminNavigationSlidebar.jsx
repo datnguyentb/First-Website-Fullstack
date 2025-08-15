@@ -18,6 +18,10 @@ const MENU = [
         to: '/admin/posts',
     },
     {
+        title: 'Music Manage',
+        to: '/admin/music',
+    },
+    {
         title: 'Settings',
         to: '/admin/setting',
     },

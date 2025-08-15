@@ -9,6 +9,7 @@ import useHidePost from '~/hooks/postInteraction/useHidePost';
 import useDeletePost from '~/hooks/post/useDeletePost';
 import { useModal } from '~/contexts/useModalContext';
 import useUnsavePost from '~/hooks/postInteraction/useUnsavePost';
+import useReportPost from '~/hooks/postInteraction/useReportPost';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,7 @@ function MoreSetting({ id, isSaved, onClick, isAuthor }) {
     const { unsavePost } = useUnsavePost();
     const { hidePost } = useHidePost();
     const { deletePost } = useDeletePost();
+    const { reportPost } = useReportPost();
 
     const handleDeletePost = async () => {
         showModal({
@@ -64,7 +66,10 @@ function MoreSetting({ id, isSaved, onClick, isAuthor }) {
             confirmText: 'Submit Report',
             type: 'report',
             onConfirm: ({ reason }) => {
-                console.log('Report reason:', reason);
+                const res = reportPost(id, reason);
+                if (res) {
+                    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+                }
             },
         });
     };

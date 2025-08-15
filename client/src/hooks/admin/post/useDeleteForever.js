@@ -10,11 +10,9 @@ export default function useDeleteForever() {
         try {
             const response = await postAdminApi.forceDelete(postId);
             toast.success('Post permanently deleted successfully!');
-            console.log(response);
             return response.data;
         } catch (err) {
             toast.error('Failed to permanently delete the post!');
-            console.log(err);
             return err;
         } finally {
             setLoading(false);

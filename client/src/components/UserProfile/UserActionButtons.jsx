@@ -1,31 +1,43 @@
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
-import { faCommentDots, faEllipsis, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots, faEllipsis, faSortDown, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from '~/components';
+import { Button, Loading } from '~/components';
 
 const cx = classNames.bind(styles);
 
-function UserActionButtons({ friendshipStatus, isUserLogin, handleShowEdit, handleFollowUser, handleUnfollowUser }) {
+function UserActionButtons({
+    friendshipStatus,
+    followLoading,
+    isUserLogin,
+    handleShowEdit,
+    handleFollowUser,
+    handleUnfollowUser,
+}) {
     let label;
     let alt;
     let handleClick;
+    let downIcon;
 
     switch (friendshipStatus) {
         case 'accepted':
-            label = 'Friend';
+            label = 'friend';
             alt = 'You are friends with this user';
             handleClick = handleUnfollowUser;
+            downIcon = true;
             break;
         case 'pending':
-            label = 'Following';
+            label = 'following';
             alt = 'Unfollow this user';
             handleClick = handleUnfollowUser;
+            downIcon = false;
+
             break;
         default:
-            label = 'Follow';
+            label = 'follow';
             alt = 'Follow this user';
             handleClick = handleFollowUser;
+            downIcon = false;
     }
 
     const guestActions = [
@@ -34,9 +46,11 @@ function UserActionButtons({ friendshipStatus, isUserLogin, handleShowEdit, hand
             icon: faUser,
             onClick: handleClick,
             alt,
+            loading: followLoading,
+            downIcon,
         },
-        { label: 'Message', icon: faCommentDots, onClick: () => {} },
-        { label: 'More', icon: faEllipsis, onClick: () => {} },
+        { label: 'message', icon: faCommentDots, onClick: () => {} },
+        { label: 'more', icon: faEllipsis, onClick: () => {} },
     ];
 
     const userActions = [
@@ -46,23 +60,22 @@ function UserActionButtons({ friendshipStatus, isUserLogin, handleShowEdit, hand
 
     const actions = isUserLogin ? userActions : guestActions;
 
-    return (
-        <div className={cx('d-flex', 'justify-content-center')}>
-            {actions.map((action, index) => (
-                <Button
-                    key={index}
-                    small
-                    outline
-                    title={action.alt}
-                    onClick={action.onClick}
-                    leftIcon={action.icon ? <FontAwesomeIcon icon={action.icon} /> : null}
-                    className={cx('btn-custom', 'fw-bold')}
-                >
-                    {action.label}
-                </Button>
-            ))}
-        </div>
-    );
+    let content = actions.map((action, index) => (
+        <Button
+            key={index}
+            small
+            outline
+            title={action.alt}
+            onClick={action.onClick}
+            leftIcon={action.icon ? <FontAwesomeIcon icon={action.icon} /> : null}
+            rightIcon={action.downIcon && <FontAwesomeIcon icon={faSortDown} />}
+            className={cx('btn-custom', 'fw-bold', action.label)}
+        >
+            {action.loading ? <Loading small /> : action.label}
+        </Button>
+    ));
+
+    return <div className={cx('d-flex', 'justify-content-center', 'action-btn-wrapper')}>{content}</div>;
 }
 
 export default UserActionButtons;

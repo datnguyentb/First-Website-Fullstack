@@ -9,9 +9,11 @@ import {
 
 import { MESSAGE_RESPONSE } from '../../constants/index.js';
 import Post from '../../models/Post.js';
-import User from '../../models/User.js';
+import Friendship from '../../models/Friendship.js';
 import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
+import ReportPost from '../../models/Report.js';
+import Notification from '../../models/Notification.js';
 
 import { formatItems, formatItem } from '../../utils/formatter.js';
 
@@ -108,15 +110,31 @@ class PostController {
         try {
             const currentUserId = req.user._id;
 
-            // Lấy followers/following của user hiện tại
-            const currentUser = await User.findById(currentUserId).select('followers following');
-            const friends = currentUser.following.filter((id) => currentUser.followers.includes(id));
+            // 🔹 Lấy danh sách bạn bè từ Friendship (status = accepted)
+            const friendships = await Friendship.find({
+                status: 'accepted',
+                $or: [{ requester: currentUserId }, { recipient: currentUserId }],
+            }).select('requester recipient');
 
-            // ✅ Lấy danh sách bài viết bị ẩn
+            const friends = friendships.map((f) =>
+                f.requester.toString() === currentUserId.toString() ? f.recipient.toString() : f.requester.toString(),
+            );
+
+            // 🔹 Lấy danh sách bài viết bị ẩn
             const hiddenPostDocs = await HiddenPost.find({ user: currentUserId }).select('post');
             const hiddenPostIds = hiddenPostDocs.map((doc) => doc.post.toString());
 
-            // ✅ Lọc bài viết theo quyền riêng tư và không bị ẩn
+            // 🔹 Lấy danh sách bài viết đã bị user báo cáo
+            const reportedPostDocs = await ReportPost.find({
+                reporter: currentUserId,
+                targetType: 'post',
+            }).select('targetId');
+            const reportedPostIds = reportedPostDocs.map((doc) => doc.targetId.toString());
+
+            // 🔹 Kết hợp cả hidden + reported vào danh sách cần loại bỏ
+            const excludedPostIds = [...hiddenPostIds, ...reportedPostIds];
+
+            // 🔹 Filter bài viết theo quyền riêng tư và không bị ẩn
             const filter = {
                 $and: [
                     {
@@ -127,29 +145,26 @@ class PostController {
                         ],
                     },
                     {
-                        _id: { $nin: hiddenPostIds },
+                        _id: { $nin: excludedPostIds },
                     },
                 ],
             };
 
-            // Lấy danh sách bài viết phù hợp
+            // 🔹 Lấy bài viết phù hợp
             const posts = await Post.find(filter)
                 .sort({ createdAt: -1 })
                 .populate('author', '_id avatarUrl firstName lastName')
                 .populate('likes', '_id firstName lastName');
 
-            // ✅ Lấy danh sách bài viết đã lưu
+            // 🔹 Lấy danh sách bài viết đã lưu
             const savedPostDocs = await SavedPost.find({ user: currentUserId }).select('post');
             const savedPostIds = savedPostDocs.map((doc) => doc.post.toString());
 
-            // ✅ Gắn cờ isSaved cho từng bài viết
-            const postsWithSavedStatus = posts.map((post) => {
-                const isSaved = savedPostIds.includes(post._id.toString());
-                return {
-                    ...post.toObject(),
-                    isSaved,
-                };
-            });
+            // 🔹 Gắn cờ isSaved
+            const postsWithSavedStatus = posts.map((post) => ({
+                ...post.toObject(),
+                isSaved: savedPostIds.includes(post._id.toString()),
+            }));
 
             return okResponse(
                 res,
@@ -171,6 +186,7 @@ class PostController {
                 ]),
             );
         } catch (err) {
+            console.error(err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.POST.FETCH_FAILED);
         }
     }

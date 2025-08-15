@@ -1,3 +1,4 @@
+import React from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Song.module.scss';
@@ -6,35 +7,54 @@ import { faEllipsis, faHeart, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Song({ data, active = false, shadow, onClick, second_style, ...passProps }) {
+function Song({ data, active = false, shadow, onClick, onClickArtists, second_style, ...passProps }) {
     const props = {
         onClick,
         ...passProps,
     };
-    const classes = cx('wrapper', 'd-flex', {
+    const classes = cx('wrapper', {
         active,
         second_style,
         shadow,
     });
+
+    const handleOnClickArtists = (e, artistsId) => {
+        e.stopPropagation();
+        onClickArtists(artistsId);
+    };
+
     return (
-        <div onClick={() => onClick(data.id)} className={classes} {...props}>
-            <div className={cx('d-flex')}>
+        <div className={classes} {...props} onClick={() => onClick(data.id)}>
+            <div className={cx('song-box')}>
                 <div className={cx('song-img')}>
-                    <Img src={data.thumbnail} />
+                    <Img src={data.album.images[1].url} />
                     <div className={cx('hover-cover')}>
                         <FontAwesomeIcon icon={faPlay} />
                     </div>
                 </div>
                 <div className={cx('song-info', 'ms-3')}>
                     {second_style && <div className={cx('status')}>Nghe gần đây</div>}
-                    <div className={cx('song-name')}>{data.title}</div>
-                    <div className={cx('song-arti')}>{data.artist}</div>
+                    <div className={cx('song-name')}>{data.name}</div>
+                    <ul className={cx('song-arti')}>
+                        {data.artists.map((artists, index) => (
+                            <React.Fragment key={index}>
+                                {`${index !== 0 ? ', ' : ''}`}
+                                <span
+                                    title={artists.name}
+                                    className={cx('artists')}
+                                    onClick={(e) => handleOnClickArtists(e, artists.id)}
+                                >
+                                    {artists.name}
+                                </span>
+                            </React.Fragment>
+                        ))}
+                    </ul>
                 </div>
             </div>
             {!second_style && (
                 <div className={cx('option', 'd-flex', 'ms-3')}>
                     <div className={cx('option-icon', 'like')}>
-                        {data.isFavorite ? (
+                        {true ? (
                             <FontAwesomeIcon icon={faHeart} />
                         ) : (
                             <svg

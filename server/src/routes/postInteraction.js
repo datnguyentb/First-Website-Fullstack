@@ -5,15 +5,10 @@ import { authenticateJWT, requireRole, checkPostAccess } from '../middleware/ind
 const router = express.Router();
 
 // Tương tác với bài viết
-router.patch(
-    '/like/:postId',
-    authenticateJWT,
-    requireRole('user'),
-    checkPostAccess,
-    PostInteractionController.likePost,
-);
+
 router.put('/save/:postId', authenticateJWT, requireRole('user'), PostInteractionController.savePost);
 router.put('/unsave/:postId', authenticateJWT, requireRole('user'), PostInteractionController.unsavePost);
 router.put('/hide/:postId', authenticateJWT, requireRole('user'), PostInteractionController.hidePost);
+router.put('/report/:postId', authenticateJWT, requireRole('user'), PostInteractionController.reportPost);
 
 export default router;

@@ -5,6 +5,7 @@ import userRouter from './user.js';
 import postRouter from './post.js';
 import postInteractionRouter from './postInteraction.js';
 import friends from './friends.js';
+import musicPlayer from './musicPlayer.js';
 
 function route(app) {
     app.use('/auth', authRouter);
@@ -12,6 +13,7 @@ function route(app) {
     app.use('/posts', postRouter);
     app.use('/posts/interact', postInteractionRouter);
     app.use('/api/friends', friends);
+    app.use('/api/spotify', musicPlayer);
     app.use('/', siteRouter);
 }
 

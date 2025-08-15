@@ -1,1 +1,1 @@
-export { default } from './song';
+export { default } from './Song';

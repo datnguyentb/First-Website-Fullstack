@@ -68,6 +68,28 @@
     overflow-y: auto;
 }
 
+.action-btn-wrapper {
+    button {
+        text-transform: capitalize;
+        background-color: $color-button-primary;
+        border: none;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.1);
+            border: none;
+        }
+    }
+
+    .follow {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
 .content {
     padding: 20px 30px;
     flex: 1;

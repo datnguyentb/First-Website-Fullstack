@@ -106,9 +106,7 @@ function Calendar() {
     // ==========================
     // JSX render component
     // ==========================
-    if (selectedDay) {
-        console.log('click vào ngày', selectedDay, 'tháng', month + 1, 'năm', year);
-    }
+
     return (
         <div className={cx('wrapper')}>
             <table className={cx('calendar-table')}>

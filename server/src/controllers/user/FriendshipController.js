@@ -133,11 +133,15 @@ class FriendshipController {
                 return okResponse(res, 'No relationship found', { status: '' });
             }
 
-            if (friendship && (friendship.requester === currentUserId || friendship.status === 'accepted')) {
-                return okResponse(res, '', { status: friendship.status });
-            } else if (friendship && friendship.requester === targetUserId) {
-                return okResponse(res, 'Relationship status found', { status: '' });
+            if (friendship.status === 'accepted') {
+                return okResponse(res, 'Friends', { status: 'accepted' });
             }
+
+            if (friendship.status === 'pending' && friendship.requester.equals(currentUserId)) {
+                return okResponse(res, 'Request sent', { status: 'pending' });
+            }
+
+            return okResponse(res, 'No relationship found', { status: '' });
         } catch (error) {
             return serverErrorResponse(res);
         }

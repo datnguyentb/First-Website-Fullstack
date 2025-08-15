@@ -14,7 +14,7 @@ function TopBar({ data }) {
                     if (index < 3) {
                         return (
                             <div key={index} className={cx('item', 'col-4')}>
-                                <Song shadow second_style data={song} />
+                                {/* <Song shadow second_style data={song} /> */}
                             </div>
                         );
                     }
