@@ -6,13 +6,12 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function AdminMusicManageSearch() {
+function AdminMusicManageSearch({ result, setResult }) {
     const [searchResult, setSearchResult] = useState([]);
-    const [searchType, setSearchType] = useState('track');
     return (
         <div className={cx('search-wrapper')}>
             <AdminMusicManageSearchHeader setSearchResult={setSearchResult} />
-            <AdminMusicManageSearchResult searchResult={searchResult} />
+            <AdminMusicManageSearchResult result={result} searchResult={searchResult} setResult={setResult} />
         </div>
     );
 }

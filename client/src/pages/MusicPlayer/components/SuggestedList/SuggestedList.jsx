@@ -4,6 +4,7 @@ import { Song } from '../../components';
 import useGetSeveralTracks from '~/hooks/spotify/useGetSeveralTracks';
 import { useEffect, useState } from 'react';
 import { Loading } from '~/components';
+import useGetTrackRecommend from '~/hooks/music/useGetTrackRecommend';
 
 const cx = classNames.bind(styles);
 
@@ -28,17 +29,26 @@ const RECOMMENDATIONS = [
 ];
 
 function SuggestedList() {
-    const [recommendations, setRecommentdations] = useState(RECOMMENDATIONS);
     const [tracksList, setTracksList] = useState([]);
     const { getSeveralTracks, loading, error } = useGetSeveralTracks();
+    const {
+        tracks,
+        setTracks,
+        loading: loadingTracksRecommend,
+        error: errorGetTracksRecommend,
+    } = useGetTrackRecommend();
 
     useEffect(() => {
-        const fetApi = async () => {
-            const res = await getSeveralTracks(recommendations);
+        const fetApi = async (listId) => {
+            const res = await getSeveralTracks(listId);
             setTracksList(res.data.tracks);
         };
-        fetApi();
-    }, []);
+
+        if (tracks?.data?.length > 0) {
+            const listId = tracks.data.map((item) => item.spotifyId);
+            fetApi(listId);
+        }
+    }, [tracks]);
 
     const handleOnclickSong = (songId) => {
         console.log('Song Id: ', songId);

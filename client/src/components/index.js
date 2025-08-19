@@ -7,3 +7,4 @@ export { default as Loading } from './Loading';
 export { default as ConfirmModal } from './ConfirmModal';
 export { default as ActionDialog } from './ActionDialog';
 export { default as FloatingLayer } from './FloatingLayer';
+export { default as StatCard } from './StatCard';

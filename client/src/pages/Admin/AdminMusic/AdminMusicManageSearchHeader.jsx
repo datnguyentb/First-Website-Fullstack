@@ -18,7 +18,7 @@ function AdminMusicManageSearchHeader({ setSearchResult }) {
     useEffect(() => {
         const fetSearch = async () => {
             if (debounced && searchType) {
-                const res = await searchApi(debounced, searchType, 10);
+                const res = await searchApi(debounced, searchType);
                 setSearchResult(res.data);
             } else {
                 setSearchResult([]);
@@ -45,9 +45,11 @@ function AdminMusicManageSearchHeader({ setSearchResult }) {
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                 ></input>
-                <div className={cx('delete-icon')} onClick={handleDeleteInput}>
-                    <FontAwesomeIcon icon={faClose} />
-                </div>
+                {searchValue && (
+                    <div className={cx('delete-icon')} onClick={handleDeleteInput}>
+                        <FontAwesomeIcon icon={faClose} />
+                    </div>
+                )}
             </div>
         </div>
     );

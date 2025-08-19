@@ -3,8 +3,9 @@
 
 // Colors
 $primary-color: #e54615;
+$primary-color-2: #1db954;
 $primary-color-light: rgba(229, 70, 21, 0.05);
-$secondary-color: #193a4e;
+$secondary-color: #282828;
 $white: #ffffff;
 $text-color: #333;
 $black: #000000;
@@ -36,14 +37,14 @@ $font-extra-bold: 800;
 $font-black: 900;
 
 //width components
-$width-navigationSidebar: 220px;
+$width-navigationSidebar: 290px;
 $header-height: 60px;
 $width-right-slidebar: 361px;
 $width-scrollbar: 8px;
 $media-control-bar: 90px;
 
 //admin scss
-$slider-width: 220px;
+$slider-width: 290px;
 $admin-header-height: 61px;
 $background-color-1: #2d3748;
 $header-height: 61px;
@@ -52,3 +53,4 @@ $musice-search-width: 500px;
 
 //border
 $primary-border: 1px solid #e5e7eb;
+$border-color: #404040;
