@@ -10,7 +10,7 @@ import AdminPostDialog from './AdminPostDialog';
 import { useRef } from 'react';
 import { Loading } from '~/components';
 import useRestorePost from '~/hooks/admin/post/useRestorePost';
-import { useModal } from '~/contexts/useModalContext';
+import { useModal } from '~/contexts';
 
 const cx = classNames.bind(styles);
 

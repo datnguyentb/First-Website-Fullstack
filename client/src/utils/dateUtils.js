@@ -50,3 +50,11 @@ export const timeAgo = (date) => {
     if (!date) return '';
     return dayjs(date).fromNow();
 };
+
+//chuyển đổi thời lươgng bài hát từ giây sang phút:giây
+export function formatSongTime(seconds) {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const m = Math.floor(seconds / 60); // phút
+    const s = Math.floor(seconds % 60); // giây
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}

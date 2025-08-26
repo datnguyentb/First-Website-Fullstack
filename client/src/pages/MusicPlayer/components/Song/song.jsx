@@ -4,10 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Song.module.scss';
 import Img from '~/components/Img';
 import { faEllipsis, faHeart, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { usePlayer } from '~/contexts';
+import { music_img } from '~/assets/imgs/music';
 
 const cx = classNames.bind(styles);
 
 function Song({ data, active = false, shadow, onClick, onClickArtists, second_style, ...passProps }) {
+    const { playSong, currentSong, isPlaying } = usePlayer();
     const props = {
         onClick,
         ...passProps,
@@ -23,14 +26,33 @@ function Song({ data, active = false, shadow, onClick, onClickArtists, second_st
         onClickArtists(artistsId);
     };
 
+    if (!data) {
+        return <div>no data</div>;
+    }
+
     return (
-        <div className={classes} {...props} onClick={() => onClick(data.id)}>
+        <div
+            className={classes}
+            {...props}
+            onClick={() => {
+                playSong(data);
+            }}
+        >
             <div className={cx('song-box')}>
                 <div className={cx('song-img')}>
-                    <Img src={data.album.images[1].url} />
-                    <div className={cx('hover-cover')}>
-                        <FontAwesomeIcon icon={faPlay} />
-                    </div>
+                    <Img src={data?.album ? data.album.images[1].url : ''} />
+
+                    {isPlaying && currentSong._id == data._id ? (
+                        <div className={cx('playing')}>
+                            <div className={cx('music-wave')}>
+                                <Img src={music_img.icon_playing} />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={cx('hover-cover')}>
+                            <FontAwesomeIcon icon={faPlay} />
+                        </div>
+                    )}
                 </div>
                 <div className={cx('song-info', 'ms-3')}>
                     {second_style && <div className={cx('status')}>Nghe gần đây</div>}

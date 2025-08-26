@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import styles from './Post.module.scss';
 import UserProfile from '~/components/UserProfile/index.jsx';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 import PostHeader from './PostHeader';
 import PostMoreAction from './PostMoreAction';
 import PostContent from './PostContent';

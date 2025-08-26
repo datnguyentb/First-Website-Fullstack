@@ -5,7 +5,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function AdminMusicManageTableHeader({ setType, inputValue, setInputValue }) {
+function AdminMusicManageTableHeader({ setFilterType, inputValue, setInputValue }) {
     const handleDeleteInput = () => {
         setInputValue('');
     };
@@ -31,13 +31,13 @@ function AdminMusicManageTableHeader({ setType, inputValue, setInputValue }) {
                 <label>Type</label>
                 <select
                     onChange={(e) => {
-                        setType(e.target.value);
+                        setFilterType(e.target.value);
                     }}
                     defaultValue="all"
                 >
                     <option value="all">All</option>
-                    <option value="track">Track</option>
-                    <option value="playlist">Playlist</option>
+                    <option value="ready">Ready</option>
+                    <option value="not_ready">Not Ready</option>
                 </select>
             </div>
         </div>

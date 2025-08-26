@@ -8,7 +8,7 @@ import EditInfoCard from './EditInfoCard';
 import EditActionBtn from './EditActionBtn';
 import { useEditProfile } from './useEditProfile';
 import useUpdateUser from '~/hooks/user/useUpdateUser';
-import { useModal } from '~/contexts/useModalContext';
+import { useModal } from '~/contexts';
 
 const cx = classNames.bind(styles);
 

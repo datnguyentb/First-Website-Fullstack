@@ -7,7 +7,7 @@ import { faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-i
 import Storydb from '~/databseFake/storydb';
 import fakeUserDB from '~/databseFake/Userdb';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 
 const cx = classNames.bind(styles);
 const ITEM_WIDTH = 117 + 10; // width + margin (nếu có)
@@ -35,12 +35,11 @@ function Story() {
         const observer = new ResizeObserver(() => {
             const wrapperWidth = wrapper.offsetWidth;
             const count = Math.floor(wrapperWidth / ITEM_WIDTH);
-            setNumberStoryDisplay(count - 1); // thêm 1 nếu muốn "bù tràn"
+            setNumberStoryDisplay(count - 1);
         });
 
         observer.observe(wrapper);
 
-        // Cleanup khi component unmount
         return () => {
             observer.disconnect();
         };

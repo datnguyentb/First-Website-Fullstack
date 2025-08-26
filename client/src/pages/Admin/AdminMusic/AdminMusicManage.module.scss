@@ -235,6 +235,7 @@
 
     thead {
         position: sticky;
+        z-index: 999;
         top: 0;
         left: 0;
     }
@@ -259,7 +260,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
             vertical-align: middle;
-            padding: 4px 8px;
             font-size: 1.2rem;
             border-radius: 5px;
         }
@@ -272,14 +272,16 @@
     }
 
     /* Modifiers */
-    td.playlist span {
-        background-color: #ffc107;
+    td.not-ready span {
+        background-color: $primary-color;
         color: $white;
+        padding: 4px 8px;
         text-transform: capitalize;
     }
 
-    td.track span {
+    td.ready span {
         background-color: #10b981;
+        padding: 4px 8px;
         color: $white;
         text-transform: capitalize;
     }

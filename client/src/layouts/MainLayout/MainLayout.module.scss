@@ -4,13 +4,22 @@
     position: relative;
 }
 
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 99999;
+    margin-left: $width-navigationSidebar;
+}
+
 .main-content {
     width: 100%;
 }
 
 .content-container {
     margin-top: $header-height;
-    padding-top: 15px;
+    padding-top: $content-padding-top;
 }
 
 .content {

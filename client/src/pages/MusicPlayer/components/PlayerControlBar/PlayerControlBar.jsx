@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './PlayerControlBar.module.scss';
-import { Img, Button } from '~/components';
+import { Button } from '~/components';
+import PlayerProgress from './PlayerProgress.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faPlay,
@@ -13,9 +14,10 @@ import {
     faVolumeHigh,
     faVolumeLow,
     faVolumeMute,
-    faHeart,
-    faEllipsis,
 } from '@fortawesome/free-solid-svg-icons';
+import { usePlayer } from '~/contexts';
+import NowPlayingInfo from './NowPlayingInfo';
+import ChangeVolume from './ChangeVolume';
 
 const cx = classNames.bind(styles);
 
@@ -27,13 +29,11 @@ function formatTime(ms) {
 }
 
 function PlayerControlBar({ data, id, onSongChange }) {
+    const { playSong, setIsShuffle, pauseSong, isPlaying, isShuffle, nextSong, prevSong, playMode, setPlayMode } =
+        usePlayer();
     const [currentSong, setCurrentSong] = useState(data.find((song) => song.id === id));
-    const [volume, setVolume] = useState(5); // mặc định 50%
-    const [isShuffle, setIsShuffle] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    //Funtion Xử lý nhạc
 
     //Forward btn
     const handleForward = useCallback(() => {
@@ -64,6 +64,16 @@ function PlayerControlBar({ data, id, onSongChange }) {
         }
     };
 
+    const handleChangePlayMode = () => {
+        if (playMode === 'normal') {
+            setPlayMode('repeat-all');
+        } else if (playMode === 'repeat-all') {
+            setPlayMode('repeat-one');
+        } else {
+            setPlayMode('normal');
+        }
+    };
+
     //Set CurrentSong
     useEffect(() => {
         const newSong = data.find((song) => song.id === id);
@@ -74,41 +84,7 @@ function PlayerControlBar({ data, id, onSongChange }) {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('now-playing-info')}>
-                <div className={cx('song_img', { spinning: isPlaying })}>
-                    <Img src={currentSong.thumbnail} />
-                </div>
-                <div className={cx('song-info')}>
-                    <h3 className={cx('song_name')}>{currentSong.title}</h3>
-                    <p className={cx('song_art')}>{currentSong.artist}</p>
-                </div>
-                <div className={cx('more_option')}>
-                    <div className={cx('option-icon', 'like')}>
-                        {currentSong.isFavorite ? (
-                            <Button style_2 leftIcon={<FontAwesomeIcon className={cx('liked')} icon={faHeart} />} />
-                        ) : (
-                            <Button
-                                style_2
-                                leftIcon={
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        className={cx('bi', 'bi-heart')}
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                                    </svg>
-                                }
-                            />
-                        )}
-                    </div>
-                    <div className={cx('option-icon', 'more', 'ms-3')}>
-                        <Button style_2 leftIcon={<FontAwesomeIcon icon={faEllipsis} />} />
-                    </div>
-                </div>
-            </div>
+            <NowPlayingInfo />
 
             <div className={cx('controller')}>
                 <div className={cx('main-controller')}>
@@ -116,48 +92,68 @@ function PlayerControlBar({ data, id, onSongChange }) {
                         className={cx(isShuffle && 'active')}
                         style_2
                         leftIcon={<FontAwesomeIcon icon={faShuffle} />}
+                        onClick={() => setIsShuffle(!isShuffle)}
                     />
-                    <Button onClick={handleBackward} style_2 leftIcon={<FontAwesomeIcon icon={faBackwardStep} />} />
                     <Button
+                        onClick={handleBackward}
                         style_2
-                        onClick={() => {
-                            setIsPlaying(!isPlaying);
-                        }}
-                        leftIcon={<FontAwesomeIcon icon={isPlaying ? faPause : faPlay} />}
+                        leftIcon={
+                            <FontAwesomeIcon
+                                icon={faBackwardStep}
+                                onClick={() => {
+                                    prevSong();
+                                }}
+                            />
+                        }
                     />
-                    <Button onClick={handleForward} style_2 leftIcon={<FontAwesomeIcon icon={faForwardStep} />} />
-                    <Button style_2 leftIcon={<FontAwesomeIcon icon={faRepeat} />} />
+
+                    {isPlaying ? (
+                        <Button
+                            style_2
+                            onClick={() => {
+                                pauseSong();
+                            }}
+                            leftIcon={<FontAwesomeIcon icon={faPause} />}
+                        />
+                    ) : (
+                        <Button
+                            style_2
+                            onClick={() => {
+                                playSong();
+                            }}
+                            leftIcon={<FontAwesomeIcon icon={faPlay} />}
+                        />
+                    )}
+                    <Button
+                        onClick={handleForward}
+                        style_2
+                        leftIcon={
+                            <FontAwesomeIcon
+                                icon={faForwardStep}
+                                onClick={() => {
+                                    nextSong();
+                                }}
+                            />
+                        }
+                    />
+
+                    <Button
+                        className={cx(playMode !== 'normal' && 'active')}
+                        style_2
+                        onClick={handleChangePlayMode}
+                        leftIcon={
+                            playMode === 'repeat-one' ? (
+                                <i className={cx('bi', 'bi-repeat-1', 'repeat-1-icon')}></i>
+                            ) : (
+                                <FontAwesomeIcon icon={faRepeat} />
+                            )
+                        }
+                    />
                 </div>
 
-                <div className={cx('timmer', 'mt-4')}>
-                    <span className={cx('start_time')}>{formatTime(currentTime)}</span>
-                    <div className={cx('timer_line')}></div>
-                    <span className={cx('end_time')}>{formatTime(duration)}</span>
-                </div>
+                <PlayerProgress />
             </div>
-            <div className={cx('player-utils')}>
-                <div className={cx('volume', 'd-flex')}>
-                    <div className={cx('volume-control', 'd-flex')}>
-                        <div className={cx('volume-icon')}>
-                            {volume >= 50 ? (
-                                <FontAwesomeIcon icon={faVolumeHigh} />
-                            ) : volume > 0 ? (
-                                <FontAwesomeIcon icon={faVolumeLow} />
-                            ) : (
-                                <FontAwesomeIcon icon={faVolumeMute} />
-                            )}
-                        </div>
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={volume}
-                            onChange={(e) => setVolume(parseInt(e.target.value))}
-                            className={cx('volume-slider', 'ms-2')}
-                        />
-                    </div>
-                </div>
-            </div>
+            <ChangeVolume />
         </div>
     );
 }

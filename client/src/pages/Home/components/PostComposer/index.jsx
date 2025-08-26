@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './postComposer.module.scss';
 import { useRef } from 'react';
 import { usePostComposer } from './usePostComposer';
-import { usePosts } from '~/contexts/usePost';
+import { usePosts } from '~/contexts';
 import { toast } from 'react-toastify';
 
 import PostTextarea from './PostTextarea';

@@ -2,12 +2,12 @@ import classNames from 'classnames/bind';
 import styles from './Post.module.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-import { usePosts } from '~/contexts/usePost';
+import { usePosts } from '~/contexts';
 import { toast } from 'react-toastify';
 import useSavePost from '~/hooks/postInteraction/useSavePost';
 import useHidePost from '~/hooks/postInteraction/useHidePost';
 import useDeletePost from '~/hooks/post/useDeletePost';
-import { useModal } from '~/contexts/useModalContext';
+import { useModal } from '~/contexts';
 import useUnsavePost from '~/hooks/postInteraction/useUnsavePost';
 import useReportPost from '~/hooks/postInteraction/useReportPost';
 

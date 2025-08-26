@@ -2,26 +2,27 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import musicAdminApi from '~/api/admin/musicAdminApi';
 
-const useDeleteTrackAndPlaylist = () => {
+const useAdminSearchTracks = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const deleteTrackAndPlaylist = async (id) => {
+    const searchTracks = async (query, limit) => {
         setLoading(true);
         setError(null);
 
         try {
-            const res = await musicAdminApi.deleteTrackAndPlaylist(id);
+            const res = await musicAdminApi.searchTracks(query, limit);
             return res.data;
         } catch (err) {
+            // toast.error(err.response.message);
             setError(err);
-            return err.response.data;
+            return err;
         } finally {
             setLoading(false);
         }
     };
 
-    return { deleteTrackAndPlaylist, loading, error };
+    return { searchTracks, loading, error };
 };
 
-export default useDeleteTrackAndPlaylist;
+export default useAdminSearchTracks;

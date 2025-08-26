@@ -26,38 +26,6 @@ class SpotifyController {
         }
     };
 
-    // Get multiple tracks information
-    getSeveralTracks = async (req, res) => {
-        try {
-            const { listId } = req.params;
-            const idsArray = splitIds(listId);
-
-            if (idsArray.length === 0) {
-                return badRequestResponse(res, 'Track ID list cannot be empty');
-            }
-            if (idsArray.length > 50) {
-                return badRequestResponse(res, 'Maximum number of track IDs is 50');
-            }
-
-            const token = await getAccessToken();
-            const url = `https://api.spotify.com/v1/tracks?ids=${encodeURIComponent(joinIds(idsArray))}`;
-
-            const response = await fetch(url, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            if (!response.ok) {
-                return notFoundResponse(res, 'Unable to retrieve tracks information');
-            }
-
-            const data = await response.json();
-            return okResponse(res, 'Multiple tracks information retrieved successfully', data);
-        } catch (error) {
-            console.error('Error getSeveralTracks:', error);
-            return serverErrorResponse(res);
-        }
-    };
-
     // Search Spotify
     searchSpotify = async (req, res) => {
         try {

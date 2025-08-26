@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import musicAdminApi from '~/api/admin/musicAdminApi';
 
-const useAddTrackAndPlaylist = () => {
+const useAddTrack = () => {
     const [loading, setLoading] = useState(false);
 
-    const addTrackAndPlaylist = async (id, type, name, info) => {
+    const addTrack = async (id) => {
         setLoading(true);
         try {
-            const res = await musicAdminApi.addTrackAndPlaylist(id, type, name, info);
+            const res = await musicAdminApi.addTrack(id);
             return res.data;
         } catch (err) {
             return err.response;
@@ -17,7 +17,7 @@ const useAddTrackAndPlaylist = () => {
         }
     };
 
-    return { addTrackAndPlaylist, loading };
+    return { addTrack, loading };
 };
 
-export default useAddTrackAndPlaylist;
+export default useAddTrack;

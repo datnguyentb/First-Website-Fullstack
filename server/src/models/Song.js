@@ -1,7 +1,7 @@
 // models/AdminRecommendPlaylist.js
 import mongoose from 'mongoose';
 
-const SongsSchema = new mongoose.Schema(
+const SongSchema = new mongoose.Schema(
     {
         spotifyId: {
             type: String,
@@ -13,29 +13,46 @@ const SongsSchema = new mongoose.Schema(
             trim: true,
             required: true,
         },
+        album: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Album',
+            required: true,
+        },
         artists: {
             type: [
                 {
+                    id: { type: String, required: true, trim: true },
                     name: { type: String, required: true, trim: true },
+                    href: { type: String, trim: true },
+                    uri: { type: String, trim: true },
                     role: { type: String, enum: ['main', 'feat'], default: 'main' },
                 },
             ],
-            default: [],
+            required: true,
+            validate: {
+                validator: function (arr) {
+                    return arr.length > 0;
+                },
+                message: 'Song must have at least 1 artist',
+            },
         },
-
+        type: {
+            type: String,
+            enum: ['track'],
+            default: 'track',
+        },
         url: {
             type: String,
             trim: true,
             default: '',
         },
-        type: {
-            type: String,
-            enum: ['track', 'playlist'],
-            required: true,
-        },
-        status: {
+        isReady: {
             type: Boolean,
             default: false,
+        },
+        listenCount: {
+            type: Number,
+            default: 0,
         },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
@@ -48,4 +65,4 @@ const SongsSchema = new mongoose.Schema(
     },
 );
 
-export default mongoose.model('Songs', SongsSchema);
+export default mongoose.model('Song', SongSchema);

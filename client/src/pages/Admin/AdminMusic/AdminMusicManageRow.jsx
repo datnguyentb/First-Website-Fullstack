@@ -3,24 +3,32 @@ import styles from './AdminMusicManage.module.scss';
 import { useMemo, useRef, useState } from 'react'; // Import useRef
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRemove, faUpload } from '@fortawesome/free-solid-svg-icons';
+import useAddTrackAudio from '~/hooks/admin/music/useAddTrackAudio';
+import { toast } from 'react-toastify';
+
 const cx = classNames.bind(styles);
 
 function AdminMusicManageRow({ data, onDelete, onUpload }) {
     // Tạo một ref cho thẻ input file
+    const [isReady, setIsReady] = useState(data.isReady);
     const fileInputRef = useRef(null);
-    const [file, setFile] = useState(null);
+    const { addTrackAudio, loading } = useAddTrackAudio();
 
-    const info = useMemo(() => {
-        if (data.type === 'track') {
-            return data.info;
+    const handleFileChange = async (e) => {
+        const selectedFile = e.target.files[0];
+        if (!selectedFile || !data?._id) return;
+        const resUpload = await addTrackAudio(data._id, selectedFile);
+        if (resUpload.success) {
+            setIsReady(true);
+            toast.success(resUpload.message);
         } else {
-            if (Number(data.info) > 0) {
-                return `${data.info} Tracks`;
-            } else {
-                return '';
-            }
+            toast.error(resUpload.data.message);
         }
-    }, [data.type, data.info]);
+    };
+
+    const artists = useMemo(() => {
+        return data.artists.map((artist) => artist.name).join(', ');
+    }, [data?.artists]);
 
     const handleUploadClick = () => {
         fileInputRef.current.click();
@@ -32,17 +40,17 @@ function AdminMusicManageRow({ data, onDelete, onUpload }) {
                 <span>{data.name}</span>
             </td>
             <td className={cx('artist')}>
-                <span>{info}</span>
+                <span>{artists}</span>
             </td>
-            <td className={cx('type', data.type)}>
-                <span>{data.type}</span>
+            <td className={cx('type', isReady ? 'ready' : 'not-ready')}>
+                <span>{isReady ? 'Ready' : 'Not Ready'}</span>
             </td>
             <td>
                 <button
                     className={cx('btn-remove')}
                     title="Remove"
                     onClick={() => {
-                        onDelete(data.spotifyId);
+                        onDelete(data._id);
                     }}
                 >
                     <FontAwesomeIcon icon={faRemove} />
@@ -57,9 +65,7 @@ function AdminMusicManageRow({ data, onDelete, onUpload }) {
                     type="file"
                     accept=".mp3,.wav,.ogg"
                     onChange={(e) => {
-                        // e.target.files là FileList
-                        const file = e.target.files[0];
-                        setFile(file);
+                        handleFileChange(e);
                     }}
                 />
             </td>

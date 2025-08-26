@@ -1,7 +1,6 @@
 import axiosMainApi from '../user/axiosMainApi';
 
 const spotifyApi = {
-    getSeveralTracks: (listId) => axiosMainApi.get(`/api/spotify/tracks/${listId}`),
     searchSpotify: (q, type, limit) =>
         axiosMainApi.get('/api/spotify/search', {
             params: { q, type, limit },

@@ -49,7 +49,7 @@ function createSecureUploader(subfolder, maxCount = 1) {
                 for (const file of files) {
                     const type = await fileTypeFromFile(file.path);
                     if (!type || !allowedTypes.includes(type.mime)) {
-                        fs.unlinkSync(file.path); // Xóa file không hợp lệ
+                        fs.unlinkSync(file.path);
                         return badRequestResponse(res, 'Only JPEG, PNG, and WEBP images under 5MB are allowed.');
                     }
 
@@ -66,7 +66,7 @@ function createSecureUploader(subfolder, maxCount = 1) {
                     }
                 }
 
-                next(); // Tất cả file đều hợp lệ
+                next();
             } catch (error) {
                 return serverErrorResponse(res, 'File verification failed');
             }
@@ -74,6 +74,71 @@ function createSecureUploader(subfolder, maxCount = 1) {
     };
 }
 
-// ✅ Xuất ra middleware cụ thể
+function createSecureAudioUploader(subfolder) {
+    const storage = createStorage(subfolder);
+    const multerUpload = multer({
+        storage,
+        limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+    });
+
+    return (fieldName) => async (req, res, next) => {
+        const upload = multerUpload.single(fieldName);
+
+        upload(req, res, async (err) => {
+            if (err) {
+                if (err.code === 'LIMIT_FILE_SIZE') {
+                    return badRequestResponse(res, 'Audio file size should not exceed 20MB');
+                }
+                return badRequestResponse(res, err.message || 'Upload failed');
+            }
+
+            if (!req.file) {
+                return next();
+            }
+
+            const allowedTypes = [
+                'audio/mpeg',
+                'audio/wav',
+                'audio/x-wav',
+                'audio/flac',
+                'audio/x-flac',
+                'audio/aac',
+                'audio/mp4',
+            ];
+
+            try {
+                const file = req.file;
+                const type = await fileTypeFromFile(file.path);
+
+                if (!type || !allowedTypes.includes(type.mime)) {
+                    fs.unlinkSync(file.path); // Xóa file không hợp lệ
+                    return badRequestResponse(
+                        res,
+                        'Only audio files (MP3, WAV, FLAC, M4A, AAC) under 20MB are allowed.',
+                    );
+                }
+
+                // Sửa extension đúng chuẩn
+                const correctExt = '.' + type.ext;
+                const currentExt = path.extname(file.filename);
+
+                if (correctExt !== currentExt) {
+                    const newFilename = file.filename.replace(currentExt, correctExt);
+                    const newPath = path.join(path.dirname(file.path), newFilename);
+
+                    fs.renameSync(file.path, newPath);
+                    file.filename = newFilename;
+                    file.path = newPath;
+                }
+
+                next();
+            } catch (error) {
+                return serverErrorResponse(res, 'Audio file verification failed');
+            }
+        });
+    };
+}
+
 export const uploadAvatar = createSecureUploader('avatars', 1);
 export const uploadPostImage = createSecureUploader('posts', 5);
+export const uploadAudio = createSecureAudioUploader('audios');

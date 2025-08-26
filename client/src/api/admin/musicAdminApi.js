@@ -1,16 +1,14 @@
 import axiosMainAdminApi from './axiosMainAdminApi';
 
 const musicAdminApi = {
-    searchSpotify: (q, type, limit) =>
-        axiosMainAdminApi.get('/admin/music/search', {
-            params: { q, type, limit },
+    searchTracks: (q, limit) =>
+        axiosMainAdminApi.get('/admin/music/search/tracks', {
+            params: { q, limit },
         }),
-    addTrackAndPlaylist: (id, type, name, info) =>
-        axiosMainAdminApi.post(`/admin/music/add`, null, {
-            params: { id, type, name, info },
-        }),
-    getTrackAndPlaylist: () => axiosMainAdminApi.get('/admin/music/all'),
-    deleteTrackAndPlaylist: (id) => axiosMainAdminApi.delete(`/admin/music/delete/${id}`),
+    addTrack: (id) => axiosMainAdminApi.post(`/admin/music/add/track/${id}`),
+    addTrackAudio: (id, file) => axiosMainAdminApi.put(`/admin/music/add/track/audio/${id}`, file),
+    getAllTracks: () => axiosMainAdminApi.get('/admin/music/tracks/all'),
+    deleteTrack: (id) => axiosMainAdminApi.delete(`/admin/music/delete/${id}`),
 };
 
 export default musicAdminApi;

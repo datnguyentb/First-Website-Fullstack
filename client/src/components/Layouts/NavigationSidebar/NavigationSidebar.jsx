@@ -4,7 +4,7 @@ import styles from './NavigationSidebar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
-import { logo_img } from '~/assets/imgs/logo'; // chỉnh đường dẫn phù hợp
+import { logo_img } from '~/assets/imgs/logo';
 import { Button, Img } from '~/components';
 import { useEffect, useState } from 'react';
 

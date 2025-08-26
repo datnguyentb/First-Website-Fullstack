@@ -8,11 +8,11 @@ import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
 import { Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
-function Header() {
+function Header({ style_2 = false }) {
     const { user } = useUser();
     const [showProfile, setShowProfile] = useState(false);
 
@@ -27,7 +27,7 @@ function Header() {
     return (
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
-            <div className={cx('container')}>
+            <div className={cx('container', style_2 && 'style_2')}>
                 <div className={cx('input-box')}>
                     <div className={cx('search-icon')}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />

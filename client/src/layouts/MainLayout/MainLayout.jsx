@@ -11,7 +11,9 @@ function MainLayout({ children }) {
             <div className={cx('wrapper', 'd-flex')}>
                 <NavigationSidebar />
                 <div className={cx('main-content')}>
-                    <Header />
+                    <div className={cx('header')}>
+                        <Header />
+                    </div>
                     <div className={cx('content-container', 'd-flex')}>
                         <div className={cx('content', 'flex-grow-1')}>
                             <div className={cx('primary-content')}>{children}</div>

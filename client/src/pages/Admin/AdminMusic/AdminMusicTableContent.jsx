@@ -3,18 +3,23 @@ import styles from './AdminMusicManage.module.scss';
 import AdminMusicManageRow from './AdminMusicManageRow';
 import { useMemo } from 'react';
 import { Loading } from '~/components';
-import useDeleteTrackAndPlaylist from '~/hooks/admin/music/useDeleteTrackAndPlaylist';
 import { toast } from 'react-toastify';
+import useAdminDeleteTrack from '~/hooks/admin/music/useAdminDeleteTrack';
 
 const cx = classNames.bind(styles);
 
-function AdminMusicTableContent({ inputValue, result, setResult, loading, type }) {
-    const { deleteTrackAndPlaylist } = useDeleteTrackAndPlaylist();
+function AdminMusicTableContent({ inputValue, result, setResult, loading, filterType }) {
+    const { deleteTrack } = useAdminDeleteTrack();
 
     const filteredData = useMemo(() => {
         if (!result) return [];
 
-        let data = type === 'all' ? result : result.filter((item) => item.type === type);
+        let data =
+            filterType === 'ready'
+                ? result.filter((item) => item.ready === true)
+                : filterType === 'not_ready'
+                  ? result.filter((item) => item.ready === false)
+                  : result;
 
         if (inputValue.trim() !== '') {
             const lowerInput = inputValue.toLowerCase();
@@ -22,12 +27,12 @@ function AdminMusicTableContent({ inputValue, result, setResult, loading, type }
         }
 
         return data;
-    }, [result, type, inputValue]);
+    }, [result, filterType, inputValue]);
 
     const handleRemove = async (id) => {
-        const res = await deleteTrackAndPlaylist(id);
+        const res = await deleteTrack(id);
         if (res.success) {
-            setResult((prev) => prev.filter((item) => item.spotifyId !== id));
+            setResult((prev) => prev.filter((item) => item._id !== id));
             toast.success(res.message);
         } else {
             toast.error(res.message);
@@ -43,8 +48,8 @@ function AdminMusicTableContent({ inputValue, result, setResult, loading, type }
                         <thead>
                             <tr className={cx('table-header')}>
                                 <th>Title</th>
-                                <th>Info</th>
-                                <th>Type</th>
+                                <th>Artists</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 import useFetchMeProfile from '~/hooks/user/useFetchMeProfile';
 import { formatDate } from '~/utils/dateUtils';
 

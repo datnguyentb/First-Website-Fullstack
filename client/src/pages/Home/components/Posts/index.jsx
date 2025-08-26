@@ -1,5 +1,5 @@
 import Post from './Post.jsx';
-import { usePosts } from '~/contexts/usePost';
+import { usePosts } from '~/contexts';
 
 function Posts() {
     const { posts, setPosts, loading } = usePosts();

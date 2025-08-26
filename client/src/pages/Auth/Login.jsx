@@ -9,7 +9,7 @@ import styles from './Auth.module.scss';
 import { Img, Button, Alert } from '~/components';
 import { logo_img } from '~/assets/imgs/logo';
 import { svg_icon } from '~/assets/imgs/svg';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 import useLogin from '~/hooks/auth/useLogin';
 
 const cx = classNames.bind(styles);

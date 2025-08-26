@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 import useFetchUserProfile from '~/hooks/user/useFetchUserProfile';
 
 export function useUserProfile(userId) {

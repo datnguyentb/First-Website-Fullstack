@@ -10,7 +10,7 @@ function AdminHeader() {
     const handleLogout = () => {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('admin');
-        navigate('/admin');
+        navigate('/admin/login');
     };
 
     return (

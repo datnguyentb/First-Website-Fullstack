@@ -17,7 +17,7 @@ import {
 import styles from './UserDropdown.module.scss';
 import { Button, Img } from '~/components';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts/useUser';
+import { useUser } from '~/contexts';
 
 const cx = classNames.bind(styles);
 

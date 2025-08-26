@@ -12,7 +12,7 @@ function ProtectedAdminRoute({ children }) {
 
     // Token không hợp lệ → chuyển về trang login
     if (!isValid) {
-        return <Navigate to="/admin" replace />;
+        return <Navigate to="/admin/login" replace />;
     }
 
     // Token hợp lệ → render component con

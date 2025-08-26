@@ -4,7 +4,7 @@ const routes = {
     login: '/auth/login',
     register: '/auth/register',
     musicPlayer: '/music',
-    adminLogin: '/admin',
+    adminLogin: '/admin/login',
     adminDashboard: '/admin/dashboard',
     adminUsers: '/admin/users',
     adminPosts: '/admin/posts',

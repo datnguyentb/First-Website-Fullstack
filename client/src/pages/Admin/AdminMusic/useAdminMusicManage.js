@@ -1,7 +1,7 @@
-import useAdminGetAll from '~/hooks/admin/music/useAdminGetAll';
+import useAdminGetAllTracks from '~/hooks/admin/music/useAdminGetAllTracks';
 
 export function useAdminMusicManage() {
-    const { result, setResult, loading } = useAdminGetAll();
+    const { result, setResult, loading } = useAdminGetAllTracks();
 
     return {
         result,

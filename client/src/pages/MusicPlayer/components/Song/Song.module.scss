@@ -31,6 +31,10 @@ div.second_style {
     .song-img {
         width: 70px;
         height: 80px;
+
+        .playing {
+            display: none;
+        }
     }
 
     .status {
@@ -72,6 +76,23 @@ div.second_style {
     height: 43px;
     border-radius: 5px;
     overflow: hidden;
+
+    .playing {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background-color: rgba($black, 0.3);
+    }
+
+    .music-wave {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 .song-info {
