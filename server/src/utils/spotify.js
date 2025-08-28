@@ -30,7 +30,7 @@ export async function getAccessToken() {
 
     const data = await res.json();
     cachedToken = data.access_token;
-    tokenExpiry = now + data.expires_in * 1000; // expires_in = giây
+    tokenExpiry = now + data.expires_in * 1000;
 
     return cachedToken;
 }

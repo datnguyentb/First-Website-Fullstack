@@ -74,7 +74,7 @@ class AuthController {
 
             return okResponse(res, MESSAGE_RESPONSE.AUTH.LOGIN_SUCCESS, {
                 token,
-                user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
+                role: user.role,
             });
         } catch (error) {
             return serverErrorResponse(res);

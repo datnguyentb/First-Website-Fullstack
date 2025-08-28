@@ -52,7 +52,7 @@ class AdminAuthController {
 
             return okResponse(res, 'Login successful', {
                 token,
-                user: formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio']),
+                role: user.role,
             });
         } catch (err) {
             return serverErrorResponse(res, 'Server error during login');

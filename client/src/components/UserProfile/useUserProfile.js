@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useUser } from '~/contexts';
+import { useUserContext } from '~/contexts';
 import useFetchUserProfile from '~/hooks/user/useFetchUserProfile';
 
 export function useUserProfile(userId) {
-    const { user } = useUser();
+    const { user } = useUserContext();
     const [showEditProfile, setShowEditProfile] = useState(false);
 
     const { userData, isCurrentUser, loading, error } = useFetchUserProfile(userId, user);

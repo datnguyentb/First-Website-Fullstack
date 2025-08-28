@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useUser } from '~/contexts';
+import { useUserContext } from '~/contexts';
 import useFetchMeProfile from '~/hooks/user/useFetchMeProfile';
 import { formatDate } from '~/utils/dateUtils';
 
 export const useEditProfile = () => {
-    const { user, setUser } = useUser();
+    const { user, setUser } = useUserContext();
 
     const [initialForm, setInitialForm] = useState({});
     const [file, setFile] = useState(null);

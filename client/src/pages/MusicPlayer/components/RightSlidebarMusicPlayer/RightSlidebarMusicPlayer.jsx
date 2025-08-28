@@ -5,12 +5,12 @@ import styles from './RightSlidebarMusicPlayer.module.scss';
 import { faClock, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { Song } from '../../components';
 import { Section } from '~/components';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function RightSlidebarMusicPlayer() {
-    const { currentSong, isplaying } = usePlayer();
+    const { currentSong, isplaying } = usePlayerContext();
     const [indexOption, setIndexOption] = useState(0);
     const [tracksList, setTracksList] = useState([]);
     const [historyTracksList, setHistoryTracksList] = useState([]);

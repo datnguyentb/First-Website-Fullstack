@@ -5,33 +5,46 @@ import useAddTrackToListeningHistory from '~/hooks/music/useAddTrackToListeningH
 import useGetListeningHistory from '~/hooks/music/useGetListeningHistory';
 import useGetTrackUrl from '~/hooks/music/useGetTrackUrl';
 import { shuffleArray } from '~/utils/shuffleArray';
+import { userAuthContext } from '.';
 
 export const PlayerContext = createContext();
 
 export function PlayerProvider({ children }) {
     const audioRef = useRef(new Audio());
-    const { historyList } = useGetListeningHistory();
+    const { getListeningHistory } = useGetListeningHistory();
     const { addTrackToListeningHistory } = useAddTrackToListeningHistory();
     const [currentSong, setCurrentSong] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [playlist, setPlaylist] = useState([]);
     const [queue, setQueue] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [volume, setVolume] = useState(50);
     const [playMode, setPlayMode] = useState('normal');
     const [isShuffle, setIsShuffle] = useState(false);
     const { getTrackUrl } = useGetTrackUrl();
+    const { auth } = userAuthContext();
 
     // ref để giữ nextSong mới nhất
     const nextSongRef = useRef(null);
 
-    // Khởi tạo playlist từ historyList
     useEffect(() => {
-        if (playlist.length === 0 && historyList?.length > 0) {
-            setPlaylist(historyList);
-            setCurrentSong(historyList[0]);
-            setQueue(historyList);
-        }
-    }, [historyList]);
+        if (!auth || !auth.token || auth.role !== 'user') return;
+
+        const fetchHistory = async () => {
+            try {
+                const historyList = await getListeningHistory();
+                if (Array.isArray(historyList) && historyList.length > 0) {
+                    setPlaylist(historyList);
+                    setCurrentSong(historyList[0]);
+                    setQueue(historyList);
+                }
+            } catch (err) {
+                console.error('Lỗi khi fetch history:', err);
+            }
+        };
+
+        fetchHistory();
+    }, [auth]);
 
     // Cập nhật queue khi isShuffle thay đổi
     useEffect(() => {
@@ -64,7 +77,7 @@ export function PlayerProvider({ children }) {
             audioRef.current.play().catch((err) => {
                 console.warn('Autoplay failed:', err);
             });
-            await addTrackToListeningHistory(song._id);
+            addTrackToListeningHistory(song._id);
 
             setIsPlaying(true);
             setCurrentSong(song);
@@ -82,7 +95,6 @@ export function PlayerProvider({ children }) {
     };
 
     const nextSong = useCallback(() => {
-        console.log('Next song triggered');
         if (queue.length === 0) return;
 
         if (playMode === 'normal' && currentIndex === queue.length - 1) {
@@ -144,6 +156,8 @@ export function PlayerProvider({ children }) {
                 isShuffle,
                 setIsShuffle,
                 audioRef,
+                volume,
+                setVolume,
             }}
         >
             {children}

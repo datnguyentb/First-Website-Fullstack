@@ -6,7 +6,6 @@ import { uploadAvatar } from '../middleware/upload.js';
 const router = express.Router();
 
 //AuthController
-router.get('/me', authenticateJWT, requireRole('user'), UserController.getMe);
 router.put('/update/avatar', authenticateJWT, requireRole('user'), uploadAvatar('avatar'), UserController.updateAvatar);
 router.put(
     '/update/me',
@@ -15,7 +14,7 @@ router.put(
     filterAllowedFields('user'),
     UserController.updateMeInfo,
 );
-router.get('/me', authenticateJWT, requireRole('user', UserController.getMe));
-router.get('/:id', authenticateJWT, requireRole('user'), UserController.getUserProfile);
+router.get('/me/all', authenticateJWT, requireRole('user'), UserController.getMeALlInfor);
+router.get('/me/less', authenticateJWT, requireRole('user'), UserController.getMeInfor);
 
 export default router;

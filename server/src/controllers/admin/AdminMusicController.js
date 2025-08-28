@@ -14,7 +14,6 @@ import path from 'path';
 
 class AdminMusicController {
     async searchTrack(req, res) {
-        console.log('running');
         try {
             const { q, limit } = req.query;
             if (!q) return badRequestResponse(res, 'Search keyword is required');
@@ -113,7 +112,7 @@ class AdminMusicController {
             return createdResponse(
                 res,
                 'Added successfully',
-                formatItem(newTrack, ['_id', 'ready', 'artists', 'name']),
+                formatItem(newTrack, ['_id', 'name', 'album', 'artists', 'isReady']),
             );
         } catch (err) {
             console.error('Error add:', err);

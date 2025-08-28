@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import styles from './Post.module.scss';
 import UserProfile from '~/components/UserProfile/index.jsx';
-import { useUser } from '~/contexts';
+import { useUserContext } from '~/contexts';
 import PostHeader from './PostHeader';
 import PostMoreAction from './PostMoreAction';
 import PostContent from './PostContent';
@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 
 // =================== COMPONENT ===================
 function Post({ post, setPosts }) {
-    const { user } = useUser();
+    const { user } = useUserContext();
     //get useEffect and useState
     const {
         isAuthor,

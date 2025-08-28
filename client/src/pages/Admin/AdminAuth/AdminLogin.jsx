@@ -5,11 +5,13 @@ import useAdminLogin from '~/hooks/admin/auth/useAdminLogin';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAdminCheckToken from '~/hooks/admin/checKToken/useAdminCheckToken';
+import { userAdminAuthContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 const AdminLogin = () => {
     const { Login, loading, setLoading } = useAdminLogin();
+    const { login } = userAdminAuthContext();
     const [formData, setFormData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
@@ -37,8 +39,10 @@ const AdminLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const res = await Login(formData);
-        if (res) {
-            toast.success('Login successful!', { autoClose: 1000 });
+        if (res?.success) {
+            const { token, role } = res.data;
+            login(token, role);
+            toast.success(res.message, { autoClose: 1000 });
             await delay(1000);
             setLoading(false);
             navigate('/admin/dashboard');

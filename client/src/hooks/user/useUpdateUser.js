@@ -2,7 +2,7 @@ import { useState } from 'react';
 import userApi from '~/api/user/userApi';
 import { toast } from 'react-toastify';
 
-const useUpdateUser = () => {
+export default function useUpdateUser() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -45,6 +45,4 @@ const useUpdateUser = () => {
     };
 
     return { updateUser, loading, error };
-};
-
-export default useUpdateUser;
+}

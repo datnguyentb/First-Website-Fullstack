@@ -3,13 +3,13 @@ import styles from './PlayerControlBar.module.scss';
 import { Img, Button } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 const isFavorite = true;
 
 function NowPlayingInfo() {
-    const { currentSong, isPlaying } = usePlayer();
+    const { currentSong, isPlaying } = usePlayerContext();
     if (!currentSong) {
         return <div className={cx('now-playing-info')}>No song playing</div>;
     }

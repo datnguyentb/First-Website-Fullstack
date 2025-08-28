@@ -8,9 +8,7 @@ import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
-function AdminMusicManageRow({ data, onDelete, onUpload }) {
-    // Tạo một ref cho thẻ input file
-    const [isReady, setIsReady] = useState(data.isReady);
+function AdminMusicManageRow({ data, onDelete }) {
     const fileInputRef = useRef(null);
     const { addTrackAudio, loading } = useAddTrackAudio();
 
@@ -19,7 +17,7 @@ function AdminMusicManageRow({ data, onDelete, onUpload }) {
         if (!selectedFile || !data?._id) return;
         const resUpload = await addTrackAudio(data._id, selectedFile);
         if (resUpload.success) {
-            setIsReady(true);
+            data.isReady = true;
             toast.success(resUpload.message);
         } else {
             toast.error(resUpload.data.message);
@@ -42,8 +40,8 @@ function AdminMusicManageRow({ data, onDelete, onUpload }) {
             <td className={cx('artist')}>
                 <span>{artists}</span>
             </td>
-            <td className={cx('type', isReady ? 'ready' : 'not-ready')}>
-                <span>{isReady ? 'Ready' : 'Not Ready'}</span>
+            <td className={cx('type', data.isReady ? 'ready' : 'not-ready')}>
+                <span>{data.isReady ? 'Ready' : 'Not Ready'}</span>
             </td>
             <td>
                 <button

@@ -15,7 +15,7 @@ import {
     faVolumeLow,
     faVolumeMute,
 } from '@fortawesome/free-solid-svg-icons';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 import NowPlayingInfo from './NowPlayingInfo';
 import ChangeVolume from './ChangeVolume';
 
@@ -28,41 +28,9 @@ function formatTime(ms) {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 }
 
-function PlayerControlBar({ data, id, onSongChange }) {
+function PlayerControlBar() {
     const { playSong, setIsShuffle, pauseSong, isPlaying, isShuffle, nextSong, prevSong, playMode, setPlayMode } =
-        usePlayer();
-    const [currentSong, setCurrentSong] = useState(data.find((song) => song.id === id));
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-
-    //Forward btn
-    const handleForward = useCallback(() => {
-        const currentIndex = data.findIndex((item) => item.id === currentSong.id);
-
-        if (currentIndex !== -1) {
-            const nextIndex = (currentIndex + 1) % data.length;
-            const nextSong = data[nextIndex];
-            setCurrentSong(nextSong);
-
-            if (onSongChange) {
-                onSongChange(nextSong);
-            }
-        }
-    }, [data, currentSong, onSongChange]);
-
-    //Backward btn
-    const handleBackward = () => {
-        const currentIndex = data.findIndex((item) => item.id === currentSong.id);
-
-        if (currentIndex > 0) {
-            const prevSong = data[currentIndex - 1];
-            setCurrentSong(prevSong);
-
-            if (onSongChange) {
-                onSongChange(prevSong);
-            }
-        }
-    };
+        usePlayerContext();
 
     const handleChangePlayMode = () => {
         if (playMode === 'normal') {
@@ -73,14 +41,6 @@ function PlayerControlBar({ data, id, onSongChange }) {
             setPlayMode('normal');
         }
     };
-
-    //Set CurrentSong
-    useEffect(() => {
-        const newSong = data.find((song) => song.id === id);
-        if (newSong) {
-            setCurrentSong(newSong);
-        }
-    }, [id, data]);
 
     return (
         <div className={cx('wrapper')}>
@@ -95,16 +55,11 @@ function PlayerControlBar({ data, id, onSongChange }) {
                         onClick={() => setIsShuffle(!isShuffle)}
                     />
                     <Button
-                        onClick={handleBackward}
                         style_2
-                        leftIcon={
-                            <FontAwesomeIcon
-                                icon={faBackwardStep}
-                                onClick={() => {
-                                    prevSong();
-                                }}
-                            />
-                        }
+                        onClick={() => {
+                            prevSong();
+                        }}
+                        leftIcon={<FontAwesomeIcon icon={faBackwardStep} />}
                     />
 
                     {isPlaying ? (
@@ -125,16 +80,11 @@ function PlayerControlBar({ data, id, onSongChange }) {
                         />
                     )}
                     <Button
-                        onClick={handleForward}
                         style_2
-                        leftIcon={
-                            <FontAwesomeIcon
-                                icon={faForwardStep}
-                                onClick={() => {
-                                    nextSong();
-                                }}
-                            />
-                        }
+                        onClick={() => {
+                            nextSong();
+                        }}
+                        leftIcon={<FontAwesomeIcon icon={faForwardStep} />}
                     />
 
                     <Button

@@ -13,10 +13,6 @@ const useAdminLogin = () => {
 
         try {
             const res = await authAdminApi.login(form);
-            const { token, user } = res.data.data;
-
-            localStorage.setItem('adminToken', token);
-            localStorage.setItem('admin', JSON.stringify(user));
             return res.data;
         } catch (error) {
             const message = error.response?.data?.message || 'An error occurred. Please try again.';

@@ -1,13 +1,25 @@
-import { createContext } from 'react';
-import { Loading } from '~/components';
-import useGetUserById from '~/hooks/user/useGetUserById';
+import { createContext, useEffect, useState } from 'react';
+import useGetMe from '~/hooks/user/useGetUserById';
+import { userAuthContext } from '.';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const { user, setUser, loading } = useGetUserById();
+    const { auth } = userAuthContext();
+    const { getMe, loading } = useGetMe();
+    const [user, setUser] = useState(null);
 
-    if (loading) return <Loading />;
+    useEffect(() => {
+        if (auth?.token === null) {
+            setUser(null);
+            return;
+        }
+        async function fetchUser() {
+            const result = await getMe();
+            setUser(result);
+        }
+        fetchUser();
+    }, [auth]);
 
     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };

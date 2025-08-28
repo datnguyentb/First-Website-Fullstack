@@ -18,25 +18,11 @@ const cx = classNames.bind(styles);
 const fakeCurrentPlaylist = songsdb.slice(0, 20);
 
 function MusicPlayer() {
-    const [currentPlay, setCurrentPlay] = useState(songsdb[0]);
     const [currentPlaylist, setCurrentPlaylist] = useState(fakeCurrentPlaylist);
-    const [history, setHistory] = useState([]);
 
     useEffect(() => {
         document.title = 'Twirl | Music';
     }, []);
-
-    function handleSetCurrentSong(id) {
-        if (currentPlay.id !== id) {
-            const result = songsdb.find((song) => song.id === id);
-            if (!result) return;
-            setCurrentPlay(result);
-            setHistory((prev) => {
-                const filtered = prev.filter((song) => song.id !== id);
-                return [result, ...filtered];
-            });
-        }
-    }
 
     return (
         <div className={cx('wrapper')}>
@@ -45,7 +31,7 @@ function MusicPlayer() {
             </div>
             <div className={cx('content-wrapper')}>
                 <div className={cx('content')}>
-                    <TopBar data={currentPlaylist} />
+                    <TopBar />
 
                     <div className={cx('mt-5')}>
                         <Section title_2="Gợi ý cho bạn">
@@ -65,21 +51,10 @@ function MusicPlayer() {
                 </div>
             </div>
             <div className="right-slidebar">
-                <RightSlidebarMusicPlayer
-                    onClick={(id) => handleSetCurrentSong(id)}
-                    currentPlay={currentPlay}
-                    currentPlaylist={currentPlaylist}
-                    history={history}
-                />
+                <RightSlidebarMusicPlayer />
             </div>
             <div className={cx('media-control-bar')}>
-                <PlayerControlBar
-                    onSongChange={(song) => {
-                        setCurrentPlay(song);
-                    }}
-                    data={currentPlaylist}
-                    id={currentPlay.id}
-                />
+                <PlayerControlBar />
             </div>
         </div>
     );

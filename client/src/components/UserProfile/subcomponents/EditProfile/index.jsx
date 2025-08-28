@@ -8,7 +8,7 @@ import EditInfoCard from './EditInfoCard';
 import EditActionBtn from './EditActionBtn';
 import { useEditProfile } from './useEditProfile';
 import useUpdateUser from '~/hooks/user/useUpdateUser';
-import { useModal } from '~/contexts';
+import { useModalContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +18,7 @@ function EditProfile({ onCancel, onUpdate }) {
 
     //hook Api
     const { updateUser } = useUpdateUser();
-    const { showModal } = useModal();
+    const { showModal } = useModalContext();
 
     // 👉 Handle file upload & preview
     const handleFileChange = (e) => {

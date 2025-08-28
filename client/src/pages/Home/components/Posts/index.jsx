@@ -1,8 +1,8 @@
 import Post from './Post.jsx';
-import { usePosts } from '~/contexts';
+import { usePostsContext } from '~/contexts';
 
 function Posts() {
-    const { posts, setPosts, loading } = usePosts();
+    const { posts, setPosts, loading } = usePostsContext();
 
     if (loading) return <div>Đang tải bài viết...</div>;
     return (

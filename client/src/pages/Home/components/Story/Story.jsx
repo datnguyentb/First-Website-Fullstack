@@ -7,7 +7,7 @@ import { faAngleLeft, faAngleRight, faPlus } from '@fortawesome/free-solid-svg-i
 import Storydb from '~/databseFake/storydb';
 import fakeUserDB from '~/databseFake/Userdb';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts';
+import { useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 const ITEM_WIDTH = 117 + 10; // width + margin (nếu có)
@@ -22,7 +22,7 @@ function Story() {
     const nextRef = useRef(null);
     const wrapperRef = useRef(null);
 
-    const { user } = useUser();
+    const { user } = useUserContext();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [numberStoryDisplay, setNumberStoryDisplay] = useState(0);
 

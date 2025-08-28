@@ -17,11 +17,11 @@ import {
 import styles from './UserDropdown.module.scss';
 import { Button, Img } from '~/components';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts';
+import { userAuthContext, useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
-const getUserMenu = (navigate, user_onclick, setUser) => [
+const getUserMenu = (navigate, user_onclick, setUser, logout) => [
     {
         title: 'Personal',
         data: [
@@ -58,10 +58,8 @@ const getUserMenu = (navigate, user_onclick, setUser) => [
             {
                 title: 'Log out',
                 icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-                onClick: () => {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    setUser(null);
+                onClick: async () => {
+                    await logout();
                     navigate('/auth/login');
                 },
             },
@@ -70,11 +68,15 @@ const getUserMenu = (navigate, user_onclick, setUser) => [
 ];
 
 function UserDropdownPanel({ user_onclick }) {
-    const { user, setUser } = useUser();
+    const { logout } = userAuthContext();
+    const { user, setUser } = useUserContext();
     const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
-    const MENU = useMemo(() => getUserMenu(navigate, user_onclick, setUser), [navigate, user_onclick, setUser]);
+    const MENU = useMemo(
+        () => getUserMenu(navigate, user_onclick, setUser, logout),
+        [navigate, user_onclick, setUser, logout],
+    );
 
     return (
         <div className={cx('wrapper')} tabIndex={-1}>

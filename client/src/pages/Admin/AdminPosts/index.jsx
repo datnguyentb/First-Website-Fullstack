@@ -10,7 +10,7 @@ import AdminPostDialog from './AdminPostDialog';
 import { useRef } from 'react';
 import { Loading } from '~/components';
 import useRestorePost from '~/hooks/admin/post/useRestorePost';
-import { useModal } from '~/contexts';
+import { useModalContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
@@ -19,7 +19,7 @@ function AdminPost() {
     const { deletePost } = useDeletePost();
     const { deleteForeverPost } = useDeleteForever();
     const { restorePost } = useRestorePost();
-    const { showModal } = useModal();
+    const { showModal } = useModalContext();
     const {
         postId,
         setPostId,

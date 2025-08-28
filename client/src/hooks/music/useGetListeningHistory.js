@@ -1,28 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import musicPlayerApi from '~/api/music/musicPlayerApi';
 
-export default function useGetListeningHistory() {
-    const [historyList, setHistoryList] = useState({});
+const useGetListeningHistory = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
+    const getListeningHistory = async () => {
         setLoading(true);
-        setError(null);
 
-        const fetchStatus = async () => {
-            try {
-                const res = await musicPlayerApi.getListeningHistory();
-                setHistoryList(res.data.data);
-            } catch (err) {
-                setError(err.response);
-            } finally {
-                setLoading(false);
-            }
-        };
+        try {
+            const res = await musicPlayerApi.getListeningHistory();
+            return res.data.data;
+        } catch (err) {
+            return err.response;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        fetchStatus();
-    }, []);
+    return { getListeningHistory, loading };
+};
 
-    return { historyList, setHistoryList, loading, error };
-}
+export default useGetListeningHistory;

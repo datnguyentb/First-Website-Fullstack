@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './postComposer.module.scss';
 import { useRef } from 'react';
 import { usePostComposer } from './usePostComposer';
-import { usePosts } from '~/contexts';
+import { usePostsContext } from '~/contexts';
 import { toast } from 'react-toastify';
 
 import PostTextarea from './PostTextarea';
@@ -18,7 +18,7 @@ function PostComposer() {
 
     const imageInputRef = useRef();
     const privacyOptionRef = useRef();
-    const { setPosts } = usePosts();
+    const { setPosts } = usePostsContext();
 
     const handleImageSelect = (e) => {
         const files = [...e.target.files];

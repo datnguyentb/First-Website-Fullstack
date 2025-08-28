@@ -1,8 +1,6 @@
 // controllers/music/spotifyController.js
 import fetch from 'node-fetch';
 import { getAccessToken } from '../../utils/spotify.js';
-import { joinIds } from '../../helper/joinIds.js';
-import { splitIds } from '../../helper/splitIds.js';
 import { okResponse, notFoundResponse, badRequestResponse, serverErrorResponse } from '../../utils/responseHelper.js';
 
 class SpotifyController {

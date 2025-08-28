@@ -8,12 +8,12 @@ import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
 import { Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useUser } from '~/contexts';
+import { useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
-    const { user } = useUser();
+    const { user } = useUserContext();
     const [showProfile, setShowProfile] = useState(false);
 
     const handleShowProfile = () => {

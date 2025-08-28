@@ -2,12 +2,6 @@ import mongoose from 'mongoose';
 
 const playlistSchema = new mongoose.Schema(
     {
-        spotifyId: {
-            type: String, // Spotify playlist id
-            required: true,
-            unique: true,
-            trim: true,
-        },
         owner: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
@@ -25,16 +19,12 @@ const playlistSchema = new mongoose.Schema(
         },
         type: {
             type: String,
-            enum: ['playlist'],
             default: 'playlist',
         },
-        images: [
-            {
-                url: { type: String, required: true, trim: true },
-                height: { type: Number },
-                width: { type: Number },
-            },
-        ],
+        images: {
+            type: String,
+            default: '',
+        },
         tracks: [
             {
                 trackId: {

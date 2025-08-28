@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Song.module.scss';
 import Img from '~/components/Img';
 import { faEllipsis, faHeart, faPlay } from '@fortawesome/free-solid-svg-icons';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 import { music_img } from '~/assets/imgs/music';
 
 const cx = classNames.bind(styles);
 
 function Song({ data, active = false, shadow, onClick, onClickArtists, second_style, ...passProps }) {
-    const { playSong, currentSong, isPlaying } = usePlayer();
+    const { playSong, currentSong, isPlaying } = usePlayerContext();
     const props = {
         onClick,
         ...passProps,

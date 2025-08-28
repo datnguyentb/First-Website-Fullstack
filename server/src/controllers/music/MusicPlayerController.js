@@ -7,7 +7,7 @@ import { formatItems, formatItem } from '../../utils/formatter.js';
 class MusicPlayerController {
     getTracksRecomend = async (req, res) => {
         try {
-            const tracks = await Song.find({ type: 'track' })
+            const tracks = await Song.find({ type: 'track', isReady: true })
                 .sort({ listenCount: -1 })
                 .limit(9)
                 .populate('album', '_id spotifyId name images release_date release_date_precision')
@@ -38,7 +38,7 @@ class MusicPlayerController {
         try {
             const track = await Song.findById(trackId);
 
-            if (!track) {
+            if (!track || !track.isReady) {
                 return notFoundResponse(res, 'Track not found');
             }
 
@@ -53,11 +53,9 @@ class MusicPlayerController {
             });
 
             if (history) {
-                // Nếu có thì chỉ cập nhật lại thời gian nghe gần nhất
                 history.playedAt = Date.now();
                 await history.save();
             } else {
-                // Nếu chưa có thì tạo mới
                 await ListeningHistory.create({
                     user: userId,
                     song: trackId,
@@ -75,13 +73,13 @@ class MusicPlayerController {
 
     getTrackUrlById = async (req, res) => {
         const { trackId } = req.params;
-        if (!trackId) {
+        if (!trackId || trackId.trim() === '') {
             return badRequestResponse(res, 'Track ID is required');
         }
         try {
             const track = await Song.findById(trackId);
 
-            if (!track) {
+            if (!track || !track.isReady) {
                 return notFoundResponse(res, 'Track not found');
             }
             return okResponse(res, 'Track retrieved successfully', formatItem(track, ['_id', 'url']));
@@ -95,11 +93,11 @@ class MusicPlayerController {
         const userId = req.user._id;
 
         try {
-            // Lấy 15 bài gần nhất
             const history = await ListeningHistory.find({ user: userId })
                 .populate({
                     path: 'song',
                     select: '_id name artists album',
+                    match: { isReady: true },
                     populate: {
                         path: 'album',
                         select: '_id spotifyId name images',
@@ -109,28 +107,16 @@ class MusicPlayerController {
                 .limit(15)
                 .lean();
 
-            // Nếu chưa có history -> trả về bài hot nhất
-            if (!history || history.length === 0) {
-                const hotTrack = await Song.findOne({ type: 'track' })
-                    .sort({ listenCount: -1 }) // top 1 bài hot
+            let songsOnly = [];
+            if (history && history.length > 0) {
+                songsOnly = history.map((item) => item.song).filter((song) => song !== null);
+            } else {
+                songsOnly = await Song.findOne({ type: 'track', isReady: true })
+                    .sort({ listenCount: -1 })
                     .populate('album', '_id spotifyId name images release_date release_date_precision')
                     .lean();
-
-                return okResponse(
-                    res,
-                    'No history found, showing hottest track',
-                    formatItems([hotTrack], ['_id', 'name', 'artists', 'album']),
-                );
             }
-
-            // Nếu có history -> trả mảng chỉ chứa song
-            const songsOnly = history.map((item) => item.song);
-
-            return okResponse(
-                res,
-                'Listening history retrieved successfully',
-                formatItems(songsOnly, ['_id', 'name', 'artists', 'album']),
-            );
+            return okResponse(res, 'successfully', formatItems(songsOnly, ['_id', 'name', 'artists', 'album']));
         } catch (error) {
             console.error(error);
             return serverErrorResponse(res, 'Failed to get listening history');

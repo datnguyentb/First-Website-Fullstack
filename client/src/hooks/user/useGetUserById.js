@@ -1,32 +1,20 @@
 import { useEffect, useState } from 'react';
 import userApi from '~/api/user/userApi';
 
-export default function useGetUserById() {
-    const [user, setUser] = useState(null);
+export default function useGetMe() {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
+    const getMe = async () => {
         setLoading(true);
-        setError(null);
-        const storedUser = JSON.parse(localStorage.getItem('user'));
 
-        if (storedUser?._id) {
-            const fetchUser = async () => {
-                try {
-                    const res = await userApi.getUserById(storedUser._id);
-                    setUser(res.data.data);
-                } catch {
-                    //
-                } finally {
-                    setLoading(false);
-                }
-            };
-            fetchUser();
-        } else {
+        try {
+            const res = await userApi.getMeInfor();
+            return res.data.data;
+        } catch (err) {
+            return err.response;
+        } finally {
             setLoading(false);
         }
-    }, []);
-
-    return { user, setUser, loading, error };
+    };
+    return { getMe, loading };
 }

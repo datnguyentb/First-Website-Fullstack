@@ -2,15 +2,14 @@ import classNames from 'classnames/bind';
 import styles from './PlayerControlBar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeHigh, faVolumeLow, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 import { useEffect, useState } from 'react';
 import { Button } from '~/components';
 
 const cx = classNames.bind(styles);
 
 function ChangeVolume() {
-    const { audioRef } = usePlayer();
-    const [volume, setVolume] = useState(50);
+    const { audioRef, volume, setVolume } = usePlayerContext();
     const [prevVolume, setPrevVolume] = useState(100); // lưu volume trước khi mute
 
     useEffect(() => {

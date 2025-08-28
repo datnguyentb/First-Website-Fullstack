@@ -1,15 +1,16 @@
 import classNames from 'classnames/bind';
 import styles from './AdminHeader.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { userAdminAuthContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function AdminHeader() {
     const navigate = useNavigate();
+    const { logout } = userAdminAuthContext();
 
     const handleLogout = () => {
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('admin');
+        logout();
         navigate('/admin/login');
     };
 

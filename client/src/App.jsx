@@ -6,47 +6,55 @@ import { UserProvider } from './contexts/UserContext';
 import EventTheme from './layouts/EventTheme';
 import { ModalProvider } from './contexts/ModalContext';
 import { PlayerProvider } from './contexts/PlayerContext';
+import { UserAuthProvider } from './contexts/UserAuthContext';
+import { AdminAuthProvider } from './contexts/AdminAuthContext';
 
 function App() {
-    // document.addEventListener('contextmenu', function (e) {
-    //     e.preventDefault();
-    // });
-
     return (
         <div className="App">
-            <PlayerProvider>
-                <ModalProvider>
-                    <Router>
-                        <Routes>
-                            {publicRoutes.map((route, index) => {
-                                const Page = route.component;
-                                const Layout = route.layout ? route.layout : Fragment;
+            <ModalProvider>
+                <Router>
+                    <Routes>
+                        {publicRoutes.map((route, index) => {
+                            const Page = route.component;
+                            const Layout = route.layout ? route.layout : Fragment;
 
-                                const isAdminRoute = route.path.startsWith('/admin');
+                            const isAdminRoute = route.path.startsWith('/admin');
 
-                                const element = (
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                );
+                            const element = (
+                                <Layout>
+                                    <Page />
+                                </Layout>
+                            );
 
-                                return (
-                                    <Route
-                                        key={index}
-                                        path={route.path}
-                                        element={isAdminRoute ? element : <UserProvider>{element}</UserProvider>}
-                                    />
-                                );
-                            })}
-                            {/* Catch all admin wrong paths -> redirect về dashboard */}
-                            <Route path="/admin/*" element={<Navigate to="/admin/dashboard" replace />} />
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        isAdminRoute ? (
+                                            <AdminAuthProvider>{element}</AdminAuthProvider>
+                                        ) : (
+                                            <UserAuthProvider>
+                                                <UserProvider>
+                                                    <PlayerProvider>{element}</PlayerProvider>
+                                                </UserProvider>
+                                            </UserAuthProvider>
+                                        )
+                                    }
+                                />
+                            );
+                        })}
 
-                            {/* Catch all normal wrong paths -> có thể về home hoặc NotFound */}
-                            <Route path="*" element={<Navigate to="/" replace />} />
-                        </Routes>
-                    </Router>
-                </ModalProvider>
-            </PlayerProvider>
+                        {/* Catch all admin wrong paths -> redirect về dashboard */}
+                        <Route path="/admin/*" element={<Navigate to="/admin/dashboard" replace />} />
+
+                        {/* Catch all normal wrong paths -> redirect về home */}
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                </Router>
+            </ModalProvider>
+
             <EventTheme />
             <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} closeOnClick pauseOnHover />
         </div>

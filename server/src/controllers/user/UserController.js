@@ -5,31 +5,20 @@ import fs from 'fs';
 import path from 'path';
 
 class UserController {
-    // GET /users/:id
-    getUserProfile = async (req, res) => {
-        const userId = req.params.id;
-        try {
-            const user = await User.findById(userId);
+    // GET /me/less
+    getMeInfor = async (req, res) => {
+        const user = req.user;
+        if (!user) return notFoundResponse(res, 'User not found');
 
-            if (!user) {
-                return notFoundResponse(res, 'User not found');
-            }
-
-            const isUserLogin = req.user._id.toString() === userId;
-            return okResponse(
-                res,
-                'User information retrieved successfully',
-                formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt'], {
-                    isUserLogin,
-                }),
-            );
-        } catch (error) {
-            return serverErrorResponse(res, 'Error retrieving user information');
-        }
+        return okResponse(
+            res,
+            'User information retrieved successfully',
+            formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt'], {}),
+        );
     };
 
-    // GET /users/me
-    getMe(req, res) {
+    // GET /users/me/all
+    getMeALlInfor(req, res) {
         return okResponse(
             res,
             'User information retrieved successfully',

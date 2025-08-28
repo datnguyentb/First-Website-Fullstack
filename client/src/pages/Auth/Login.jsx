@@ -9,19 +9,20 @@ import styles from './Auth.module.scss';
 import { Img, Button, Alert } from '~/components';
 import { logo_img } from '~/assets/imgs/logo';
 import { svg_icon } from '~/assets/imgs/svg';
-import { useUser } from '~/contexts';
+import { userAuthContext, useUserContext } from '~/contexts';
 import useLogin from '~/hooks/auth/useLogin';
 
 const cx = classNames.bind(styles);
 
 function Login() {
+    const { login } = userAuthContext();
+    const { setUser } = useUserContext();
+    const navigate = useNavigate();
+    const { Login, loading, setLoading } = useLogin();
+
     useEffect(() => {
         document.title = 'Twirl | Login';
     }, []);
-    const navigate = useNavigate();
-    const { setUser } = useUser();
-
-    const { Login, loading, setLoading } = useLogin();
 
     // State
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -52,9 +53,8 @@ function Login() {
         const res = await Login(formData);
         if (res.data) {
             //lưu token
-            const { token, user } = res.data;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
+            const { token, role } = res.data;
+            login(token, role);
 
             //show aleart
             setAlert({

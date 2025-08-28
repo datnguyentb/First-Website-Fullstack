@@ -1,13 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './PlayerControlBar.module.scss';
 import { formatSongTime } from '~/utils/dateUtils';
-import { usePlayer } from '~/contexts';
+import { usePlayerContext } from '~/contexts';
 import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function PlayerProgress() {
-    const { audioRef, seek } = usePlayer();
+    const { audioRef, seek } = usePlayerContext();
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
 

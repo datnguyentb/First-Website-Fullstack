@@ -17,8 +17,6 @@ const app = express();
 //connect to DB
 db_connect();
 
-// Middleware to handle CORS
-// Allow requests from the frontend (React app) and enable credentials
 app.use(
     cors({
         origin: 'http://localhost:5173',
@@ -28,15 +26,15 @@ app.use(
 
 app.use(
     session({
-        secret: 'your_secret_key',
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
-        cookie: { secure: false }, // dùng secure: true nếu chạy HTTPS
+        cookie: { secure: false },
     }),
 );
 
 //truy cập vào thư mục upload
-app.use('/uploads', express.static(path.join(process.cwd(), 'src/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

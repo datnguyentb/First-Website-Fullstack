@@ -6,7 +6,6 @@ import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } fr
 import { Link, useLocation } from 'react-router-dom';
 import { logo_img } from '~/assets/imgs/logo';
 import { Button, Img } from '~/components';
-import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -46,10 +45,6 @@ const navOptions = [
 
 function NavigationSidebar() {
     const location = useLocation();
-    const [userLogin, setUserLogin] = useState(null);
-    useEffect(() => {
-        setUserLogin(JSON.parse(localStorage.getItem('user')));
-    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -76,14 +71,12 @@ function NavigationSidebar() {
 
                 <hr className={cx('line')} />
 
-                {!userLogin && (
-                    <div className={cx('sign-in-box')}>
-                        <p>Sign in to access your personalized features</p>
-                        <Button to="/auth/login" className={cx('sign-in-btn')} rounded>
-                            Sign in
-                        </Button>
-                    </div>
-                )}
+                {/* <div className={cx('sign-in-box')}>
+                    <p>Sign in to access your personalized features</p>
+                    <Button to="/auth/login" className={cx('sign-in-btn')} rounded>
+                        Sign in
+                    </Button>
+                </div> */}
             </div>
         </div>
     );
