@@ -35,6 +35,11 @@ hr.line {
     opacity: 17%;
 }
 
+.scrollbar {
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
 /* Chiều rộng thanh cuộn */
 ::-webkit-scrollbar {
     width: $width-scrollbar;

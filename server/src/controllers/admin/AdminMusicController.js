@@ -151,7 +151,10 @@ class AdminMusicController {
 
     async getAllTracks(req, res) {
         try {
-            const items = await Song.find({}).select('_id name album artists isReady').sort({ createdAt: -1 }).lean();
+            const items = await Song.find({})
+                .select('_id spotifyId name album artists isReady')
+                .sort({ createdAt: -1 })
+                .lean();
 
             return okResponse(res, '', items);
         } catch (err) {

@@ -1,13 +1,11 @@
+import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faArrowRightFromBracket,
-    faBell,
     faBookmark,
-    faChartArea,
-    faCircleHalfStroke,
     faCircleInfo,
     faEarthAsia,
     faFileLines,
@@ -21,7 +19,7 @@ import { userAuthContext, useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
-const getUserMenu = (navigate, user_onclick, setUser, logout) => [
+const getUserMenu = (navigate, user_onclick, logout) => [
     {
         title: 'Personal',
         data: [
@@ -70,7 +68,6 @@ const getUserMenu = (navigate, user_onclick, setUser, logout) => [
 function UserDropdownPanel({ user_onclick }) {
     const { logout } = userAuthContext();
     const { user, setUser } = useUserContext();
-    const [darkMode, setDarkMode] = useState(false);
     const navigate = useNavigate();
 
     const MENU = useMemo(
@@ -113,5 +110,9 @@ function UserDropdownPanel({ user_onclick }) {
         </div>
     );
 }
+
+UserDropdownPanel.propTypes = {
+    user_onclick: PropTypes.func,
+};
 
 export default UserDropdownPanel;

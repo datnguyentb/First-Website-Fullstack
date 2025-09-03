@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
@@ -20,6 +21,12 @@ const Alert = ({ type = 'success', title, message }) => {
             </div>
         </div>
     );
+};
+
+Alert.propTypes = {
+    type: PropTypes.oneOf(['success', 'error']),
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
 };
 
 export default Alert;

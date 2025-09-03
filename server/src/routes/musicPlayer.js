@@ -14,6 +14,7 @@ router.post(
     requireRole('user'),
     musicPlayerController.addTrackToListeningHistory,
 );
+router.get('/search/:q', authenticateJWT, requireRole('user'), musicPlayerController.searchTracks);
 router.get('/track/url/:trackId', authenticateJWT, requireRole('user'), musicPlayerController.getTrackUrlById);
 export default router;
 // authenticateJWT, requireRole('user'),

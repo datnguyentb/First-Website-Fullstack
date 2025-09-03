@@ -2,7 +2,6 @@ import { use, useMemo } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminMusicManage.module.scss';
 import AdminMusicManageTrackResultItem from './AdminMusicManageTrackResultItem';
-import AdminMusicManagePlaylistResultItem from './AdminMusicManagePlaylistResultItem';
 import { toast } from 'react-toastify';
 import useAddTrack from '~/hooks/admin/music/useAddTrack';
 
@@ -14,11 +13,11 @@ function AdminMusicManageSearchResult({ searchResult, setResult, result }) {
     const data = useMemo(() => {
         const listResult = searchResult?.tracks?.items.filter((item) => item !== null) || [];
 
-        const resultSet = new Set(result?.map((item) => item._id));
+        const resultSet = new Set(result?.map((item) => item.spotifyId));
 
         return listResult.map((item) => ({
             ...item,
-            isAdded: resultSet.has(item._id),
+            isAdded: resultSet.has(item.id),
         }));
     }, [searchResult, result]);
 

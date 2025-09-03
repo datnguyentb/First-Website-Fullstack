@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './ConfirmModal.module.scss'; // Nếu dùng SCSS module
@@ -23,6 +24,14 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel }) => {
             </div>
         </div>
     );
+};
+
+ConfirmModal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    title: PropTypes.string,
+    message: PropTypes.string,
+    onConfirm: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 };
 
 export default ConfirmModal;

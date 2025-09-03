@@ -19,7 +19,6 @@ export function UserAuthProvider({ children }) {
     const text = 'hello';
 
     const logout = () => {
-        console.log('Logging out...');
         setAuth({ token: null, role: null });
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');

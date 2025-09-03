@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './Notification.module.scss';
 import Img from '~/components/Img';
@@ -24,5 +25,9 @@ function NotificationItem({ item }) {
         </div>
     );
 }
+
+NotificationItem.propTypes = {
+    item: PropTypes.object.isRequired,
+};
 
 export default NotificationItem;

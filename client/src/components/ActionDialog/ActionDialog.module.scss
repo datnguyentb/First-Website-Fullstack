@@ -1,7 +1,7 @@
 .wrapper {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: $background-blur-dark;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,7 +14,7 @@
     border-radius: 16px;
     min-width: 400px;
     max-width: 90%;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px $shadow-color;
     text-align: center;
     animation: fadeIn 0.2s ease;
 }
@@ -27,15 +27,15 @@
     }
 
     .delete {
-        color: #d92d20;
+        color: $color-danger;
     }
 
     .report {
-        color: #f79009;
+        color: $color-warning;
     }
 
     .confirm {
-        color: #12b76a;
+        color: $color-success;
     }
 
     .warning {
@@ -43,20 +43,20 @@
     }
 
     .default {
-        color: #4e4e4e;
+        color: $color-neutral;
     }
 }
 
 .dialog-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #111;
+    font-size: $font-size-xl;
+    font-weight: $font-bold;
+    color: $text-primary;
     margin-bottom: 0.5rem;
 }
 
 .dialog-description {
-    font-size: 1.4rem;
-    color: #555;
+    font-size: $font-size-sm;
+    color: $text-secondary;
     margin-bottom: 1.5rem;
 }
 
@@ -77,9 +77,9 @@
 
     .form-control {
         width: 100%;
-        font-size: 1.3rem;
+        font-size: $font-size-sm;
         padding: 0.6rem 0.75rem;
-        border: 1px solid #ccc;
+        border: 1px solid $text-tertiary;
         border-radius: 6px;
     }
 
@@ -93,11 +93,11 @@
     .form-check-input {
         width: 1.4rem;
         height: 1.4rem;
-        accent-color: #007bff;
+        accent-color: $color-neutral;
     }
 
     .form-check-label {
-        font-size: 1.3rem;
+        font-size: $font-size-sm;
     }
 }
 
@@ -112,7 +112,7 @@
 
     .btn-custom {
         padding: 0.5rem 1.5rem;
-        font-size: 1.4rem;
+        font-size: $font-size-sm;
         border-radius: 6px;
     }
 }

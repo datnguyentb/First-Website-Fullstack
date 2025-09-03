@@ -3,6 +3,7 @@ import { okResponse, notFoundResponse, badRequestResponse, serverErrorResponse }
 import Song from '../../models/Song.js';
 import ListeningHistory from '../../models/ListeningHistory.js';
 import { formatItems, formatItem } from '../../utils/formatter.js';
+import Fuse from 'fuse.js';
 
 class MusicPlayerController {
     getTracksRecomend = async (req, res) => {
@@ -120,6 +121,43 @@ class MusicPlayerController {
         } catch (error) {
             console.error(error);
             return serverErrorResponse(res, 'Failed to get listening history');
+        }
+    };
+
+    searchTracks = async (req, res) => {
+        try {
+            const q = req.params.q;
+            const maxLimit = 15;
+            const limit = Math.min(req.query.limit || 10, maxLimit);
+
+            // Lấy tất cả bài hát + populate album
+            const allTracks = await Song.find({ isReady: true }, 'name artists album').populate(
+                'album',
+                'name images artists',
+            );
+
+            // Cấu hình fuzzy search
+            const fuse = new Fuse(allTracks, {
+                keys: ['name', 'artists.name'],
+                threshold: 0.4,
+            });
+
+            // Thực hiện search
+            const result = fuse
+                .search(q)
+                .slice(0, limit)
+                .map((r) => r.item);
+
+            // formatItems có thể giữ nguyên, vì album giờ đã là object thay vì chỉ _id
+            const formatted = formatItems(result, ['name', '_id', 'artists', 'album']);
+
+            return okResponse(res, 'Search results', {
+                tracks: {
+                    items: formatted,
+                },
+            });
+        } catch (err) {
+            return serverErrorResponse(res, 'Failed to search tracks');
         }
     };
 }

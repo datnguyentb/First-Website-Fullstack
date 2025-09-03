@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './Notification.module.scss';
 
@@ -10,5 +11,10 @@ function NotificationFooter({ isLess, handleShow }) {
         </div>
     );
 }
+
+NotificationFooter.propTypes = {
+    isLess: PropTypes.bool.isRequired,
+    handleShow: PropTypes.func.isRequired,
+};
 
 export default NotificationFooter;

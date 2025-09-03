@@ -4,3 +4,6 @@ export { default as Footer } from './Footer';
 export { default as Header } from './Header';
 export { default as AdminNavigationSlidebar } from './AdminNavigationSlidebar';
 export { default as AdminHeader } from './AdminHeader';
+export { default as MusicNavigationSlidebar } from './MusicNavigationSlidebar';
+export { default as RightSlidebarMusicPlayer } from './RightSlidebarMusicPlayer';
+export { default as PlayerControlBar } from './PlayerControlBar';

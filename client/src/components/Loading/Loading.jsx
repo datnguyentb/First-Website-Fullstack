@@ -1,4 +1,4 @@
-// src/components/Loading/index.jsx
+import PropTypes from 'prop-types';
 import styles from './Loading.module.scss';
 import classNames from 'classnames/bind';
 
@@ -12,5 +12,9 @@ function Loading({ small }) {
         </div>
     );
 }
+
+Loading.propTypes = {
+    small: PropTypes.bool,
+};
 
 export default Loading;

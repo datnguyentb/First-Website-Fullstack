@@ -1,9 +1,8 @@
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import styles from './TopBar.module.scss';
-import { Song } from '../../components';
 import useGetTrackRecommend from '~/hooks/music/useGetTrackRecommend';
-import { Loading } from '~/components';
+import { Loading, Song } from '~/components';
 
 const cx = classNames.bind(styles);
 

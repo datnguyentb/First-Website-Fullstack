@@ -62,7 +62,9 @@ function NavigationSidebar() {
                                 active: location.pathname === item.link,
                             })}
                         >
-                            <FontAwesomeIcon icon={item.icon} />
+                            <div className={cx('icon')}>
+                                <FontAwesomeIcon icon={item.icon} />
+                            </div>
                             <span className={cx('title')}>{item.title}</span>
                             {item.badge && <span className={cx('badge')}>{item.badge}</span>}
                         </Link>

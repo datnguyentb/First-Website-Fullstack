@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './StatCard.module.scss';
 import { Link } from 'react-router-dom';
@@ -17,5 +18,11 @@ function StatCard({ to, title, number }) {
         </Comp>
     );
 }
+
+StatCard.propTypes = {
+    to: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 export default StatCard;

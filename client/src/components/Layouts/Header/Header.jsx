@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import Tippy from '@tippyjs/react/headless';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
+import Search from './components/Search';
 import { Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
 import { useUserContext } from '~/contexts';
@@ -28,17 +29,7 @@ function Header({ style_2 = false }) {
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
             <div className={cx('container', style_2 && 'style_2')}>
-                <div className={cx('input-box')}>
-                    <div className={cx('search-icon')}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
-                    </div>
-                    <input
-                        autoFocus="true"
-                        type="text"
-                        className={cx('search-input')}
-                        placeholder="Search for courses, articles, videos..."
-                    />
-                </div>
+                <Search />
                 {user ? (
                     <div className={cx('user-wrapper')}>
                         <div>
@@ -60,7 +51,7 @@ function Header({ style_2 = false }) {
                             </HeadlessTippy>
                         </div>
                         <div className={cx('user_notice')}>
-                            <Tippy
+                            <HeadlessTippy
                                 placement="bottom"
                                 interactive
                                 render={(attrs, contentRef) => (
@@ -72,7 +63,7 @@ function Header({ style_2 = false }) {
                                 <div className={cx('user-avatar', 'ms-3')}>
                                     <Img src={baseUrl(user.avatarUrl)} />
                                 </div>
-                            </Tippy>
+                            </HeadlessTippy>
                         </div>
                     </div>
                 ) : (
@@ -87,5 +78,9 @@ function Header({ style_2 = false }) {
         </div>
     );
 }
+
+Header.propTypes = {
+    style_2: PropTypes.bool,
+};
 
 export default Header;

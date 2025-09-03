@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
 import { faCommentDots, faEllipsis, faSortDown, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -77,5 +78,14 @@ function UserActionButtons({
 
     return <div className={cx('d-flex', 'justify-content-center', 'action-btn-wrapper')}>{content}</div>;
 }
+
+UserActionButtons.propTypes = {
+    friendshipStatus: PropTypes.string,
+    followLoading: PropTypes.bool,
+    isUserLogin: PropTypes.bool,
+    // handleShowEdit: PropTypes.func.isRequired,
+    // handleFollowUser: PropTypes.func.isRequired,
+    // handleUnfollowUser: PropTypes.func.isRequired,
+};
 
 export default UserActionButtons;

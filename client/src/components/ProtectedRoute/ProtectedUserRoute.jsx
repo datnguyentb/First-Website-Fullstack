@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 import Loading from '../Loading';
 import useCheckToken from '~/hooks/checKToken/useCheckToken';
@@ -18,5 +19,9 @@ function ProtectedUserRoute({ children }) {
     // Token hợp lệ → render component con
     return children;
 }
+
+ProtectedUserRoute.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export default ProtectedUserRoute;

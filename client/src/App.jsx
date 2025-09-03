@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import { ToastContainer } from 'react-toastify';
 import { UserProvider } from './contexts/UserContext';
@@ -10,46 +10,55 @@ import { UserAuthProvider } from './contexts/UserAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 
 function App() {
+    const renderRoute = (route, index) => {
+        const Layout = route.layout ? route.layout : Fragment;
+        const element = <Layout>{route.children ? <Outlet /> : <route.component />}</Layout>;
+
+        const isAdminRoute = route.path.startsWith('/admin');
+        const isAuthRoute = route.path.startsWith('/auth');
+
+        let wrappedElement;
+        if (isAdminRoute) {
+            wrappedElement = <AdminAuthProvider>{element}</AdminAuthProvider>;
+        } else if (isAuthRoute) {
+            wrappedElement = (
+                <UserAuthProvider>
+                    <UserProvider>{element}</UserProvider>
+                </UserAuthProvider>
+            );
+        } else {
+            wrappedElement = (
+                <UserAuthProvider>
+                    <UserProvider>
+                        <PlayerProvider>{element}</PlayerProvider>
+                    </UserProvider>
+                </UserAuthProvider>
+            );
+        }
+
+        return (
+            <Route key={index} path={route.path} element={wrappedElement}>
+                {route.children &&
+                    route.children.map((child, childIndex) =>
+                        child.index ? (
+                            <Route key={childIndex} index element={<child.component />} />
+                        ) : (
+                            <Route key={childIndex} path={child.path} element={<child.component />} />
+                        ),
+                    )}
+            </Route>
+        );
+    };
+
     return (
         <div className="App">
             <ModalProvider>
                 <Router>
                     <Routes>
-                        {publicRoutes.map((route, index) => {
-                            const Page = route.component;
-                            const Layout = route.layout ? route.layout : Fragment;
+                        {publicRoutes.map((route, index) => renderRoute(route, index))}
 
-                            const isAdminRoute = route.path.startsWith('/admin');
-
-                            const element = (
-                                <Layout>
-                                    <Page />
-                                </Layout>
-                            );
-
-                            return (
-                                <Route
-                                    key={index}
-                                    path={route.path}
-                                    element={
-                                        isAdminRoute ? (
-                                            <AdminAuthProvider>{element}</AdminAuthProvider>
-                                        ) : (
-                                            <UserAuthProvider>
-                                                <UserProvider>
-                                                    <PlayerProvider>{element}</PlayerProvider>
-                                                </UserProvider>
-                                            </UserAuthProvider>
-                                        )
-                                    }
-                                />
-                            );
-                        })}
-
-                        {/* Catch all admin wrong paths -> redirect về dashboard */}
+                        {/* Redirects */}
                         <Route path="/admin/*" element={<Navigate to="/admin/dashboard" replace />} />
-
-                        {/* Catch all normal wrong paths -> redirect về home */}
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </Router>

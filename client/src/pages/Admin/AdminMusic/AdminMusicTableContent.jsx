@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './AdminMusicManage.module.scss';
 import AdminMusicManageRow from './AdminMusicManageRow';
@@ -16,9 +17,9 @@ function AdminMusicTableContent({ inputValue, result, setResult, loading, filter
 
         let data =
             filterType === 'ready'
-                ? result.filter((item) => item.ready === true)
+                ? result.filter((item) => item.isReady === true)
                 : filterType === 'not_ready'
-                  ? result.filter((item) => item.ready === false)
+                  ? result.filter((item) => item.isReady === false)
                   : result;
 
         if (inputValue.trim() !== '') {
@@ -65,5 +66,13 @@ function AdminMusicTableContent({ inputValue, result, setResult, loading, filter
         </>
     );
 }
+
+AdminMusicTableContent.propTypes = {
+    inputValue: PropTypes.string,
+    result: PropTypes.array,
+    setResult: PropTypes.func,
+    loading: PropTypes.bool,
+    filterType: PropTypes.string,
+};
 
 export default AdminMusicTableContent;

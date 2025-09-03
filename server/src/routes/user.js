@@ -14,6 +14,7 @@ router.put(
     filterAllowedFields('user'),
     UserController.updateMeInfo,
 );
+router.get('/:id', authenticateJWT, requireRole('user'), UserController.getUserById);
 router.get('/me/all', authenticateJWT, requireRole('user'), UserController.getMeALlInfor);
 router.get('/me/less', authenticateJWT, requireRole('user'), UserController.getMeInfor);
 

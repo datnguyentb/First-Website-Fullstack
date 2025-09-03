@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
 
@@ -87,5 +88,10 @@ function UserProfile({ onClose, userId }) {
         </div>
     );
 }
+
+UserProfile.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired,
+};
 
 export default UserProfile;

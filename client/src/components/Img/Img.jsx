@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Img.module.scss';
@@ -45,5 +46,16 @@ function Img({
         </div>
     );
 }
+
+Img.propTypes = {
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string,
+    fallback: PropTypes.string,
+    className: PropTypes.string,
+    circle: PropTypes.bool,
+    shadow: PropTypes.bool,
+    bordered: PropTypes.bool,
+    darkOverlay: PropTypes.bool,
+};
 
 export default Img;

@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './SuggestedList.module.scss';
-import { Song } from '../../components';
-import { Loading } from '~/components';
+import { Loading, Song } from '~/components';
 import useGetTrackRecommend from '~/hooks/music/useGetTrackRecommend';
 
 const cx = classNames.bind(styles);

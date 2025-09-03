@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './FloatingLayer.module.scss';
 import { useEffect } from 'react';
@@ -21,5 +22,10 @@ function FloatingLayer({ children, onClose }) {
         </div>
     );
 }
+
+FloatingLayer.propTypes = {
+    children: PropTypes.node.isRequired,
+    onClose: PropTypes.func,
+};
 
 export default FloatingLayer;

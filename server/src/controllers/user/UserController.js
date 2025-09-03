@@ -81,6 +81,25 @@ class UserController {
         }
     };
 
+    getUserById = async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const user = await User.findById(userId);
+
+            if (!user) {
+                return notFoundResponse(res, 'User not found');
+            }
+
+            return okResponse(
+                res,
+                'User information retrieved successfully',
+                formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt']),
+            );
+        } catch (error) {
+            return serverErrorResponse(res, 'Error retrieving user information');
+        }
+    };
+
     // PATCH /users/update-info
     followUser = async (req, res) => {};
 

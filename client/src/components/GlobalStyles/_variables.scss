@@ -1,23 +1,55 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
-// Colors
-$primary-color: #e54615;
-$primary-color-2: #1db954;
-$primary-color-light: rgba(229, 70, 21, 0.05);
-$secondary-color: #282828;
+//Base colors
 $white: #ffffff;
 $text-color: #333;
 $black: #000000;
+
+//background colors
+$primary-color: #e54615;
+$primary-color-2: #1db954;
+$primary-color-light: rgba($primary-color, 0.03);
+$background-blur-dark: rgba($black, 0.4);
+$secondary-color: #282828;
 $secondary-icon: #65686c;
+$shadow-color: rgba($black, 0.15);
 $color-button-primary: rgba(240, 242, 245);
 $secondary-background-hover: #f1f0f0;
 $link-text-hover: #c273ed;
 
-//text colors
-$text-primary: #181818;
-$text-secondary: #b3b3b3;
-$text-tertiary: #a1a1a1;
+//hover colors
+$primary-hover: rgba($primary-color, 0.8);
+$secondary-hover: rgba($primary-color, 0.01);
+
+//button colors
+$color-danger: #ef4444;
+$color-warning: #f59e0b;
+$color-success: #22c55e;
+$color-neutral: #6b7280;
+
+// text colors
+$text-primary: #181818; // màu chữ chính (heading, body text)
+$text-secondary: #6b7280; // màu chữ phụ (mô tả, subtitle) → dịu hơn
+$text-tertiary: #9ca3af; // màu chữ ít quan trọng (hint, placeholder)
+$text-muted: #d1d5db; // chữ bị disabled / không nhấn mạnh
+$text-inverse: #ffffff; // chữ trên nền tối
+$text-link: #2563eb; // link (blue modern)
+$text-danger: #ef4444; // chữ cảnh báo (delete)
+$text-success: #22c55e; // chữ thành công (confirm)
+$text-warning: #f59e0b; // chữ cảnh báo nhẹ (report/warning)
+
+//fonts size
+$font-size-xs: 1.2rem;
+$font-size-sm: 1.4rem;
+$font-size-base: 1.6rem;
+$font-size-lg: 1.8rem;
+$font-size-xl: 2rem;
+$font-size-2xl: 2.4rem;
+$font-size-3xl: 3rem;
+$font-size-4xl: 3.6rem;
+$font-size-5xl: 4.8rem;
+$font-size-6xl: 6rem;
 
 // Fonts
 $font-base: 'Roboto', sans-serif;

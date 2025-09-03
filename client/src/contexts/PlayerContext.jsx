@@ -18,7 +18,10 @@ export function PlayerProvider({ children }) {
     const [playlist, setPlaylist] = useState([]);
     const [queue, setQueue] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [volume, setVolume] = useState(50);
+    const [volume, setVolume] = useState(() => {
+        const saved = localStorage.getItem('volume');
+        return saved ? Number(saved) : 50;
+    });
     const [playMode, setPlayMode] = useState('normal');
     const [isShuffle, setIsShuffle] = useState(false);
     const { getTrackUrl } = useGetTrackUrl();
@@ -143,6 +146,8 @@ export function PlayerProvider({ children }) {
     return (
         <PlayerContext.Provider
             value={{
+                queue,
+                currentIndex,
                 currentSong,
                 isPlaying,
                 playSong,

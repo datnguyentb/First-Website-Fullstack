@@ -13,10 +13,14 @@ import useLikePost from '~/hooks/post/useLikePost';
 
 const cx = classNames.bind(styles);
 
-// =================== COMPONENT ===================
 function Post({ post, setPosts }) {
+    // ========== HOOKS ==========
     const { user } = useUserContext();
-    //get useEffect and useState
+
+    // Function to like post
+    const { likePost } = useLikePost();
+
+    // Custom hook to manage post state
     const {
         isAuthor,
         userInfor,
@@ -32,10 +36,7 @@ function Post({ post, setPosts }) {
         setSettingVisible,
     } = usePost(post, user);
 
-    //call Api
-    const { likePost } = useLikePost();
-
-    //Like Post
+    // ========== HANDLERS ==========
     const handleClickLike = async () => {
         try {
             const updatedPost = await likePost(post._id);
@@ -64,15 +65,11 @@ function Post({ post, setPosts }) {
     //Close Profile
     const handleCloseProfile = () => setShowUserProfile(false);
 
-    // ========== SAFEGUARD ==========
     if (!user) return null;
 
-    // =================== RENDER ===================
     return (
         <div className={cx('wrapper', 'mt-5')}>
             {showUserProfile && <UserProfile onClose={handleCloseProfile} userId={post.author._id} />}
-
-            {/* Post Header */}
             <div className={cx('d-flex', 'justify-content-between')}>
                 <PostHeader setShowUserProfile={setShowUserProfile} userInfor={userInfor} post={post} />
                 <PostMoreAction
@@ -83,18 +80,11 @@ function Post({ post, setPosts }) {
                     isAuthor={isAuthor}
                 />
             </div>
-
-            {/* Post Content */}
             <PostContent post={post} />
-
-            {/* Stats */}
             <PostStatus likeCount={likeCount} post={post} />
-
-            {/* Actions */}
             <PostActions handleClickLike={handleClickLike} liked={liked} burstVisible={burstVisible} />
         </div>
     );
 }
 
-// ✅ Tối ưu hiệu suất: chỉ re-render khi prop post thay đổi thực sự
 export default Post;

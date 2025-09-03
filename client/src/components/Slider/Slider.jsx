@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useRef, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Slider.module.scss';
@@ -70,5 +71,11 @@ function Slider({ ArrImg, autoSlide, direction }) {
         </div>
     );
 }
+
+Slider.propTypes = {
+    ArrImg: PropTypes.array.isRequired,
+    autoSlide: PropTypes.bool,
+    direction: PropTypes.bool,
+};
 
 export default Slider;
