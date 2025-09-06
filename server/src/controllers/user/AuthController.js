@@ -1,4 +1,5 @@
 import User from '../../models/User.js';
+import Playlist from '../../models/Playlist.js';
 import { generateToken } from '../../utils/jwt.js';
 import {
     okResponse,
@@ -9,7 +10,6 @@ import {
 } from '../../utils/responseHelper.js';
 import { registerValidator } from '../../validations/auth.js';
 import { MESSAGE_RESPONSE } from '../../constants/index.js';
-import { formatItem } from '../../utils/formatter.js';
 
 class AuthController {
     async register(req, res) {
@@ -30,8 +30,20 @@ class AuthController {
                 });
             }
 
+            //Create new user
             const newUser = new User({ firstName, lastName, email, password });
             await newUser.save();
+
+            // Create favorite Playlist
+            const favoritePlaylist = new Playlist({
+                owner: newUser._id,
+                name: 'Favorite Songs',
+                description: 'Your liked songs',
+                type: 'favorite',
+                isPublic: false,
+                images: '',
+            });
+            await favoritePlaylist.save();
 
             return createdResponse(res, MESSAGE_RESPONSE.AUTH.REGISTER_SUCCESS);
         } catch (error) {

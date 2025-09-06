@@ -24,4 +24,3 @@ router.post(
 );
 router.get('/playlists/me', authenticateJWT, requireRole('user'), musicPlayerController.getUserPlaylists);
 export default router;
-// authenticateJWT, requireRole('user'),

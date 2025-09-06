@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose;
+const { Schema } = mongoose;
 
 // Định nghĩa Schema cho lịch sử nghe nhạc
 const ListeningHistorySchema = new Schema(

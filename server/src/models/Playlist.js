@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const playlistSchema = new mongoose.Schema(
     {
@@ -19,6 +20,7 @@ const playlistSchema = new mongoose.Schema(
         },
         type: {
             type: String,
+            enum: ['playlist', 'favorite'],
             default: 'playlist',
         },
         images: {
@@ -27,9 +29,9 @@ const playlistSchema = new mongoose.Schema(
         },
         tracks: [
             {
-                trackId: {
-                    type: String,
-                    required: true,
+                track: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'Song',
                 },
                 addedAt: {
                     type: Date,

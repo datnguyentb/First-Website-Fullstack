@@ -42,6 +42,11 @@ export const MESSAGE = {
         FETCH_FAILED: 'Failed to fetch posts',
     },
 
+    PLAYLIST: {
+        EMPTY_NAME: 'Playlist name is required',
+        CREATE_SUCCESS: 'Playlist created successfully',
+    },
+
     COMMENT: {
         NOT_FOUND: 'Comment not found',
         CREATE_SUCCESS: 'Comment added',

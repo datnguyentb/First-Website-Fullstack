@@ -75,6 +75,7 @@ const userSchema = new mongoose.Schema(
         followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+        savedPlaylists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist', default: [] }],
     },
     {
         timestamps: true,

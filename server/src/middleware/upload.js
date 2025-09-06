@@ -43,7 +43,7 @@ function createSecureUploader(subfolder, maxCount = 1) {
                 return next(); // No file uploaded, skip
             }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
             try {
                 for (const file of files) {
@@ -142,3 +142,4 @@ function createSecureAudioUploader(subfolder) {
 export const uploadAvatar = createSecureUploader('avatars', 1);
 export const uploadPostImage = createSecureUploader('posts', 5);
 export const uploadAudio = createSecureAudioUploader('audios');
+export const uploadPlaylistAvatar = createSecureUploader('playlist-avatars', 1);
