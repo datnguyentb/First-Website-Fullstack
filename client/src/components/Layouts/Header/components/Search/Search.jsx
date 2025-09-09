@@ -6,7 +6,7 @@ import { faClose, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import SearchResult from '../SearchResult';
 import { useDebounce } from '~/hooks';
-import useSearchEntities from '~/hooks/music/useSearchEntities';
+import useSearchEntities from '~/hooks/music/search/useSearchEntities.js';
 
 const cx = classNames.bind(styles);
 

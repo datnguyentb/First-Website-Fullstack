@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
 import styles from './EditProfile.module.scss';
-import Swal from 'sweetalert2';
 import { handleImagePreview } from '~/utils/imagePreview';
 import EditAvatar from './EditAvatar';
 import EditInfoCard from './EditInfoCard';

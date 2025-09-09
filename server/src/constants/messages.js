@@ -45,6 +45,7 @@ export const MESSAGE = {
     PLAYLIST: {
         EMPTY_NAME: 'Playlist name is required',
         CREATE_SUCCESS: 'Playlist created successfully',
+        NOT_FOUND: 'Playlist not found',
     },
 
     COMMENT: {

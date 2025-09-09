@@ -3,13 +3,13 @@ import styles from './PlayerControlBar.module.scss';
 import { Img, Button } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { usePlayerContext } from '~/contexts';
+import { useFavoriteContext, usePlayerContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
-const isFavorite = true;
 
 function NowPlayingInfo() {
     const { currentSong, isPlaying } = usePlayerContext();
+    const { likeSong, unlikeSong, isLiked } = useFavoriteContext();
     if (!currentSong) {
         return <div className={cx('now-playing-info')}>No song playing</div>;
     }
@@ -27,8 +27,14 @@ function NowPlayingInfo() {
             </div>
             <div className={cx('more_option')}>
                 <div className={cx('option-icon', 'like')}>
-                    {isFavorite ? (
-                        <Button style_2 leftIcon={<FontAwesomeIcon className={cx('liked')} icon={faHeart} />} />
+                    {isLiked(currentSong._id) ? (
+                        <Button
+                            style_2
+                            leftIcon={<FontAwesomeIcon className={cx('liked')} icon={faHeart} />}
+                            onClick={() => {
+                                unlikeSong(currentSong._id);
+                            }}
+                        />
                     ) : (
                         <Button
                             style_2
@@ -44,6 +50,9 @@ function NowPlayingInfo() {
                                     <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
                                 </svg>
                             }
+                            onClick={() => {
+                                likeSong(currentSong._id);
+                            }}
                         />
                     )}
                 </div>

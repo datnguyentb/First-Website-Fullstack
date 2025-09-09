@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const playlistSchema = new mongoose.Schema(
     {
         owner: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },

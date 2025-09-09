@@ -1,7 +1,7 @@
 // routes/news.js
 import express from 'express';
-import authController from '../controllers/user/AuthController.js';
-import { authenticateJWT, requireRole } from '../middleware/index.js';
+import authController from '../../controllers/user/AuthController.js';
+import { authenticateJWT, requireRole } from '../../middleware/index.js';
 
 const router = express.Router();
 

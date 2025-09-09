@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import styles from './TopBar.module.scss';
-import useGetTrackRecommend from '~/hooks/music/useGetTrackRecommend';
+import useGetTrackRecommend from '~/hooks/music/tracks/useGetTrackRecommend';
 import { Loading, Song } from '~/components';
 
 const cx = classNames.bind(styles);
@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function TopBar({ data }) {
     const { tracks, loading, error } = useGetTrackRecommend();
     if (loading || !tracks?.data) {
-        return <Loading />;
+        return <Loading type="wave-2" />;
     }
     return (
         <div className={cx('wrapper')}>

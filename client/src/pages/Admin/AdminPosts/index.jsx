@@ -6,8 +6,6 @@ import useDeleteForever from '~/hooks/admin/post/useDeleteForever';
 import AdminPostDetail from './AdminPostDetail';
 import { useAdminPost } from './useAdminPost';
 import AdminPostList from './AdminPostList';
-import AdminPostDialog from './AdminPostDialog';
-import { useRef } from 'react';
 import { Loading } from '~/components';
 import useRestorePost from '~/hooks/admin/post/useRestorePost';
 import { useModalContext } from '~/contexts';

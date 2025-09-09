@@ -1,6 +1,6 @@
 // routes/news.js
 import express from 'express';
-import spotifyController from '../controllers/music/SpotifyController.js';
+import { spotifyController } from '../../controllers/music/index.js';
 
 const router = express.Router();
 

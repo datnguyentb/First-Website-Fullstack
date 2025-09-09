@@ -63,11 +63,27 @@ div.third_style {
 
 .like {
     svg {
-        color: rgb(219, 82, 82);
+        color: rgba($black, 0.8);
     }
 
     svg.liked {
-        color: rgba($black, 0.8);
+        color: rgb(219, 82, 82);
+    }
+}
+
+.more {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.like,
+.more {
+    &:hover {
+        background-color: $color-button-hover-dark;
+        border-radius: 50%;
     }
 }
 
@@ -96,20 +112,29 @@ div.third_style {
     }
 
     .music-wave {
-        width: 18px;
-        height: 18px;
+        width: 100%;
+        height: 100%;
+        position: relative;
     }
 }
 
 .song-info {
     flex: 1;
     .song-name {
-        font-size: 1.4rem;
-        font-weight: $font-semi-bold;
-        white-space: nowrap;
-        max-width: 200px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        .name {
+            font-size: 1.4rem;
+            font-weight: $font-semi-bold;
+            white-space: nowrap;
+            width: 100%;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            &:hover {
+                text-decoration: underline;
+                color: $primary-color;
+            }
+        }
     }
 
     .song-arti {

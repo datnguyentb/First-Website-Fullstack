@@ -1,9 +1,9 @@
 // PlayerContext.js
 import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
 import baseUrl from '~/helper/baseUrl';
-import useAddTrackToListeningHistory from '~/hooks/music/useAddTrackToListeningHistory';
-import useGetListeningHistory from '~/hooks/music/useGetListeningHistory';
-import useGetTrackUrl from '~/hooks/music/useGetTrackUrl';
+import useAddTrackToListeningHistory from '~/hooks/music/history/useAddTrackToListeningHistory';
+import useGetListeningHistory from '~/hooks/music/history/useGetListeningHistory';
+import useGetTrackUrl from '~/hooks/music/tracks/useGetTrackUrl';
 import { shuffleArray } from '~/utils/shuffleArray';
 import { userAuthContext } from '.';
 
@@ -148,6 +148,7 @@ export function PlayerProvider({ children }) {
             value={{
                 queue,
                 currentIndex,
+                setCurrentIndex,
                 currentSong,
                 isPlaying,
                 playSong,
@@ -170,5 +171,3 @@ export function PlayerProvider({ children }) {
         </PlayerContext.Provider>
     );
 }
-
-export const usePlayer = () => useContext(PlayerContext);

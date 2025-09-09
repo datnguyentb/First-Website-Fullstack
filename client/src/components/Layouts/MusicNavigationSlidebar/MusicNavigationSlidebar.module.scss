@@ -10,6 +10,7 @@
     background-color: $white;
     background-color: $white;
     padding: 20px;
+    z-index: 1;
 }
 
 .header {
@@ -41,116 +42,44 @@
     }
 }
 
-.nav-list {
-    .nav-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 15px;
-        cursor: pointer;
-
-        .icon {
-            margin-right: 15px;
-            min-width: 25px;
-            font-size: 2rem;
-        }
-
-        .title {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            font-weight: $font-medium;
-        }
-
-        &:hover {
-            background-color: rgba($primary-color, 0.01);
-            .title {
-                opacity: 1;
-            }
-        }
-    }
-
-    .nav-item.active {
-        background-color: rgba($primary-color, 0.01);
-        border-radius: 8px;
-        position: relative;
-
-        &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background-color: $primary-color;
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-
-        .title {
-            color: $primary-color;
-            font-weight: $font-bold;
-            opacity: 1;
-        }
-        .icon {
-            color: $primary-color;
-        }
-    }
-}
-
 .playlist {
     flex: 1;
     display: flex;
     flex-direction: column;
-    .playlist-wrapper {
+}
+
+.playlist-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+
+    .icon {
+        margin-right: 10px;
+        min-width: 20px;
+    }
+
+    span {
         flex: 1;
-        flex-direction: column;
-        display: flex;
-    }
-
-    .playlist-title {
-        font-size: 1.6rem;
-        font-weight: $font-semi-bold;
-        color: $text-primary;
-    }
-
-    .playlist-list {
-        padding: 12px 15px;
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    .playlist-item {
-        font-size: 1.5rem;
-        display: flex;
-        flex-direction: row;
         padding: 8px 0;
-        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
-        font-weight: $font-medium;
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        mask-repeat: no-repeat;
+        mask-size: 100% 100%;
+    }
 
-        .icon {
-            margin-right: 10px;
-            min-width: 20px;
-        }
+    &:hover {
+        color: $primary-color;
+    }
 
-        span {
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
-            -webkit-mask-repeat: no-repeat;
-            -webkit-mask-size: 100% 100%;
-            mask-image: linear-gradient(to right, black 80%, transparent 100%);
-            mask-repeat: no-repeat;
-            mask-size: 100% 100%;
-        }
-
-        &:hover {
-            color: rgba($primary-color, 0.6);
-        }
-        &.active {
-            color: $primary-color;
-            font-weight: $font-medium;
-        }
+    .add-btn {
+        font-size: 14px;
+        border-radius: 5px;
+        outline: none;
+        padding: 10px 15px !important;
     }
 }

@@ -61,51 +61,6 @@ class PostController {
         }
     }
 
-    async likePost(req, res) {
-        try {
-            const postId = req.params.id;
-            const userId = req.user._id;
-
-            const post = await Post.findById(postId);
-            if (!post) return notFoundResponse(res, MESSAGE_RESPONSE.POST.NOT_FOUND);
-
-            const hasLiked = post.likes.includes(userId);
-
-            if (hasLiked) {
-                post.likes.pull(userId);
-                post.likeCount = Math.max(post.likeCount - 1, 0);
-            } else {
-                post.likes.push(userId);
-                post.likeCount += 1;
-            }
-
-            await post.save();
-            await post.populate('likes', '_id avatarUrl firstName lastName');
-            await post.populate('author', '_id avatarUrl firstName lastName');
-
-            return okResponse(
-                res,
-                hasLiked ? MESSAGE_RESPONSE.POST.UNLIKE_SUCCESS : MESSAGE_RESPONSE.POST.LIKE_SUCCESS,
-                formatItem(post, [
-                    'author',
-                    'commentCount',
-                    'content',
-                    'createdAt',
-                    '_id',
-                    'images',
-                    'likeCount',
-                    'likes',
-                    'privacy',
-                    'tags',
-                    'video',
-                    'location',
-                ]),
-            );
-        } catch (err) {
-            return serverErrorResponse(res);
-        }
-    }
-
     async getAll(req, res) {
         try {
             const currentUserId = req.user._id;

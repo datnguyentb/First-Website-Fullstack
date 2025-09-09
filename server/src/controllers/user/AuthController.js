@@ -38,7 +38,7 @@ class AuthController {
             const favoritePlaylist = new Playlist({
                 owner: newUser._id,
                 name: 'Favorite Songs',
-                description: 'Your liked songs',
+                description: 'A collection of your all-time favorite tracks. Enjoy listening!',
                 type: 'favorite',
                 isPublic: false,
                 images: '',

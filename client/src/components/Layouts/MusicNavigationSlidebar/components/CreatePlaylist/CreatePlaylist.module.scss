@@ -1,0 +1,153 @@
+.wrapper {
+    width: 100px;
+    width: 90vw;
+    max-width: 450px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: $white;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    h1 {
+        font-size: 3.2rem;
+        font-weight: $font-bold;
+        color: $primary-color-2;
+    }
+}
+
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.avatar-upload-box {
+    width: 150px;
+    height: 150px;
+    background-color: $primary-background-color;
+    border-radius: $border-radius;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+
+    .icon {
+        svg {
+            font-size: 40px;
+            color: $secondary-icon;
+        }
+    }
+
+    .label {
+        text-align: center;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: $font-bold;
+        color: $secondary-color;
+    }
+
+    input,
+    textarea {
+        background-color: $primary-background-color;
+        border: 1px solid transparent;
+        width: 100%;
+        padding: 12px;
+        border-radius: $border-radius;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color-2;
+        }
+    }
+}
+
+.toggle-group {
+    margin-bottom: 20px;
+    .status {
+        margin-right: 10px;
+        font-weight: $font-bold;
+        color: $secondary-color;
+    }
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 26px;
+
+        &::before {
+            position: absolute;
+            content: '';
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+    }
+
+    input:checked + .slider {
+        background-color: #4caf50; // màu khi bật (green)
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #4caf50;
+    }
+
+    input:checked + .slider::before {
+        transform: translateX(24px);
+    }
+}
+
+.cta-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $text-primary;
+    background-color: $primary-color-2;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition:
+        transform 0.3 ease,
+        background-color 0.3 ease;
+}
+
+.cta-button.disabled {
+    opacity: 0.7;
+    cursor: auto;
+}

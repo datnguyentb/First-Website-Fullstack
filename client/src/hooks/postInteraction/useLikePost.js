@@ -1,7 +1,7 @@
 // hooks/post/useCreatePost.js
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import postApi from '~/api/user/postApi';
+import postInteractionApi from '~/api/user/postInteractionApi';
 
 const useLikePost = () => {
     const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const useLikePost = () => {
         setError(null);
 
         try {
-            const post = await postApi.likePost(post_id);
+            const post = await postInteractionApi.likePost(post_id);
             return post.data.data;
         } catch (err) {
             toast.error(err.response.message);

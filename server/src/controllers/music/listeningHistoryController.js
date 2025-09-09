@@ -1,8 +1,9 @@
 // controllers/music/spotifyController.js
 import { okResponse, notFoundResponse, badRequestResponse, serverErrorResponse } from '../../utils/responseHelper.js';
 import Song from '../../models/Song.js';
+import Playlist from '../../models/Playlist.js';
 import ListeningHistory from '../../models/ListeningHistory.js';
-import { formatItems } from '../../utils/formatter.js';
+import { formatItem } from '../../utils/formatter.js';
 
 class listeningHistoryController {
     addTrackToListeningHistory = async (req, res) => {
@@ -60,7 +61,7 @@ class listeningHistoryController {
                     match: { isReady: true },
                     populate: {
                         path: 'album',
-                        select: '_id spotifyId name images',
+                        select: '_id spotifyId name images release_date release_date_precision',
                     },
                 })
                 .sort({ playedAt: -1 })
@@ -78,9 +79,20 @@ class listeningHistoryController {
                     .lean();
             }
 
-            return okResponse(res, 'successfully', formatItems(songsOnly, ['_id', 'name', 'artists', 'album']));
+            // 🔹 lấy danh sách bài hát đã like
+            const favorite = await Playlist.findOne({ owner: userId, type: 'favorite' }).select('tracks.track').lean();
+
+            const likedTrackIds = favorite ? favorite.tracks.map((t) => t.track.toString()) : [];
+
+            // 🔹 format + gắn isLiked
+            const formatted = songsOnly.map((song) => ({
+                ...formatItem(song, ['_id', 'name', 'artists', 'album']),
+                isLiked: likedTrackIds.includes(song._id.toString()),
+            }));
+
+            return okResponse(res, 'successfully', formatted);
         } catch (error) {
-            console.error(error);
+            console.error('[getListeningHistory] Error:', error);
             return serverErrorResponse(res, 'Failed to get listening history');
         }
     };

@@ -96,16 +96,10 @@ class UserController {
                 formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt']),
             );
         } catch (error) {
+            console;
             return serverErrorResponse(res, 'Error retrieving user information');
         }
     };
-
-    // PATCH /users/update-info
-    followUser = async (req, res) => {};
-
-    unfollowUser = async (req, res) => {};
-
-    getFriends = async (req, res) => {};
 }
 
 export default new UserController();

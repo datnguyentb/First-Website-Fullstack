@@ -1,7 +1,7 @@
 import express from 'express';
-import UserController from '../controllers/user/UserController.js';
-import { authenticateJWT, requireRole, filterAllowedFields } from '../middleware/index.js';
-import { uploadAvatar } from '../middleware/upload.js';
+import UserController from '../../controllers/user/UserController.js';
+import { authenticateJWT, requireRole, filterAllowedFields } from '../../middleware/index.js';
+import { uploadAvatar } from '../../middleware/upload.js';
 
 const router = express.Router();
 

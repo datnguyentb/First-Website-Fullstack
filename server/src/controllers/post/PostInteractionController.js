@@ -1,5 +1,6 @@
 import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
+import Post from '../../models/Post.js';
 import ReportPost from '../../models/Report.js';
 import mongoose from 'mongoose';
 
@@ -7,7 +8,6 @@ import {
     okResponse,
     createdResponse,
     notFoundResponse,
-    forbiddenResponse,
     badRequestResponse,
     serverErrorResponse,
 } from '../../utils/responseHelper.js';
@@ -35,7 +35,8 @@ class PostInteractionController {
             });
 
             return createdResponse(res, 'Saved successfully', saved);
-        } catch (error) {
+        } catch (err) {
+            console.error('Error savePost post:', err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
         }
     }
@@ -53,7 +54,8 @@ class PostInteractionController {
             }
 
             return okResponse(res, 'Unsaved successfully');
-        } catch (error) {
+        } catch (err) {
+            console.error('Error unsavePost post:', err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
         }
     }
@@ -77,8 +79,55 @@ class PostInteractionController {
             });
 
             return createdResponse(res, 'Post hidden successfully');
-        } catch (error) {
+        } catch (err) {
+            console.error('Error hidePost post:', err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
+        }
+    }
+
+    async likePost(req, res) {
+        try {
+            const userId = req.user._id;
+            const postId = req.params.postId;
+
+            const post = await Post.findById(postId);
+            if (!post) return notFoundResponse(res, MESSAGE_RESPONSE.POST.NOT_FOUND);
+
+            const hasLiked = post.likes.includes(userId);
+
+            if (hasLiked) {
+                post.likes.pull(userId);
+                post.likeCount = Math.max(post.likeCount - 1, 0);
+            } else {
+                post.likes.push(userId);
+                post.likeCount += 1;
+            }
+
+            await post.save();
+            await post.populate('likes', '_id avatarUrl firstName lastName');
+            await post.populate('author', '_id avatarUrl firstName lastName');
+
+            return okResponse(
+                res,
+                hasLiked ? MESSAGE_RESPONSE.POST.UNLIKE_SUCCESS : MESSAGE_RESPONSE.POST.LIKE_SUCCESS,
+                formatItem(post, [
+                    'author',
+                    'commentCount',
+                    'content',
+                    'createdAt',
+                    '_id',
+                    'images',
+                    'likeCount',
+                    'likes',
+                    'privacy',
+                    'tags',
+                    'video',
+                    'location',
+                ]),
+            );
+        } catch (err) {
+            console.error('Error likePost post:', err);
+            return serverErrorResponse(res);
         }
     }
 
@@ -115,8 +164,8 @@ class PostInteractionController {
             });
 
             return createdResponse(res, 'Post reported successfully', newReport);
-        } catch (error) {
-            console.error('Error reporting post:', error);
+        } catch (err) {
+            console.error('Error reporting post:', err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.SERVER_ERROR);
         }
     }

@@ -8,7 +8,7 @@
     justify-content: center;
     padding: 9px 20px;
     border-radius: 4px;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     font-weight: $font-medium;
     font-family: $font-base;
     cursor: pointer;
@@ -51,6 +51,37 @@
     }
     &.active .icon {
         color: rgba($link-text-hover, 0.6);
+    }
+}
+
+.wrapper.style_3 {
+    text-decoration: none;
+    letter-spacing: 2px;
+    outline: 1px solid;
+    position: relative;
+    overflow: hidden;
+    transition: color 1s;
+
+    &:hover {
+        color: #fff;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -50px;
+        width: 150%;
+        height: 100%;
+        background-color: $primary-color-2;
+        transform: scaleX(0) skewX(35deg);
+        transform-origin: left;
+        z-index: -1;
+        transition: transform 1s;
+    }
+
+    &:hover::before {
+        transform: scaleX(1) skewX(35deg);
     }
 }
 

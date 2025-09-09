@@ -1,0 +1,85 @@
+.playlist-item {
+    font-size: $font-size-base;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: $font-medium;
+
+    .more-btn {
+        // background-color: red;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+                background-color: $color-button-hover;
+            }
+        }
+
+        .icon {
+            display: none;
+        }
+    }
+
+    span {
+        flex: 1;
+        padding: 8px 0;
+        white-space: nowrap;
+        overflow: hidden;
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-size: 100% 100%;
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        mask-repeat: no-repeat;
+        mask-size: 100% 100%;
+    }
+
+    &:hover {
+        span,
+        .more-btn {
+            color: rgba($primary-color, 0.6);
+        }
+
+        .icon {
+            display: flex;
+        }
+
+        .more-setting {
+            display: block;
+        }
+    }
+    &.active {
+        color: $primary-color;
+        font-weight: $font-medium;
+    }
+}
+
+.playlist-item.hover {
+    span,
+    .more-btn {
+        color: rgba($primary-color, 0.6);
+    }
+
+    .icon {
+        display: flex;
+    }
+
+    .more-setting {
+        display: block;
+    }
+}

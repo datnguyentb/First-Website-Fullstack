@@ -70,10 +70,7 @@ function UserDropdownPanel({ user_onclick }) {
     const { user, setUser } = useUserContext();
     const navigate = useNavigate();
 
-    const MENU = useMemo(
-        () => getUserMenu(navigate, user_onclick, setUser, logout),
-        [navigate, user_onclick, setUser, logout],
-    );
+    const MENU = useMemo(() => getUserMenu(navigate, user_onclick, logout), [navigate, user_onclick, logout]);
 
     return (
         <div className={cx('wrapper')} tabIndex={-1}>

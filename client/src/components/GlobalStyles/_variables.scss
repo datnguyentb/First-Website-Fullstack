@@ -3,24 +3,37 @@
 
 //Base colors
 $white: #ffffff;
-$text-color: #333;
+$text-color: #333333;
+$light-text-color: #757575;
 $black: #000000;
 
 //background colors
 $primary-color: #e54615;
+$primary-bg: #f4a18d;
+$light-gray-bg: #f5f5f5;
 $primary-color-2: #1db954;
 $primary-color-light: rgba($primary-color, 0.03);
+$primary-background-color: rgba($primary-color, 0.1);
 $background-blur-dark: rgba($black, 0.4);
 $secondary-color: #282828;
 $secondary-icon: #65686c;
 $shadow-color: rgba($black, 0.15);
 $color-button-primary: rgba(240, 242, 245);
+$color-button-hover: rgba($primary-color, 0.05);
+$color-button-hover-dark: rgba($black, 0.05);
 $secondary-background-hover: #f1f0f0;
 $link-text-hover: #c273ed;
+$popup-menu-color: #fafafa;
+
+//border-radius
+$border-radius: 8px;
+
+//box - shadow
+$popup-menu-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
 //hover colors
 $primary-hover: rgba($primary-color, 0.8);
-$secondary-hover: rgba($primary-color, 0.01);
+$secondary-hover: rgba($primary-color, 0.05);
 
 //button colors
 $color-danger: #ef4444;

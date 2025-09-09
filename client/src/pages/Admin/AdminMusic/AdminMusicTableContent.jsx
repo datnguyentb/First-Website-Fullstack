@@ -42,7 +42,7 @@ function AdminMusicTableContent({ inputValue, result, setResult, loading, filter
     return (
         <>
             {loading || !result ? (
-                <Loading />
+                <Loading type="wave" />
             ) : (
                 <div className={cx('table-cover')}>
                     <table>

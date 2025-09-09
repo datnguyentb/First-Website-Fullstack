@@ -9,7 +9,7 @@ import PostContent from './PostContent';
 import PostStatus from './PostStatus';
 import PostActions from './PostActions';
 import { usePost } from './usePost';
-import useLikePost from '~/hooks/post/useLikePost';
+import useLikePost from '~/hooks/postInteraction/useLikePost';
 
 const cx = classNames.bind(styles);
 

@@ -8,7 +8,7 @@ function ProtectedUserRoute({ children }) {
 
     // Đang kiểm tra token
     if (isValid === null) {
-        return <Loading />;
+        return <Loading type="bounce-loading" main={true} />;
     }
 
     // Token không hợp lệ → chuyển về trang login

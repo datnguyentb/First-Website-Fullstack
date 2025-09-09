@@ -8,7 +8,7 @@ import {
 } from '../utils/responseHelper.js';
 
 export const checkPostAccess = async (req, res, next) => {
-    const postId = req.params.id;
+    const postId = req.params.postId;
     const userId = req.user._id;
 
     try {

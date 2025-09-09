@@ -31,8 +31,7 @@ const publicRoutes = [
         layout: PlayerLayout,
         children: [
             { index: true, component: MusicPlayer },
-            { path: 'playlist', component: MusicPlaylist },
-            // { path: 'artist', component: MusicArtist },
+            { path: 'playlist/:id', component: MusicPlaylist },
         ],
     },
     {
