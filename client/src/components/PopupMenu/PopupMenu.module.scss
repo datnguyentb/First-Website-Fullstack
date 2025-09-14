@@ -6,15 +6,50 @@
     box-shadow: $popup-menu-box-shadow;
     z-index: 999;
 
-    li {
+    li.item {
         padding: 5px 20px 5px 14px;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         font-size: 1.4rem;
+        cursor: pointer;
 
         &:hover {
             color: $primary-color;
             background-color: $secondary-hover;
         }
+    }
+
+    li.item.disable {
+        background-color: $popup-menu-color;
+        cursor: default;
+        color: black;
+    }
+
+    li.back {
+        color: #555;
+        opacity: 0.8;
+        border-bottom: 1px solid #e0e2e5;
+        padding: 0px 14px 5px 14px;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .more {
+        margin-left: 15px;
+        opacity: 0.5;
     }
 }

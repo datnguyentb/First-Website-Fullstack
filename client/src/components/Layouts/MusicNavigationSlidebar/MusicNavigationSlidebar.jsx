@@ -3,9 +3,9 @@ import styles from './MusicNavigationSlidebar.module.scss';
 import { logo_img } from '~/assets/imgs/logo';
 import { FloatingLayer, Img } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClockRotateLeft, faHeart, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '~/components';
-import { CreatePlaylist, PlaylistItem, Menu, PlaylistItems } from './components';
+import { CreatePlaylist, Menu, PlaylistItems } from './components';
 import useMusicNavigationSlidebar from './useMusicNavigationSlidebar';
 import { Link } from 'react-router-dom';
 

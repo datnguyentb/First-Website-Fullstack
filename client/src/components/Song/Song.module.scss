@@ -19,6 +19,10 @@
     }
 }
 
+.added {
+    color: $color-success;
+}
+
 .song-box {
     display: flex;
     flex-direction: row;
@@ -87,9 +91,16 @@ div.third_style {
     }
 }
 
+.visible,
 .active {
     background-color: #fdf6f3;
     border-color: rgba($black, 0.4);
+}
+
+.visible {
+    .hover-cover {
+        display: flex;
+    }
 }
 
 .song-img {

@@ -13,6 +13,14 @@ const musicPlayerApi = {
     removeTrackFromFavorite: (id) => axiosMainApi.delete(`/api/music/playlists/favorite/remove/${id}`),
     getFavoritePlaylistIds: () => axiosMainApi.get('/api/music/playlists/favorite/all'),
     getPlaylistById: (id) => axiosMainApi.get(`/api/music/playlists/${id}`),
+    addTrackToPlaylist: (id, songId) =>
+        axiosMainApi.patch(`/api/music/playlists/add/${id}/songs`, {
+            songId: songId,
+        }),
+    deleteTrackFromPlaylist: (id, songId) =>
+        axiosMainApi.delete(`/api/music/playlists/delete/${id}/songs`, {
+            data: { songId },
+        }),
 };
 
 export default musicPlayerApi;

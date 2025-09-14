@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './CreatePlaylist.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,9 @@ import { usePlaylistContext } from '~/contexts';
 const cx = classNames.bind(styles);
 
 function CreatePlaylist({ setShowCreatePlaylist }) {
+    //useRef
+    const createButtonRef = useRef(null);
+
     //useContext
     const { setPlaylists } = usePlaylistContext();
 
@@ -24,8 +27,25 @@ function CreatePlaylist({ setShowCreatePlaylist }) {
         isPublic: true,
     });
 
+    //Xử lý nhấn enter
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (createButtonRef.current) {
+                    createButtonRef.current.click();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
     //Call Api
-    const { createPlaylist, loading } = useCreatePlaylist();
+    const { createPlaylist } = useCreatePlaylist();
 
     //useHook UseEffect
     useEffect(() => {
@@ -58,7 +78,7 @@ function CreatePlaylist({ setShowCreatePlaylist }) {
             setShowCreatePlaylist(false);
             setPlaylists((prev) => [res.data, ...prev]);
         } else {
-            toast.error;
+            toast.error('error');
         }
     };
 
@@ -158,6 +178,7 @@ function CreatePlaylist({ setShowCreatePlaylist }) {
                         className={cx('cta-button', formData.playlistName.trim() === '' && 'disabled')}
                         onClick={handleSubmit}
                         disabled={!formData.playlistName.trim()}
+                        ref={createButtonRef}
                     >
                         <FontAwesomeIcon icon={faPlus} /> Create Playlist
                     </button>

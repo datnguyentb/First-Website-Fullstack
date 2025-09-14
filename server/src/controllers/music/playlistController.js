@@ -204,15 +204,37 @@ class playlistController {
                 .lean();
             const savedPlaylists = userDoc?.savedPlaylists || [];
 
-            // 3️⃣ Hợp vào 1 mảng và sắp xếp theo ngày mới nhất
-            const allPlaylists = [...userPlaylists, ...savedPlaylists];
+            // 3️⃣ Gắn cờ isOwner và lấy trackIds
+            const owned = userPlaylists.map((pl) => ({
+                ...pl,
+                isOwner: true,
+                trackIds: pl.tracks?.map((t) => t.track) || [],
+            }));
+
+            const saved = savedPlaylists.map((pl) => ({
+                ...pl,
+                isOwner: false,
+                trackIds: pl.tracks?.map((t) => t.track) || [],
+            }));
+
+            // 4️⃣ Gộp, sắp xếp, format
+            const allPlaylists = [...owned, ...saved];
             allPlaylists.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-            // 4️⃣ Trả về formatItem
             return okResponse(
                 res,
                 'Successfully fetched playlists',
-                formatItems(allPlaylists, ['_id', 'name', 'owner', 'images', 'description', 'isPublic', 'createdAt']),
+                formatItems(allPlaylists, [
+                    '_id',
+                    'name',
+                    'owner',
+                    'images',
+                    'description',
+                    'isPublic',
+                    'createdAt',
+                    'trackIds',
+                    'isOwner',
+                ]),
             );
         } catch (err) {
             console.error(err);
@@ -278,6 +300,89 @@ class playlistController {
         } catch (error) {
             console.error('[getPlaylistById] Error:', error);
             return serverErrorResponse(res, 'Failed to get playlist');
+        }
+    };
+
+    addTrackToPlaylist = async (req, res) => {
+        try {
+            const playlistId = req.params.id;
+            const { songId } = req.body;
+
+            if (!playlistId || !songId) {
+                return badRequestResponse(res, 'Playlist ID and Song ID are required');
+            }
+
+            // 🔒 Tìm playlist và kiểm tra quyền sở hữu
+            const playlist = await Playlist.findById(playlistId);
+            if (!playlist) {
+                return notFoundResponse(res, 'Playlist not found');
+            }
+            if (playlist.owner.toString() !== req.user._id.toString()) {
+                return forbiddenResponse(res, 'You do not own this playlist');
+            }
+
+            // 🎵 Tìm bài hát
+            const song = await Song.findById(songId);
+            if (!song || !song.isReady) {
+                return notFoundResponse(res, 'Song not found or not ready');
+            }
+
+            // 🔁 Kiểm tra xem đã có bài hát trong playlist chưa
+            const exists = playlist.tracks.some((t) => t.track.toString() === songId);
+            if (exists) {
+                return badRequestResponse(res, 'Song already in playlist');
+            }
+
+            // ➕ Thêm bài hát vào playlist
+            playlist.tracks.push({
+                track: songId,
+                addedAt: Date.now(),
+            });
+
+            await playlist.save();
+
+            return okResponse(res, 'Added success');
+        } catch (error) {
+            console.error('[addTrackToPlaylist] Error:', error);
+            return serverErrorResponse(res, 'Failed to add song to playlist');
+        }
+    };
+
+    removeTrackFromPlaylist = async (req, res) => {
+        try {
+            const playlistId = req.params.id;
+            const { songId } = req.body;
+
+            console.log(playlistId);
+
+            if (!playlistId || !songId) {
+                return badRequestResponse(res, 'Playlist ID and Song ID are required');
+            }
+
+            // 🔒 Tìm playlist và kiểm tra quyền sở hữu
+            const playlist = await Playlist.findById(playlistId);
+            if (!playlist) {
+                return notFoundResponse(res, 'Playlist not found');
+            }
+            if (playlist.owner.toString() !== req.user._id.toString()) {
+                return forbiddenResponse(res, 'You do not own this playlist');
+            }
+
+            // 🎵 Kiểm tra xem bài hát có trong playlist không
+            const index = playlist.tracks.findIndex((t) => t.track.toString() === songId);
+            if (index === -1) {
+                return notFoundResponse(res, 'Song not found in playlist');
+            }
+
+            // ➖ Xóa bài hát khỏi playlist
+            playlist.tracks.splice(index, 1);
+
+            await playlist.save();
+
+            return okResponse(res, 'Removed success');
+        } catch (error) {
+            console.error('[removeTrackFromPlaylist] Error:', error);
+            return serverErrorResponse(res, 'Failed to remove song from playlist');
         }
     };
 }

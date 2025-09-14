@@ -17,4 +17,7 @@ router.post('/favorite/add/:id', authenticateJWT, requireRole('user'), playlistC
 router.delete('/favorite/remove/:id', authenticateJWT, requireRole('user'), playlistController.removeTrackFromFavorite);
 router.get('/favorite/all', authenticateJWT, requireRole('user'), playlistController.getFavoritePlaylistIds);
 router.get('/:id', authenticateJWT, requireRole('user'), playlistController.getPlaylistById);
+router.patch('/add/:id/songs', authenticateJWT, requireRole('user'), playlistController.addTrackToPlaylist);
+router.delete('/delete/:id/songs', authenticateJWT, requireRole('user'), playlistController.removeTrackFromPlaylist);
+
 export default router;

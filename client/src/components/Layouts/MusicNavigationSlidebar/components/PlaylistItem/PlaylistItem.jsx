@@ -46,7 +46,7 @@ function PlaylistItem({ playlist }) {
 
     return (
         <Link to={`/music/playlist/${playlist._id}`} className={cx('playlist-item', visible && 'hover')}>
-            <span>{playlist.name}</span>
+            <span className={cx('title')}>{playlist.name}</span>
             <div className={cx('more-setting')}>
                 <HeadlessTippy
                     visible={visible}
@@ -59,7 +59,14 @@ function PlaylistItem({ playlist }) {
                         </div>
                     )}
                 >
-                    <div className={cx('more-btn')} title="more" onClick={() => setVisible(!visible)}>
+                    <div
+                        className={cx('more-btn')}
+                        title="more"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setVisible(!visible);
+                        }}
+                    >
                         <div className={cx('icon')}>
                             <FontAwesomeIcon icon={faEllipsis} />
                         </div>

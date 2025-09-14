@@ -6,7 +6,6 @@ import { faClock, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { Section, Song } from '~/components';
 import { usePlayerContext } from '~/contexts';
 import useGetListeningHistory from '~/hooks/music/history/useGetListeningHistory';
-import { set } from 'date-fns';
 
 const cx = classNames.bind(styles);
 
@@ -85,11 +84,11 @@ function RightSlidebarMusicPlayer() {
                 <div className={cx('playlist_wrapper')}>
                     <Section title={indexOption === 0 ? 'Tiếp theo' : 'Bài hát đã nghe'}>
                         {indexOption === 0
-                            ? tracksList.map((track) => (
-                                  <Song onClick={handleOnclickSong} key={track._id} data={track} />
+                            ? tracksList.map((track, index) => (
+                                  <Song onClick={handleOnclickSong} key={index} data={track} />
                               ))
-                            : historyTracksList.map((track) => (
-                                  <Song onClick={handleOnclickSong} key={track._id} data={track} />
+                            : historyTracksList.map((track, index) => (
+                                  <Song onClick={handleOnclickSong} key={index} data={track} />
                               ))}
                     </Section>
                 </div>

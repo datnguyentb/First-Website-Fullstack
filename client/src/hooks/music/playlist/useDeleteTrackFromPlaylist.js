@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import musicPlayerApi from '~/api/music/musicPlayerApi';
 
-export default function useAddTrackToFavorite() {
+export default function useDeleteTrackFromPlaylist() {
     const [loading, setLoading] = useState(false);
 
-    const addTrackToFavorite = async (id) => {
+    const deleteTrackToPlaylist = async (playlistId, songId) => {
         setLoading(true);
 
         try {
-            const res = await musicPlayerApi.addTrackToFavorite(id);
+            const res = await musicPlayerApi.deleteTrackFromPlaylist(playlistId, songId);
             return res.data;
         } catch (err) {
             return err.response;
@@ -17,5 +17,5 @@ export default function useAddTrackToFavorite() {
         }
     };
 
-    return { addTrackToFavorite, loading };
+    return { deleteTrackToPlaylist, loading };
 }

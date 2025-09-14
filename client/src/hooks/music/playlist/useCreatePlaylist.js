@@ -12,8 +12,8 @@ export default function useCreatePlaylist() {
             const res = await musicPlayerApi.createPlaylist(data);
             return res.data;
         } catch (err) {
-            toast.error('Failed to update profile!');
-            return null;
+            toast.error('Failed to create playlist!');
+            return err.response;
         } finally {
             setLoading(false);
         }

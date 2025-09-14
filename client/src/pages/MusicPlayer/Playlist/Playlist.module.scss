@@ -55,11 +55,36 @@
         height: 60px;
         border-radius: 50%;
         background-color: $primary-color-2;
-        margin-right: 20px;
+        opacity: 0.8;
+        margin-right: 10px;
         cursor: pointer;
+
+        &:hover {
+            opacity: 1;
+        }
 
         svg {
             color: $white;
+        }
+    }
+
+    .action {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .add-btn,
+    .more-action {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+            background-color: $primary-background-color;
         }
     }
 
@@ -67,6 +92,10 @@
         svg {
             color: $secondary-icon;
         }
+        margin-right: 10px;
+    }
+
+    .more-action {
     }
 
     .play-btn,

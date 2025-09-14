@@ -1,5 +1,5 @@
 // PlayerContext.js
-import { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
+import { createContext, useState, useRef, useEffect, useCallback } from 'react';
 import baseUrl from '~/helper/baseUrl';
 import useAddTrackToListeningHistory from '~/hooks/music/history/useAddTrackToListeningHistory';
 import useGetListeningHistory from '~/hooks/music/history/useGetListeningHistory';
@@ -149,6 +149,7 @@ export function PlayerProvider({ children }) {
                 queue,
                 currentIndex,
                 setCurrentIndex,
+                setQueue,
                 currentSong,
                 isPlaying,
                 playSong,

@@ -14,7 +14,7 @@ import { useUserContext } from '~/contexts';
 const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
-    const { user } = useUserContext();
+    const { user } = useUserContext() ?? {};
     const [showProfile, setShowProfile] = useState(false);
 
     const handleShowProfile = () => {

@@ -1,20 +1,20 @@
 import classNames from 'classnames/bind';
 import styles from './Playlist.module.scss';
-import { Img, Loading } from '~/components';
+import HeadlessTippy from '@tippyjs/react/headless';
+import { Img, Loading, PopupMenu } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faPlay } from '@fortawesome/free-solid-svg-icons';
-import useGetPlaylistById from '~/hooks/music/playlist/useGetPlaylistById';
-import { useParams } from 'react-router-dom';
+import { faCircleMinus, faEdit, faEllipsis, faHeart, faLock, faPlay, faShare } from '@fortawesome/free-solid-svg-icons';
 import { Track } from './components';
-import { usePlayerContext } from '~/contexts';
 import baseUrl from '~/helper/baseUrl';
+import { usePlaylist } from './usePlaylist';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 function Playlist() {
-    const { id } = useParams();
-    const { playlistList, loading } = useGetPlaylistById(id);
-    const { setCurrentIndex, setPlaylist, playSong } = usePlayerContext();
+    const { loading, playlistList, handleClickPlay } = usePlaylist();
+    const [showActionPlaylist, setShowActionPlaylist] = useState(false);
+
     let img_url;
     if (playlistList.type === 'favorite') {
         img_url = 'https://media.zim.vn/6784861bee7559208456151c/what-is-your-favorite.jpg';
@@ -24,20 +24,44 @@ function Playlist() {
         img_url = 'no-image';
     }
 
-    console.log(playlistList);
-
-    const handleClickPlay = (index, song) => {
-        const tracksArray = playlistList.tracks.map((item) => ({
-            ...item.track,
-        }));
-        setPlaylist((prev) => {
-            const isSame = prev.length === tracksArray.length && prev.every((t, i) => t._id === tracksArray[i]._id);
-            return isSame ? prev : tracksArray;
-        });
-
-        setCurrentIndex(index);
-        playSong(song);
+    const handleEditPlaylist = () => {
+        console.log('Edit playlist click!');
     };
+
+    const handleRemovePlaylist = () => {
+        console.log('Delete playlist click!');
+    };
+
+    const handleMakePlaylistPrivate = () => {
+        console.log('Make playlist private click!');
+    };
+
+    const handleSharePlaylist = () => {
+        console.log('Share playlist click!');
+    };
+
+    const items = [
+        {
+            title: 'Edit details',
+            icon: <FontAwesomeIcon className={cx('edit')} icon={faEdit} />,
+            onClick: handleEditPlaylist,
+        },
+        {
+            title: 'Delete',
+            icon: <FontAwesomeIcon icon={faCircleMinus} />,
+            onClick: handleRemovePlaylist,
+        },
+        {
+            title: 'Make private',
+            icon: <FontAwesomeIcon icon={faLock} />,
+            onClick: handleMakePlaylistPrivate,
+        },
+        {
+            title: 'Share',
+            icon: <FontAwesomeIcon icon={faShare} />,
+            onClick: handleSharePlaylist,
+        },
+    ];
 
     if (loading) {
         return <Loading />;
@@ -58,14 +82,42 @@ function Playlist() {
                     <div
                         className={cx('play-btn')}
                         onClick={() => {
-                            handleClickPlay(0, playlistList.tracks[0].track);
+                            handleClickPlay(0, playlistList?.tracks[0]?.track);
                         }}
                     >
                         <FontAwesomeIcon icon={faPlay} />
                     </div>
-                    <div className={cx('add-btn')}>
-                        <FontAwesomeIcon icon={faHeart} />
-                    </div>
+
+                    {playlistList.type !== 'favorite' && (
+                        <div className={cx('action')}>
+                            <div className={cx('add-btn')}>
+                                <FontAwesomeIcon icon={faHeart} />
+                            </div>
+                            <>
+                                <HeadlessTippy
+                                    visible={showActionPlaylist}
+                                    offset={(0, 0)}
+                                    interactive={true}
+                                    placement="bottom-start"
+                                    onClickOutside={() => setShowActionPlaylist(false)}
+                                    render={(attrs) => (
+                                        <div tabIndex="-1" style={{ zIndex: 9999 }} {...attrs}>
+                                            <PopupMenu items={items} />
+                                        </div>
+                                    )}
+                                >
+                                    <div
+                                        className={cx('more-action')}
+                                        onClick={() => {
+                                            setShowActionPlaylist(true);
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faEllipsis} />
+                                    </div>
+                                </HeadlessTippy>
+                            </>
+                        </div>
+                    )}
                 </div>
                 <div className={cx('playlist-list')}>
                     <div className={cx('header')}>
