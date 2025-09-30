@@ -2,6 +2,8 @@
     height: 100vh;
     width: calc(100vw - $width-scrollbar);
     position: relative;
+    height: 100vh;
+    padding-bottom: $media-control-bar;
 }
 
 .header {
@@ -27,15 +29,17 @@
 }
 
 .main-content {
-    margin-top: $header-height;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px;
 }
 
 .content-container {
+    flex: 1;
     padding-top: $content-padding-top;
-    margin-left: $width-navigationSidebar;
-    margin-right: calc($width-right-slidebar - $width-scrollbar);
-    padding: 17.5px 30px;
+    padding: 0 8px;
 }
 
 .primary-content {
@@ -43,6 +47,21 @@
     width: 100%;
     overflow: hidden;
     margin-bottom: $media-control-bar;
+}
+
+.content-cover {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1200px;
+    width: 100%;
+}
+
+.content {
+    overflow-y: auto;
+    background-color: $primary-color-light;
+    border-radius: $border-radius;
 }
 
 .media-control-bar {

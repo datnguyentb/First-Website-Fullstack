@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
-import { Header, Footer, NavigationSidebar, RightSlidebarDefault } from '../../components/Layouts';
+import { Header, Footer, NavigationSidebar, RightSlidebarDefault, MiniMusicControl } from '../../components/Layouts';
 import { ProtectedUserRoute } from '~/components/ProtectedRoute';
 
 const cx = classNames.bind(styles);
@@ -22,6 +22,7 @@ function MainLayout({ children }) {
                         <RightSlidebarDefault />
                     </div>
                 </div>
+                <MiniMusicControl />
             </div>
         </ProtectedUserRoute>
     );

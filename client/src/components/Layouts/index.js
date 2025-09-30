@@ -7,3 +7,4 @@ export { default as AdminHeader } from './AdminHeader';
 export { default as MusicNavigationSlidebar } from './MusicNavigationSlidebar';
 export { default as RightSlidebarMusicPlayer } from './RightSlidebarMusicPlayer';
 export { default as PlayerControlBar } from './PlayerControlBar';
+export { default as MiniMusicControl } from './MiniMusicControl';

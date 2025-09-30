@@ -1,11 +1,10 @@
 .wrapper {
-    position: fixed;
-    top: calc($header-height);
     flex-direction: column;
+    height: 100%;
     right: 0;
-    bottom: $media-control-bar;
     width: $width-right-slidebar;
     background-color: $white;
+    border-radius: $border-radius;
     padding: 17.5px 8px 0 8px;
     background-color: $white;
 }

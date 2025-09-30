@@ -49,6 +49,35 @@ export function PlayerProvider({ children }) {
         fetchHistory();
     }, [auth]);
 
+    // Cập nhật volume khi thay đổi
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (volume > 100) {
+            audio.volume = 1;
+            setVolume(100);
+            localStorage.setItem('volume', 100);
+        } else if (volume < 0) {
+            audio.volume = 0;
+            setVolume(0);
+            localStorage.setItem('volume', 0);
+        } else {
+            audio.volume = volume / 100;
+            localStorage.setItem('volume', volume);
+        }
+    }, [volume]);
+
+    useEffect(() => {
+        let volumeLocal = Number(localStorage.getItem('volume'));
+        if (!volumeLocal) volumeLocal = 50;
+        if (volumeLocal > 100) {
+            setVolume(100);
+        } else if (volumeLocal < 0) {
+            setVolume(0);
+        } else {
+            setVolume(volumeLocal);
+        }
+    }, []);
+
     // Cập nhật queue khi isShuffle thay đổi
     useEffect(() => {
         if (playlist.length === 0 || !currentSong) return;

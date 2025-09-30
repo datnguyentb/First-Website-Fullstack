@@ -11,7 +11,7 @@
     }
 
     .playlist-list {
-        padding: 0 15px 12px 15px;
+        min-height: 50px;
         max-height: 250px;
         overflow-y: auto;
     }
@@ -22,6 +22,7 @@
     flex-direction: row;
     align-items: center;
     cursor: pointer;
+    padding: 8px 12px;
 
     .icon {
         margin-right: 10px;
@@ -30,7 +31,6 @@
 
     span {
         flex: 1;
-        padding: 8px 0;
         white-space: nowrap;
         overflow: hidden;
         -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);

@@ -62,10 +62,12 @@ export function useSong(data) {
     //Click to add to playlist
     const handleAddToLibrary = () => {
         likeSong(data._id);
+        setVisible(false);
     };
 
     const handleRemoveFromLibrary = () => {
         unlikeSong(data._id);
+        setVisible(false);
     };
 
     //Handle Add to Queue

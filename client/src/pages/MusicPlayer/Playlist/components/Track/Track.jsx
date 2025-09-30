@@ -5,21 +5,27 @@ import { faHeart, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Img } from '~/components';
 import { formatDate } from '~/utils/dateUtils';
-import { useFavoriteContext } from '~/contexts';
+import { useFavoriteContext, usePlayerContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function Track({ data, owner, index, handleCLickPlay }) {
     const { likeSong, unlikeSong, isLiked } = useFavoriteContext();
+    const { currentSong } = usePlayerContext();
     const track = data.track;
     const artist = track.artists.map((artists, index) => (
         <React.Fragment key={index}>
             {`${index !== 0 ? ', ' : ''}`}
-            <span title={artists.name} className={cx('artists')} onClick={(e) => handleOnClickArtists(e, artists.id)}>
+            <span title={artists.name} className={cx('artist')} onClick={(e) => handleOnClickArtists(e, artists.id)}>
                 {artists.name}
             </span>
         </React.Fragment>
     ));
+
+    const handleOnClickArtists = (e, artistId) => {
+        e.preventDefault();
+        console.log('Click artist id: ', artistId);
+    };
 
     return (
         <div key={track.id} className={cx('row')}>
@@ -37,7 +43,7 @@ function Track({ data, owner, index, handleCLickPlay }) {
                 </div>
                 <div className={cx('title-text')}>
                     <span className={cx('song-name')}>{track.name}</span>
-                    <span className={cx('artist')}>{artist}</span>
+                    <span className={cx('artists')}>{artist}</span>
                 </div>
             </div>
             <div className={cx('album')}>{track.album.name}</div>

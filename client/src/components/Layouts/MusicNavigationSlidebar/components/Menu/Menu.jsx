@@ -2,16 +2,8 @@ import classNames from 'classnames/bind';
 import styles from './Menu.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faBook,
-    faBullseye,
-    faClockRotateLeft,
-    faCompass,
-    faHeart,
-    faMusic,
-    faPlus,
-    faRankingStar,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBook, faCompass, faRankingStar } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const MENU = [
     {
@@ -29,16 +21,6 @@ const MENU = [
         to: '/music/rank',
         icon: <FontAwesomeIcon icon={faRankingStar} />,
     },
-    {
-        title: 'Themes',
-        to: '/music/theme',
-        icon: <FontAwesomeIcon icon={faBullseye} />,
-    },
-    {
-        title: 'New Music',
-        to: '/music/new',
-        icon: <FontAwesomeIcon icon={faMusic} />,
-    },
 ];
 
 const cx = classNames.bind(styles);
@@ -47,10 +29,10 @@ function Menu() {
     return (
         <div className={cx('nav-list')}>
             {MENU.map((item, index) => (
-                <div key={index} className={cx('nav-item', index === 0 && 'active')}>
+                <Link to={item.to} key={index} className={cx('nav-item', index === 0 && 'active')}>
                     <div className={cx('icon')}>{item.icon}</div>
                     <div className={cx('title')}>{item.title}</div>
-                </div>
+                </Link>
             ))}
         </div>
     );

@@ -20,9 +20,9 @@ function RightSlidebarMusicPlayer() {
         console.log('Song Id: ', songId);
     };
 
-    const handleOnClickArtists = (artistsId) => {
-        console.log('Artists Id', artistsId);
-    };
+    // const handleOnClickArtists = (artistsId) => {
+    //     console.log('Artists Id', artistsId);
+    // };
 
     useEffect(() => {
         const fetchHistory = async () => {

@@ -3,35 +3,19 @@ import styles from './PlayerControlBar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeHigh, faVolumeLow, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
 import { usePlayerContext } from '~/contexts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '~/components';
 
 const cx = classNames.bind(styles);
 
 function ChangeVolume() {
-    const { audioRef, volume, setVolume } = usePlayerContext();
+    const { volume, setVolume } = usePlayerContext();
     const [prevVolume, setPrevVolume] = useState(100); // lưu volume trước khi mute
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (volume > 100) {
-            audio.volume = 1;
-            setVolume(100);
-            localStorage.setItem('volume', 100);
-        } else if (volume < 0) {
-            audio.volume = 0;
-            setVolume(0);
-            localStorage.setItem('volume', 0);
-        } else {
-            audio.volume = volume / 100;
-            localStorage.setItem('volume', volume);
-        }
-    }, [volume, audioRef]);
 
     const toggleMute = () => {
         if (volume === 0) {
             // unmute: trở về volume trước đó
-            setVolume(prevVolume > 0 ? prevVolume : 50); // nếu chưa có prevVolume thì 50
+            setVolume(prevVolume > 0 ? prevVolume : 50);
         } else {
             // mute: lưu volume hiện tại
             setPrevVolume(volume);

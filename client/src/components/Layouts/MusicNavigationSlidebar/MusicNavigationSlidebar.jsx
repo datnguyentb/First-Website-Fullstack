@@ -17,19 +17,19 @@ function MusicNavigationSlidebar() {
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('header')}>
-                <Link to="/music" className={cx('logo-wrapper')}>
-                    <div className={cx('logo')}>
-                        <Img src={logo_img.main_logo} />
-                    </div>
-                    <div className={cx('title')}>Twirl</div>
-                </Link>
-                <div className={cx('slogan')}>Spin Your Vibe</div>
+            <div className={cx('sidebar-menu')}>
+                <div className={cx('header')}>
+                    <Link to="/" className={cx('logo-wrapper')}>
+                        <div className={cx('logo')}>
+                            <Img src={logo_img.main_logo} />
+                        </div>
+                        <div className={cx('title')}>Twirl</div>
+                    </Link>
+                    <div className={cx('slogan')}>Spin Your Vibe</div>
+                </div>
+
+                <Menu />
             </div>
-
-            <Menu />
-
-            <hr className={cx('line')} />
             <div className={cx('playlist')}>
                 <PlaylistItems />
 

@@ -35,8 +35,8 @@
 
     span.title {
         flex: 1;
-        padding: 8px 0;
         white-space: nowrap;
+        padding: 8px 12px;
         overflow: hidden;
         -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
         -webkit-mask-repeat: no-repeat;

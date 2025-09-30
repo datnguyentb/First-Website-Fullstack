@@ -40,25 +40,20 @@ hr.line {
     scrollbar-width: thin;
 }
 
-/* Chiều rộng thanh cuộn */
+/* Thanh cuộn (Webkit) */
 ::-webkit-scrollbar {
-    width: $width-scrollbar;
+    width: 6px;
 }
 
-/* Track của thanh cuộn (nền phía sau) */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 10px;
+    background: #f9f9f9;
 }
 
-/* Thanh cuộn chính (thumb) */
 ::-webkit-scrollbar-thumb {
-    background: rgba($secondary-color, 0.4);
-    border-radius: 10px;
-    transition: background 0.3s ease;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
 }
 
-/* Khi hover vào thumb */
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba($primary-color, 0.6);
+    background: rgba(0, 0, 0, 0.3);
 }

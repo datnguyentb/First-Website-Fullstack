@@ -1,32 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './PlayerControlBar.module.scss';
 import { Button } from '~/components';
 import PlayerProgress from './PlayerProgress.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faPlay,
-    faPause,
-    faShuffle,
-    faBackwardStep,
-    faForwardStep,
-    faRepeat,
-    faVolumeHigh,
-    faVolumeLow,
-    faVolumeMute,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPause, faShuffle, faBackwardStep, faForwardStep, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { usePlayerContext } from '~/contexts';
 import NowPlayingInfo from './NowPlayingInfo';
 import ChangeVolume from './ChangeVolume';
 
 const cx = classNames.bind(styles);
-
-function formatTime(ms) {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-}
 
 function PlayerControlBar() {
     const { playSong, setIsShuffle, pauseSong, isPlaying, isShuffle, nextSong, prevSong, playMode, setPlayMode } =

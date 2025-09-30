@@ -1,0 +1,20 @@
+.wrapper {
+    padding: 8px 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: $white;
+    margin-bottom: 16px;
+    border-radius: $border-radius;
+
+    input {
+        background-color: transparent;
+    }
+}
+
+// input {
+//     flex: 1;
+//     height: 40px;
+//     min-width: 500px;
+//     border-radius: 50px;
+// }

@@ -37,45 +37,53 @@
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 16px;
-    color: #333;
-    text-decoration: none;
-    position: relative;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 8px;
-
-    &:hover {
-        background-color: rgba($primary-color, 0.01);
-    }
-
-    &.active {
-        background-color: rgba($primary-color, 0.08);
-        font-weight: 600;
-
-        svg {
-            color: $primary-color;
-        }
-
-        span.title {
-            font-weight: $font-bold;
-            color: $primary-color;
-        }
-    }
+    padding: 8px 12px;
+    cursor: pointer;
 
     .icon {
-        font-size: 2.5rem !important;
-        min-width: 40px;
+        margin-right: 15px;
+        min-width: 25px;
+        font-size: 2rem;
     }
 
-    svg {
-        fill: #333;
-    }
-
-    span.title {
-        font-size: 1.6rem;
+    .title {
+        font-size: 1.5rem;
+        opacity: 0.9;
         font-weight: $font-medium;
+    }
+
+    &:hover {
+        background-color: rgba($primary-color, 0.05);
+        .title {
+            // color: $primary-color;
+            opacity: 1;
+        }
+    }
+}
+
+.nav-item.active {
+    background-color: rgba($primary-color, 0.01);
+    border-radius: 8px;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background-color: $primary-color;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .title {
+        color: $primary-color;
+        font-weight: $font-bold;
+        opacity: 1;
+    }
+    .icon {
+        color: $primary-color;
     }
 }
 

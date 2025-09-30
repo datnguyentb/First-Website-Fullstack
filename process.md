@@ -6,3 +6,4 @@
 4. chức năng slider
 5. Cần thêm trang hiển thị bài viết
 6. Thêm edit post
+7. cập nhật action song (Playlist create chưa được cập nhật)
