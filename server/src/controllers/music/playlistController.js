@@ -38,11 +38,20 @@ class playlistController {
             await playlist.save();
             await playlist.populate('owner', '_id avatarUrl firstName lastName');
 
-            return createdResponse(
-                res,
-                MESSAGE_RESPONSE.PLAYLIST.CREATE_SUCCESS,
-                formatItem(playlist, ['_id', 'name', 'owner', 'images', 'description', 'isPublic', 'createdAt']),
-            );
+            const formatted = formatItem(playlist, [
+                '_id',
+                'name',
+                'owner',
+                'images',
+                'description',
+                'isPublic',
+                'createdAt',
+            ]);
+
+            formatted.isOwner = true;
+            formatted.trackIds = [];
+
+            return createdResponse(res, MESSAGE_RESPONSE.PLAYLIST.CREATE_SUCCESS, formatted);
         } catch (err) {
             console.error('❌ Create playlist error:', err);
             return serverErrorResponse(res);

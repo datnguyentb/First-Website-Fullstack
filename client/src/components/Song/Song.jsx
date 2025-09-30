@@ -42,9 +42,9 @@ function Song({ data, active = false, shadow, second_style, third_style }) {
     } = useSong(data);
 
     //tạo mảng playlist cho vào items
-    const myPlaylists = playlists.filter((item) => item.isOwner);
-
     const playlistChildren = useMemo(() => {
+        const myPlaylists = playlists.filter((item) => item.isOwner);
+
         if (myPlaylists.length === 0) {
             return [{ title: "You don't have any playlist!", no_click: true }];
         }
@@ -65,13 +65,12 @@ function Song({ data, active = false, shadow, second_style, third_style }) {
                         : handleAddToPlaylist(item._id, data._id),
             };
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [myPlaylists, data._id]);
+    }, [playlists, data._id]);
 
     //items menu
     const items = [
         {
-            title: isLiked(data._id) ? 'Remove from Library' : 'Add to Library',
+            title: isLiked(data._id) ? 'Remove from Favorite' : 'Add to Favorite',
             icon: <FontAwesomeIcon className={cx('liked')} icon={faHeart} />,
             onClick: isLiked(data._id) ? handleRemoveFromLibrary : handleAddToLibrary,
         },
