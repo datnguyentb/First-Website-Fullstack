@@ -36,8 +36,12 @@ hr.line {
 }
 
 .scrollbar {
-    overflow-y: auto;
-    scrollbar-width: thin;
+    overflow-y: hidden;
+    scrollbar-gutter: stable;
+
+    &:hover {
+        overflow-y: auto;
+    }
 }
 
 /* Thanh cuộn (Webkit) */
@@ -46,7 +50,7 @@ hr.line {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f9f9f9;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {

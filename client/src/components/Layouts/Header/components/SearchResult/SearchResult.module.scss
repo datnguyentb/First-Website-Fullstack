@@ -35,3 +35,16 @@
         border-radius: 3px;
     }
 }
+
+.view-more {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 1.4rem;
+    color: $primary-color;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba($primary-color, 0.01);
+        text-decoration: underline;
+    }
+}

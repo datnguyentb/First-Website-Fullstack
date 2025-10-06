@@ -21,7 +21,7 @@ function PlayerLayout({ children }) {
                             <div className={cx('content-container', 'd-flex')}>
                                 <div className={cx('content-cover')}>
                                     <MusicSearch />
-                                    <div className={cx('content', 'flex-grow-1')}>
+                                    <div className={cx('content', 'scrollbar', 'flex-grow-1')}>
                                         <div className={cx('primary-content')}>{children}</div>
                                     </div>
                                 </div>

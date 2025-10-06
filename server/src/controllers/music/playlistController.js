@@ -38,15 +38,7 @@ class playlistController {
             await playlist.save();
             await playlist.populate('owner', '_id avatarUrl firstName lastName');
 
-            const formatted = formatItem(playlist, [
-                '_id',
-                'name',
-                'owner',
-                'images',
-                'description',
-                'isPublic',
-                'createdAt',
-            ]);
+            const formatted = formatItem(playlist, ['_id', 'name', 'owner', 'images', 'description', 'isPublic']);
 
             formatted.isOwner = true;
             formatted.trackIds = [];
@@ -240,7 +232,6 @@ class playlistController {
                     'images',
                     'description',
                     'isPublic',
-                    'createdAt',
                     'trackIds',
                     'isOwner',
                 ]),

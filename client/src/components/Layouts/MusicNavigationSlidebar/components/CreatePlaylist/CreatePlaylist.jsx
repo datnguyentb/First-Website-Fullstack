@@ -16,7 +16,7 @@ function CreatePlaylist({ setShowCreatePlaylist }) {
     const createButtonRef = useRef(null);
 
     //useContext
-    const { playlists, setPlaylists } = usePlaylistContext();
+    const { setPlaylists } = usePlaylistContext();
 
     //useHook UseState
     const [preview, setPreview] = useState(null);
@@ -81,7 +81,6 @@ function CreatePlaylist({ setShowCreatePlaylist }) {
             toast.error('error');
         }
     };
-    console.log(playlists);
 
     return (
         <div className={cx('wrapper')}>

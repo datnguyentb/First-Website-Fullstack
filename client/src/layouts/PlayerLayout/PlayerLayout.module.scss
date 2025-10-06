@@ -1,9 +1,10 @@
 .wrapper {
     height: 100vh;
-    width: calc(100vw - $width-scrollbar);
+    width: calc(100vw);
     position: relative;
     height: 100vh;
     padding-bottom: $media-control-bar;
+    background-color: $primary-color-light;
 }
 
 .header {
@@ -44,6 +45,7 @@
 
 .primary-content {
     margin: 0 auto;
+    padding-right: 8px;
     width: 100%;
     overflow: hidden;
     margin-bottom: $media-control-bar;
@@ -59,9 +61,8 @@
 }
 
 .content {
-    overflow-y: auto;
-    background-color: $primary-color-light;
     border-radius: $border-radius;
+    width: calc(100% + 16px);
 }
 
 .media-control-bar {

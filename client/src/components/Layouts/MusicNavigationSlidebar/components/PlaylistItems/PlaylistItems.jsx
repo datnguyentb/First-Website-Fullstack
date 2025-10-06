@@ -13,7 +13,7 @@ function PlaylistItems() {
     return (
         <div className={cx('playlist-wrapper')}>
             <div className={cx('playlist-title')}>Your Playlists</div>
-            <div className={cx('playlist-list')}>
+            <div className={cx('playlist-list', 'scrollbar')}>
                 <Link to="/music/playlist/favorite" className={cx('playlist-item', 'active')}>
                     <div className={cx('icon')}>
                         <FontAwesomeIcon icon={faHeart} />

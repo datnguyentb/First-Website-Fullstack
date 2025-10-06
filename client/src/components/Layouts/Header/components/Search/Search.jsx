@@ -15,6 +15,7 @@ function Search() {
     const [isShowResult, setIsShowResult] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const { searchEntities, loading } = useSearchEntities();
+    //Debounce
 
     const debounced = useDebounce(searchValue, 500);
 
@@ -39,15 +40,17 @@ function Search() {
                     placement="bottom-start"
                     visible={isShowResult}
                     onClickOutside={() => setIsShowResult(false)}
-                    render={(attrs) => (
-                        <div tabIndex="-1" {...attrs}>
-                            <SearchResult
-                                data={searchResult}
-                                searchValue={searchValue}
-                                setSearchValue={setSearchValue}
-                            />
-                        </div>
-                    )}
+                    render={(attrs) =>
+                        isShowResult ? (
+                            <div tabIndex="-1" {...attrs}>
+                                <SearchResult
+                                    data={searchResult}
+                                    searchValue={searchValue}
+                                    setSearchValue={setSearchValue}
+                                />
+                            </div>
+                        ) : null
+                    }
                 >
                     <div className={cx('input-box')}>
                         <div className={cx('search-icon')}>

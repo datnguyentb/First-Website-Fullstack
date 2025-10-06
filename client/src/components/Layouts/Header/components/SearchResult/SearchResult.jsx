@@ -3,12 +3,14 @@ import styles from './SearchResult.module.scss';
 import Song from '~/components/Song';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
 const SUGGESTED_SEARCHES = ['Taylor Swift', 'Hoàng Tôn', 'Ed Sheeran', 'Adele', 'Drake', 'Billie Eilish', 'Dua Lipa'];
 
 function SearchResult({ data, searchValue, setSearchValue }) {
+    const [isShowMore, setIsShowMore] = useState(false);
     const handleClickSuggestion = (suggestion) => {
         setSearchValue(suggestion);
     };
@@ -19,10 +21,26 @@ function SearchResult({ data, searchValue, setSearchValue }) {
                     <div className={cx('section')}>
                         <h4 className={cx('section-title')}>Search results for keyword "{searchValue}":</h4>
                         <div className={cx('section-list')}>
-                            {data.tracks.items.map((item) => (
-                                <Song key={item._id} data={item} third_style={true} />
-                            ))}
+                            {data.tracks.items.map((item, index) => {
+                                let number = 5;
+                                if (isShowMore) {
+                                    number = 999;
+                                }
+                                if (index < number) {
+                                    return <Song key={item._id} data={item} index={index} />;
+                                }
+                            })}
                         </div>
+                        {!isShowMore && data.tracks.items.length > 5 && (
+                            <div
+                                className={cx('view-more')}
+                                onClick={() => {
+                                    setIsShowMore(true);
+                                }}
+                            >
+                                View more result
+                            </div>
+                        )}
                     </div>
                 </div>
             ) : searchValue ? (
