@@ -88,6 +88,7 @@ $font-black: 900;
 
 //width components
 $width-navigationSidebar: 250px;
+$width-navigationSidebar-collapsed: 120px;
 $header-height: 60px;
 $width-right-slidebar: 350px;
 $width-scrollbar: 6px;
@@ -107,3 +108,7 @@ $border-color: #404040;
 
 //pading
 $content-padding-top: 15px;
+
+//chat-page
+$conversation-sidebar-header-height: 70px;
+$conversation-slidebar-width: 300px;

@@ -1,0 +1,63 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f9f9f9;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        overflow: hidden;
+        flex-shrink: 0; /* không cho avatar co */
+    }
+
+    .info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0; /* cho phép co lại => cần thiết */
+    }
+
+    .name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0; /* phải có dòng này */
+    }
+
+    .last-message {
+        font-size: 14px;
+        color: #666;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0; /* phải có dòng này */
+    }
+
+    .timestamp {
+        font-size: 12px;
+        color: #999;
+        margin-left: auto;
+        flex-shrink: 0; /* giữ cố định, không co */
+    }
+}
+
+.wrapper.active {
+    background-color: #e6f7ff;
+    border-left: 3px solid #ff6347;
+
+    .name {
+        color: #1890ff;
+    }
+}

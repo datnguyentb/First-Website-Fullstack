@@ -1,0 +1,64 @@
+.wrapper {
+    height: $conversation-sidebar-header-height;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+
+    .name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+        line-height: 1;
+    }
+
+    .status {
+        font-size: 1.36rem;
+        color: green;
+        line-height: 1;
+    }
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+    .action-btn {
+        width: 40px;
+        padding: 6px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+            background-color: $secondary-hover;
+        }
+
+        svg {
+            font-size: 1.8rem;
+        }
+    }
+    // .action-btn + .action-btn {
+    //     margin-left: 6px;
+    // }
+}

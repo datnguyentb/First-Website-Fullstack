@@ -1,7 +1,7 @@
-import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist } from '../pages';
+import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messages } from '../pages';
 import { Login, Register } from '../pages/Auth';
 import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
-import { MainLayout, AuthLayout, PlayerLayout, AdminLayout } from '../layouts';
+import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
 import config from '../config';
 
 const publicRoutes = [
@@ -19,6 +19,11 @@ const publicRoutes = [
         path: config.routes.login,
         component: Login,
         layout: AuthLayout,
+    },
+    {
+        path: config.routes.messages,
+        component: Messages,
+        layout: NavigationOnly,
     },
     {
         path: config.routes.register,

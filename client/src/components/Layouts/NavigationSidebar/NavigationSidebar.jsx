@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { logo_img } from '~/assets/imgs/logo';
-import { Button, Img } from '~/components';
+import { Img } from '~/components';
 
 const cx = classNames.bind(styles);
 
@@ -43,11 +43,11 @@ const navOptions = [
     },
 ];
 
-function NavigationSidebar() {
+function NavigationSidebar({ collapsed = false }) {
     const location = useLocation();
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', { collapsed })}>
             <div className={cx('container')}>
                 <div className={cx('logo')}>
                     <Img src={logo_img.main_logo} alt="Twirl" />

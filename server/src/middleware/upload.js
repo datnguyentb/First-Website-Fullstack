@@ -24,7 +24,7 @@ function createSecureUploader(subfolder, maxCount = 1) {
     const storage = createStorage(subfolder);
     const multerUpload = multer({
         storage,
-        limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+        limits: { fileSize: 10 * 1024 * 1024 }, // 5MB
     });
 
     return (fieldName) => async (req, res, next) => {

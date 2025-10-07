@@ -133,3 +133,24 @@
         border-color: #e64420;
     }
 }
+
+//Collapse Sidebar
+.wrapper.collapsed {
+    width: $width-navigationSidebar-collapsed;
+
+    .nav-item {
+        justify-content: center;
+
+        .title {
+            display: none;
+        }
+
+        .badge {
+            display: none;
+        }
+
+        .icon {
+            margin-right: 0;
+        }
+    }
+}
