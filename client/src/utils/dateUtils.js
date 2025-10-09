@@ -51,6 +51,20 @@ export const timeAgo = (date) => {
     return dayjs(date).fromNow();
 };
 
+// ví dụ 10:30 AM hoặc 10:30 PM, tomorrow at 10:30 AM 30/12/2023
+export const formatTimeWithDay = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d)) return '';
+    const now = new Date();
+    const isToday = d.toDateString() === now.toDateString();
+    const isTomorrow = d.toDateString() === new Date(now.getTime() + 86400000).toDateString(); // 86400000 ms = 1 ngày
+    const timeString = format(d, 'hh:mm a', { locale: enUS });
+    if (isToday) return timeString;
+    if (isTomorrow) return `Tomorrow at ${timeString}`;
+    return format(d, "hh:mm a 'at' dd/MM/yyyy", { locale: enUS });
+};
+
 //chuyển đổi thời lươgng bài hát từ giây sang phút:giây
 export function formatSongTime(seconds) {
     if (!seconds || isNaN(seconds)) return '0:00';
