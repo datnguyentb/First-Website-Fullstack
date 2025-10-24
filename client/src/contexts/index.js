@@ -8,7 +8,9 @@ import { UserAuthContext } from './UserAuthContext';
 import { AdminAuthContext } from './AdminAuthContext';
 import { PlaylistContext } from './PlaylistContext';
 import { FavoriteContext } from './FavoriteContext';
+import { SocketContext } from './SocketContext';
 
+export const useSocketContext = () => useContext(SocketContext);
 export const usePlayerContext = () => useContext(PlayerContext);
 export const useModalContext = () => useContext(ModalContext);
 export const usePostsContext = () => useContext(PostContext);

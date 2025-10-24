@@ -5,10 +5,10 @@ const cx = classNames.bind(styles);
 
 function ChatMessage({ data }) {
     const isSenderMe = data.senderId === 'u_me';
-    console.log(data);
+    console.log('ChatMessage data:', data);
     return (
         <div className={cx('wrapper', isSenderMe ? 'sent' : 'received')}>
-            <p>{data.text}</p>
+            <p>{data.content}</p>
             <span className={cx('timestamp')}>{formatTimeWithDay(data.timestamp)}</span>
         </div>
     );

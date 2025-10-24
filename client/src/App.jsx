@@ -8,6 +8,7 @@ import { ModalProvider } from './contexts/ModalContext';
 import { PlayerProvider } from './contexts/PlayerContext';
 import { UserAuthProvider } from './contexts/UserAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
+import { SocketProvider } from './contexts/SocketContext';
 
 function App() {
     const renderRoute = (route, index) => {
@@ -30,7 +31,9 @@ function App() {
             wrappedElement = (
                 <UserAuthProvider>
                     <UserProvider>
-                        <PlayerProvider>{element}</PlayerProvider>
+                        <SocketProvider>
+                            <PlayerProvider>{element}</PlayerProvider>
+                        </SocketProvider>
                     </UserProvider>
                 </UserAuthProvider>
             );
