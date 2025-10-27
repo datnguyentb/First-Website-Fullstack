@@ -14,6 +14,7 @@ function UserActionButtons({
     handleShowEdit,
     handleFollowUser,
     handleUnfollowUser,
+    handleChatClick,
 }) {
     let label;
     let alt;
@@ -50,8 +51,18 @@ function UserActionButtons({
             loading: followLoading,
             downIcon,
         },
-        { label: 'message', icon: faCommentDots, onClick: () => {} },
-        { label: 'more', icon: faEllipsis, onClick: () => {} },
+        {
+            label: 'message',
+            icon: faCommentDots,
+            onClick: handleChatClick,
+        },
+        {
+            label: 'more',
+            icon: faEllipsis,
+            onClick: () => {
+                alert('more click');
+            },
+        },
     ];
 
     const userActions = [

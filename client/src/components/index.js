@@ -10,3 +10,4 @@ export { default as FloatingLayer } from './FloatingLayer';
 export { default as StatCard } from './StatCard';
 export { default as Song } from './Song';
 export { default as PopupMenu } from './PopupMenu';
+export { default as ChatWidget } from './ChatWidget';

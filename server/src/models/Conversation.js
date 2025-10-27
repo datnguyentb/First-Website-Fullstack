@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const conversationSchema = new mongoose.Schema(
     {
-        // Thành viên tham gia cuộc trò chuyện
+        // 👥 Thành viên
         participants: [
             {
                 type: mongoose.Schema.Types.ObjectId,
@@ -11,64 +11,49 @@ const conversationSchema = new mongoose.Schema(
             },
         ],
 
-        // Loại cuộc trò chuyện
+        // 🗂 Loại cuộc trò chuyện
         type: {
             type: String,
             enum: ['private', 'group'],
             default: 'private',
         },
 
-        // --- Dành cho nhóm ---
-        groupName: {
-            type: String,
-            trim: true,
-        },
-        groupAvatar: {
-            type: String,
-        },
-        admins: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            },
-        ],
+        // 🏷 Thông tin nhóm
+        groupName: { type: String, trim: true },
+        groupAvatar: { type: String },
+        admins: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
-        // --- Tuỳ chỉnh hiển thị ---
-        // 1️⃣ Chủ đề đoạn chat (màu chủ đạo, theme)
+        // 🎨 Tuỳ chỉnh hiển thị
         theme: {
             name: { type: String, default: 'default' },
-            color: { type: String, default: '#0084ff' }, // ví dụ: Messenger blue
+            color: { type: String, default: '#0084ff' },
         },
-
-        // 2️⃣ Biệt danh: mỗi user có thể đặt biệt danh cho người khác
         nicknames: [
             {
                 userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-                nickname: String,
+                nickname: { type: String, trim: true, default: '' },
             },
         ],
+        customEmoji: { type: String, default: 'like' },
 
-        // 3️⃣ Icon biểu tượng gửi tin nhắn (setIcon)
-        customEmoji: {
-            type: String, // ví dụ: "❤️", "🔥", "👍"
-            default: '👍',
-        },
-
-        // Tin nhắn cuối cùng
+        // 💬 Tin nhắn cuối
         lastMessage: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Message',
         },
 
-        // Lưu lịch sử thay đổi (ai đổi chủ đề, đổi biệt danh, v.v.)
+        // 🕓 Nhật ký thay đổi
         activities: [
             {
-                action: String, // e.g., 'change_theme', 'change_nickname', 'set_icon'
+                action: String, // e.g. 'change_theme', 'change_nickname'
                 user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
                 detail: Object, // { old: '', new: '' }
                 createdAt: { type: Date, default: Date.now },
             },
         ],
+
+        // 🗑 Xóa cuộc trò chuyện cho từng người
+        deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     },
     { timestamps: true },
 );

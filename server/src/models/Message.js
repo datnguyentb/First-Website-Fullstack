@@ -2,28 +2,24 @@ import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema(
     {
-        // 🧑‍💬 Người gửi
+        // 👤 Người gửi
         sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
         },
 
-        // 🗨️ Cuộc trò chuyện (private / group)
+        // 💬 Cuộc trò chuyện
         conversation: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Conversation',
             required: true,
         },
 
-        // 💬 Nội dung chính (text, emoji, link)
-        content: {
-            type: String,
-            trim: true,
-            default: '',
-        },
+        // 📝 Nội dung
+        content: { type: String, trim: true, default: '' },
 
-        // 📎 File đính kèm (ảnh, video, file, audio, v.v.)
+        // 📎 Tệp đính kèm
         attachments: [
             {
                 url: { type: String, required: true },
@@ -33,46 +29,39 @@ const messageSchema = new mongoose.Schema(
                     required: true,
                 },
                 fileName: String,
-                size: Number, // byte
+                size: Number,
             },
         ],
 
-        // 🔁 Tin nhắn được reply (nếu có)
-        replyTo: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Message',
-            default: null,
-        },
+        // ↩️ Tin nhắn được trả lời (nếu có)
+        replyTo: { type: mongoose.Schema.Types.ObjectId, ref: 'Message', default: null },
 
-        // 😍 Reaction: ai đã thả icon gì
+        // 💗 Cảm xúc
         reactions: [
             {
                 user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-                emoji: { type: String }, // ❤️ 😂 👍 😢 v.v.
+                emoji: String,
             },
         ],
 
-        // 👀 Ai đã xem tin nhắn này
-        seenBy: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-            },
-        ],
+        // 👁️ Ai đã xem
+        seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
-        // ⚙️ Trạng thái gửi tin nhắn (giúp client hiển thị tick ✓)
+        // 📶 Trạng thái gửi
         status: {
             type: String,
             enum: ['sent', 'delivered', 'seen'],
             default: 'sent',
         },
 
-        // 🕒 Thời điểm gửi, cập nhật
+        // 🗑️ Xóa / Thu hồi
+        deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        isUnsent: { type: Boolean, default: false },
     },
     { timestamps: true },
 );
 
-// ⚡ Tạo index để tìm tin nhắn nhanh hơn
+// ⚡ Index để tìm tin nhắn nhanh hơn
 messageSchema.index({ conversation: 1, createdAt: -1 });
 
 export default mongoose.model('Message', messageSchema);

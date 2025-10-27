@@ -1,5 +1,5 @@
 import { verifyToken } from '../utils/jwt.js';
-import { messageController } from '../controllers/chat/messageController.js';
+import MessageController from '../controllers/chat/messageController.js';
 const onlineUsers = new Map();
 
 const handleSocketEvents = (io) => {
@@ -45,7 +45,7 @@ const handleSocketEvents = (io) => {
             messageData.timestamp = new Date().toISOString();
 
             //Luu tin nhắn vào DB ở đây (nếu cần)
-            const savedMessage = await messageController.saveMessage(messageData);
+            const savedMessage = await MessageController.saveMessage(messageData);
             console.log('💾 Message saved to DB:', savedMessage);
 
             if (messageData.conversationId) {

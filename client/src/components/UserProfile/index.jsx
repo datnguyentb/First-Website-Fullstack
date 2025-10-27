@@ -11,18 +11,23 @@ import { useUserProfile } from './useUserProfile.js';
 import useGetFriendshipStatus from '~/hooks/friendShip/useGetFriendshipStatus';
 import useSendFriendRequest from '~/hooks/friendShip/useSendFriendRequest';
 import useUnfollowUser from '~/hooks/friendShip/useUnfollowUser';
+import useGetConversation from '~/hooks/chat/useGetConversation';
 
 const cx = classNames.bind(styles);
 
 function UserProfile({ onClose, userId }) {
     const { loading, userDisplay, isUserLogin, showEditProfile, setShowEditProfile } = useUserProfile(userId);
-    const { friendshipStatus, setFriendshipStatus, error } = useGetFriendshipStatus(userId);
+    const { friendshipStatus, setFriendshipStatus } = useGetFriendshipStatus(userId);
+    const { fetchConversation } = useGetConversation();
 
     const { sendFriendRequest, loading: followLoading } = useSendFriendRequest();
     const { unfollowUser } = useUnfollowUser();
 
+    // Toggle edit profile
     const handleToggleEdit = () => setShowEditProfile((prev) => !prev);
     const handleCloseEdit = () => setShowEditProfile(false);
+
+    // Follow user
     const handleFollowUser = async () => {
         const res = await sendFriendRequest(userId);
         if (res) {
@@ -30,11 +35,17 @@ function UserProfile({ onClose, userId }) {
         }
     };
 
+    // Unfollow user
     const handleUnfollowUser = async () => {
         const res = await unfollowUser(userId);
         if (res) {
             setFriendshipStatus(res.data.status);
         }
+    };
+
+    // Handle chat click
+    const handleChatClick = () => {
+        fetchConversation(userId);
     };
 
     return (
@@ -66,6 +77,7 @@ function UserProfile({ onClose, userId }) {
                                             handleShowEdit={handleToggleEdit}
                                             handleFollowUser={handleFollowUser}
                                             handleUnfollowUser={handleUnfollowUser}
+                                            handleChatClick={handleChatClick}
                                             friendShipStatus="accepted"
                                         />
                                         <p className={cx('bio')}>{userDisplay.bio}</p>

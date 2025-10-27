@@ -4,6 +4,7 @@ import userRouter from './user/index.js';
 import postRouter from './post/index.js';
 import friendshipRouter from './friendship/index.js';
 import musicRouter from './music/index.js';
+import chatRouter from './chat/index.js';
 
 function route(app) {
     app.use('/auth', authRouter);
@@ -11,6 +12,7 @@ function route(app) {
     app.use('/posts', postRouter);
     app.use('/api/friends', friendshipRouter);
     app.use('/api/music', musicRouter);
+    app.use('/api/chat', chatRouter);
 }
 
 export default route;
