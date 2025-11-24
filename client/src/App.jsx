@@ -9,6 +9,7 @@ import { PlayerProvider } from './contexts/PlayerContext';
 import { UserAuthProvider } from './contexts/UserAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 import { SocketProvider } from './contexts/SocketContext';
+import { ChatWidgetProvider } from './contexts/ChatwidgetContext';
 
 function App() {
     const renderRoute = (route, index) => {
@@ -17,6 +18,7 @@ function App() {
 
         const isAdminRoute = route.path.startsWith('/admin');
         const isAuthRoute = route.path.startsWith('/auth');
+        const isChatWidgetRoute = route.path === '/' || route.path.startsWith('/todo');
 
         let wrappedElement;
         if (isAdminRoute) {
@@ -32,7 +34,9 @@ function App() {
                 <UserAuthProvider>
                     <UserProvider>
                         <SocketProvider>
-                            <PlayerProvider>{element}</PlayerProvider>
+                            <PlayerProvider>
+                                {isChatWidgetRoute ? <ChatWidgetProvider>{element}</ChatWidgetProvider> : element}
+                            </PlayerProvider>
                         </SocketProvider>
                     </UserProvider>
                 </UserAuthProvider>

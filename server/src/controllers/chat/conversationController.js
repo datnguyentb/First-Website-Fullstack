@@ -1,11 +1,4 @@
-import {
-    okResponse,
-    badRequestResponse,
-    serverErrorResponse,
-    createdResponse,
-    notFoundResponse,
-    forbiddenResponse,
-} from '../../utils/responseHelper.js';
+import Message from '../../models/Message.js';
 import Conversation from '../../models/Conversation.js';
 
 class ConversationController {
@@ -24,8 +17,11 @@ class ConversationController {
                 type: 'private',
                 participants: { $all: [userId, myId] },
             })
-                .populate('participants', 'username avatar')
-                .populate('lastMessage');
+                .populate('participants', 'firstName lastName avatarUrl')
+                .populate({
+                    path: 'lastMessage',
+                    populate: { path: 'sender', select: 'firstName lastName avatarUrl' },
+                });
 
             // 🚀 2. Nếu chưa có thì tạo mới
             if (!conversation) {
@@ -34,12 +30,26 @@ class ConversationController {
                     type: 'private',
                 });
 
-                conversation = await conversation.populate('participants', 'username avatar');
+                conversation = await Conversation.findById(conversation._id)
+                    .populate('participants', 'firstName lastName avatarUrl')
+                    .populate({
+                        path: 'lastMessage',
+                        populate: { path: 'sender', select: 'firstName lastName avatarUrl' },
+                    });
             }
 
-            console.log('getOrCreateConversation called');
-            // ✅ 3. Trả về conversation
-            return res.status(200).json({ success: true, conversation });
+            // 💬 3. Lấy danh sách tin nhắn (ví dụ 50 tin gần nhất)
+            const messages = await Message.find({ conversation: conversation._id })
+                .populate('sender', 'firstName lastName avatarUrl')
+                .populate('reactions.user', 'firstName lastName avatarUrl')
+                .sort({ createdAt: -1 })
+                .limit(50);
+            // ✅ 4. Trả về kết quả
+            return res.status(200).json({
+                success: true,
+                conversation,
+                messages: messages.reverse(),
+            });
         } catch (error) {
             console.error('getOrCreateConversation error:', error);
             res.status(500).json({ success: false, message: 'Server error' });

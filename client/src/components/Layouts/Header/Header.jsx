@@ -4,17 +4,18 @@ import HeadlessTippy from '@tippyjs/react/headless';
 import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
 import Search from './components/Search';
 import { Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useUserContext } from '~/contexts';
+import { useChatWidgetContext, useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
     const { user } = useUserContext() ?? {};
+    const { setIsOpenChatWidget } = useChatWidgetContext();
     const [showProfile, setShowProfile] = useState(false);
 
     const handleShowProfile = () => {
@@ -32,6 +33,9 @@ function Header({ style_2 = false }) {
                 <Search />
                 {user ? (
                     <div className={cx('user-wrapper')}>
+                        <div className={cx('message-icon', 'action-btn')} onClick={() => setIsOpenChatWidget(true)}>
+                            <FontAwesomeIcon icon={faMessage} />
+                        </div>
                         <div>
                             <HeadlessTippy
                                 trigger="click"
@@ -44,7 +48,7 @@ function Header({ style_2 = false }) {
                                 )}
                             >
                                 <Button
-                                    className={cx('bell-icon')}
+                                    className={cx('bell-icon', 'action-btn')}
                                     badge={5}
                                     leftIcon={<FontAwesomeIcon icon={faBell} />}
                                 ></Button>

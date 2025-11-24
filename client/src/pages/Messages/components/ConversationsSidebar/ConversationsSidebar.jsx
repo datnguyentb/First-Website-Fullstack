@@ -14,9 +14,15 @@ function ConversationsSidebar() {
         <div className={cx('wrapper')}>
             <SearchBar />
             <div className={cx('conversation-list', 'scrollbar')}>
-                {conversations.map((item, index) => (
-                    <ConversationItem key={index} data={item} active={item.active} />
-                ))}
+                {conversations.length === 0 ? (
+                    <div className={cx('no-conversations')}>
+                        <p>No conversations yet. Start by finding a friend!</p>
+                    </div>
+                ) : (
+                    conversations.map((item, index) => (
+                        <ConversationItem key={index} data={item} active={item.active} />
+                    ))
+                )}
             </div>
         </div>
     );

@@ -11,14 +11,14 @@ import { useUserProfile } from './useUserProfile.js';
 import useGetFriendshipStatus from '~/hooks/friendShip/useGetFriendshipStatus';
 import useSendFriendRequest from '~/hooks/friendShip/useSendFriendRequest';
 import useUnfollowUser from '~/hooks/friendShip/useUnfollowUser';
-import useGetConversation from '~/hooks/chat/useGetConversation';
+import { useChatWidgetContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
-function UserProfile({ onClose, userId }) {
+function UserProfile({ onClose, userId, setShowUserProfile }) {
     const { loading, userDisplay, isUserLogin, showEditProfile, setShowEditProfile } = useUserProfile(userId);
     const { friendshipStatus, setFriendshipStatus } = useGetFriendshipStatus(userId);
-    const { fetchConversation } = useGetConversation();
+    const { setIsOpenChatWidget, setUserId } = useChatWidgetContext();
 
     const { sendFriendRequest, loading: followLoading } = useSendFriendRequest();
     const { unfollowUser } = useUnfollowUser();
@@ -45,7 +45,11 @@ function UserProfile({ onClose, userId }) {
 
     // Handle chat click
     const handleChatClick = () => {
-        fetchConversation(userId);
+        setUserId(userId);
+        setIsOpenChatWidget(true);
+        if (setShowUserProfile) {
+            setShowUserProfile(false);
+        }
     };
 
     return (

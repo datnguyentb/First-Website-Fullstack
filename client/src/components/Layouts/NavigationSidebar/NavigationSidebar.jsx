@@ -32,6 +32,11 @@ const navOptions = [
         link: '/messages',
     },
     {
+        title: 'Co-Listening',
+        icon: faMusic,
+        link: '/co-listening',
+    },
+    {
         title: 'Together',
         icon: faUserGroup,
         link: '/together',

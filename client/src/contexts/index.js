@@ -9,6 +9,7 @@ import { AdminAuthContext } from './AdminAuthContext';
 import { PlaylistContext } from './PlaylistContext';
 import { FavoriteContext } from './FavoriteContext';
 import { SocketContext } from './SocketContext';
+import { ChatWidgetContext } from './ChatwidgetContext';
 
 export const useSocketContext = () => useContext(SocketContext);
 export const usePlayerContext = () => useContext(PlayerContext);
@@ -19,3 +20,4 @@ export const userAuthContext = () => useContext(UserAuthContext);
 export const userAdminAuthContext = () => useContext(AdminAuthContext);
 export const usePlaylistContext = () => useContext(PlaylistContext);
 export const useFavoriteContext = () => useContext(FavoriteContext);
+export const useChatWidgetContext = () => useContext(ChatWidgetContext);

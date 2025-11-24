@@ -77,10 +77,11 @@ const fakeMessages = [
 
 const cx = classNames.bind(styles);
 
-function ChatMessages() {
+function ChatMessages({ conversationData, setIsShowFriendsList }) {
     const chatContainerRef = useRef(null);
     const [isAtBottom, setIsAtBottom] = useState(true);
 
+    console.log('💬 ChatMessages rendered with conversationData:', conversationData);
     // bắt sự kiện scroll để theo dõi vị trí cuộn
     useEffect(() => {
         const handleScroll = () => {

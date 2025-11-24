@@ -8,3 +8,14 @@
 .conversation-list {
     height: 100%;
 }
+
+.no-conversations {
+    text-align: center;
+    padding: 10px 0;
+
+    p {
+        margin-top: 20px;
+        color: $text-color-light;
+        padding: 0 15px;
+    }
+}

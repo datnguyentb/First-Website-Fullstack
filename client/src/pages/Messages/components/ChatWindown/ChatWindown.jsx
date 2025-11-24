@@ -14,7 +14,6 @@ function ChatWindown() {
     //tham gia room
     useEffect(() => {
         if (!socket) return;
-        console.log('✅ SocketTest mounted, socket connected:', socket.connected);
         const randomNum = Math.floor(Math.random() * 1000);
         socket.emit('addUser', `user${randomNum}`);
         // Lắng nghe sự kiện test từ server
@@ -92,17 +91,19 @@ function ChatWindown() {
     };
 
     return (
-        <div className={cx('wrapper')}>
-            <ChatWindownHeader />
-            <MessagesArea messages={messages} setMessages={setMessages} shouldAutoScroll={shouldAutoScroll} />
-            <ChatInput
-                textInput={textInput}
-                setTextInput={setTextInput}
-                handleSend={handleSend}
-                handleSendIcon={handleSendIcon}
-                handleKeyDown={handleKeyDown}
-            />
-        </div>
+        <>
+            <div className={cx('wrapper')}>
+                <ChatWindownHeader />
+                <MessagesArea messages={messages} setMessages={setMessages} shouldAutoScroll={shouldAutoScroll} />
+                <ChatInput
+                    textInput={textInput}
+                    setTextInput={setTextInput}
+                    handleSend={handleSend}
+                    handleSendIcon={handleSendIcon}
+                    handleKeyDown={handleKeyDown}
+                />
+            </div>
+        </>
     );
 }
 

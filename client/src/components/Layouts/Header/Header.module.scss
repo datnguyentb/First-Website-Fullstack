@@ -41,28 +41,36 @@
     gap: 12px;
 }
 
+.message-icon {
+}
+
+.action-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    svg {
+        font-size: 20px;
+        fill: $black;
+        opacity: 0.7;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
 .user-wrapper {
     display: flex;
     align-items: center;
 
     .bell-icon {
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        background-color: #ccc;
-        cursor: pointer;
-        svg {
-            font-size: 20px;
-            fill: $black;
-
-            &:hover {
-                opacity: 1;
-            }
-        }
+        margin-left: 1rem;
     }
 }
 

@@ -5,7 +5,6 @@ import Slider from '~/components/Slider';
 import { Story, Posts, PostComposer } from './components';
 import { bg_slider } from '~/assets/imgs/background_slider';
 import { useEffect } from 'react';
-import { ChatWidget } from '~/components';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +33,6 @@ function Home() {
                     </ul>
                 </div>
             </PostProvider>
-            <ChatWidget />
         </div>
     );
 }

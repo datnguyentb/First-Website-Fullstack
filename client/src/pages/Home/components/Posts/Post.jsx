@@ -69,7 +69,13 @@ function Post({ post, setPosts }) {
 
     return (
         <div className={cx('wrapper', 'mt-5')}>
-            {showUserProfile && <UserProfile onClose={handleCloseProfile} userId={post.author._id} />}
+            {showUserProfile && (
+                <UserProfile
+                    setShowUserProfile={setShowUserProfile}
+                    onClose={handleCloseProfile}
+                    userId={post.author._id}
+                />
+            )}
             <div className={cx('d-flex', 'justify-content-between')}>
                 <PostHeader setShowUserProfile={setShowUserProfile} userInfor={userInfor} post={post} />
                 <PostMoreAction

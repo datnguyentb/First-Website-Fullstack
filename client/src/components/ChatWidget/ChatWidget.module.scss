@@ -34,7 +34,7 @@
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     animation: fadeSlideIn 0.3s ease-out;
 
     .friends-list-header {
@@ -114,9 +114,15 @@
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
+
+    .chat-window-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
 
     .chat-header {
         font-size: 15px;
@@ -208,6 +214,24 @@
         &:hover {
             background-color: #e7f3ff;
         }
+    }
+}
+
+.no-chat-selected {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+
+    .message-icon {
+        font-size: 48px;
+        margin-bottom: 10px;
+        color: #ccc;
     }
 }
 

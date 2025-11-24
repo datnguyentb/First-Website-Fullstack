@@ -78,7 +78,7 @@ function createSecureAudioUploader(subfolder) {
     const storage = createStorage(subfolder);
     const multerUpload = multer({
         storage,
-        limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+        limits: { fileSize: 500 * 1024 * 1024 }, // 20MB
     });
 
     return (fieldName) => async (req, res, next) => {
