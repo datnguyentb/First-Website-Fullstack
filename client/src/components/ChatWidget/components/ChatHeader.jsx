@@ -17,17 +17,18 @@ const fakeUsers = {
     lastOnline: '2025-10-26T11:00:00Z',
 };
 
-function ChatHeader({ setIsOpenChatWidget, conversationInfo }) {
+function ChatHeader({ setIsOpenChatWidget, conversationData }) {
     const { user } = useUserContext();
     let userInfo = null;
-    if (conversationInfo && conversationInfo.participants) {
-        for (const participant of conversationInfo.participants) {
+    if (conversationData && conversationData.participants) {
+        for (const participant of conversationData.participants) {
             if (participant._id !== user._id) {
                 userInfo = participant;
                 break;
             }
         }
     }
+
     return (
         <div className={cx('chat-header')}>
             {userInfo && (
