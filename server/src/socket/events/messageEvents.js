@@ -3,45 +3,52 @@
 import MessageController from '../../controllers/chat/messageController.js';
 import ConversationService from '../../services/conversationService.js';
 
-/**
- * Đăng ký các sự kiện liên quan đến Tin nhắn và Conversation.
- * @param {object} socket Đối tượng socket của client
- * @param {object} io Đối tượng Server IO
- * @param {Map} onlineUsers Danh sách người dùng online
- */
 const messageEvents = (socket, io, onlineUsers) => {
-    // Khi user tham gia 1 cuộc trò chuyện (conversation)
-    socket.on('joinConversation', (conversationId) => {
+    // Join 1 conversation (room)
+    socket.on('joinConversation', async (conversationId) => {
+        const userId = socket.user._id;
+
+        const isMember = await ConversationService.checkMembership(conversationId, userId);
+
+        if (!isMember) {
+            console.log(`❌ User ${userId} tried to join unauthorized conversation: ${conversationId}`);
+            socket.emit('error', 'You do not have permission to access this conversation.');
+            return;
+        }
+
         socket.join(conversationId);
-        console.log(`User ${socket.user.id} joined conversation: ${conversationId}`);
+        console.log(`✅ User ${userId} joined conversation: ${conversationId}`);
     });
 
-    // Khi user rời khỏi cuộc trò chuyện
+    // Leave conversation
     socket.on('leaveConversation', (conversationId) => {
         socket.leave(conversationId);
-        console.log(`🏃 User ${socket.user.id} left conversation: ${conversationId}`);
+        console.log(`User ${socket.user.id} left conversation: ${conversationId}`);
     });
 
-    // Khi gửi tin nhắn
+    // sendMessage
     socket.on('sendMessage', async (messageData) => {
-        if (!messageData || !messageData.content) return;
+        // 1. Xác thực dữ liệu tin nhắn
+        if (!messageData?.content) return;
+        if (!['text', 'image', 'file'].includes(messageData.type)) return;
 
-        messageData.senderId = socket.user._id; // Dùng _id
+        //gán thông tin user gửi
+        messageData.senderId = socket.user._id;
 
-        let targetConversationId = messageData?.conversationId;
+        let conversationId = messageData?.conversationId;
 
-        if (!targetConversationId) {
-            // Trường hợp 1: Tin nhắn đầu tiên, sử dụng Service để tạo Conversation
+        // 2. Tạo conversation mới nếu không có conversationId
+        if (!conversationId) {
             if (!messageData.receiverId) return;
 
             const conversation = await ConversationService.findOrCreatePrivateConversation(
                 messageData.senderId,
                 messageData.receiverId,
             );
-            targetConversationId = conversation._id;
-            messageData.conversationId = targetConversationId;
+            conversationId = conversation._id;
         } else {
-            const isMember = await ConversationService.checkMembership(targetConversationId, messageData.senderId);
+            // Kiểm tra quyền gửi tin
+            const isMember = await ConversationService.checkMembership(conversationId, messageData.senderId);
 
             if (!isMember) {
                 socket.emit('error', 'Bạn không có quyền gửi vào cuộc trò chuyện này.');
@@ -49,18 +56,19 @@ const messageEvents = (socket, io, onlineUsers) => {
             }
         }
 
-        // --- 💾 LƯU VÀ PHÂN PHỐI TIN NHẮN ---
-
+        // Gán metadata
+        messageData.conversationId = conversationId;
         messageData.timestamp = new Date().toISOString();
 
+        // 4. Lưu tin nhắn vào DB
         try {
             const savedMessage = await MessageController.saveMessage(messageData);
 
-            // Gửi tin nhắn đến tất cả client trong room/conversation
-            io.to(targetConversationId.toString()).emit('receiveMessage', savedMessage);
+            // 5. Phát tin nhắn đến các thành viên trong conversation
+            io.to(conversationId.toString()).emit('receiveMessage', savedMessage);
         } catch (error) {
-            console.error('Lỗi DB khi lưu tin nhắn:', error.message);
-            socket.emit('error', 'Lỗi server khi lưu tin nhắn.');
+            console.error('Lỗi DB khi gửi tin nhắn:', error.message);
+            socket.emit('error', 'Lỗi server khi gửi tin nhắn.');
         }
     });
 };

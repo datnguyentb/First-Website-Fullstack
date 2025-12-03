@@ -67,8 +67,32 @@ export const formatTimeWithDay = (date) => {
 
 //chuyển đổi thời lươgng bài hát từ giây sang phút:giây
 export function formatSongTime(seconds) {
-    if (!seconds || isNaN(seconds)) return '0:00';
-    const m = Math.floor(seconds / 60); // phút
-    const s = Math.floor(seconds % 60); // giây
-    return `${m}:${s.toString().padStart(2, '0')}`;
+    // 1. Xử lý trường hợp đầu vào không hợp lệ hoặc bằng 0
+    if (typeof seconds !== 'number' || isNaN(seconds) || seconds < 0) {
+        return '0:00';
+    }
+
+    const totalSeconds = Math.floor(seconds);
+
+    // 2. Tính toán Giờ, Phút, Giây
+    const h = Math.floor(totalSeconds / 3600); // Giờ
+    const remainingSecondsAfterHours = totalSeconds % 3600;
+
+    const m = Math.floor(remainingSecondsAfterHours / 60); // Phút
+    const s = Math.floor(remainingSecondsAfterHours % 60); // Giây
+
+    // 3. Định dạng chuỗi
+
+    // Đảm bảo giây luôn có 2 chữ số (ví dụ: 5 -> '05')
+    const formattedS = s.toString().padStart(2, '0');
+
+    // Nếu thời lượng lớn hơn hoặc bằng 1 giờ (h >= 1)
+    if (h >= 1) {
+        // Đảm bảo phút cũng có 2 chữ số khi có giờ (ví dụ: 1:05:00)
+        const formattedM = m.toString().padStart(2, '0');
+        return `${h}:${formattedM}:${formattedS}`; // Định dạng h:mm:ss
+    } else {
+        // Nếu nhỏ hơn 1 giờ, chỉ trả về m:ss
+        return `${m}:${formattedS}`; // Định dạng m:ss
+    }
 }

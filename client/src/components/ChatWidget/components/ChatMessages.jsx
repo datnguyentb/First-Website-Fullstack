@@ -81,7 +81,9 @@ function ChatMessages({ conversationData, setIsShowFriendsList }) {
     const chatContainerRef = useRef(null);
     const [isAtBottom, setIsAtBottom] = useState(true);
 
-    console.log('💬 ChatMessages rendered with conversationData:', conversationData);
+    if (conversationData) {
+        console.log('Conversation Data in ChatMessages:', conversationData);
+    }
     // bắt sự kiện scroll để theo dõi vị trí cuộn
     useEffect(() => {
         const handleScroll = () => {
@@ -110,7 +112,7 @@ function ChatMessages({ conversationData, setIsShowFriendsList }) {
 
     return (
         <div ref={chatContainerRef} className={cx('chat-messages', 'scrollbar')}>
-            {fakeMessages.map((msg) => (
+            {conversationData?.messages.map((msg) => (
                 <div key={msg._id} className={cx('message', msg.sender._id === 'u1' ? 'received' : 'sent')}>
                     <div className={cx('message-content')}>{msg.content}</div>
                 </div>

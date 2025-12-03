@@ -27,4 +27,3 @@ const userStatusEvents = (socket, io, onlineUsers) => {
 };
 
 export default userStatusEvents;
-// /socket/events/userStatusEvents.js

@@ -6,12 +6,36 @@ import { useEffect, useState } from 'react';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useGetConversation from '~/hooks/chat/useGetConversation';
+import { useSocketContext } from '~/contexts';
+
 const cx = classNames.bind(styles);
 
 function ChatWidget({ setIsOpenChatWidget, userId }) {
     const [isShowFriendsList, setIsShowFriendsList] = useState(true);
     const [conversationData, setConversationData] = useState(null);
     const { fetchConversation, loading } = useGetConversation();
+
+    const { socket, realTimeMessages } = useSocketContext();
+
+    //tham gia room
+    useEffect(() => {
+        if (!socket) return;
+        const randomNum = Math.floor(Math.random() * 1000);
+        socket.emit('addUser', `user${randomNum}`);
+        // Lắng nghe sự kiện test từ server
+        socket.on('serverResponse', (data) => {
+            console.log('📩 Server phản hồi:', data);
+        });
+
+        socket.emit('joinConversation', '123');
+
+        // Dọn dẹp khi rời trang
+        return () => {
+            console.log('🚪 Rời khỏi phòng chat:', '123');
+            socket.emit('leaveConversation', conversationData.conversation?._id);
+            socket.off('serverResponse');
+        };
+    }, [socket]);
 
     useEffect(() => {
         if (!userId) return;
@@ -26,6 +50,9 @@ function ChatWidget({ setIsOpenChatWidget, userId }) {
 
         if (userId) loadConversation();
     }, [userId]);
+
+    //handle function
+    const handleSendMessage = (message) => {};
 
     return (
         <div className={cx('chat-widget')}>
@@ -45,7 +72,7 @@ function ChatWidget({ setIsOpenChatWidget, userId }) {
                             setIsOpenChatWidget={setIsOpenChatWidget}
                         />
                         <ChatMessages conversationData={conversationData} setIsShowFriendsList={setIsShowFriendsList} />
-                        <ChatInput />
+                        <ChatInput handleSendMessage={handleSendMessage} />
                     </div>
                 ) : (
                     // ❌ Chưa chọn đoạn chat nào
