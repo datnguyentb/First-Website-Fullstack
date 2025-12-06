@@ -13,7 +13,7 @@ class ConversationController {
             }
 
             // 🔍 1 & 2. Sử dụng Service để Tìm hoặc Tạo
-            const conversation = await ConversationService.findOrCreatePrivateConversation(myId, userId);
+            const conversation = await ConversationService.getOrCreateConversation(myId, userId);
 
             // 💬 3. Lấy danh sách tin nhắn (Không đổi)
             const messages = await Message.find({ conversation: conversation._id })

@@ -1,8 +1,9 @@
 // src/api/userApi.js
-import axiosMainApi from './axiosMainApi';
+import axiosMainApi from '../user/axiosMainApi';
 
 const messageApi = {
-    sendMessage: (conversationId) => axiosMainApi.post(`/api/message/send/${conversationId}`),
+    sendMessage: (conversationId) => axiosMainApi.post(`/api/chat/message/send/${conversationId}`),
+    getMessages: (conversationId) => axiosMainApi.get(`/api/chat/message/get/${conversationId}`),
 };
 
 export default messageApi;

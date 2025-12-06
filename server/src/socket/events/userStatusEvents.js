@@ -9,12 +9,6 @@
 const userStatusEvents = (socket, io, onlineUsers) => {
     const userId = socket.user.id; // Lấy userId đã gắn từ middleware
 
-    socket.on('addUser', () => {
-        onlineUsers.set(userId, socket.id);
-        socket.data.userId = userId; // Gắn thêm userId vào data của socket
-        console.log(`User ${userId} is now online. Total online: ${onlineUsers.size}`);
-    });
-
     // Khi ngắt kết nối
     socket.on('disconnect', () => {
         if (onlineUsers.get(userId) === socket.id) {

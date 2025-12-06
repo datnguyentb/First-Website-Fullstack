@@ -1,4 +1,5 @@
 import { verifyToken } from '../utils/jwt.js';
+import conversationEvents from './events/conversationEvents.js';
 import messageEvents from './events/messageEvents.js';
 import userStatusEvents from './events/userStatusEvents.js';
 
@@ -12,7 +13,7 @@ const jwtAuthMiddleware = (socket, next) => {
 
     try {
         const user = verifyToken(token);
-        socket.user = user; // Gắn thông tin user vào socket
+        socket.user = user;
         console.log('✅ Socket authenticated for user:', user.id);
         next();
     } catch (err) {
@@ -25,10 +26,15 @@ const handleSocketEvents = (io) => {
     io.use(jwtAuthMiddleware);
 
     io.on('connection', (socket) => {
+        const userId = socket.user.id;
+        onlineUsers.set(userId, socket.id);
         console.log(`🟢 Socket connected: ${socket.id} (User: ${socket.user.id})`);
 
         // Đăng ký các event handler cho Trạng thái người dùng
         userStatusEvents(socket, io, onlineUsers);
+
+        // Đăng ký các event handler cho Cuộc trò chuyện
+        conversationEvents(socket, io);
 
         // Đăng ký các event handler cho Tin nhắn và Conversation
         messageEvents(socket, io, onlineUsers);

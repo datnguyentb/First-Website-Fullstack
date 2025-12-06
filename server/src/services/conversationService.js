@@ -1,6 +1,7 @@
+import mongoose from 'mongoose';
 import Conversation from '../models/Conversation.js';
 
-const findOrCreatePrivateConversation = async (user1Id, user2Id) => {
+const getOrCreateConversation = async (user1Id, user2Id) => {
     // 1. Tìm kiếm
     let conversation = await Conversation.findOne({
         type: 'private',
@@ -25,11 +26,13 @@ const findOrCreatePrivateConversation = async (user1Id, user2Id) => {
 
 // Hàm mới để kiểm tra thành viên (cần cho Socket.IO)
 const checkMembership = async (conversationId, userId) => {
+    if (!mongoose.Types.ObjectId.isValid(conversationId)) {
+        return false;
+    }
     const conversation = await Conversation.findById(conversationId);
     if (!conversation) return false;
 
-    // Kiểm tra xem userId có nằm trong mảng participants không
     return conversation.participants.some((p) => p.equals(userId));
 };
 
-export default { findOrCreatePrivateConversation, checkMembership };
+export default { getOrCreateConversation, checkMembership };

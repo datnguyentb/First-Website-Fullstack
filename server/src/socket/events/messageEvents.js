@@ -1,74 +1,28 @@
-// /socket/events/messageEvents.js
-
 import MessageController from '../../controllers/chat/messageController.js';
 import ConversationService from '../../services/conversationService.js';
+import { validateMessage } from '../helpers/validateMessage.js';
 
-const messageEvents = (socket, io, onlineUsers) => {
-    // Join 1 conversation (room)
-    socket.on('joinConversation', async (conversationId) => {
-        const userId = socket.user._id;
+const messageEvents = (socket, io) => {
+    const userId = socket.user._id;
 
-        const isMember = await ConversationService.checkMembership(conversationId, userId);
+    // Send message
+    socket.on('sendMessage', async (payload) => {
+        const msg = validateMessage(payload);
+        if (!msg) return socket.emit('error', 'Tin nhắn không hợp lệ.');
 
-        if (!isMember) {
-            console.log(`❌ User ${userId} tried to join unauthorized conversation: ${conversationId}`);
-            socket.emit('error', 'You do not have permission to access this conversation.');
-            return;
-        }
+        msg.senderId = userId;
 
-        socket.join(conversationId);
-        console.log(`✅ User ${userId} joined conversation: ${conversationId}`);
-    });
+        // auto create conversation nếu cần
+        const conversationId = await ConversationService.getOrCreateConversation(msg);
 
-    // Leave conversation
-    socket.on('leaveConversation', (conversationId) => {
-        socket.leave(conversationId);
-        console.log(`User ${socket.user.id} left conversation: ${conversationId}`);
-    });
+        msg.conversationId = conversationId;
+        msg.timestamp = new Date();
 
-    // sendMessage
-    socket.on('sendMessage', async (messageData) => {
-        // 1. Xác thực dữ liệu tin nhắn
-        if (!messageData?.content) return;
-        if (!['text', 'image', 'file'].includes(messageData.type)) return;
-
-        //gán thông tin user gửi
-        messageData.senderId = socket.user._id;
-
-        let conversationId = messageData?.conversationId;
-
-        // 2. Tạo conversation mới nếu không có conversationId
-        if (!conversationId) {
-            if (!messageData.receiverId) return;
-
-            const conversation = await ConversationService.findOrCreatePrivateConversation(
-                messageData.senderId,
-                messageData.receiverId,
-            );
-            conversationId = conversation._id;
-        } else {
-            // Kiểm tra quyền gửi tin
-            const isMember = await ConversationService.checkMembership(conversationId, messageData.senderId);
-
-            if (!isMember) {
-                socket.emit('error', 'Bạn không có quyền gửi vào cuộc trò chuyện này.');
-                return;
-            }
-        }
-
-        // Gán metadata
-        messageData.conversationId = conversationId;
-        messageData.timestamp = new Date().toISOString();
-
-        // 4. Lưu tin nhắn vào DB
         try {
-            const savedMessage = await MessageController.saveMessage(messageData);
-
-            // 5. Phát tin nhắn đến các thành viên trong conversation
-            io.to(conversationId.toString()).emit('receiveMessage', savedMessage);
-        } catch (error) {
-            console.error('Lỗi DB khi gửi tin nhắn:', error.message);
-            socket.emit('error', 'Lỗi server khi gửi tin nhắn.');
+            const saved = await MessageController.saveMessage(msg);
+            io.to(conversationId.toString()).emit('receiveMessage', saved);
+        } catch (err) {
+            socket.emit('error', 'Server error khi gửi tin.');
         }
     });
 };
