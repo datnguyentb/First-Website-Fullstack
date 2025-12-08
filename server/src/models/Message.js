@@ -19,6 +19,13 @@ const messageSchema = new mongoose.Schema(
         // 📝 Nội dung
         content: { type: String, trim: true, default: '' },
 
+        // 🗂️ Loại tin nhắn
+        type: {
+            type: String,
+            enum: ['text', 'image', 'video', 'audio', 'file', 'system'],
+            default: 'text',
+        },
+
         // 📎 Tệp đính kèm
         attachments: [
             {
@@ -45,7 +52,10 @@ const messageSchema = new mongoose.Schema(
         ],
 
         // 👁️ Ai đã xem
-        seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        seenBy: {
+            type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+            default: [],
+        },
 
         // 📶 Trạng thái gửi
         status: {

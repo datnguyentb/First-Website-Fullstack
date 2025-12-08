@@ -89,6 +89,7 @@
     }
 }
 
+//display user avatar with online indicator
 .user-avatar {
     width: 36px;
     height: 36px;
@@ -106,6 +107,13 @@
         border-radius: 50%;
         position: absolute;
     }
+}
+
+.chat-username {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .chat-window {
@@ -134,11 +142,16 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-    }
 
-    .chat-user-info {
-        display: flex;
-        align-items: center;
+        .chat-actions {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .chat-user-info {
+            display: flex;
+            align-items: center;
+        }
     }
 
     .chat-messages {
@@ -180,6 +193,11 @@
     border: none;
     cursor: pointer;
     font-size: 16px;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #606770;
     padding: 5px;
 
@@ -220,6 +238,7 @@
 .no-chat-selected {
     flex: 1;
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -232,6 +251,12 @@
         font-size: 48px;
         margin-bottom: 10px;
         color: #ccc;
+    }
+
+    .close-chatwidget-no-chat {
+        position: absolute;
+        top: 15px;
+        right: 15px;
     }
 }
 

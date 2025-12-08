@@ -3,26 +3,43 @@ import ConversationService from '../../services/conversationService.js';
 import { validateMessage } from '../helpers/validateMessage.js';
 
 const messageEvents = (socket, io) => {
-    const userId = socket.user._id;
+    const userId = socket.user.id;
 
-    // Send message
-    socket.on('sendMessage', async (payload) => {
-        const msg = validateMessage(payload);
-        if (!msg) return socket.emit('error', 'Tin nhắn không hợp lệ.');
-
-        msg.senderId = userId;
-
-        // auto create conversation nếu cần
-        const conversationId = await ConversationService.getOrCreateConversation(msg);
-
-        msg.conversationId = conversationId;
-        msg.timestamp = new Date();
-
+    socket.on('sendMessage', async (data) => {
         try {
-            const saved = await MessageController.saveMessage(msg);
-            io.to(conversationId.toString()).emit('receiveMessage', saved);
+            // 1. Validate input
+            const validatedMessage = validateMessage(data);
+            if (!validatedMessage) {
+                return socket.emit('error', 'Tin nhắn không hợp lệ.');
+            }
+
+            // 2. Kiểm tra bắt buộc: phải có conversationId
+            if (!validatedMessage.conversation) {
+                return socket.emit('error', 'Thiếu conversationId. Bạn cần tạo cuộc trò chuyện trước.');
+            }
+
+            // Kiểm tra conversation tồn tại thật
+            const exists = await ConversationService.checkMembership(validatedMessage.conversation, userId);
+            if (!exists) {
+                return socket.emit('error', 'Cuộc trò chuyện không tồn tại.');
+            }
+
+            // 3. Thêm người gửi
+            validatedMessage.sender = userId;
+
+            // 4. Lưu vào DB
+            const savedMessage = await MessageController.saveMessage(validatedMessage);
+            if (savedMessage.status !== 'success') {
+                console.error('❌ Message saving failed:', savedMessage);
+                return socket.emit('error', 'Không lưu được tin nhắn.');
+            }
+
+            // 5. Phát cho room
+            console.log('Emitting to room:', savedMessage.data);
+            io.to(validatedMessage.conversation.toString()).emit('receiveMessage', savedMessage.data);
         } catch (err) {
-            socket.emit('error', 'Server error khi gửi tin.');
+            console.error('❌ Error in sendMessage:', err);
+            socket.emit('error', 'Không gửi được tin nhắn.');
         }
     });
 };

@@ -29,10 +29,17 @@ const checkMembership = async (conversationId, userId) => {
     if (!mongoose.Types.ObjectId.isValid(conversationId)) {
         return false;
     }
-    const conversation = await Conversation.findById(conversationId);
+
+    const conversation = await Conversation.findById(conversationId).select('participants').lean();
+
     if (!conversation) return false;
 
-    return conversation.participants.some((p) => p.equals(userId));
+    // Convert userId về ObjectId
+    const uid = new mongoose.Types.ObjectId(userId);
+
+    return conversation.participants.some((p) => {
+        return uid.equals(p); // p có thể là string hoặc ObjectId → vẫn chạy đúng
+    });
 };
 
 export default { getOrCreateConversation, checkMembership };

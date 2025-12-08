@@ -37,7 +37,10 @@ function ChatHeader({ setIsOpenChatWidget, conversationInfo }) {
                         <Img circle src={baseUrl(userInfo.avatarUrl)} />
                         {fakeUsers.status === 'online' && <div className={cx('online-indicator')}></div>}
                     </div>
-                    <div className={cx('chat-username')}>{`${userInfo.firstName} ${userInfo.lastName}`}</div>
+                    <div
+                        className={cx('chat-username')}
+                        title={`${userInfo.firstName} ${userInfo.lastName}`}
+                    >{`${userInfo.firstName} ${userInfo.lastName}`}</div>
                 </div>
             )}
             <div className={cx('chat-actions')}>

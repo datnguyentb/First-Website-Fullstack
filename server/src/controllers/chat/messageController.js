@@ -11,28 +11,29 @@ import Message from '../../models/Message.js';
 
 class MessageController {
     // Lưu tin nhắn
-    saveMessage = async (req, res) => {
+    saveMessage = async (payload) => {
         try {
-            const { senderId, conversationId, content, attachments, replyTo } = req.body;
+            const { sender, conversation, type, content, attachments, replyTo } = payload;
 
-            if (!conversationId || !senderId || !content) {
+            if (!conversation || !sender || !content) {
                 return badRequestResponse(res, 'Missing required fields');
             }
 
             const newMessage = new Message({
-                sender: senderId,
-                conversation: conversationId,
+                sender: sender,
+                conversation: conversation,
                 content,
+                type: type || 'text',
                 attachments: attachments || [],
                 replyTo: replyTo || null,
-                seenBy: [senderId],
+                seenBy: [],
             });
 
             await newMessage.save();
 
             const populatedMessage = await newMessage.populate('sender', 'firstName lastName avatarUrl');
 
-            return createdResponse(res, populatedMessage);
+            return { status: 'success', data: populatedMessage };
         } catch (error) {
             console.error(error);
             return serverErrorResponse(res, 'Cannot save message');
