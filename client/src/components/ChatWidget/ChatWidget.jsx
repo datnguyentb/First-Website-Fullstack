@@ -5,11 +5,13 @@ import ChatWidgetWindow from './components/ChatWidgetWindow';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
+import useGetConversation from '~/hooks/conversation/useGetConversation';
 
 const cx = classNames.bind(styles);
 
 function ChatWidget({ setIsOpenChatWidget, userId }) {
     const [isShowFriendsList, setIsShowFriendsList] = useState(true);
+    const { conversationInfo, loading } = useGetConversation(userId);
 
     return (
         <div className={cx('chat-widget')}>
@@ -22,6 +24,7 @@ function ChatWidget({ setIsOpenChatWidget, userId }) {
                     userId={userId}
                     setIsOpenChatWidget={setIsOpenChatWidget}
                     setIsShowFriendsList={setIsShowFriendsList}
+                    conversationInfo={conversationInfo}
                 />
             </div>
 

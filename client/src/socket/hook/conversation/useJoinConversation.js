@@ -7,11 +7,9 @@ export default function useJoinConversation(conversationId) {
     useEffect(() => {
         if (!socket || !conversationId) return;
 
-        console.log('📌 Join room:', conversationId);
         socket.emit('joinConversation', conversationId);
 
         return () => {
-            console.log('🚪 Leave room:', conversationId);
             socket.emit('leaveConversation', conversationId);
         };
     }, [socket, conversationId]);

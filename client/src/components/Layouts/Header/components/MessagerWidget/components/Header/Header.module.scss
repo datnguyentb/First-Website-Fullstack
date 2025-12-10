@@ -1,0 +1,56 @@
+/* Header (Đoạn chat, Icons, Search) */
+.chat-header {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.header-icons i {
+    font-size: 1em;
+    color: var(--text-muted);
+    margin-left: 15px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.header-icons i:hover {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 10px 10px 40px;
+    border: none;
+    background-color: var(--bg-light);
+    border-radius: 20px;
+    font-size: 0.9em;
+    outline: none;
+}

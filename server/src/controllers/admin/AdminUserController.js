@@ -10,6 +10,15 @@ class AdminUserController {
             return serverErrorResponse(res, 'Failed to retrieve user count');
         }
     };
+
+    getAllUsers = async (req, res) => {
+        try {
+            const users = await User.find().select('-password');
+            return okResponse(res, 'Retrieved all users successfully', users);
+        } catch {
+            return serverErrorResponse(res, 'Failed to retrieve users');
+        }
+    };
 }
 
 export default new AdminUserController();

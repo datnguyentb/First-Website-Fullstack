@@ -1,0 +1,43 @@
+:root {
+    --text-dark: #1c1e21; /* Gần như đen */
+    --text-muted: #606770; /* Text xám mờ */
+    --bg-light: #f0f2f5; /* Nền nhẹ */
+    --bg-card: #ffffff;
+    --accent-blue: #007bff; /* Màu xanh chủ đạo cho các hành động/nút */
+    --accent-messenger: #0084ff; /* Xanh Messenger */
+    --border-color: #e4e6eb;
+    --radius-default: 8px;
+}
+
+/* Container Chính (Khối Messenger) */
+.messenger-widget {
+    width: 380px;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-default);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow mềm mại */
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Danh Sách Cuộc Trò Chuyện */
+.chat-list {
+    list-style: none;
+    padding: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Footer (Xem tất cả) */
+.chat-footer {
+    padding: 10px 15px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-footer button {
+    color: var(--accent-messenger);
+    font-weight: 500;
+    font-size: 0.9em;
+}

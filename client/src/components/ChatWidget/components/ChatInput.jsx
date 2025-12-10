@@ -8,22 +8,30 @@ const cx = classNames.bind(styles);
 
 function ChatInput({ handleSendMessage }) {
     const [message, setMessage] = useState('');
+
+    const send = () => {
+        const trimmed = message.trim();
+        if (!trimmed) return;
+        handleSendMessage(trimmed);
+        setMessage('');
+    };
+
     return (
         <div className={cx('chat-input')}>
             <input
                 type="text"
                 placeholder="Type a message..."
-                onChange={(e) => {
-                    setMessage(e.target.value);
+                value={message || ''}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault(); // ngăn xuống dòng
+                        send();
+                    }
                 }}
             />
-            <button>
-                <FontAwesomeIcon
-                    icon={faPaperPlane}
-                    onClick={() => {
-                        handleSendMessage(message);
-                    }}
-                />
+            <button className={cx('sent-btn', message.trim() && 'active')} disabled={!message.trim()} onClick={send}>
+                <FontAwesomeIcon icon={faPaperPlane} />
             </button>
         </div>
     );

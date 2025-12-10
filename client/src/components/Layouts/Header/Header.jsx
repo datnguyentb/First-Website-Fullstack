@@ -7,15 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { Button, Img } from '~/components';
 import Search from './components/Search';
-import { Notification, UserDropdownPanel, UserProfile } from './components';
+import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useChatWidgetContext, useUserContext } from '~/contexts';
+import { useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
+    const [isVisibleMessagerWidget, setIsVisibleMessagerWidget] = useState(false); // Trạng thái hiển thị MessagerWidget
     const { user } = useUserContext() ?? {};
-    const { setIsOpenChatWidget } = useChatWidgetContext();
+
     const [showProfile, setShowProfile] = useState(false);
 
     const handleShowProfile = () => {
@@ -26,6 +27,13 @@ function Header({ style_2 = false }) {
         setShowProfile(false);
     };
 
+    //Funtion to toggle MessagerWidget visibility
+    // Hàm đóng Popover
+    const handleHideMessagerWidget = () => setIsVisibleMessagerWidget(false);
+
+    // Hàm bật/tắt Popover
+    const handleToggle = () => setIsVisibleMessagerWidget((prev) => !prev);
+
     return (
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
@@ -33,8 +41,22 @@ function Header({ style_2 = false }) {
                 <Search />
                 {user ? (
                     <div className={cx('user-wrapper')}>
-                        <div className={cx('message-icon', 'action-btn')} onClick={() => setIsOpenChatWidget(true)}>
-                            <FontAwesomeIcon icon={faMessage} />
+                        <div>
+                            <HeadlessTippy
+                                interactive={true}
+                                placement="bottom-start"
+                                onClickOutside={handleHideMessagerWidget}
+                                visible={isVisibleMessagerWidget}
+                                render={(attrs, contentRef) => (
+                                    <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
+                                        <MessagerWidget handleHideMessagerWidget={handleHideMessagerWidget} />
+                                    </div>
+                                )}
+                            >
+                                <div className={cx('message-icon', 'action-btn')}>
+                                    <FontAwesomeIcon icon={faMessage} onClick={handleToggle} />
+                                </div>
+                            </HeadlessTippy>
                         </div>
                         <div>
                             <HeadlessTippy

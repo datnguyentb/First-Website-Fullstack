@@ -7,5 +7,6 @@ const router = express.Router();
 
 //AuthController
 router.get('/get_user_number', authenticateJWT, requireRole('admin'), AdminUserController.getUserNumber);
+router.get('/get_all_users', authenticateJWT, requireRole('admin'), AdminUserController.getAllUsers);
 
 export default router;

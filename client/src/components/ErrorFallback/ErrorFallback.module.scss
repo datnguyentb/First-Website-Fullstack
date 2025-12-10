@@ -1,0 +1,104 @@
+/* Reset và Căn giữa Body - Chỉ nên đặt styles này trong file global nếu có thể */
+/* Tuy nhiên, tôi đặt ở đây để component có thể tự hoạt động */
+
+.wrapper {
+    display: flex;
+}
+
+.cute-error-container {
+    text-align: center;
+    padding: 35px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    border: 3px dashed #ff80ab;
+    position: relative;
+    animation: bounceIn 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.error-illustration {
+    width: 150px;
+    align-items: center;
+    height: auto;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+    display: flex;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.cute-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #d81b60;
+    margin-bottom: 10px;
+}
+
+.cute-message {
+    color: #4a4a4a;
+    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.cute-button {
+    background-color: #ff80ab;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s;
+}
+
+.cute-button:hover {
+    background-color: #f06292;
+    transform: translateY(-2px);
+}
+
+.back-link {
+    display: block;
+    margin-top: 15px;
+    color: #888888;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.back-link:hover {
+    color: #555555;
+    text-decoration: underline;
+}

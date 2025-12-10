@@ -35,7 +35,6 @@ const messageEvents = (socket, io) => {
             }
 
             // 5. Phát cho room
-            console.log('Emitting to room:', savedMessage.data);
             io.to(validatedMessage.conversation.toString()).emit('receiveMessage', savedMessage.data);
         } catch (err) {
             console.error('❌ Error in sendMessage:', err);

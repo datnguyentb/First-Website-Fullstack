@@ -9,7 +9,6 @@ export default function useReceiveMessage() {
         if (!socket) return;
 
         const handler = (message) => {
-            console.log('🧾 Received message from server:', message);
             setLastMessage(message); // nhận tất cả message từ server
         };
 

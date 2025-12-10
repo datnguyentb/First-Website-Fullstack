@@ -12,7 +12,7 @@ export default function useGetMessages(conversationId) {
             setLoading(true);
             try {
                 const res = await messageApi.getMessages(conversationId);
-                setMessages(res.data);
+                setMessages(res.data.message);
             } catch (err) {
                 console.error('❌ Lỗi load messages:', err);
             } finally {
