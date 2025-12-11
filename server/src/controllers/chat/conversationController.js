@@ -31,6 +31,25 @@ class ConversationController {
             // ... xử lý lỗi ...
         }
     };
+
+    // 🚀 Lấy danh sách cuộc trò chuyện của user
+    getUserConversations = async (req, res) => {
+        try {
+            const myId = req.user._id;
+            if (!myId) {
+                return res.status(400).json({ message: 'Missing user ID' });
+            }
+            // 🔍 Sử dụng Service để lấy cuộc trò chuyện
+            const conversations = await ConversationService.getUserConversations(myId);
+            // ✅ Trả về kết quả
+            return res.status(200).json({
+                success: true,
+                conversations,
+            });
+        } catch (error) {
+            // ... xử lý lỗi ...
+        }
+    };
 }
 
 export default new ConversationController();

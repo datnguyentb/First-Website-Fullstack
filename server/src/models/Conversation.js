@@ -42,6 +42,12 @@ const conversationSchema = new mongoose.Schema(
             ref: 'Message',
         },
 
+        unreadCount: {
+            type: Map,
+            of: Number,
+            default: {},
+        },
+
         // 🕓 Nhật ký thay đổi
         activities: [
             {

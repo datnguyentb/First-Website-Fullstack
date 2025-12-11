@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Conversation from '../models/Conversation.js';
+import { get } from 'http';
 
 const getOrCreateConversation = async (user1Id, user2Id) => {
     // 1. Tìm kiếm
@@ -42,4 +43,16 @@ const checkMembership = async (conversationId, userId) => {
     });
 };
 
-export default { getOrCreateConversation, checkMembership };
+//get All conversations of a user
+const getUserConversations = async (userId) => {
+    const conversations = await Conversation.find({
+        participants: userId,
+    })
+        .populate('participants', 'firstName lastName avatarUrl')
+        .populate('lastMessage')
+        .sort({ updatedAt: -1 })
+        .lean();
+    return conversations;
+};
+
+export default { getOrCreateConversation, checkMembership, getUserConversations };

@@ -10,6 +10,7 @@ import { UserAuthProvider } from './contexts/UserAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
 import { SocketProvider } from './contexts/SocketContext';
 import { ChatWidgetProvider } from './contexts/ChatwidgetContext';
+import { ConversationProvider } from './contexts/ConversationContext';
 
 function App() {
     const renderRoute = (route, index) => {
@@ -35,7 +36,9 @@ function App() {
                     <UserProvider>
                         <SocketProvider>
                             <PlayerProvider>
-                                {isChatWidgetRoute ? <ChatWidgetProvider>{element}</ChatWidgetProvider> : element}
+                                <ConversationProvider>
+                                    {isChatWidgetRoute ? <ChatWidgetProvider>{element}</ChatWidgetProvider> : element}
+                                </ConversationProvider>
                             </PlayerProvider>
                         </SocketProvider>
                     </UserProvider>

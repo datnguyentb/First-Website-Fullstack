@@ -129,7 +129,7 @@ function MessagerWidget({ handleHideMessagerWidget }) {
 
                 {/* Footer */}
                 <div className={cx('chat-footer')}>
-                    <button>Xem tất cả trong Messenger</button>
+                    <button>See all in Messenger</button>
                 </div>
             </div>
         </div>
