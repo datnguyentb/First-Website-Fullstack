@@ -1,6 +1,6 @@
 export { default as Home } from './Home';
 export { default as Todo } from './Todo';
-export { default as Messages } from './Messages';
+export { default as Messenger } from './Messenger';
 export { default as MusicPlayer } from './MusicPlayer/Home';
 export { default as MusicPlaylist } from './MusicPlayer/Playlist';
 export { default as AdminDashboard } from './Admin/Dashboard';

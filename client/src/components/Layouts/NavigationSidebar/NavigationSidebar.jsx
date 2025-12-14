@@ -27,9 +27,9 @@ const navOptions = [
         link: '/music',
     },
     {
-        title: 'Messages',
+        title: 'Messenger',
         icon: faMessage,
-        link: '/messages',
+        link: '/messenger',
     },
     {
         title: 'Co-Listening',

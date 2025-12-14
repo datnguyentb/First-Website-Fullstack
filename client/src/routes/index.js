@@ -1,4 +1,4 @@
-import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messages } from '../pages';
+import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messenger } from '../pages';
 import { Login, Register } from '../pages/Auth';
 import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
 import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
@@ -21,8 +21,8 @@ const publicRoutes = [
         layout: AuthLayout,
     },
     {
-        path: config.routes.messages,
-        component: Messages,
+        path: config.routes.messenger,
+        component: Messenger,
         layout: NavigationOnly,
     },
     {

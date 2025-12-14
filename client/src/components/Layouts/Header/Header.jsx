@@ -5,16 +5,17 @@ import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
-import { Button, Img } from '~/components';
+import { Button, ChatWidget, Img } from '~/components';
 import Search from './components/Search';
 import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useUserContext } from '~/contexts';
+import { useChatWidgetContext, useUserContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
     const [isVisibleMessagerWidget, setIsVisibleMessagerWidget] = useState(false); // Trạng thái hiển thị MessagerWidget
+    const { isOpenChatWidget, setIsOpenChatWidget, userId } = useChatWidgetContext();
     const { user } = useUserContext() ?? {};
 
     const [showProfile, setShowProfile] = useState(false);
@@ -37,6 +38,7 @@ function Header({ style_2 = false }) {
     return (
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
+            {isOpenChatWidget && <ChatWidget setIsOpenChatWidget={setIsOpenChatWidget} userId={userId} />}
             <div className={cx('container', style_2 && 'style_2')}>
                 <Search />
                 {user ? (
@@ -48,13 +50,19 @@ function Header({ style_2 = false }) {
                                 onClickOutside={handleHideMessagerWidget}
                                 visible={isVisibleMessagerWidget}
                                 render={(attrs, contentRef) => (
-                                    <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
+                                    <div
+                                        className="box"
+                                        tabIndex="-1"
+                                        ref={contentRef}
+                                        {...attrs}
+                                        style={{ zIndex: 9999 }}
+                                    >
                                         <MessagerWidget handleHideMessagerWidget={handleHideMessagerWidget} />
                                     </div>
                                 )}
                             >
-                                <div className={cx('message-icon', 'action-btn')}>
-                                    <FontAwesomeIcon icon={faMessage} onClick={handleToggle} />
+                                <div className={cx('message-icon', 'action-btn')} onClick={handleToggle}>
+                                    <FontAwesomeIcon icon={faMessage} />
                                 </div>
                             </HeadlessTippy>
                         </div>

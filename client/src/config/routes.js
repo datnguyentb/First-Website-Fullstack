@@ -1,7 +1,7 @@
 const routes = {
     home: '/',
     todo: '/todo',
-    messages: '/messages',
+    messenger: '/messenger',
     login: '/auth/login',
     register: '/auth/register',
     musicPlayer: '/music',

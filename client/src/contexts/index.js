@@ -11,6 +11,7 @@ import { FavoriteContext } from './FavoriteContext';
 import { SocketContext } from './SocketContext';
 import { ChatWidgetContext } from './ChatwidgetContext';
 import { ConversationContext } from './ConversationContext';
+import { MessageCacheContext } from './MessageCacheContext';
 
 export const useSocketContext = () => useContext(SocketContext);
 export const usePlayerContext = () => useContext(PlayerContext);
@@ -23,3 +24,4 @@ export const usePlaylistContext = () => useContext(PlaylistContext);
 export const useFavoriteContext = () => useContext(FavoriteContext);
 export const useChatWidgetContext = () => useContext(ChatWidgetContext);
 export const useConversationContext = () => useContext(ConversationContext);
+export const useMessageCacheContext = () => useContext(MessageCacheContext);

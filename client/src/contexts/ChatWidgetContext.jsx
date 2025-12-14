@@ -11,8 +11,6 @@ export const ChatWidgetProvider = ({ children }) => {
     return (
         <ChatWidgetContext.Provider value={{ isOpenChatWidget, setIsOpenChatWidget, setUserId, userId }}>
             {children}
-
-            {isOpenChatWidget && <ChatWidget setIsOpenChatWidget={setIsOpenChatWidget} userId={userId} />}
         </ChatWidgetContext.Provider>
     );
 };

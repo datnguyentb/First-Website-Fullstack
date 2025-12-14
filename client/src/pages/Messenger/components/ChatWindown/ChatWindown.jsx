@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSocketContext } from '~/contexts';
 const cx = classNames.bind(styles);
 
-function ChatWindown() {
+function ChatWindown({ conversationsSelected }) {
     const [messages, setMessages] = useState([]);
     const [textInput, setTextInput] = useState('');
     const [shouldAutoScroll, setShouldAutoScroll] = useState(false);
@@ -25,7 +25,6 @@ function ChatWindown() {
 
         // Dọn dẹp khi rời trang
         return () => {
-            console.log('🚪 Rời khỏi phòng chat:', '123');
             socket.emit('leaveConversation', '123');
             socket.off('serverResponse');
         };
@@ -92,17 +91,22 @@ function ChatWindown() {
 
     return (
         <>
-            <div className={cx('wrapper')}>
-                <ChatWindownHeader />
-                <MessagesArea messages={messages} setMessages={setMessages} shouldAutoScroll={shouldAutoScroll} />
-                <ChatInput
-                    textInput={textInput}
-                    setTextInput={setTextInput}
-                    handleSend={handleSend}
-                    handleSendIcon={handleSendIcon}
-                    handleKeyDown={handleKeyDown}
-                />
-            </div>
+            {' '}
+            {!conversationsSelected ? (
+                <div className={cx('no-conversation-selected')}>No Conversation Selected</div>
+            ) : (
+                <div className={cx('wrapper')}>
+                    <ChatWindownHeader conversationsSelected={conversationsSelected} />
+                    <MessagesArea messages={messages} setMessages={setMessages} shouldAutoScroll={shouldAutoScroll} />
+                    <ChatInput
+                        textInput={textInput}
+                        setTextInput={setTextInput}
+                        handleSend={handleSend}
+                        handleSendIcon={handleSendIcon}
+                        handleKeyDown={handleKeyDown}
+                    />
+                </div>
+            )}
         </>
     );
 }

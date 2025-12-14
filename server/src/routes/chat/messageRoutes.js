@@ -5,7 +5,6 @@ import { authenticateJWT, requireRole } from '../../middleware/index.js';
 const router = express.Router();
 
 //AuthController
-router.post('/send/:conversationId', authenticateJWT, requireRole('user'), MessageController.saveMessage);
 router.get('/get/:conversationId', authenticateJWT, requireRole('user'), MessageController.getMessages);
 
 export default router;

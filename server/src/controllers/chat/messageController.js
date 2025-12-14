@@ -1,42 +1,20 @@
-import {
-    okResponse,
-    badRequestResponse,
-    serverErrorResponse,
-    createdResponse,
-    notFoundResponse,
-    forbiddenResponse,
-} from '../../utils/responseHelper.js';
+import { okResponse, badRequestResponse, serverErrorResponse } from '../../utils/responseHelper.js';
 
 import Message from '../../models/Message.js';
+import messageService from '../../services/messageService.js';
+import conversationService from '../../services/conversationService.js';
 
 class MessageController {
     // Lưu tin nhắn
     saveMessage = async (payload) => {
         try {
-            const { sender, conversation, type, content, attachments, replyTo } = payload;
+            const newMessage = await messageService.saveMessage(payload);
+            await conversationService.updateLastMessage(newMessage.conversation.toString(), newMessage._id);
 
-            if (!conversation || !sender || !content) {
-                return badRequestResponse(res, 'Missing required fields');
-            }
-
-            const newMessage = new Message({
-                sender: sender,
-                conversation: conversation,
-                content,
-                type: type || 'text',
-                attachments: attachments || [],
-                replyTo: replyTo || null,
-                seenBy: [],
-            });
-
-            await newMessage.save();
-
-            const populatedMessage = await newMessage.populate('sender', 'firstName lastName avatarUrl');
-
-            return { status: 'success', data: populatedMessage };
+            return { status: 'success', data: newMessage };
         } catch (error) {
             console.error(error);
-            return serverErrorResponse(res, 'Cannot save message');
+            return { status: 'error', error: 'Cannot save message' };
         }
     };
 

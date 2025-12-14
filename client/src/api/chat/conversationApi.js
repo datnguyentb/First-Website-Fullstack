@@ -3,7 +3,10 @@ import axiosMainApi from '../user/axiosMainApi';
 
 const conversationApi = {
     getOrCreate: (userId) => axiosMainApi.post(`/api/chat/conversations`, { userId }),
-    getAllConversations: () => axiosMainApi.get(`/api/chat/conversations`),
+    getAll: (params) =>
+        axiosMainApi.get('/api/chat/conversations', {
+            params,
+        }),
 };
 
 export default conversationApi;

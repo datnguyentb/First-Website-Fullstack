@@ -57,6 +57,11 @@ const conversationSchema = new mongoose.Schema(
                 createdAt: { type: Date, default: Date.now },
             },
         ],
+        pairKey: {
+            type: String,
+            unique: true,
+            sparse: true, // chỉ áp dụng cho private
+        },
 
         // 🗑 Xóa cuộc trò chuyện cho từng người
         deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

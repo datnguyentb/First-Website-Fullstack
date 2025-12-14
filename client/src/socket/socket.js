@@ -23,17 +23,11 @@ export const connectSocket = (token) => {
         reconnection: true,
     });
 
-    socket.on('connect', () => {
-        console.log('✅ Socket connected:', socket.id);
-    });
+    socket.on('connect', () => {});
 
-    socket.on('disconnect', (reason) => {
-        console.log('❌ Socket disconnected:', reason);
-    });
+    socket.on('disconnect', () => {});
 
-    socket.on('connect_error', (err) => {
-        console.error('⚠️ Socket connection error:', err.message);
-    });
+    socket.on('connect_error', () => {});
 
     return socket;
 };
@@ -50,6 +44,5 @@ export const disconnectSocket = () => {
     if (socket) {
         socket.disconnect();
         socket = null;
-        console.log('🧹 Socket disconnected and cleared');
     }
 };

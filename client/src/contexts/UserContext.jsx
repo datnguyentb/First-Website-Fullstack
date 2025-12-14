@@ -6,7 +6,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const { auth } = userAuthContext();
-    const { getMe, loading } = useGetMe();
+    const { getMe } = useGetMe();
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
             setUser(result);
         }
         fetchUser();
-    }, [auth]);
+    }, [auth, getMe]);
 
     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };

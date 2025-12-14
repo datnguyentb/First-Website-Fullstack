@@ -7,3 +7,5 @@
 5. Cần thêm trang hiển thị bài viết
 6. Thêm edit post
 7. cập nhật action song (Playlist create chưa được cập nhật)
+8. Ảnh Loadd chưa private
+9. tối ưu load nhạc không tải hết 1 lần

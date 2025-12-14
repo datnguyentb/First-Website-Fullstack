@@ -36,9 +36,23 @@ app.use(
 //truy cập vào thư mục upload
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(morgan('dev')); // middleware log
+
+// ⬇️ middleware to handle "Payload Too Large" (413) errors
+app.use((err, req, res, next) => {
+    if (err.type === 'entity.too.large') {
+        return res.status(413).json({ message: 'Request body too large' });
+    }
+    next(err);
+});
+
+// Route root để trả về 200
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'API is running' });
+});
+
 routes(app);
 adminRoutes(app);
 

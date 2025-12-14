@@ -11,7 +11,7 @@ const cx = classNames.bind(styles);
 
 function ChatWidget({ setIsOpenChatWidget, userId }) {
     const [isShowFriendsList, setIsShowFriendsList] = useState(true);
-    const { conversationInfo, loading } = useGetConversation(userId);
+    const { conversationInfo } = useGetConversation(userId);
 
     return (
         <div className={cx('chat-widget')}>

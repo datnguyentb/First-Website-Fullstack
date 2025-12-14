@@ -1,28 +1,34 @@
 import mongoose from 'mongoose';
 import Conversation from '../models/Conversation.js';
-import { get } from 'http';
 
 const getOrCreateConversation = async (user1Id, user2Id) => {
-    // 1. Tìm kiếm
-    let conversation = await Conversation.findOne({
-        type: 'private',
-        participants: { $all: [user1Id, user2Id] },
-    });
-
-    // 2. Tạo mới nếu chưa có
-    if (!conversation) {
-        conversation = await Conversation.create({
-            participants: [user1Id, user2Id],
-            type: 'private',
-        });
+    if (String(user1Id) === String(user2Id)) {
+        throw new Error('Cannot create conversation with yourself');
     }
 
-    // 3. Populate và trả về (Có thể tách logic populate ra khỏi service này nếu cần)
-    conversation = await Conversation.findById(conversation._id)
+    const pairKey = [String(user1Id), String(user2Id)].sort().join('_');
+
+    let conversation = await Conversation.findOneAndUpdate(
+        { pairKey },
+        {
+            $setOnInsert: {
+                participants: [user1Id, user2Id],
+                type: 'private',
+                pairKey,
+            },
+        },
+        {
+            upsert: true,
+            new: true,
+        },
+    )
         .populate('participants', 'firstName lastName avatarUrl')
         .lean();
 
-    return conversation;
+    // 🔹 Lọc các field không muốn trả về
+    const { __v, pairKey: _pairKey, deletedFor, activities, ...safeConversation } = conversation;
+
+    return safeConversation;
 };
 
 // Hàm mới để kiểm tra thành viên (cần cho Socket.IO)
@@ -44,15 +50,31 @@ const checkMembership = async (conversationId, userId) => {
 };
 
 //get All conversations of a user
-const getUserConversations = async (userId) => {
-    const conversations = await Conversation.find({
+const getUserConversations = async ({ userId, limit = 10, cursorUpdatedAt, cursorId }) => {
+    const query = {
         participants: userId,
-    })
+    };
+
+    if (cursorUpdatedAt && cursorId) {
+        query.$or = [
+            { updatedAt: { $lt: new Date(cursorUpdatedAt) } },
+            {
+                updatedAt: new Date(cursorUpdatedAt),
+                _id: { $lt: new mongoose.Types.ObjectId(cursorId) },
+            },
+        ];
+    }
+
+    return Conversation.find(query)
+        .sort({ updatedAt: -1, _id: -1 })
+        .limit(limit)
         .populate('participants', 'firstName lastName avatarUrl')
         .populate('lastMessage')
-        .sort({ updatedAt: -1 })
         .lean();
-    return conversations;
 };
 
-export default { getOrCreateConversation, checkMembership, getUserConversations };
+const updateLastMessage = async (conversationId, messageId) => {
+    return Conversation.findByIdAndUpdate(conversationId, { lastMessage: messageId }, { new: true });
+};
+
+export default { getOrCreateConversation, checkMembership, getUserConversations, updateLastMessage };

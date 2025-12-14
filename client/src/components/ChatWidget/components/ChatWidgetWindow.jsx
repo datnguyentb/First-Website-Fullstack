@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 
 const cx = classNames.bind(styles);
 
-function ChatWidgetWindow({ userId, setIsOpenChatWidget, setIsShowFriendsList, conversationInfo }) {
+function ChatWidgetWindow({ userId, setIsOpenChatWidget, conversationInfo }) {
     const { messages, setMessages, loading: loadingMessages } = useGetMessages(conversationInfo?._id);
     const { sendMessage } = useSendMessage();
     const lastMessage = useReceiveMessage();
@@ -22,7 +22,6 @@ function ChatWidgetWindow({ userId, setIsOpenChatWidget, setIsShowFriendsList, c
         if (!messageInput?.trim()) return;
 
         if (!conversationInfo?._id) {
-            console.error('❌ No conversationId');
             return;
         }
 

@@ -1,12 +1,10 @@
-import { createContext, useEffect, useState } from 'react';
-import conversationApi from '~/api/chat/conversationApi';
+import { createContext } from 'react';
 import useGetAllConversations from '~/hooks/conversation/useGetAllConversations';
 
 export const ConversationContext = createContext();
 
 export const ConversationProvider = ({ children }) => {
-    const { conversationsList, setConversationsList } = useGetAllConversations();
-    const [loading, setLoading] = useState(false);
+    const { conversationsList, setConversationsList, loading, fetchMore, hasMore } = useGetAllConversations();
 
     return (
         <ConversationContext.Provider
@@ -14,6 +12,8 @@ export const ConversationProvider = ({ children }) => {
                 conversationsList,
                 setConversationsList,
                 loading,
+                fetchMore,
+                hasMore,
             }}
         >
             {children}
