@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
 import messageApi from '~/api/chat/messageApi';
+import { useMessageCacheContext } from '~/contexts';
 
 export default function useGetMessages(conversationId) {
-    const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const { messages, setMessages } = useMessageCacheContext();
+    const [loading, setLoading] = useState(true);
+
+    const currentMessages = conversationId ? messages[conversationId]?.messages || [] : [];
 
     useEffect(() => {
         if (!conversationId) return;
+        if (messages[conversationId]) return; // đã có cache
 
         const fetchMessages = async () => {
             setLoading(true);
             try {
                 const res = await messageApi.getMessages(conversationId);
-                setMessages(res.data.message);
+                setMessages(conversationId, res.data.message, false);
             } catch (err) {
-                console.error('❌ Lỗi load messages:', err);
+                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -23,5 +27,8 @@ export default function useGetMessages(conversationId) {
         fetchMessages();
     }, [conversationId]);
 
-    return { messages, loading, setMessages };
+    return {
+        messages: currentMessages,
+        loading,
+    };
 }

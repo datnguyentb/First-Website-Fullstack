@@ -7,5 +7,6 @@ const router = express.Router();
 //ConversationController
 router.post('/', authenticateJWT, requireRole('user'), ConversationController.getOrCreateConversation);
 router.get('/', authenticateJWT, requireRole('user'), ConversationController.getAllConversations);
+router.get('/:conversationId', authenticateJWT, requireRole('user'), ConversationController.getConversationDetail);
 
 export default router;

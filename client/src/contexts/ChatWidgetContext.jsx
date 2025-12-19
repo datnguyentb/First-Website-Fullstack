@@ -6,10 +6,12 @@ export const ChatWidgetContext = createContext();
 
 export const ChatWidgetProvider = ({ children }) => {
     const [isOpenChatWidget, setIsOpenChatWidget] = useState(false);
-    const [userId, setUserId] = useState('');
+    const [conversationId, setConversationId] = useState('');
 
     return (
-        <ChatWidgetContext.Provider value={{ isOpenChatWidget, setIsOpenChatWidget, setUserId, userId }}>
+        <ChatWidgetContext.Provider
+            value={{ isOpenChatWidget, setIsOpenChatWidget, setConversationId, conversationId }}
+        >
             {children}
         </ChatWidgetContext.Provider>
     );

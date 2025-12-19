@@ -5,7 +5,6 @@ const cx = classNames.bind(styles);
 
 function ChatMessage({ data }) {
     const isSenderMe = data.senderId === 'u_me';
-    console.log('ChatMessage data:', data);
     return (
         <div className={cx('wrapper', isSenderMe ? 'sent' : 'received')}>
             <p>{data.content}</p>

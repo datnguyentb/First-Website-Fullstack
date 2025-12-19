@@ -12,13 +12,15 @@ import useGetFriendshipStatus from '~/hooks/friendShip/useGetFriendshipStatus';
 import useSendFriendRequest from '~/hooks/friendShip/useSendFriendRequest';
 import useUnfollowUser from '~/hooks/friendShip/useUnfollowUser';
 import { useChatWidgetContext } from '~/contexts';
+import useGetConversation from '~/hooks/conversation/useGetConversation';
 
 const cx = classNames.bind(styles);
 
 function UserProfile({ onClose, userId, setShowUserProfile }) {
     const { loading, userDisplay, isUserLogin, showEditProfile, setShowEditProfile } = useUserProfile(userId);
     const { friendshipStatus, setFriendshipStatus } = useGetFriendshipStatus(userId);
-    const { setIsOpenChatWidget, setUserId } = useChatWidgetContext();
+    const { setIsOpenChatWidget, setConversationId } = useChatWidgetContext();
+    const { getOrCreateConversation } = useGetConversation();
 
     const { sendFriendRequest, loading: followLoading } = useSendFriendRequest();
     const { unfollowUser } = useUnfollowUser();
@@ -44,8 +46,10 @@ function UserProfile({ onClose, userId, setShowUserProfile }) {
     };
 
     // Handle chat click
-    const handleChatClick = () => {
-        setUserId(userId);
+    const handleChatClick = async () => {
+        if (!userId) return;
+        const conversation = await getOrCreateConversation(userId);
+        setConversationId(conversation._id);
         setIsOpenChatWidget(true);
         if (setShowUserProfile) {
             setShowUserProfile(false);

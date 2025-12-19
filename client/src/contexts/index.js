@@ -8,10 +8,10 @@ import { UserAuthContext } from './UserAuthContext';
 import { AdminAuthContext } from './AdminAuthContext';
 import { PlaylistContext } from './PlaylistContext';
 import { FavoriteContext } from './FavoriteContext';
-import { SocketContext } from './SocketContext';
+import { SocketContext } from './socket/SocketContext';
 import { ChatWidgetContext } from './ChatwidgetContext';
-import { ConversationContext } from './ConversationContext';
-import { MessageCacheContext } from './MessageCacheContext';
+import { ConversationContext } from './conversationContext.js/ConversationContext';
+import { MessageCacheContext } from './messageCache/MessageCacheContext';
 
 export const useSocketContext = () => useContext(SocketContext);
 export const usePlayerContext = () => useContext(PlayerContext);

@@ -24,4 +24,17 @@ const saveMessage = async (payload) => {
     return newMessage.populate('sender', 'firstName lastName avatarUrl');
 };
 
-export default { saveMessage };
+const getMessages = async (conversationId) => {
+    if (!conversationId) {
+        throw new Error('Missing conversationId');
+    }
+
+    const messages = await Message.find({ conversation: conversationId })
+        .populate('sender', 'firstName lastName avatarUrl')
+        .sort({ createdAt: -1 })
+        .limit(20);
+
+    return messages;
+};
+
+export default { saveMessage, getMessages };

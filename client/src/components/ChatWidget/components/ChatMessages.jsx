@@ -44,6 +44,12 @@ function ChatMessages({ messages }) {
             {messages.map((msg) => (
                 <div key={msg._id} className={cx('message', msg.sender._id === user._id ? 'sent' : 'received')}>
                     <div className={cx('message-content')}>{msg.content}</div>
+                    {msg.status === 'pending' && (
+                        <div className={cx('message-status')}>
+                            <div className={cx('status-sending')}></div>
+                            <p>Đang gửi</p>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>

@@ -1,30 +1,37 @@
-import { useSocketContext } from '~/contexts';
+import { useSocketContext, useUserContext } from '~/contexts';
+import { useMessageCacheContext } from '~/contexts';
 
 export default function useSendMessage() {
     const { socket } = useSocketContext();
+    const { addPendingMessage } = useMessageCacheContext();
+    const { user } = useUserContext();
 
-    const sendMessage = (conversationId, messagePayload) => {
-        if (!socket) {
-            console.error('❌ Socket not connected');
-            return;
-        }
+    const sendMessage = (data) => {
+        const { conversation = '', replyTo = null, attachments = null, content = '' } = data;
+        if (!socket) return console.error('❌ Socket not connected');
+        if (!conversation) return console.error('❌ Missing conversationId');
 
-        if (!conversationId) {
-            console.error('❌ Missing conversationId');
-            return;
-        }
+        const trimmed = content?.trim();
+        if (!trimmed) return;
 
-        if (!messagePayload?.content?.trim()) {
-            console.warn('⚠️ Empty message');
-            return;
-        }
+        const tempId = Date.now();
 
-        const payload = {
-            ...messagePayload,
-            conversation: conversationId,
+        const optimisticMessage = {
+            _id: tempId,
+            conversation,
+            replyTo,
+            attachments,
+            sender: user,
+            content: trimmed,
+            status: 'pending',
+            createdAt: new Date().toISOString(),
         };
 
-        socket.emit('sendMessage', payload);
+        // 1️⃣ Update UI ngay
+        addPendingMessage(conversation, optimisticMessage);
+
+        // 2️⃣ Emit socket
+        socket.emit('send-message', optimisticMessage);
     };
 
     return { sendMessage };

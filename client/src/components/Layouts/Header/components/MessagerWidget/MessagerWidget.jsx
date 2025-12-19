@@ -1,14 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from './MessagerWidget.module.scss';
 import { ChatItem, ChatTabs, Header } from './components';
-import useGetAllConversations from '~/hooks/conversation/useGetAllConversations';
 import { Link } from 'react-router-dom';
+import { useConversationContext } from '~/contexts';
 
 // Gán biến cx để sử dụng CSS Module
 const cx = classNames.bind(styles);
 
 function MessagerWidget({ handleHideMessagerWidget }) {
-    const { conversationsList, loading } = useGetAllConversations();
+    const { loading, conversations } = useConversationContext();
     return (
         <div className={cx('wrapper')}>
             <div className={cx('messenger-widget')}>
@@ -18,15 +18,15 @@ function MessagerWidget({ handleHideMessagerWidget }) {
                 <>
                     {loading && <div className={cx('loading')}>Loading...</div>}
 
-                    {!loading && conversationsList.length === 0 && (
+                    {!loading && conversations.length === 0 && (
                         <div className={cx('no-conversations')}>
                             <p>No conversations yet. Start by finding a friend!</p>
                         </div>
                     )}
 
-                    {!loading && conversationsList.length > 0 && (
+                    {!loading && conversations.length > 0 && (
                         <ul className={cx('chat-list')}>
-                            {conversationsList.map((chat) => (
+                            {conversations.map((chat) => (
                                 <ChatItem
                                     key={chat._id}
                                     data={chat}

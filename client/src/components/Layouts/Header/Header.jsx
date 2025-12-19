@@ -15,7 +15,7 @@ const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
     const [isVisibleMessagerWidget, setIsVisibleMessagerWidget] = useState(false); // Trạng thái hiển thị MessagerWidget
-    const { isOpenChatWidget, setIsOpenChatWidget, userId } = useChatWidgetContext();
+    const { isOpenChatWidget, setIsOpenChatWidget, conversationId } = useChatWidgetContext();
     const { user } = useUserContext() ?? {};
 
     const [showProfile, setShowProfile] = useState(false);
@@ -38,7 +38,9 @@ function Header({ style_2 = false }) {
     return (
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
-            {isOpenChatWidget && <ChatWidget setIsOpenChatWidget={setIsOpenChatWidget} userId={userId} />}
+            {isOpenChatWidget && (
+                <ChatWidget setIsOpenChatWidget={setIsOpenChatWidget} conversationId={conversationId} />
+            )}
             <div className={cx('container', style_2 && 'style_2')}>
                 <Search />
                 {user ? (

@@ -23,7 +23,9 @@ export const connectSocket = (token) => {
         reconnection: true,
     });
 
-    socket.on('connect', () => {});
+    socket.on('connect', () => {
+        console.log('✅ Socket Connected! ID:', socket.id);
+    });
 
     socket.on('disconnect', () => {});
 

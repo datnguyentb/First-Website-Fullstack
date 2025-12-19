@@ -8,9 +8,11 @@ import { ModalProvider } from './contexts/ModalContext';
 import { PlayerProvider } from './contexts/PlayerContext';
 import { UserAuthProvider } from './contexts/UserAuthContext';
 import { AdminAuthProvider } from './contexts/AdminAuthContext';
-import { SocketProvider } from './contexts/SocketContext';
+import { SocketProvider } from './contexts/socket/SocketContext';
 import { ChatWidgetProvider } from './contexts/ChatwidgetContext';
-import { ConversationProvider } from './contexts/ConversationContext';
+import { ConversationProvider } from './contexts/conversationContext.js/ConversationContext';
+import { MessageCacheProvider } from './contexts/messageCache/MessageCacheContext';
+import { ProtectedUserRoute } from './components/ProtectedRoute';
 
 function App() {
     const renderRoute = (route, index) => {
@@ -32,17 +34,25 @@ function App() {
             );
         } else {
             wrappedElement = (
-                <UserAuthProvider>
-                    <UserProvider>
-                        <SocketProvider>
+                <ProtectedUserRoute>
+                    <UserAuthProvider>
+                        <UserProvider>
                             <PlayerProvider>
                                 <ConversationProvider>
-                                    {isChatWidgetRoute ? <ChatWidgetProvider>{element}</ChatWidgetProvider> : element}
+                                    <MessageCacheProvider>
+                                        <SocketProvider>
+                                            {isChatWidgetRoute ? (
+                                                <ChatWidgetProvider>{element}</ChatWidgetProvider>
+                                            ) : (
+                                                element
+                                            )}
+                                        </SocketProvider>
+                                    </MessageCacheProvider>
                                 </ConversationProvider>
                             </PlayerProvider>
-                        </SocketProvider>
-                    </UserProvider>
-                </UserAuthProvider>
+                        </UserProvider>
+                    </UserAuthProvider>
+                </ProtectedUserRoute>
             );
         }
 

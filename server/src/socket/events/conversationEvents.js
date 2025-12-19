@@ -5,7 +5,6 @@ const conversationEvents = (socket, io) => {
 
     // Join conversation
     socket.on('joinConversation', async (conversationId) => {
-        console.log(`User ${userId} joined conversation ${conversationId}`);
         const allowed = await canAccessConversation(conversationId, userId);
         if (!allowed) return socket.emit('error', 'Không có quyền truy cập cuộc trò chuyện.');
 

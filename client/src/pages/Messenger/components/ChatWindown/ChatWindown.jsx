@@ -2,11 +2,35 @@ import classNames from 'classnames/bind';
 import styles from './ChatWindown.module.scss';
 import { ChatInput, ChatWindownHeader, MessagesArea } from './components';
 import { useEffect, useState } from 'react';
-import { useSocketContext } from '~/contexts';
+import { useMessageCacheContext, useSocketContext } from '~/contexts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import useGetMessages from '~/hooks/chat/useGetMessages';
 const cx = classNames.bind(styles);
 
 function ChatWindown({ conversationsSelected }) {
-    const [messages, setMessages] = useState([]);
+    const { messages, fetchMessages, setMessages } = useGetMessages();
+    const { messageCache, setMessagesForConversation } = useMessageCacheContext();
+
+    // Tải tin nhắn khi chuyển đổi cuộc trò chuyện
+    useEffect(() => {
+        if (!conversationsSelected) return;
+
+        const conversationId = conversationsSelected._id;
+
+        if (messageCache[conversationId]) {
+            setMessages(messageCache[conversationId]);
+            return;
+        }
+
+        const loadMessages = async () => {
+            const fetchedMessages = await fetchMessages(conversationId);
+            setMessagesForConversation(conversationId, fetchedMessages);
+        };
+
+        loadMessages();
+    }, [conversationsSelected, messageCache]);
+
     const [textInput, setTextInput] = useState('');
     const [shouldAutoScroll, setShouldAutoScroll] = useState(false);
     const { socket, realTimeMessages } = useSocketContext();
@@ -93,7 +117,10 @@ function ChatWindown({ conversationsSelected }) {
         <>
             {' '}
             {!conversationsSelected ? (
-                <div className={cx('no-conversation-selected')}>No Conversation Selected</div>
+                <div className={cx('no-conversation-selected')}>
+                    <FontAwesomeIcon icon={faCommentDots} />
+                    <h2>No Conversation Selected</h2>
+                </div>
             ) : (
                 <div className={cx('wrapper')}>
                     <ChatWindownHeader conversationsSelected={conversationsSelected} />

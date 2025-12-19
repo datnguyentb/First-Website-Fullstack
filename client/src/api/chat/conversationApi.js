@@ -7,6 +7,7 @@ const conversationApi = {
         axiosMainApi.get('/api/chat/conversations', {
             params,
         }),
+    getDetail: (conversationId) => axiosMainApi.get(`/api/chat/conversations/${conversationId}`),
 };
 
 export default conversationApi;

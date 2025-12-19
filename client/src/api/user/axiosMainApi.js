@@ -14,17 +14,4 @@ axiosMainApi.interceptors.request.use((config) => {
     return config;
 });
 
-// Bắt lỗi 401 và redirect
-axiosMainApi.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response && error.response.status === 401) {
-            localStorage.removeItem('token');
-            navigate('/admin/login');
-            return Promise.resolve();
-        }
-        return Promise.reject(error);
-    },
-);
-
 export default axiosMainApi;

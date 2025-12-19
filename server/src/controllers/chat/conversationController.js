@@ -1,5 +1,6 @@
-import Message from '../../models/Message.js';
+import { formatConversation } from '../../helper/formatConversation.js';
 import ConversationService from '../../services/conversationService.js';
+import { okResponse } from '../../utils/responseHelper.js';
 
 class ConversationController {
     // 🚀 Lấy hoặc tạo cuộc trò chuyện private giữa 2 user
@@ -42,10 +43,32 @@ class ConversationController {
                 cursorId,
             });
 
-            return res.status(200).json(conversations);
+            //  Format toàn bộ member
+            const formattedData = conversations.map((conv) => formatConversation(conv, myId));
+
+            return okResponse(res, 'Get conversations succesfully!', formattedData);
         } catch (error) {
             console.error('getAllConversations error:', error);
-            return res.status(500).json({ message: 'Server error' });
+            return serverErrorResponse(res, 'Server error');
+        }
+    };
+
+    getConversationDetail = async (req, res) => {
+        try {
+            const conversationId = req.params.conversationId;
+            const myId = req.user?._id;
+            if (!conversationId) {
+                return res.status(400).json({ message: 'Missing user conversationId' });
+            }
+
+            //kiểm tra có trong converation không
+            const isParticipant = await ConversationService.checkMembership(conversationId, myId);
+
+            // lấy thông tin coversation
+            const conversationInfor = await ConversationService.getConversationDetail(conversationId);
+            return okResponse(res, 'Get conversation sucessfully!', formatConversation(conversationInfor, myId));
+        } catch (error) {
+            console.error(error);
         }
     };
 }

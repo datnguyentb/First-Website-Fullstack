@@ -69,7 +69,13 @@ const getUserConversations = async ({ userId, limit = 10, cursorUpdatedAt, curso
         .sort({ updatedAt: -1, _id: -1 })
         .limit(limit)
         .populate('participants', 'firstName lastName avatarUrl')
-        .populate('lastMessage')
+        .populate({
+            path: 'lastMessage',
+            populate: {
+                path: 'sender',
+                select: 'firstName lastName avatarUrl',
+            },
+        })
         .lean();
 };
 
@@ -77,4 +83,22 @@ const updateLastMessage = async (conversationId, messageId) => {
     return Conversation.findByIdAndUpdate(conversationId, { lastMessage: messageId }, { new: true });
 };
 
-export default { getOrCreateConversation, checkMembership, getUserConversations, updateLastMessage };
+const getConversationDetail = async (conversationId) => {
+    return Conversation.findById(conversationId)
+        .populate('participants', 'firstName lastName avatarUrl')
+        .populate({
+            path: 'lastMessage',
+            populate: {
+                path: 'sender',
+                select: 'firstName lastName avatarUrl',
+            },
+        });
+};
+
+export default {
+    getOrCreateConversation,
+    checkMembership,
+    getUserConversations,
+    updateLastMessage,
+    getConversationDetail,
+};

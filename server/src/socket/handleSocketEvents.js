@@ -14,7 +14,6 @@ const jwtAuthMiddleware = (socket, next) => {
     try {
         const user = verifyToken(token);
         socket.user = user;
-        console.log('✅ Socket authenticated for user:', user.id);
         next();
     } catch (err) {
         next(new Error('Invalid token'));
@@ -27,6 +26,7 @@ const handleSocketEvents = (io) => {
 
     io.on('connection', (socket) => {
         const userId = socket.user.id;
+        socket.join(userId.toString());
         onlineUsers.set(userId, socket.id);
         console.log(`🟢 Socket connected: ${socket.id} (User: ${socket.user.id})`);
 

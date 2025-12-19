@@ -26,7 +26,9 @@ function PostHeader({ setShowUserProfile, userInfor, post }) {
                             {timeAgo(post.createdAt)}
                         </span>
                         <Tippy content={post.privacy} theme="light">
-                            <span className={cx('privacy', 'ms-2')}>{getPrivacyIcon(post.privacy)}</span>
+                            <div style={{ display: 'inline-flex' }}>
+                                <span className={cx('privacy', 'ms-2')}>{getPrivacyIcon(post.privacy)}</span>
+                            </div>
                         </Tippy>
                     </div>
                 </div>

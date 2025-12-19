@@ -115,6 +115,7 @@
     text-overflow: ellipsis;
 }
 
+// Hiển thị tin nhắn
 .chat-window {
     width: 320px;
     height: 450px;
@@ -156,35 +157,91 @@
     .chat-messages {
         flex: 1;
         padding: 15px;
-        // overflow-y: auto;
-        // background-image: url('https://static.vecteezy.com/system/resources/previews/026/321/698/non_2x/love-theme-background-with-heart-pattern-template-for-banner-social-media-greeting-card-web-gift-wrap-invitation-free-vector.jpg');
-        // background-size: cover;
         background-color: #f9f9f9;
+        overflow-y: auto;
         display: flex;
         flex-direction: column-reverse;
+        gap: 10px;
+
+        /* Scrollbar đẹp hơn (tuỳ chọn) */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 3px;
+        }
 
         .message {
-            margin: 4px 0;
-            padding: 8px 12px;
-            border-radius: 18px;
-            line-height: 1.4;
-            font-size: 14px;
-            max-width: 75%;
-            margin: 4px 0;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            position: relative;
+
+            align-self: flex-start;
+            align-items: flex-start;
+
+            .message-content {
+                padding: 8px 12px;
+                border-radius: 18px;
+                line-height: 1.4;
+                font-size: 14px;
+                word-wrap: break-word;
+                background-color: #e5e5ea;
+                color: #000;
+                border-bottom-left-radius: 4px;
+            }
+
+            .message-status {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                margin-top: 2px;
+                margin-left: 2px;
+
+                p {
+                    font-size: 10px;
+                    color: #8a8d91;
+                    margin: 0;
+                }
+
+                .status-sending {
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid #ddd;
+                    border-top: 2px solid #0084ff;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    font-size: 0;
+                }
+            }
         }
 
-        .received {
-            background-color: #e5e5ea;
-            margin-right: auto;
-            border-bottom-left-radius: 4px;
-            text-align: left;
+        .message.sent {
+            align-self: flex-end;
+            align-items: flex-end;
+
+            .message-content {
+                background-color: #0084ff;
+                color: white;
+                border-bottom-left-radius: 18px;
+                border-bottom-right-radius: 4px;
+            }
+
+            .message-status {
+                flex-direction: row-reverse;
+                margin-left: 0;
+                margin-right: 2px;
+            }
         }
-        .sent {
-            background-color: #0084ff;
-            color: white;
-            margin-left: auto;
-            border-bottom-right-radius: 4px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 }
