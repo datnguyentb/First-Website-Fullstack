@@ -10,7 +10,7 @@ export default function useGetMessages(conversationId) {
 
     useEffect(() => {
         if (!conversationId) return;
-        if (messages[conversationId]) return; // đã có cache
+        if (messages[conversationId]?.isFullHistoryLoaded) return; // đã có cache
 
         const fetchMessages = async () => {
             setLoading(true);

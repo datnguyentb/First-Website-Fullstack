@@ -11,19 +11,25 @@ export const conversationReducer = (state, action) => {
                 ...state,
                 conversations: action.payload,
             };
-        case UPDATE_LAST_MESSAGE:
+        case UPDATE_LAST_MESSAGE: {
+            const updatedConversations = state.conversations.map((conv) =>
+                conv._id === action.payload.conversationId
+                    ? {
+                          ...conv,
+                          lastMessage: action.payload.lastMessage,
+                          updatedAt: action.payload.updatedAt || new Date().toISOString(),
+                      }
+                    : conv,
+            );
+
+            // Sắp xếp lại: Tin nhắn mới nhất (updatedAt lớn nhất) lên đầu
+            updatedConversations.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
             return {
                 ...state,
-                conversations: state.conversations.map((conv) =>
-                    conv._id === action.payload.conversationId
-                        ? {
-                              ...conv,
-                              lastMessage: action.payload.lastMessage,
-                              updatedAt: action.payload.updatedAt,
-                          }
-                        : conv,
-                ),
+                conversations: updatedConversations,
             };
+        }
         default:
             return state;
     }

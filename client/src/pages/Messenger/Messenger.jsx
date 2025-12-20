@@ -10,7 +10,7 @@ function Messenger() {
     return (
         <div className={cx('wrapper')}>
             <ConversationsSidebar setConversationsSelected={setConversationsSelected} />
-            <ChatWindown conversationsSelected={conversationsSelected} />
+            <ChatWindown conversationId={conversationsSelected?._id} />
             {/* <SocketTest /> */}
         </div>
     );

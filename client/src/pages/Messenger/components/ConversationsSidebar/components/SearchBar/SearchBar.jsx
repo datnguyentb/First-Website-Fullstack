@@ -5,7 +5,7 @@ const cx = classNames.bind(styles);
 function SearchBar() {
     return (
         <div className={cx('wrapper')}>
-            <input className={cx('input')} placeholder="Search messages" />
+            <input className={cx('input')} placeholder="Search messages..." />
         </div>
     );
 }

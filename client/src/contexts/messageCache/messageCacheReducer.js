@@ -17,6 +17,7 @@ export const messageCacheReducer = (state, action) => {
                     messages: action.payload,
                     loading: false,
                     hashMore: action.hashMore,
+                    isFullHistoryLoaded: true,
                 },
             };
 

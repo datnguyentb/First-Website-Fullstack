@@ -9,8 +9,6 @@ const cx = classNames.bind(styles);
 function ConversationItem({ data, active = false, setConversationsSelected, setConversationActive }) {
     const isMe = useIsMe();
 
-    const otherUser = data.participants.find((user) => !isMe(user._id));
-
     const classes = cx('wrapper', { active });
 
     const handleClick = () => {
@@ -21,15 +19,15 @@ function ConversationItem({ data, active = false, setConversationsSelected, setC
     return (
         <div className={classes} onClick={handleClick}>
             <div className={cx('avatar')}>
-                <Img src={baseUrl(otherUser?.avatarUrl)} />
+                <Img src={baseUrl(data.avatar)} />
             </div>
 
             <div className={cx('info')}>
-                <div className={cx('name')}>
-                    {otherUser ? `${otherUser.firstName} ${otherUser.lastName}` : 'Unknown'}
-                </div>
+                <div className={cx('name')}>{data.name}</div>
 
-                <div className={cx('last-message')}>{data.lastMessage?.content || 'Chưa có tin nhắn'}</div>
+                <div
+                    className={cx('last-message')}
+                >{`${isMe(data.lastMessage?.sender._id) ? 'You: ' : ''}${data.lastMessage?.content || 'No messages yet'}`}</div>
             </div>
 
             <div className={cx('timestamp')}>

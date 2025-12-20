@@ -1,6 +1,4 @@
 .wrapper {
-    padding: 15px;
-    border-bottom: 1px solid #e0e0e0;
     height: $conversation-sidebar-header-height;
     display: flex;
     justify-content: center;
@@ -9,9 +7,9 @@
 
 .input {
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 12px;
     border: 1px solid #ddd;
-    border-radius: 20px;
+    border-radius: 14px;
     outline: none;
     background-color: #fff;
     font-size: 1.44rem;

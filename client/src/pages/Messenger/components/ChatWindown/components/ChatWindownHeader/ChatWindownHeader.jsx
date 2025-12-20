@@ -3,24 +3,18 @@ import styles from './ChatWindownHeader.module.scss';
 import { Img } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo, faPhone, faVideo } from '@fortawesome/free-solid-svg-icons';
-import useIsMe from '~/helper/useIsMe';
 import baseUrl from '~/helper/baseUrl';
 const cx = classNames.bind(styles);
 
-function ChatWindownHeader({ conversationsSelected }) {
-    const isMe = useIsMe();
-
-    const otherUser = conversationsSelected.participants.find((user) => !isMe(user._id));
+function ChatWindownHeader({ conversationInfo }) {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('info')}>
                 <div className={cx('avatar')}>
-                    <Img src={baseUrl(otherUser?.avatarUrl)} />
+                    <Img src={baseUrl(conversationInfo.avatar)} />
                 </div>
                 <div className={cx('user-status')}>
-                    <div className={cx('name')}>
-                        {otherUser ? `${otherUser.firstName} ${otherUser.lastName}` : 'Unknown'}
-                    </div>
+                    <div className={cx('name')}>{conversationInfo.name}</div>
                     <div className={cx('status')}>Online</div>
                 </div>
             </div>

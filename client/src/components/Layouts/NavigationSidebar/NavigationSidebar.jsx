@@ -54,10 +54,11 @@ function NavigationSidebar({ collapsed = false }) {
     return (
         <div className={cx('wrapper', { collapsed })}>
             <div className={cx('container')}>
-                <div className={cx('logo')}>
-                    <Img src={logo_img.main_logo} alt="Twirl" />
+                <div>
+                    <div className={cx('logo')}>
+                        <Img src={logo_img.main_logo} alt="Twirl" />
+                    </div>
                 </div>
-
                 <nav className={cx('nav')}>
                     {navOptions.map((item, index) => (
                         <Link
@@ -77,13 +78,6 @@ function NavigationSidebar({ collapsed = false }) {
                 </nav>
 
                 <hr className={cx('line')} />
-
-                {/* <div className={cx('sign-in-box')}>
-                    <p>Sign in to access your personalized features</p>
-                    <Button to="/auth/login" className={cx('sign-in-btn')} rounded>
-                        Sign in
-                    </Button>
-                </div> */}
             </div>
         </div>
     );
