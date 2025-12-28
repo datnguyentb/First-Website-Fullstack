@@ -65,8 +65,8 @@ function EditInfoCard({ form, setForm }) {
                     <label>Phone Number</label>
                     <input
                         className={cx('input-custom')}
-                        value={form.phone}
-                        onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                        value={form.phoneNumber}
+                        onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
                     />
                 </div>
             </div>

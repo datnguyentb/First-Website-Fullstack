@@ -81,7 +81,7 @@ function Story() {
                         <Img
                             darkOverlay
                             className={cx('avatar')}
-                            src={baseUrl(user.avatarUrl)}
+                            src={baseUrl(user.avatar)}
                             alt={`${user.firstName} ${user.lastName}`}
                         />
                         <div className={cx('add-story')}>

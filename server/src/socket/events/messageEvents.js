@@ -39,13 +39,6 @@ const messageEvents = (socket, io) => {
                 savedMessage.data._id,
             );
 
-            validatedData.sender = savedMessage.data.sender;
-
-            //hoán đổi id
-            const tempId = validatedData._id;
-            validatedData._id = savedMessage.data._id.toString();
-            validatedData.tempId = tempId;
-
             // 5. Phát cho tắt cả mọi người
             const participantIds = conversationUpdate.participants;
             participantIds.forEach((memberId) => {
@@ -56,7 +49,7 @@ const messageEvents = (socket, io) => {
                     targetRoom,
                     validatedData.conversation,
                     SOCKET_PAYLOAD_TYPES.MESSAGE,
-                    validatedData,
+                    savedMessage.data,
                 );
             });
             // emitRealtimeEvent(io, validatedData.conversation, SOCKET_PAYLOAD_TYPES.MESSAGE, validatedData);

@@ -5,13 +5,13 @@ import useAdminLogin from '~/hooks/admin/auth/useAdminLogin';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useAdminCheckToken from '~/hooks/admin/checKToken/useAdminCheckToken';
-import { userAdminAuthContext } from '~/contexts';
+import { useAdminAuthContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
 const AdminLogin = () => {
     const { Login, loading, setLoading } = useAdminLogin();
-    const { login } = userAdminAuthContext();
+    const { login } = useAdminAuthContext();
     const [formData, setFormData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 

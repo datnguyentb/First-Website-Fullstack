@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export function usePost(post, user) {
     const [userInfor, setUserInfor] = useState({
-        avatarUrl: post.author.avatarUrl,
+        avatar: post.author.avatar,
         firstName: post.author.firstName,
         lastName: post.author.lastName,
     });
@@ -17,7 +17,7 @@ export function usePost(post, user) {
         if (user && user._id === post.author._id) {
             setIsAuthor(true);
             setUserInfor({
-                avatarUrl: user.avatarUrl,
+                avatar: user.avatar,
                 firstName: user.firstName,
                 lastName: user.lastName,
             });

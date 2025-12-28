@@ -1,4 +1,4 @@
-import { formatUser } from './formatUser.js';
+import { formatSimpleUser } from './formatUser.js';
 
 export const formatConversation = (conversation, currentUserId) => {
     // 🛡️ CHẶN LỖI 1: Kiểm tra đầu vào
@@ -9,7 +9,7 @@ export const formatConversation = (conversation, currentUserId) => {
 
         // 🛡️ CHẶN LỖI 2: Đảm bảo participants là mảng trước khi map
         const participants = Array.isArray(conv.participants) ? conv.participants : [];
-        const formattedParticipants = participants.map((p) => formatUser(p));
+        const formattedParticipants = participants.map((p) => formatSimpleUser(p));
 
         // 2. Tìm partner (cho chat 1-1)
         const partner =
@@ -18,7 +18,7 @@ export const formatConversation = (conversation, currentUserId) => {
                 : null;
 
         // 🛡️ CHẶN LỖI 3: Kiểm tra thông tin lastMessage và sender
-        // Nếu lastMessage.sender chưa được populate, formatUser sẽ nhận vào null/undefined
+        // Nếu lastMessage.sender chưa được populate, formatSimpleUser sẽ nhận vào null/undefined
         let formattedLastMessage = null;
         if (conv.lastMessage) {
             formattedLastMessage = {
@@ -26,7 +26,7 @@ export const formatConversation = (conversation, currentUserId) => {
                 type: conv.lastMessage.type || 'text',
                 createdAt: conv.lastMessage.createdAt,
                 // Chỉ format nếu sender tồn tại, nếu không sẽ bị crash
-                sender: conv.lastMessage.sender ? formatUser(conv.lastMessage.sender) : null,
+                sender: conv.lastMessage.sender ? formatSimpleUser(conv.lastMessage.sender) : null,
             };
         }
 

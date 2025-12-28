@@ -19,7 +19,7 @@ $primary: #4f46e5;
 .received {
     border-bottom-left-radius: 4px;
     align-self: flex-start;
-    animation: slideInLeft 0.3s ease-out;
+    animation: slideInLeft 0.5s ease-out;
 }
 
 .sent {
@@ -27,7 +27,7 @@ $primary: #4f46e5;
     align-self: flex-end;
     background-color: $primary;
     color: $white;
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.5s ease-out;
 }
 
 .timestamp {

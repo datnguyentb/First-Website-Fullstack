@@ -37,8 +37,8 @@ class AdminAuthController {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                phone: user.phone,
-                avatarUrl: user.avatarUrl,
+                phoneNumber: user.phoneNumber,
+                avatar: user.avatar,
                 role: user.role,
             };
 
@@ -46,7 +46,7 @@ class AdminAuthController {
                 id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                avatarUrl: user.avatarUrl,
+                avatar: user.avatar,
                 bio: user.bio,
             });
 

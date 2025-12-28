@@ -36,7 +36,7 @@ class PostController {
             });
 
             await post.save();
-            await post.populate('author', '_id avatarUrl firstName lastName');
+            await post.populate('author', '_id avatar firstName lastName');
 
             return createdResponse(
                 res,
@@ -108,7 +108,7 @@ class PostController {
             // 🔹 Lấy bài viết phù hợp
             const posts = await Post.find(filter)
                 .sort({ createdAt: -1 })
-                .populate('author', '_id avatarUrl firstName lastName')
+                .populate('author', '_id avatar firstName lastName')
                 .populate('likes', '_id firstName lastName');
 
             // 🔹 Lấy danh sách bài viết đã lưu

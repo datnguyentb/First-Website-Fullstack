@@ -1,8 +1,8 @@
 import User from '../../models/User.js';
 import { okResponse, badRequestResponse, notFoundResponse, serverErrorResponse } from '../../utils/responseHelper.js';
-import { formatItem } from '../../utils/formatter.js';
 import fs from 'fs';
 import path from 'path';
+import { formatFullUser, formatOtherFullInfor } from '../../helper/formatUser.js';
 
 class UserController {
     // GET /me/less
@@ -10,32 +10,13 @@ class UserController {
         const user = req.user;
         if (!user) return notFoundResponse(res, 'User not found');
 
-        return okResponse(
-            res,
-            'User information retrieved successfully',
-            formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt'], {}),
-        );
+        return okResponse(res, 'User information retrieved successfully', formatFullUser(user));
     };
 
     // GET /users/me/all
-    getMeALlInfor(req, res) {
-        return okResponse(
-            res,
-            'User information retrieved successfully',
-            formatItem(req.user, [
-                '_id',
-                'firstName',
-                'lastName',
-                'avatarUrl',
-                'email',
-                'birthdate',
-                'gender',
-                'location',
-                'bio',
-                'phone',
-                'createdAt',
-            ]),
-        );
+    getMeAllInfor(req, res) {
+        console.log('User in req:', formatFullUser(req.user));
+        return okResponse(res, 'User information retrieved successfully', formatFullUser(req.user));
     }
 
     // PATCH /users/update-avatar
@@ -45,21 +26,18 @@ class UserController {
                 return badRequestResponse(res, 'No image file uploaded');
             }
 
-            const newAvatarUrl = `/uploads/avatars/${req.file.filename}`;
-            const oldAvatarPath = req.user.avatarUrl ? path.join(process.cwd(), 'src', req.user.avatarUrl) : null;
+            const newAvatar = `/uploads/avatars/${req.file.filename}`;
+            const oldAvatarPath = req.user.avatar ? path.join(process.cwd(), 'src', req.user.avatar) : null;
 
-            const updatedUser = await User.findByIdAndUpdate(req.user._id, { avatarUrl: newAvatarUrl }, { new: true });
+            const updatedUser = await User.findByIdAndUpdate(req.user._id, { avatar: newAvatar }, { new: true });
 
             if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
                 fs.unlinkSync(oldAvatarPath);
             }
 
-            return okResponse(
-                res,
-                'Avatar updated successfully',
-                formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
-            );
+            return okResponse(res, 'Avatar updated successfully', formatFullUser(updatedUser));
         } catch (error) {
+            console.error('Error updating avatar:', error);
             return serverErrorResponse(res, 'Error updating avatar');
         }
     };
@@ -71,12 +49,9 @@ class UserController {
 
             const updatedUser = await User.findByIdAndUpdate(req.user._id, filtered, { new: true });
 
-            return okResponse(
-                res,
-                'User information updated successfully',
-                formatItem(updatedUser, ['_id', 'firstName', 'lastName', 'bio', 'avatarUrl', 'createdAt']),
-            );
+            return okResponse(res, 'User information updated successfully', formatFullUser(updatedUser));
         } catch (error) {
+            console.error('Error updating user information:', error);
             return serverErrorResponse(res, 'Error updating user information');
         }
     };
@@ -90,13 +65,9 @@ class UserController {
                 return notFoundResponse(res, 'User not found');
             }
 
-            return okResponse(
-                res,
-                'User information retrieved successfully',
-                formatItem(user, ['_id', 'firstName', 'lastName', 'avatarUrl', 'bio', 'createdAt']),
-            );
+            return okResponse(res, 'User information retrieved successfully', formatOtherFullInfor(user));
         } catch (error) {
-            console;
+            console.error('Error retrieving user information:', error);
             return serverErrorResponse(res, 'Error retrieving user information');
         }
     };

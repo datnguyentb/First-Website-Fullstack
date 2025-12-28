@@ -15,7 +15,7 @@ function PostHeader({ setShowUserProfile, userInfor, post }) {
         <div className={cx('post-header', 'd-flex', 'align-items-center', 'justify-content-between')}>
             <div className={cx('d-flex', 'align-items-center')}>
                 <div className={cx('avatar-img')}>
-                    <Img src={baseUrl(userInfor.avatarUrl)} alt="Avatar" className={cx('avatar')} />
+                    <Img src={baseUrl(userInfor.avatar)} alt="Avatar" className={cx('avatar')} />
                 </div>
                 <div className={cx('ms-3')}>
                     <h3 onClick={() => setShowUserProfile(true)} className={cx('name')}>

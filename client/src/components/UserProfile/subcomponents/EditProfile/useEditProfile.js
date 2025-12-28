@@ -14,12 +14,12 @@ export const useEditProfile = () => {
         firstName: '',
         lastName: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         gender: '',
         birthdate: '',
         location: '',
         bio: '',
-        avatarUrl: '',
+        avatar: '',
     });
 
     // [GET] User

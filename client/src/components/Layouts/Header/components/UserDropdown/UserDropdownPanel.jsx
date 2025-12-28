@@ -76,7 +76,7 @@ function UserDropdownPanel({ user_onclick }) {
         <div className={cx('wrapper')} tabIndex={-1}>
             <div className={cx('header')}>
                 <div className={cx('avatar')}>
-                    <Img src={baseUrl(user.avatarUrl)} alt="avatar" />
+                    <Img src={baseUrl(user.avatar)} alt="avatar" />
                 </div>
                 <div>
                     <p className={cx('name')}>{`${user.firstName} ${user.lastName}`}</p>

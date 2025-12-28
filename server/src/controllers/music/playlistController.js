@@ -36,7 +36,7 @@ class playlistController {
             });
 
             await playlist.save();
-            await playlist.populate('owner', '_id avatarUrl firstName lastName');
+            await playlist.populate('owner', '_id avatar firstName lastName');
 
             const formatted = formatItem(playlist, ['_id', 'name', 'owner', 'images', 'description', 'isPublic']);
 
@@ -193,14 +193,14 @@ class playlistController {
         try {
             // 1️⃣ Lấy playlist của user
             const userPlaylists = await Playlist.find({ owner: userId, type: 'playlist' })
-                .populate('owner', '_id avatarUrl firstName lastName')
+                .populate('owner', '_id avatar firstName lastName')
                 .lean();
 
             // 2️⃣ Lấy saved playlists của user
             const userDoc = await User.findById(userId)
                 .populate({
                     path: 'savedPlaylists',
-                    populate: { path: 'owner', select: '_id avatarUrl firstName lastName' },
+                    populate: { path: 'owner', select: '_id avatar firstName lastName' },
                 })
                 .lean();
             const savedPlaylists = userDoc?.savedPlaylists || [];
@@ -288,7 +288,7 @@ class playlistController {
                 })
                 .populate({
                     path: 'owner',
-                    select: '_id lastName firstName avatarUrl',
+                    select: '_id lastName firstName avatar',
                 })
                 .lean();
 

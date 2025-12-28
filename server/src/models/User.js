@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
             minlength: 6,
             maxlength: 255,
         },
-        phone: {
+        phoneNumber: {
             type: String,
             default: '',
         },
@@ -59,7 +59,8 @@ const userSchema = new mongoose.Schema(
             },
         ],
         birthdate: { type: Date, default: new Date('2000-01-01') },
-        avatarUrl: { type: String, default: '' },
+        avatar: { type: String, default: '' },
+        coverImage: { type: String, default: '' },
         gender: {
             type: String,
             enum: ['male', 'female', 'other'],
@@ -75,6 +76,9 @@ const userSchema = new mongoose.Schema(
         followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
         friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+        friendsCount: { type: Number, default: 0 },
+        isOnline: { type: Boolean, default: false },
+        lastActive: { type: Date, default: null },
         savedPlaylists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Playlist', default: [] }],
     },
     {

@@ -2,14 +2,14 @@ import { okResponse, badRequestResponse, serverErrorResponse } from '../../utils
 
 import Message from '../../models/Message.js';
 import messageService from '../../services/messageService.js';
+import { formatMessage } from '../../helper/formatMessage.js';
 
 class MessageController {
     // Lưu tin nhắn
     saveMessage = async (payload) => {
         try {
             const newMessage = await messageService.saveMessage(payload);
-
-            return { status: 'success', data: newMessage };
+            return { status: 'success', data: formatMessage(newMessage) };
         } catch (error) {
             console.error(error);
             return { status: 'error', error: 'Cannot save message' };
@@ -21,7 +21,8 @@ class MessageController {
         try {
             const { conversationId } = req.params;
             const result = await messageService.getMessages(conversationId);
-            return okResponse(res, result);
+            const formattedData = result.map((mes) => formatMessage(mes));
+            return okResponse(res, formattedData);
         } catch (error) {
             console.error(error);
             return serverErrorResponse(res, 'Cannot get messages');

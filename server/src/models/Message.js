@@ -51,6 +51,14 @@ const messageSchema = new mongoose.Schema(
             },
         ],
 
+        metadata: {
+            isEdited: { type: Boolean, require: true, default: false },
+            isUnsent: { type: Boolean, require: true, default: false },
+            unsentBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+            unsentAt: { type: Date, default: null },
+            clientSideId: { type: String, require: true, default: '' },
+        },
+
         // 👁️ Ai đã xem
         seenBy: {
             type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
@@ -63,10 +71,6 @@ const messageSchema = new mongoose.Schema(
             enum: ['sent', 'delivered', 'seen'],
             default: 'sent',
         },
-
-        // 🗑️ Xóa / Thu hồi
-        deletedFor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-        isUnsent: { type: Boolean, default: false },
     },
     { timestamps: true },
 );

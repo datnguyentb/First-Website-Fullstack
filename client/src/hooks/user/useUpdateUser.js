@@ -15,7 +15,7 @@ export default function useUpdateUser() {
             const res1 = await userApi.updateUserInfo({
                 firstName: form.firstName,
                 lastName: form.lastName,
-                phone: form.phone,
+                phoneNumber: form.phoneNumber,
                 gender: form.gender,
                 birthdate: form.birthdate,
                 location: form.location,

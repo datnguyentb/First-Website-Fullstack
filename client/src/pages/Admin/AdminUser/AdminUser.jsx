@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 function AdminUser() {
     //get all users from database
     const { users, loading, error } = useGetAllUserInfor();
-    console.log(users);
     return (
         <div className={cx('wrapper')}>
             <div id="users" className={cx('content-section')}>
@@ -31,7 +30,7 @@ function AdminUser() {
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr>
+                                    <tr key={user._id}>
                                         <td>{`${user.firstName} ${user.lastName}`}</td>
                                         <td>{user.email}</td>
                                         <td>

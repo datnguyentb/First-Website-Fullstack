@@ -9,7 +9,7 @@ function EditAvatar({ preview, handleFileChange, user }) {
     return (
         <div className={cx('form-group', 'd-flex', 'align-items-center')}>
             <div className={cx('avatar')}>
-                <Img src={preview || baseUrl(user.avatarUrl)} className={cx('avatar-custom')} />
+                <Img src={preview || baseUrl(user.avatar)} className={cx('avatar-custom')} />
             </div>
             <label htmlFor="avatarUpload" className={cx('upload-label')}>
                 📸 Choose File

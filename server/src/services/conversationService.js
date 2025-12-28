@@ -22,7 +22,7 @@ const getOrCreateConversation = async (user1Id, user2Id) => {
             new: true,
         },
     )
-        .populate('participants', 'firstName lastName avatarUrl')
+        .populate('participants', 'firstName lastName avatar')
         .lean();
 
     // 🔹 Lọc các field không muốn trả về
@@ -68,12 +68,12 @@ const getUserConversations = async ({ userId, limit = 10, cursorUpdatedAt, curso
     return Conversation.find(query)
         .sort({ updatedAt: -1, _id: -1 })
         .limit(limit)
-        .populate('participants', 'firstName lastName avatarUrl')
+        .populate('participants', 'firstName lastName avatar')
         .populate({
             path: 'lastMessage',
             populate: {
                 path: 'sender',
-                select: 'firstName lastName avatarUrl',
+                select: 'firstName lastName avatar',
             },
         })
         .lean();
@@ -85,12 +85,12 @@ const updateLastMessage = async (conversationId, messageId) => {
 
 const getConversationDetail = async (conversationId) => {
     return Conversation.findById(conversationId)
-        .populate('participants', 'firstName lastName avatarUrl')
+        .populate('participants', 'firstName lastName avatar')
         .populate({
             path: 'lastMessage',
             populate: {
                 path: 'sender',
-                select: 'firstName lastName avatarUrl',
+                select: 'firstName lastName avatar',
             },
         });
 };

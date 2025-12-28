@@ -28,5 +28,8 @@ export function validateMessage(data) {
         sender: sender || null,
         type,
         createdAt: data.createdAt || new Date().toISOString(),
+        metadata: {
+            clientSideId: data._id,
+        },
     };
 }

@@ -104,8 +104,8 @@ class PostInteractionController {
             }
 
             await post.save();
-            await post.populate('likes', '_id avatarUrl firstName lastName');
-            await post.populate('author', '_id avatarUrl firstName lastName');
+            await post.populate('likes', '_id avatar firstName lastName');
+            await post.populate('author', '_id avatar firstName lastName');
 
             return okResponse(
                 res,
