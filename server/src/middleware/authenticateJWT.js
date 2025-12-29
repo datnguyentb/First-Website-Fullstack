@@ -13,7 +13,7 @@ export const authenticateJWT = async (req, res, next) => {
 
     try {
         const decoded = verifyToken(token);
-        const user = await User.findById(decoded.id);
+        const user = await User.findById(decoded._id);
 
         if (!user) {
             return unauthorizedResponse(res, 'Unauthorized: User not found');

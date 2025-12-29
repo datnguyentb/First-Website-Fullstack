@@ -10,6 +10,7 @@ import {
 } from '../../utils/responseHelper.js';
 import { registerValidator } from '../../validations/auth.js';
 import { MESSAGE_RESPONSE } from '../../constants/index.js';
+import { formatFullUser } from '../../helper/formatUser.js';
 
 class AuthController {
     async register(req, res) {
@@ -66,23 +67,13 @@ class AuthController {
                 return notFoundResponse(res, MESSAGE_RESPONSE.AUTH.INVALID_CREDENTIALS);
             }
 
-            // Gán session nếu cần
-            req.session.user = {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                avatar: user.avatar,
-                role: user.role,
-            };
+            const formattedUser = formatFullUser(user);
 
-            const token = generateToken({
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                avatar: user.avatar,
-                bio: user.bio,
-            });
+            // Gán session nếu cần
+            req.session.user = formattedUser;
+
+            const token = generateToken(formattedUser);
+            console.log('Generated JWT Token:', token); // Log the generated token for debugging
 
             return okResponse(res, MESSAGE_RESPONSE.AUTH.LOGIN_SUCCESS, {
                 token,

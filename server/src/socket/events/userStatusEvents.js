@@ -7,7 +7,7 @@
  * @param {Map} onlineUsers Danh sách người dùng online
  */
 const userStatusEvents = (socket, io, onlineUsers) => {
-    const userId = socket.user.id; // Lấy userId đã gắn từ middleware
+    const userId = socket.user._id; // Lấy userId đã gắn từ middleware
 
     // Khi ngắt kết nối
     socket.on('disconnect', () => {

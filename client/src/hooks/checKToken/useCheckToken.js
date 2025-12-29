@@ -14,7 +14,8 @@ export default function useCheckToken() {
                 try {
                     const check = await authApi.checkToken();
                     if (check) setIsValid(true);
-                } catch {
+                } catch (err) {
+                    console.error('Error checking token:', err);
                     setIsValid(false);
                 }
             } else {

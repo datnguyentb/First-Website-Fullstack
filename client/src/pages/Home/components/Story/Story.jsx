@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 const ITEM_WIDTH = 117 + 10; // width + margin (nếu có)
 
 function getUserById(id) {
-    return fakeUserDB.find((user) => user.id === id);
+    return fakeUserDB.find((user) => user._id === id);
 }
 
 function Story() {
@@ -92,14 +92,13 @@ function Story() {
                     </div>
                 )}
                 {Storydb.map((story, index) => {
-                    const user = getUserById(story.userId);
                     return (
                         <div key={index} className={cx('item')}>
                             <Img darkOverlay className={cx('avatar')} src={story.storyImg} alt={story.storyId} />
                             <div className={cx('avatar-icon')}>
-                                <Img className={cx('avatar_img')} circle src={user.avatar_link} />
+                                <Img className={cx('avatar_img')} circle src={story.storyImg} />
                             </div>
-                            <span className={cx('name')}>{user.name}</span>
+                            <span className={cx('name')}>test</span>
                         </div>
                     );
                 })}

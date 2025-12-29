@@ -5,7 +5,7 @@ import { emitRealtimeEvent } from '../../services/socketEmitter.js';
 import { validateMessage } from '../helpers/validateMessage.js';
 
 const messageEvents = (socket, io) => {
-    const userId = socket.user.id;
+    const userId = socket.user._id;
 
     socket.on('send-message', async (data) => {
         try {

@@ -25,10 +25,11 @@ const handleSocketEvents = (io) => {
     io.use(jwtAuthMiddleware);
 
     io.on('connection', (socket) => {
-        const userId = socket.user.id;
+        const userId = socket.user._id;
+        console.log(`User connected: ${userId}`);
         socket.join(userId.toString());
         onlineUsers.set(userId, socket.id);
-        console.log(`🟢 Socket connected: ${socket.id} (User: ${socket.user.id})`);
+        console.log(`🟢 Socket connected: ${socket.id} (User: ${socket.user._id})`);
 
         // Đăng ký các event handler cho Trạng thái người dùng
         userStatusEvents(socket, io, onlineUsers);

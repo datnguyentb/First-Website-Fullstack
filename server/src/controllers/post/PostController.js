@@ -31,7 +31,7 @@ class PostController {
             const post = new Post({
                 content,
                 privacy,
-                author: req.user.id,
+                author: req.user._id,
                 images: req.files?.map((file) => `/uploads/posts/${file.filename}`) || [],
             });
 
