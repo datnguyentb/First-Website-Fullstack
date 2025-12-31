@@ -8,7 +8,6 @@ export default function useGetMeInfor() {
         setLoading(true);
         try {
             const res = await userApi.getMeInfor();
-            console.log('Get me response:', res.data.data);
             return res.data.data;
         } catch (err) {
             console.error('Get me error:', err);

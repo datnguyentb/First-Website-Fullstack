@@ -73,8 +73,6 @@ class AuthController {
             req.session.user = formattedUser;
 
             const token = generateToken(formattedUser);
-            console.log('Generated JWT Token:', token); // Log the generated token for debugging
-
             return okResponse(res, MESSAGE_RESPONSE.AUTH.LOGIN_SUCCESS, {
                 token,
                 role: user.role,

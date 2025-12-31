@@ -43,7 +43,16 @@ function createSecureUploader(subfolder, maxCount = 1) {
                 return next(); // No file uploaded, skip
             }
 
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            const allowedTypes = [
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+                'image/gif',
+                'image/svg+xml', // Quan trọng cho web
+                'image/avif', // Chuẩn nén mới
+                'image/heic', // Apple Photos
+                'image/heif',
+            ];
 
             try {
                 for (const file of files) {

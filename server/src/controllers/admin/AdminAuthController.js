@@ -8,6 +8,7 @@ import {
 } from '../../utils/responseHelper.js';
 import { loginValidator } from '../../validations/auth.js';
 import { formatItem } from '../../utils/formatter.js';
+import { formatFullUser } from '../../helper/formatUser.js';
 
 class AdminAuthController {
     async login(req, res) {
@@ -32,23 +33,12 @@ class AdminAuthController {
                 return unauthorizedResponse(res, 'Incorrect password');
             }
 
-            // Successful login
-            req.session.user = {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-                avatar: user.avatar,
-                role: user.role,
-            };
+            const formattedUser = formatFullUser(user);
 
-            const token = generateToken({
-                id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                avatar: user.avatar,
-                bio: user.bio,
-            });
+            // Successful login
+            req.session.user = formattedUser;
+
+            const token = generateToken(formattedUser);
 
             return okResponse(res, 'Login successful', {
                 token,

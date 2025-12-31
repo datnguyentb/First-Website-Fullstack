@@ -11,30 +11,23 @@ export const useEditProfile = () => {
     const [preview, setPreview] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        gender: '',
-        birthdate: '',
-        location: '',
-        bio: '',
-        avatar: '',
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        phoneNumber: user.phoneNumber || '',
+        gender: user.gender || 'other',
+        birthdate: user.birthdate ? formatDate(user.birthdate) : '',
+        location: user.location || '',
+        bio: user.bio || '',
+        avatar: user.avatar || '',
     });
 
     // [GET] User
     const { userData, loading, error } = useFetchMeProfile();
 
     useEffect(() => {
-        if (userData) {
-            const updated = {
-                ...userData,
-                birthdate: formatDate(userData.birthdate),
-            };
-            setForm(updated);
-            setInitialForm(updated);
-        }
-    }, [userData]);
+        setInitialForm(form);
+    }, []);
 
     // 👉 Revoke preview URL when unmounted
     useEffect(() => {
@@ -46,6 +39,7 @@ export const useEditProfile = () => {
     // 👉 Enable Save when form is changed
     useEffect(() => {
         const isChanged = JSON.stringify(form) !== JSON.stringify(initialForm);
+        console.log('isChanged', isChanged);
         setDisabled(!isChanged);
     }, [form, initialForm]);
 

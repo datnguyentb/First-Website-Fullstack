@@ -12,7 +12,7 @@ function EditInfoCard({ form, setForm }) {
                     <label>First name</label>
                     <input
                         className={cx('input-custom')}
-                        value={form.firstName}
+                        value={form.firstName || ''}
                         onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                     />
                 </div>
@@ -20,7 +20,7 @@ function EditInfoCard({ form, setForm }) {
                     <label>Last name</label>
                     <input
                         className={cx('input-custom')}
-                        value={form.lastName}
+                        value={form.lastName || ''}
                         onChange={(e) => setForm({ ...form, lastName: e.target.value })}
                     />
                 </div>
@@ -33,7 +33,7 @@ function EditInfoCard({ form, setForm }) {
                     <input
                         type="date"
                         className={cx('input-custom')}
-                        value={form.birthdate}
+                        value={form.birthdate || ''}
                         onChange={(e) => setForm({ ...form, birthdate: e.target.value })}
                     />
                 </div>
@@ -55,7 +55,7 @@ function EditInfoCard({ form, setForm }) {
             <div className={cx('form-group', 'mt-4')}>
                 <div className={cx('form-item')}>
                     <label>Email</label>
-                    <input type="email" className={cx('input-custom')} value={form.email} readOnly />
+                    <input type="email" className={cx('input-custom')} value={form.email || ''} readOnly />
                 </div>
             </div>
 
@@ -65,7 +65,7 @@ function EditInfoCard({ form, setForm }) {
                     <label>Phone Number</label>
                     <input
                         className={cx('input-custom')}
-                        value={form.phoneNumber}
+                        value={form.phoneNumber || ''}
                         onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
                     />
                 </div>
@@ -77,7 +77,7 @@ function EditInfoCard({ form, setForm }) {
                     <label>Bio</label>
                     <textarea
                         className={cx('input-custom')}
-                        value={form.bio}
+                        value={form.bio || ''}
                         onChange={(e) => setForm({ ...form, bio: e.target.value })}
                     />
                 </div>
@@ -89,7 +89,7 @@ function EditInfoCard({ form, setForm }) {
                     <label>Location</label>
                     <input
                         className={cx('input-custom')}
-                        value={form.location}
+                        value={form.location || ''}
                         onChange={(e) => setForm({ ...form, location: e.target.value })}
                     />
                 </div>
