@@ -1,5 +1,6 @@
 // hooks/useImageUpload.js
 import { useState, useEffect } from 'react';
+import { revokeImagePreview } from '../../utils/imagePreview';
 
 export const useImageUpload = (initialPreview = null) => {
     const [file, setFile] = useState(null);
@@ -7,9 +8,9 @@ export const useImageUpload = (initialPreview = null) => {
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
-        if (selectedFile) {
-            setFile(selectedFile);
-        }
+        if (!selectedFile) return;
+
+        setFile(selectedFile);
     };
 
     useEffect(() => {
@@ -19,7 +20,7 @@ export const useImageUpload = (initialPreview = null) => {
         }
         const objectUrl = URL.createObjectURL(file);
         setPreview(objectUrl);
-        return () => URL.revokeObjectURL(objectUrl);
+        return () => revokeImagePreview(objectUrl);
     }, [file, initialPreview]);
 
     return { file, preview, handleFileChange, setPreview, setFile };
