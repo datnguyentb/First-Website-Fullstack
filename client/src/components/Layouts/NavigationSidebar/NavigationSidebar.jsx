@@ -2,7 +2,15 @@ import classNames from 'classnames/bind';
 import styles from './NavigationSidebar.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faListCheck, faMusic, faMessage, faUserGroup, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import {
+    faHome,
+    faListCheck,
+    faMusic,
+    faMessage,
+    faUserGroup,
+    faCircleInfo,
+    faGuitar,
+} from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { logo_img } from '~/assets/imgs/logo';
 import { Img } from '~/components';
@@ -33,7 +41,7 @@ const navOptions = [
     },
     {
         title: 'Co-Listening',
-        icon: faMusic,
+        icon: faGuitar,
         link: '/co-listening',
     },
     {

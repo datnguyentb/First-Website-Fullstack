@@ -10,6 +10,7 @@ const routes = {
     adminUsers: '/admin/users',
     adminPosts: '/admin/posts',
     adminMusic: '/admin/music',
+    coListening: '/co-listening',
 } as const;
 
 export default routes;

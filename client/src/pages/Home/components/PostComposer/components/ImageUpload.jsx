@@ -1,6 +1,6 @@
 import { Img } from '~/components';
 import classNames from 'classnames/bind';
-import styles from './postComposer.module.scss';
+import styles from '../postComposer.module.scss';
 import { small_imgs } from '~/assets/imgs/small_imgs';
 
 const cx = classNames.bind(styles);

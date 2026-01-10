@@ -1,4 +1,4 @@
-export const splitIds = (str, separator = ',') => {
+export const splitIds = (str: string, separator = ',') => {
     if (typeof str !== 'string') return [];
     return str
         .split(separator)

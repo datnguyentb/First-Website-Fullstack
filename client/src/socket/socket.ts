@@ -1,12 +1,12 @@
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
-let socket = null;
+let socket: Socket | null = null;
 
 /**
  * Hàm khởi tạo (hoặc cập nhật) socket khi có token
  * @param {string} token - JWT token người dùng
  */
-export const connectSocket = (token) => {
+export const connectSocket = (token: string) => {
     if (!token) return null;
 
     // Nếu socket đã tồn tại, cập nhật token mới
@@ -23,9 +23,7 @@ export const connectSocket = (token) => {
         reconnection: true,
     });
 
-    socket.on('connect', () => {
-        console.log('✅ Socket Connected! ID:', socket.id);
-    });
+    socket.on('connect', () => {});
 
     socket.on('disconnect', () => {});
 

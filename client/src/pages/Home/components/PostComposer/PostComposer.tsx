@@ -5,9 +5,9 @@ import { usePostComposer } from './usePostComposer';
 import { usePostsContext } from '~/contexts';
 import { toast } from 'react-toastify';
 
-import PostTextarea from './PostTextarea';
-import ImagePreviewList from './ImagePreviewList';
-import PostActions from './PostActions';
+import PostTextarea from './components/PostTextarea';
+import ImagePreviewList from './components/ImagePreviewList';
+import PostActions from './components/PostActions';
 import useCreatePost from '~/hooks/post/useCreatePost';
 
 const cx = classNames.bind(styles);

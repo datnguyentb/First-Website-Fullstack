@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { Img } from '~/components';
 import classNames from 'classnames/bind';
-import styles from './postComposer.module.scss';
+import styles from '../postComposer.module.scss';
 
 const cx = classNames.bind(styles);
 
