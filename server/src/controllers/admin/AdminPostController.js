@@ -3,18 +3,22 @@ import Log from '../../models/Log.js';
 import fs from 'fs';
 import path from 'path';
 import { okResponse, notFoundResponse, serverErrorResponse } from '../../utils/responseHelper.js';
+import Report from '../../models/Report.js';
 
 class AdminPostController {
     getPostsNumber = async (req, res) => {
         try {
             const totalPosts = await Post.countDocumentsWithDeleted();
-            const reportedPosts = await Post.countDocuments({
-                reportedBy: { $exists: true, $not: { $size: 0 } },
+
+            const reportedPostsIds = await Report.distinct('targetId', {
+                targetType: 'post',
             });
+
+            const reportedPostsCount = reportedPostsIds.length;
 
             return okResponse(res, 'Retrieved post statistics successfully', {
                 totalPosts,
-                reportedPosts,
+                reportedPosts: reportedPostsCount,
             });
         } catch {
             return serverErrorResponse(res, 'Failed to retrieve post statistics');

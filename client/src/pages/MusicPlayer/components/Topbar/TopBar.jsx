@@ -6,19 +6,19 @@ import { Loading, Song } from '~/components';
 
 const cx = classNames.bind(styles);
 
-function TopBar({ data }) {
-    const { tracks, loading, error } = useGetTrackRecommend();
-    if (loading || !tracks?.data) {
+function TopBar() {
+    const { tracks, loading } = useGetTrackRecommend();
+    if (loading || !tracks) {
         return <Loading type="wave-2" />;
     }
     return (
         <div className={cx('wrapper')}>
             <div className={cx('top-bar-song-list', 'row', 'gx-4', 'gy-3')}>
-                {tracks.data.map((song, index) => {
+                {tracks.map((track, index) => {
                     if (index < 3) {
                         return (
-                            <div key={index} className={cx('item', 'col-4')}>
-                                <Song shadow second_style data={song} />
+                            <div key={track._id} className={cx('item', 'col-4')}>
+                                <Song shadow second_style data={track} />
                             </div>
                         );
                     }

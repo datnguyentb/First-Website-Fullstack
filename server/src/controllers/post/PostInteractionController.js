@@ -132,6 +132,7 @@ class PostInteractionController {
     }
 
     async reportPost(req, res) {
+        console.log('running');
         try {
             const postId = req.params.postId;
             const reason = req.body.reason;

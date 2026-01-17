@@ -4,7 +4,7 @@ import { useMessageCacheContext } from '~/contexts';
 
 export default function useGetMessages(conversationId: string | null) {
     const { messages, setMessages } = useMessageCacheContext();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const currentMessages = conversationId ? messages[conversationId]?.messages || [] : [];
 

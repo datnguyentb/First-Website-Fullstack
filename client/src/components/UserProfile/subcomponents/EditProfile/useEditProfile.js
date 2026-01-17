@@ -39,7 +39,6 @@ export const useEditProfile = () => {
     // 👉 Enable Save when form is changed
     useEffect(() => {
         const isChanged = JSON.stringify(form) !== JSON.stringify(initialForm);
-        console.log('isChanged', isChanged);
         setDisabled(!isChanged);
     }, [form, initialForm]);
 

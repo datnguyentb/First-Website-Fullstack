@@ -58,7 +58,7 @@ function AdminPostDetail({ post, onClose, onSoftDelete, onDeleteForever, onResto
                     {/* Author Info */}
                     <div className={cx('column')}>
                         <h4>Author Information</h4>
-                        <img className={cx('avatar')} src={baseUrl(author.avatar)} alt="avatar" />
+                        <img className={cx('avatar')} src={baseUrl(author?.avatar)} alt="avatar" />
                         <p>
                             <strong>ID:</strong> {author._id}
                         </p>

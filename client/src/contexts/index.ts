@@ -2,7 +2,7 @@
 import { useContext } from 'react';
 import { ModalContext } from './ModalContext';
 import { PlayerContext } from './PlayerContext';
-import { PostContext } from './PostContext';
+import { PostContext } from './PostContext/PostContext';
 import { UserContext } from './UserContext/UserContext';
 import { UserAuthContext } from './UserAuthContext';
 import { AdminAuthContext } from './AdminAuthContext/AdminAuthContext';

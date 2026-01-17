@@ -7,7 +7,6 @@ import {
     serverErrorResponse,
 } from '../../utils/responseHelper.js';
 import { loginValidator } from '../../validations/auth.js';
-import { formatItem } from '../../utils/formatter.js';
 import { formatFullUser } from '../../helper/formatUser.js';
 
 class AdminAuthController {

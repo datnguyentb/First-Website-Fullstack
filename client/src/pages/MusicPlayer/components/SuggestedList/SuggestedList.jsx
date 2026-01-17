@@ -6,16 +6,16 @@ import useGetTrackRecommend from '~/hooks/music/tracks/useGetTrackRecommend';
 const cx = classNames.bind(styles);
 
 function SuggestedList() {
-    const { tracks, loading, error } = useGetTrackRecommend();
+    const { tracks, loading } = useGetTrackRecommend();
 
-    if (loading || !tracks?.data) {
+    if (loading || !tracks) {
         return <Loading type="wave-2" />;
     }
 
     return (
         <div className={cx('wrapper', 'row', 'gy-3', 'gx-3')}>
-            {tracks.data.slice(0, 9).map((track, index) => (
-                <div key={track.id || index} className="col-4">
+            {tracks.slice(0, 9).map((track, index) => (
+                <div key={track._id || index} className="col-4">
                     <Song shadow data={track} />
                 </div>
             ))}

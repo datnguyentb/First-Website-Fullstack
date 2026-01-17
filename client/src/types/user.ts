@@ -12,3 +12,14 @@ export interface User {
     address?: string;
     friendsCount?: number;
 }
+
+export interface UserInfo {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+    isActive: boolean;
+    phoneNumber: string;
+    deleted: boolean;
+}

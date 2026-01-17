@@ -15,7 +15,6 @@ class UserController {
 
     // GET /users/me/all
     getMeAllInfor(req, res) {
-        console.log('User in req:', formatFullUser(req.user));
         return okResponse(res, 'User information retrieved successfully', formatFullUser(req.user));
     }
 

@@ -16,6 +16,7 @@ import ReportPost from '../../models/Report.js';
 import Notification from '../../models/Notification.js';
 
 import { formatItems, formatItem } from '../../utils/formatter.js';
+import { formatPost, formatPosts } from '../../helper/formatPost.js';
 
 class PostController {
     async create(req, res) {
@@ -36,26 +37,10 @@ class PostController {
             });
 
             await post.save();
+
             await post.populate('author', '_id avatar firstName lastName');
 
-            return createdResponse(
-                res,
-                MESSAGE_RESPONSE.POST.CREATE_SUCCESS,
-                formatItem(post, [
-                    'author',
-                    'commentCount',
-                    'content',
-                    'createdAt',
-                    '_id',
-                    'images',
-                    'likeCount',
-                    'likes',
-                    'privacy',
-                    'tags',
-                    'video',
-                    'location',
-                ]),
-            );
+            return createdResponse(res, MESSAGE_RESPONSE.POST.CREATE_SUCCESS, formatPost(post));
         } catch (err) {
             return serverErrorResponse(res);
         }
@@ -121,25 +106,7 @@ class PostController {
                 isSaved: savedPostIds.includes(post._id.toString()),
             }));
 
-            return okResponse(
-                res,
-                MESSAGE_RESPONSE.POST.FETCH_SUCCESS,
-                formatItems(postsWithSavedStatus, [
-                    'author',
-                    'commentCount',
-                    'content',
-                    'createdAt',
-                    '_id',
-                    'images',
-                    'likeCount',
-                    'likes',
-                    'privacy',
-                    'tags',
-                    'video',
-                    'location',
-                    'isSaved',
-                ]),
-            );
+            return okResponse(res, MESSAGE_RESPONSE.POST.FETCH_SUCCESS, formatPosts(postsWithSavedStatus));
         } catch (err) {
             console.error(err);
             return serverErrorResponse(res, MESSAGE_RESPONSE.POST.FETCH_FAILED);

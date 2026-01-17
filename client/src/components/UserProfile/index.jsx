@@ -13,6 +13,7 @@ import useSendFriendRequest from '~/hooks/friendShip/useSendFriendRequest';
 import useUnfollowUser from '~/hooks/friendShip/useUnfollowUser';
 import { useChatWidgetContext } from '~/contexts';
 import useGetConversation from '~/hooks/conversation/useGetConversation';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -32,8 +33,10 @@ function UserProfile({ onClose, userId, setShowUserProfile }) {
     // Follow user
     const handleFollowUser = async () => {
         const res = await sendFriendRequest(userId);
-        if (res) {
+        if (res?.succes) {
             setFriendshipStatus(res.data.status);
+        } else {
+            toast.error(res.data.message);
         }
     };
 

@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Post.module.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
 import { usePostsContext, useModalContext } from '~/contexts';
 import { toast } from 'react-toastify';
 import useSavePost from '~/hooks/postInteraction/useSavePost';
@@ -32,8 +31,11 @@ function MoreSetting({ id, isSaved, onClick, isAuthor }) {
             confirmText: 'Delete',
             onConfirm: async () => {
                 const res = await deletePost(id);
-                if (res) {
+                if (res?.success) {
                     setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+                    toast.success('Post deleted successfully!');
+                } else {
+                    toast.error('Failed to delete the post!');
                 }
             },
         });

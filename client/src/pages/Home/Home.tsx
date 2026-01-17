@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { PostProvider } from '~/contexts/PostContext';
+import { PostProvider } from '~/contexts/PostContext/PostContext';
 import styles from './Home.module.scss';
 import Slider from '~/components/Slider';
 import { Story, Posts, PostComposer } from './components';

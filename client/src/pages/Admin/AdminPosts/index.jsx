@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
 import styles from './AdminPost.module.scss';
 import useFetchAllPosts from '~/hooks/admin/post/useFetchAllPosts';
 import useDeletePost from '~/hooks/admin/post/useDeletePost';
@@ -68,30 +69,38 @@ function AdminPost() {
         });
     };
 
-    const handleSoftDeleteConfirm = async (reason, sendToUser) => {
+    const handleSoftDeleteConfirm = async (reason) => {
         const res = await deletePost(postId, reason);
-
-        if (res) {
+        if (res?.success) {
             setPosts((prevPosts) => prevPosts.map((post) => (post._id === postId ? { ...post, deleted: true } : post)));
-            setPostDetail(res);
+            setPostDetail(res.data);
+            toast.success('Post deleted successfully!');
+        } else {
+            toast.error('Failed to delete the post!');
         }
     };
 
     const handleDeleteForeverConfirm = async () => {
         const res = await deleteForeverPost(postId);
-        if (res) {
+        if (res?.success) {
             setIsShowPostDetail(false);
             setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+            toast.success('Deleted successfully!');
+        } else {
+            toast.error('Failed to delete the post!');
         }
     };
 
     const handleRestoreConfirm = async () => {
         const res = await restorePost(postId);
-        if (res) {
+        if (res?.success) {
             setPosts((prevPosts) =>
                 prevPosts.map((post) => (post._id === postId ? { ...post, deleted: false } : post)),
             );
-            setPostDetail(res);
+            setPostDetail(res.data);
+            toast.success('Post restored successfully!');
+        } else {
+            toast.error('Failed to restore the post.');
         }
     };
 
