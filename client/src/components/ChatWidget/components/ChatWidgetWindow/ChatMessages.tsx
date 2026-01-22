@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from '../ChatWidget.module.scss';
+import styles from './ChatWidgetWindow.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import { useUserContext } from '~/contexts';
 

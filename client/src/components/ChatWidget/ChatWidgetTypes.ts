@@ -1,4 +1,4 @@
-import { Conversation } from '~/contexts/conversationContext/types';
+import { Conversation } from '~/contexts/conversationContext/ConversationContextTypes';
 import { ConversationInfo } from '@/types/conversation';
 import { Dispatch, SetStateAction } from 'react';
 

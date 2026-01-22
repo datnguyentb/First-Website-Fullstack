@@ -3,10 +3,10 @@ import { conversationReducer } from './conversationReducer';
 import useGetAllConversations from '~/hooks/conversation/useGetAllConversations';
 import useGetConversationDetail from '~/hooks/conversation/useGetConversationDetail';
 import { ConversationActionType } from './conversationTypes';
-import { ConversationInfo } from '@/types/conversation';
-import { ConversationState } from './types';
+import { ConversationInfo } from '~/types/conversation';
+import { ConversationContextType, ConversationState } from './ConversationContextTypes';
 
-export const ConversationContext = createContext();
+export const ConversationContext = createContext<ConversationContextType | []>([]);
 
 const initialState: ConversationState = {
     conversations: [],

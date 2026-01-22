@@ -1,13 +1,16 @@
 import classNames from 'classnames/bind';
-import styles from '../ChatWidget.module.scss';
-import { ChatHeader, ChatMessages, ChatInput, NoChatSelected } from '.';
+import styles from './ChatWidgetWindow.module.scss';
 import useGetMessages from '~/hooks/chat/useGetMessages';
 import useJoinConversation from '~/socket/hook/conversation/useJoinConversation';
 import useGetConversationDetail from '~/hooks/conversation/useGetConversationDetail';
 import { useEffect, useState } from 'react';
 import Loading from '~/components/Loading';
-import { ChatWidgetProps } from '../ChatWidgetTypes';
+import { ChatWidgetProps } from '../../ChatWidgetTypes';
 import { ConversationInfo } from '@/types/conversation';
+import NoChatSelected from './NoChatSelected';
+import ChatHeader from './ChatHeader';
+import ChatMessages from './ChatMessages';
+import ChatInput from './ChatInput';
 
 const cx = classNames.bind(styles);
 

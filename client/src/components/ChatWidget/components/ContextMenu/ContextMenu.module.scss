@@ -1,0 +1,57 @@
+.wrapper {
+    width: 280px;
+    max-height: 300px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow:
+        0 12px 24px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px; // Padding vừa phải
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+
+    &:hover {
+        background-color: #f2f2f2; // Màu hover nhạt đặc trưng
+    }
+
+    &:active {
+        background-color: #e4e6eb;
+    }
+}
+
+.icon-wrapper {
+    width: 28px; // Giảm size icon wrapper
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 14px; // Icon chỉ nên tầm 14px-16px
+    color: #050505;
+}
+
+.label {
+    font-size: 14px; // Tuyệt đối không dùng 16px, 14px là đẹp nhất cho menu
+    font-weight: 500;
+    color: #050505;
+    line-height: 1.2;
+}
+
+.separator {
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 4px 8px; // Cách lề một chút để đường kẻ không chạm cạnh
+}

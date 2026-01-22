@@ -1,5 +1,5 @@
 import { ConversationActionType } from './conversationTypes';
-import type { Conversation, ConversationState } from './types'; // nếu tách file type
+import type { Conversation, ConversationState } from './ConversationContextTypes'; // nếu tách file type
 
 interface Action {
     type: string;

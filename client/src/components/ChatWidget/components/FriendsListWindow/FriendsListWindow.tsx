@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from '../ChatWidget.module.scss';
+import styles from './FriendsListWindow.module.scss';
 import Img from '~/components/Img';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';

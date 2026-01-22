@@ -1,14 +1,6 @@
 import { useState, useRef } from 'react';
 import conversationApi from '~/api/chat/conversationApi';
-
-// 1. Định nghĩa Interface cho Conversation
-export interface Conversation {
-    _id: string;
-    updatedAt: string;
-    // Thêm các fields khác của bạn vào đây
-    lastMessage?: string;
-    participants?: any[];
-}
+import { ConversationInfo } from '~/types';
 
 // 2. Interface cho Cursor
 interface Cursor {
@@ -31,7 +23,7 @@ export default function useGetAllConversations() {
     // Sử dụng kiểu dữ liệu cho useRef
     const cursorRef = useRef<Cursor | null>(null);
 
-    const fetchConversations = async (): Promise<Conversation[] | undefined> => {
+    const fetchConversations = async (): Promise<ConversationInfo[] | undefined> => {
         setLoading(true);
         try {
             const params: FetchParams = {
@@ -46,7 +38,7 @@ export default function useGetAllConversations() {
             const res = await conversationApi.getAll(params);
 
             // Lấy data từ response (giả sử cấu trúc là res.data.data)
-            const conversations: Conversation[] = res.data.data;
+            const conversations: ConversationInfo[] = res.data.data;
 
             // cập nhật cursor mới dựa trên mảng data nhận được
             if (conversations && conversations.length > 0) {

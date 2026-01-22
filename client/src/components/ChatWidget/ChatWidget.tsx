@@ -10,7 +10,7 @@ import { ChatWidgetProps } from './ChatWidgetTypes';
 const cx = classNames.bind(styles);
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conversationId }) => {
-    const [isShowFriendsList, setIsShowFriendsList] = useState(true);
+    const [isShowFriendsList, setIsShowFriendsList] = useState(false);
 
     return (
         <div className={cx('chat-widget')}>

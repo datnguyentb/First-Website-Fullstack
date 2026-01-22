@@ -1,21 +1,22 @@
 import { createContext, useReducer, ReactNode } from 'react';
 import { messageCacheReducer } from './messageCacheReducer';
-import { Message } from '@/types/message';
+import { Message } from '~/types/message';
 import { MessageCacheActionType } from './messageCacheTypes';
+import { MessageCacheContextType } from './MessageCacheContextType';
 
-export const MessageCacheContext = createContext();
+export const MessageCacheContext = createContext<MessageCacheContextType | {}>({});
 
 const initialState = {};
 
 export const MessageCacheProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(messageCacheReducer, initialState);
 
-    const setMessages = (conversationId: string, messages: Message[], hashMore = true) => {
+    const setMessages = (conversationId: string, messages: Message[], hasMore = true) => {
         dispatch({
             type: MessageCacheActionType.SET_MESSAGES,
             conversationId,
             payload: messages,
-            hashMore,
+            hasMore,
         });
     };
 

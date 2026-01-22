@@ -1,11 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Post as PostData } from '~/types';
 
 export type PostContextType = {
-   post: ,
-   setPosts: ,
-   loading: boolean,
+    posts: PostData[] | null;
+    setPost: React.Dispatch<React.SetStateAction<PostData[] | []>>;
+    loading: boolean;
 };
-
-export type Post = {
-    
-}

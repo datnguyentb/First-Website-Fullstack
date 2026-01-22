@@ -5,7 +5,7 @@ interface Action {
     type: string;
     payload?: any;
     conversationId?: string;
-    hashMore?: boolean;
+    hasMore?: boolean;
     messageId?: string;
 }
 
@@ -21,7 +21,7 @@ export const messageCacheReducer = (state: MessageCacheState, action: Action) =>
                 [conversationId]: {
                     messages: action.payload,
                     loading: false,
-                    hashMore: action.hashMore,
+                    hasMore: action.hasMore,
                     isFullHistoryLoaded: true,
                 },
             };
