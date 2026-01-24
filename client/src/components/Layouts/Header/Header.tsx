@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import HeadlessTippy from '@tippyjs/react/headless';
 import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +9,7 @@ import Search from './components/Search';
 import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
 import { useChatWidgetContext, useUserContext } from '~/contexts';
+import TippyMenu from '~/components/TippyMenu/TippyMenu';
 
 const cx = classNames.bind(styles);
 
@@ -46,60 +46,42 @@ function Header({ style_2 = false }) {
                 {user ? (
                     <div className={cx('user-wrapper')}>
                         <div>
-                            <HeadlessTippy
+                            <TippyMenu
+                                renderMenu={<MessagerWidget handleHideMessagerWidget={handleHideMessagerWidget} />}
                                 interactive={true}
                                 placement="bottom-start"
                                 onClickOutside={handleHideMessagerWidget}
                                 visible={isVisibleMessagerWidget}
-                                render={(attrs, contentRef) => (
-                                    <div
-                                        className="box"
-                                        tabIndex="-1"
-                                        ref={contentRef}
-                                        {...attrs}
-                                        style={{ zIndex: 9999 }}
-                                    >
-                                        <MessagerWidget handleHideMessagerWidget={handleHideMessagerWidget} />
-                                    </div>
-                                )}
                             >
                                 <div className={cx('message-icon', 'action-btn')} onClick={handleToggle}>
                                     <FontAwesomeIcon icon={faMessage} />
                                 </div>
-                            </HeadlessTippy>
+                            </TippyMenu>
                         </div>
                         <div>
-                            <HeadlessTippy
+                            <TippyMenu
+                                renderMenu={<Notification />}
+                                placement="bottom-end"
+                                offset={[0, 0]}
                                 trigger="click"
-                                interactive={true}
-                                placement="bottom-start"
-                                render={(attrs) => (
-                                    <div tabIndex="-1" {...attrs}>
-                                        <Notification />
-                                    </div>
-                                )}
                             >
                                 <Button
                                     className={cx('bell-icon', 'action-btn')}
                                     badge={5}
                                     leftIcon={<FontAwesomeIcon icon={faBell} />}
                                 ></Button>
-                            </HeadlessTippy>
+                            </TippyMenu>
                         </div>
                         <div className={cx('user_notice')}>
-                            <HeadlessTippy
+                            <TippyMenu
+                                renderMenu={<UserDropdownPanel user_onclick={handleShowProfile} />}
                                 placement="bottom"
-                                interactive
-                                render={(attrs, contentRef) => (
-                                    <div className="box" tabIndex="-1" ref={contentRef} {...attrs}>
-                                        <UserDropdownPanel user_onclick={handleShowProfile} />
-                                    </div>
-                                )}
+                                trigger="click"
                             >
                                 <div className={cx('user-avatar', 'ms-3')}>
                                     <Img src={baseUrl(user.avatar)} />
                                 </div>
-                            </HeadlessTippy>
+                            </TippyMenu>
                         </div>
                     </div>
                 ) : (

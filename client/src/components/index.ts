@@ -12,3 +12,4 @@ export { default as Song } from './Song';
 export { default as PopupMenu } from './PopupMenu';
 export { default as ChatWidget } from './ChatWidget';
 export { default as ErrorFallback } from './ErrorFallback';
+export { default as ActionMenu } from './ActionMenu';

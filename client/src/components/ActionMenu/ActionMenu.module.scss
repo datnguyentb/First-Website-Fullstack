@@ -1,0 +1,62 @@
+.wrapper {
+    width: 280px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 6px;
+    box-shadow:
+        0 12px 24px rgba(0, 0, 0, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 12px;
+    cursor: pointer;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: background-color 0.15s ease;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 4px;
+
+    &:hover {
+        background-color: #f5f5f5;
+    }
+
+    &:active {
+        background-color: #ebedef;
+    }
+}
+
+.back-icon {
+    width: 20px !important; // Cố định chiều rộng icon để tiêu đề không bị lệch
+    height: 20px;
+    font-size: 14px;
+    color: #65676b; // Màu xám đặc trưng của Messenger
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-title {
+    font-size: 15px;
+    font-weight: 700; // Messenger thường để tiêu đề menu con khá đậm
+    color: #050505;
+    flex: 1; // Để text chiếm hết không gian còn lại
+
+    // Tránh việc text quá dài làm vỡ layout
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+}
