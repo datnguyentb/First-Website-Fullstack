@@ -5,6 +5,7 @@ import styles from './Todo.module.scss';
 import todoListdb from '~/databseFake/todoListdb';
 import { TodoItem, Focus } from './components';
 import { useEffect } from 'react';
+import { BaseModal } from '~/components';
 
 const cx = classNames.bind(styles);
 function Todo() {
@@ -28,6 +29,7 @@ function Todo() {
                 <div className={cx('focus', 'mt-5')}>
                     <Focus />
                 </div>
+                <BaseModal />
             </div>
         </>
     );
