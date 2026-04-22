@@ -1,0 +1,304 @@
+.lightbox-overlay {
+    width: 95vw;
+    height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-container {
+    display: flex;
+    width: 100%;
+    max-width: 90vw;
+    height: 90vh;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-container.no-images {
+    justify-content: center;
+    background-color: transparent;
+    box-shadow: none;
+    .media-section {
+        display: none;
+    }
+
+    .side-panel {
+        width: 100%;
+        max-width: 600px;
+        border-radius: 12px;
+    }
+}
+
+.media-section {
+    flex: 3;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    overflow: hidden;
+
+    .main-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+
+        &.slide-next {
+            animation: slideNext 0.4s ease-out;
+        }
+
+        &.slide-prev {
+            animation: slidePrev 0.4s ease-out;
+        }
+    }
+    .dots-container {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%); // Căn giữa thanh dots
+        display: flex;
+        flex-direction: row;
+        gap: 8px; // Khoảng cách giữa các chấm
+        list-style: none;
+        padding: 8px 12px;
+        background: rgba(0, 0, 0, 0.3); // Nền mờ nhẹ cho cả cụm dots
+        border-radius: 20px;
+        backdrop-filter: blur(4px); // Làm mờ nền phía sau (glassmorphism)
+        z-index: 10;
+
+        .dot-item {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5); // Màu trắng mờ cho dots thường
+            transition: all 0.3s ease; // Giúp chuyển màu/kích thước mượt mà
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.8);
+                transform: scale(1.2);
+            }
+
+            &.active {
+                width: 8px; // Chấm active to hơn một chút
+                height: 8px;
+                background-color: #fff; // Trắng tinh khôi
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .nav-btns {
+    }
+
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+        opacity: 0.7;
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 1;
+        }
+        &.preview {
+            left: 20px;
+            animation: slideNext 0.2s ease-out;
+        }
+        &.next {
+            right: 20px;
+            animation: slidePrev 0.2s ease-out;
+        }
+    }
+}
+
+.side-panel {
+    position: relative;
+    width: 400px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #333;
+    color: black;
+
+    .close-all {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        color: black;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+        &:hover {
+            background: #ff4757;
+            color: white;
+        }
+    }
+
+    .panel-header {
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid #ccc;
+
+        .avatar-mock {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .username {
+            font-weight: 600;
+            display: block;
+        }
+        .time {
+            font-size: 12px;
+            color: #8e8e93;
+        }
+    }
+
+    .scrollable-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 10px;
+        }
+
+        .content-text {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            color: black;
+        }
+    }
+
+    .comment-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .comment-content {
+            background: #f0f2f5;
+            padding: 8px 12px;
+            border-radius: 12px;
+            .comment-user {
+                font-weight: 600;
+                font-size: 13px;
+                display: block;
+                color: rgb(3, 105, 161);
+            }
+            .comment-text {
+                font-size: 13px;
+                margin: 0;
+            }
+        }
+
+        .comment-footer {
+            margin-left: 4px;
+            font-size: 11px;
+            color: #8e8e93;
+            margin-top: 4px;
+            display: flex;
+            gap: 12px;
+
+            span.comment-reaction {
+                font-weight: bold;
+            }
+
+            span {
+                cursor: pointer;
+                transition: 0.3s;
+                &:hover {
+                    color: #0084ff;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .panel-footer {
+        padding: 16px;
+        border-top: 1px solid #ccc;
+        display: flex;
+        flex-direction: row;
+
+        .input-wrapper {
+            flex: 1;
+            display: flex;
+            background: #f0f2f5;
+            border-radius: 20px;
+            padding: 8px 16px;
+            align-items: center;
+
+            input {
+                flex: 1;
+                background: transparent;
+                border: none;
+                color: black;
+                outline: none;
+                font-size: 14px;
+            }
+        }
+
+        .send-btn {
+            background: none;
+            border: none;
+            color: #0084ff;
+            cursor: pointer;
+            padding-left: 10px;
+        }
+    }
+}
+
+@keyframes slideNext {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slidePrev {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

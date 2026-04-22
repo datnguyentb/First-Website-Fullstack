@@ -23,9 +23,26 @@ function ChangeVolume() {
         }
     };
 
+    // Hàm xử lý lăn chuột
+    const handleWheel = (e) => {
+        const step = 5; // Mỗi lần cuộn tăng/giảm 5 đơn vị
+        let newVolume = volume;
+
+        if (e.deltaY < 0) {
+            // Cuộn lên -> Tăng volume
+            newVolume = Math.min(100, volume + step);
+        } else {
+            // Cuộn xuống -> Giảm volume
+            newVolume = Math.max(0, volume - step);
+        }
+
+        setVolume(newVolume);
+        if (newVolume > 0) setPrevVolume(newVolume);
+    };
+
     return (
         <div className={cx('player-utils')}>
-            <div className={cx('volume', 'd-flex')}>
+            <div className={cx('volume', 'd-flex')} onWheel={handleWheel}>
                 <div className={cx('volume-control', 'd-flex')}>
                     <Button
                         style_2

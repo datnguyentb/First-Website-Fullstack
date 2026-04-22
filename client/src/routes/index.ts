@@ -1,4 +1,5 @@
 import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messenger, CoListening } from '../pages';
+import RoomView from '~/pages/CoListening/components/RoomView';
 import { Login, Register } from '../pages/Auth';
 import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
 import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
@@ -68,6 +69,10 @@ const publicRoutes: AppRoute[] = [
         path: config.routes.coListening,
         component: CoListening,
         layout: null,
+        children: [
+            { index: true, component: CoListening },
+            { path: 'room/:id', component: RoomView },
+        ],
     },
 ];
 

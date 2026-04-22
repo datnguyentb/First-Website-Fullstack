@@ -8,10 +8,11 @@ export function usePost(post, user) {
     });
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(post.likeCount || 0);
-    const [burstVisible, setBurstVisible] = useState(false);
     const [showUserProfile, setShowUserProfile] = useState(false);
     const [settingVisible, setSettingVisible] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     useEffect(() => {
         if (user && user._id === post.author._id) {
@@ -38,11 +39,13 @@ export function usePost(post, user) {
         setLiked,
         likeCount,
         setLikeCount,
-        burstVisible,
-        setBurstVisible,
         showUserProfile,
         setShowUserProfile,
         settingVisible,
         setSettingVisible,
+        lightboxOpen,
+        setLightboxOpen,
+        currentImageIndex,
+        setCurrentImageIndex,
     };
 }

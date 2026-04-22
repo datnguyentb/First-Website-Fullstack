@@ -19,6 +19,7 @@ function AdminMusicManageSearchHeader({ setSearchResult }) {
             if (debounced) {
                 const res = await searchTracks(debounced, 10);
                 setSearchResult(res.data);
+                console.log(res);
             } else {
                 setSearchResult([]);
             }

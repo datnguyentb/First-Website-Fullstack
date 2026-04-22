@@ -1,10 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+.room-view {
+    background-color: $black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
 .wrapper {
     display: flex;
     flex-direction: row;
     background-color: rgb(24, 24, 24);
     width: 100%;
+    max-width: 1280px;
     padding: 20px;
-    max-height: 100vh;
+    max-height: 90vh;
+    border-radius: 40px;
 }
 
 .left-content {
@@ -40,13 +53,26 @@
         color: rgb(29, 185, 84);
     }
 
-    button.leave-btn {
-        background-color: #ff4d4f;
-        color: white;
-        border: none;
+    .leave-btn {
+        background-color: rgba(239, 68, 68, 0.1);
+        border: 0.1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 9999px;
         padding: 8px 16px;
-        border-radius: 4px;
         cursor: pointer;
+
+        span {
+            color: rgba(248, 113, 113, 1);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        &:hover {
+            background-color: rgba(239, 68, 68, 1);
+
+            span {
+                color: $white;
+            }
+        }
     }
 }
 
@@ -74,6 +100,7 @@
     }
 
     .song-title {
+        color: $white;
         font-size: 20px;
         font-weight: 600;
     }
@@ -173,61 +200,83 @@
 }
 
 .playlist-list {
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    border: rgb(55, 65, 81) 1px solid;
-    padding: 16px;
-
-    .playlist-title {
-        line-height: 28px;
-        color: rgb(179, 179, 179);
-        font-weight: 500;
-        font-size: 14px;
-    }
-
     .playlist-items {
-        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .playlist-item {
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 8px;
-        border-radius: 8px;
-        margin-top: 8px;
-
-        .playlist-item-info {
-            display: flex;
-            flex-direction: column;
-        }
-    }
-
-    .playlist-item-name {
-        font-weight: 500;
-        color: white;
-    }
-
-    .playlist-item-singer {
-        font-size: 12px;
-        color: rgb(156, 163, 175);
+        padding: 16px;
     }
 
     .playlist-item.active {
-        background-color: rgba(55, 65, 81, 0.5);
+        background-color: rgba(29, 185, 84, 0.1);
+    }
 
-        .playlist-item-status {
-            color: rgb(29, 185, 84);
+    .playlist-item-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .playlist-item-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 16px;
+
+        .playlist-item-name {
+            font-size: 1.4rem;
+            line-height: 2rem;
+            color: $white;
+        }
+
+        .playlist-item-singer {
+            font-size: 1rem;
+            color: rgb(107, 114, 128);
+            text-transform: uppercase;
         }
     }
 
+    .order {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgb(29, 185, 84);
+        font-size: 18px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 700;
+        background-color: $black;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    }
+
     .playlist-item-status {
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(248, 113, 113, 1);
-        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        background-color: rgba(29, 185, 84, 0.1);
+        border-radius: 9999px;
+        padding: 4px 12px;
+
+        &.current-playing {
+            color: rgb(29, 185, 84);
+            background-color: rgba(29, 185, 84, 0.1);
+        }
+
+        &.remove {
+            color: rgba(239, 68, 68, 1);
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgba(239, 68, 68, 1);
+                color: $white;
+            }
+        }
     }
 }
 
@@ -237,43 +286,99 @@
     border-radius: 8px;
     border: rgb(55, 65, 81) 1px solid;
     padding: 16px;
+    display: flex;
+    flex-direction: column;
+    max-height: 40%;
 
     .user-list-title {
         line-height: 28px;
-        color: rgb(107, 114, 128);
+        color: rgb(179, 179, 179);
         letter-spacing: 2px;
         font-weight: 700;
         font-size: 14px;
-        margin-bottom: 8px;
+        margin-bottom: 24px;
     }
 
     .user-list-items {
         display: flex;
-        flex-direction: column;
-        max-height: 150px;
+        flex-wrap: wrap;
+        gap: 1.6rem;
+        flex: 1;
         overflow-y: auto;
     }
 
     .user-list-item {
-        padding: 8px;
-        font-size: 14px;
-        border-radius: 6px;
-        font-weight: 700;
+        width: calc((100% / 3) - 16px);
+        height: 100px;
     }
 
-    .user-list-item.me {
-        background-color: rgba(29, 185, 84, 0.2);
+    .seat-pod {
+        position: relative;
+        width: 80px;
+        height: 100px;
+        background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+        border-radius: 20px 20px 10px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+    }
 
-        .user-list-item-me {
-            font-size: 12px;
-            color: rgb(29, 185, 84);
+    .seat-pod::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        width: 60%;
+        height: 4px;
+        background: #1db954;
+        filter: blur(8px);
+        opacity: 0.5;
+        border-radius: 50%;
+    }
+
+    .seat-pod:hover {
+        transform: translateY(-5px);
+        border-color: #1db954;
+        box-shadow: 0 10px 30px -10px rgba(29, 185, 84, 0.3);
+    }
+
+    .me {
+        border-color: rgba(29, 185, 84, 0.5);
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border: solid 2px rgba(29, 185, 84, 1);
+            animation: vibe 1.5s infinite ease-in-out;
         }
+
+        .name {
+            color: rgb(29, 185, 84);
+            text-transform: uppercase;
+        }
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .name {
+        margin-top: 0.4rem;
+        color: rgb(107, 114, 128);
+        font-size: 0.9rem;
+        font-weight: 700;
     }
 
     .user-list-footer {
         font-size: 12px;
         color: rgb(156, 163, 175);
-        margin-top: 8px;
+        margin-top: 16px;
 
         span {
             color: rgb(29, 185, 84);
@@ -282,7 +387,8 @@
 }
 
 .chat-room {
-    flex: 2;
+    max-height: calc(60% - 24px);
+    height: 100%;
     margin-top: 24px;
     border-radius: 8px;
     border: rgb(55, 65, 81) 1px solid;
@@ -329,13 +435,13 @@
 
         .chat-message-user {
             font-weight: 600;
-            font-size: 12px;
+            font-size: 10px;
             color: rgb(29, 185, 84);
         }
 
         .chat-message-text {
             color: white;
-            font-size: 14px;
+            font-size: 12px;
         }
     }
 
@@ -345,7 +451,7 @@
     }
 
     .chat-room-input {
-        padding: 16px;
+        padding: 12px;
         display: flex;
         flex-direction: row;
         input {
@@ -354,19 +460,40 @@
             background-color: rgb(18, 18, 18);
             border: 1px solid #374151;
             border-radius: 8px;
-            font-size: 16px;
-            line-height: 1.5;
-            padding: 12px;
+            font-size: 12px;
+            line-height: 1;
+            padding: 8px 12px;
         }
 
         button {
-            padding: 12px;
-            width: 50px;
-            height: 50px;
+            padding: 8px;
+            width: 40px;
+            height: 40px;
             background-color: rgb(29, 185, 84);
             margin-left: 8px;
             line-height: inherit;
             border-radius: 8px;
+
+            &:hover {
+                background-color: rgb(29, 185, 84);
+                color: white;
+                filter: brightness(1.1);
+            }
         }
+
+        svg {
+            font-size: 14px;
+        }
+    }
+}
+
+@keyframes vibe {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 20px rgba(29, 185, 84, 0.4);
     }
 }

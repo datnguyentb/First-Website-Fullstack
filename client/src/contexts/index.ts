@@ -1,5 +1,7 @@
-// useModal.js
+// useContexts.ts
 import { useContext } from 'react';
+
+// Contexts
 import { ModalContext } from './ModalContext';
 import { PlayerContext } from './PlayerContext';
 import { PostContext } from './PostContext/PostContext';
@@ -12,9 +14,13 @@ import { SocketContext } from './socket/SocketContext';
 import { ChatWidgetContext } from './ChatWidgetContext/ChatWidgetContext';
 import { ConversationContext } from './conversationContext/ConversationContext';
 import { MessageCacheContext } from './messageCache/MessageCacheContext';
+import { ToastContext } from './ToastContext/ToastContext';
+
+// Types
 import { AdminAuthContextType } from './AdminAuthContext/AdminAuthContextTypes';
 import { ChatWidgetContextType } from './ChatWidgetContext/ChatWidgetContextTypes';
 
+// 🔹 Hooks
 export const useSocketContext = () => useContext(SocketContext);
 export const usePlayerContext = () => useContext(PlayerContext);
 export const useModalContext = () => useContext(ModalContext);
@@ -33,3 +39,4 @@ export const useChatWidgetContext = () => {
 };
 export const useConversationContext = () => useContext(ConversationContext);
 export const useMessageCacheContext = () => useContext(MessageCacheContext);
+export const useToastContext = () => useContext(ToastContext);

@@ -30,18 +30,20 @@ const PLAYLIST_LIST_TEST = [
 function PlaylistList() {
     return (
         <div className={cx('playlist-list', 'scrollbar')}>
-            <h2 className={cx('playlist-title')}>Playlist Chia Sẻ:</h2>
             <ul className={cx('playlist-items')}>
                 {PLAYLIST_LIST_TEST.map((item) => (
                     <li key={item.id} className={cx('playlist-item', { active: item.status === 'active' })}>
-                        <div className={cx('playlist-item-info')}>
-                            <span className={cx('playlist-item-name')}>{item.name}</span>
-                            <span className={cx('playlist-item-singer')}>{item.singer}</span>
+                        <div className={cx('playlist-item-container')}>
+                            <div className={cx('order')}>{item.id < 10 ? `0${item.id}` : item.id}</div>
+                            <div className={cx('playlist-item-info')}>
+                                <span className={cx('playlist-item-name')}>{item.name}</span>
+                                <span className={cx('playlist-item-singer')}>{item.singer}</span>
+                            </div>
                         </div>
                         {item.status === 'active' ? (
-                            <span className={cx('playlist-item-status')}>Đang phát</span>
+                            <span className={cx('playlist-item-status', 'current-playing')}>Đang phát</span>
                         ) : (
-                            <span className={cx('playlist-item-status')}>Xóa</span>
+                            <span className={cx('playlist-item-status', 'remove')}>Xóa</span>
                         )}
                     </li>
                 ))}

@@ -8,7 +8,7 @@ import { renderMultilineText } from '~/utils/textUtils';
 
 const cx = classNames.bind(styles);
 
-function PostContent({ post }) {
+function PostContent({ post, setCurrentImageIndex, setLightboxOpen }) {
     const [expanded, setExpanded] = useState(false);
     const [shortText, setShortText] = useState('');
     const [isTruncated, setIsTruncated] = useState(false);
@@ -24,6 +24,11 @@ function PostContent({ post }) {
             setIsTruncated(false);
         }
     }, [post.content]);
+
+    const handleOpenLightbox = (index) => {
+        setCurrentImageIndex(index);
+        setLightboxOpen(true);
+    };
 
     return (
         <div className={cx('post-content')}>
@@ -43,7 +48,11 @@ function PostContent({ post }) {
 
             <div className={cx('post-images', `count-${post.images.length}`)}>
                 {post.images.map((imgUrl, index) => (
-                    <div key={index} className={cx('image-wrapper', `image-${index}`)}>
+                    <div
+                        key={index}
+                        className={cx('image-wrapper', `image-${index}`)}
+                        onClick={() => handleOpenLightbox(index)}
+                    >
                         <Img src={baseUrl(imgUrl)} alt={`post-image-${index}`} className={cx('post-image')} />
                     </div>
                 ))}

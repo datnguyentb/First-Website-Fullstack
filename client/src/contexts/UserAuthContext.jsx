@@ -1,5 +1,5 @@
 // contexts/UserAuthContext.js
-import { createContext, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 export const UserAuthContext = createContext();
 
@@ -10,19 +10,26 @@ export function UserAuthProvider({ children }) {
         return { token, role };
     });
 
-    const login = (newToken, newRole) => {
+    const login = useCallback((newToken, newRole) => {
         setAuth({ token: newToken, role: newRole });
         localStorage.setItem('token', newToken);
         localStorage.setItem('userRole', newRole);
-    };
+    }, []);
 
-    const text = 'hello';
-
-    const logout = () => {
+    const logout = useCallback(() => {
         setAuth({ token: null, role: null });
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
-    };
+    }, []);
 
-    return <UserAuthContext.Provider value={{ auth, text, login, logout }}>{children}</UserAuthContext.Provider>;
+    const contextValue = useMemo(
+        () => ({
+            auth,
+            login,
+            logout,
+        }),
+        [auth, login, logout],
+    );
+
+    return <UserAuthContext.Provider value={contextValue}>{children}</UserAuthContext.Provider>;
 }

@@ -33,7 +33,7 @@ function AdminMusicManageSearchResult({ searchResult, setResult, result }) {
 
     return (
         <div className={cx('search-result')}>
-            {searchResult?.length != 0 && data ? (
+            {searchResult && searchResult?.length != 0 && data ? (
                 <>
                     {searchResult.tracks &&
                         data.map((item, index) => (

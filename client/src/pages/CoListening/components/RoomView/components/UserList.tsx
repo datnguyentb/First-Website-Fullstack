@@ -1,31 +1,41 @@
 import classNames from 'classnames/bind';
 import styles from '../RoomView.module.scss';
+import { Img } from '~/components';
 
 const cx = classNames.bind(styles);
 
 const USER_LIST_TEST = [
-    //20 user mẫu
-    { id: 1, name: 'Nguyễn Văn A', status: 'online', isMe: true },
-    { id: 2, name: 'Trần Thị B', status: 'offline' },
-    { id: 3, name: 'Lê Văn C', status: 'online' },
-    { id: 4, name: 'Phạm Thị D', status: 'offline' },
-    { id: 5, name: 'Hoàng Văn E', status: 'online' },
-    { id: 6, name: 'Vũ Thị F', status: 'offline' },
-    { id: 7, name: 'Đặng Văn G', status: 'online' },
+    {
+        id: 1,
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix',
+        name: 'Tùng',
+        status: 'online',
+        isMe: true,
+    },
+    { id: 2, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka', name: 'Châu', status: 'online' },
+    { id: 3, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=George', name: 'Quang', status: 'away' },
+    { id: 4, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Heidi', name: 'Thảo', status: 'offline' },
+    { id: 5, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jude', name: 'Kiệt', status: 'online' },
+    { id: 6, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Kim', name: 'Linh', status: 'busy' },
+    { id: 7, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Liam', name: 'Long', status: 'online' },
+    { id: 8, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mimi', name: 'Trang', status: 'away' },
+    { id: 9, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Nala', name: 'Phước', status: 'offline' },
+    { id: 10, avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Owen', name: 'Nam', status: 'online' },
 ];
 
 function UserList() {
     return (
         <div className={cx('user-list')}>
-            <h2 className={cx('user-list-title')}>KHÁN PHÒNG (7/10)</h2>
+            <h2 className={cx('user-list-title')}>Khán Phòng (7/10)</h2>
             <ul className={cx('user-list-items')}>
                 {USER_LIST_TEST.map((user) => (
-                    <li
-                        key={user.id}
-                        className={cx('user-list-item', { online: user.status === 'online' }, { me: user.isMe })}
-                    >
-                        <span className={cx('user-list-item-name')}>{user.name}</span>
-                        {user.isMe ? <span className={cx('user-list-item-me')}> (Bạn)</span> : null}
+                    <li key={user.id} className={cx('user-list-item')}>
+                        <div className={cx('seat-pod', { me: user.isMe })}>
+                            <div className={cx('avatar')}>
+                                <Img src={user.avatar} />
+                            </div>
+                            <span className={cx('name')}>{user.isMe ? 'You' : user.name}</span>
+                        </div>
                     </li>
                 ))}
             </ul>

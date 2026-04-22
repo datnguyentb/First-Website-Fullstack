@@ -7,21 +7,31 @@ export default function useGetMyPlaylists() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        setLoading(true);
-        setError(null);
+        let isMounted = true; // Cờ kiểm tra component còn tồn tại không
 
         const getPlaylists = async () => {
+            setLoading(true);
             try {
                 const res = await musicPlayerApi.getMyPlaylists();
-                setPlaylists(res.data.data);
+                if (isMounted) {
+                    setPlaylists(res.data.data);
+                }
             } catch (err) {
-                setError(err.response);
+                if (isMounted) {
+                    setError(err.response);
+                }
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
         getPlaylists();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     return { playlists, setPlaylists, loading, error };

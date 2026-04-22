@@ -47,7 +47,7 @@ input.room-name {
     display: flex;
     justify-content: right;
 
-    button.btn {
+    .btn {
         padding: 8px 16px;
         font-size: 16px;
         font-weight: 600;
@@ -59,7 +59,7 @@ input.room-name {
         color: rgb(179, 179, 179);
     }
 
-    button.create {
+    .create {
         background-color: rgb(29, 185, 84);
 
         &:hover {

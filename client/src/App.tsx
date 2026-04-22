@@ -13,6 +13,7 @@ import { SocketProvider } from './contexts/socket/SocketContext';
 import { ChatWidgetProvider } from './contexts/ChatWidgetContext/ChatWidgetContext';
 import { ConversationProvider } from './contexts/conversationContext/ConversationContext';
 import { MessageCacheProvider } from './contexts/messageCache/MessageCacheContext';
+import { ToastProvider } from './contexts/ToastContext/ToastContext';
 
 import EventTheme from './layouts/EventTheme';
 import { ProtectedUserRoute } from './components/ProtectedRoute';
@@ -49,7 +50,9 @@ function App() {
                                     <MessageCacheProvider>
                                         <SocketProvider>
                                             {isChatWidgetRoute ? (
-                                                <ChatWidgetProvider>{element}</ChatWidgetProvider>
+                                                <ToastProvider>
+                                                    <ChatWidgetProvider>{element}</ChatWidgetProvider>
+                                                </ToastProvider>
                                             ) : (
                                                 element
                                             )}

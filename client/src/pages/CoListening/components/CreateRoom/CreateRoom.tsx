@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './CreateRoom.module.scss';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function CreateRoom({ setCreateRoomOpen }: { setCreateRoomOpen: (open: boolean) => void }) {
@@ -42,7 +43,9 @@ function CreateRoom({ setCreateRoomOpen }: { setCreateRoomOpen: (open: boolean) 
                 <button className={cx('btn', 'cancel')} onClick={() => setCreateRoomOpen(false)}>
                     Hủy
                 </button>
-                <button className={cx('btn', 'create')}>Tạo Phòng</button>
+                <Link to={`/co-listening/room/${roomName}`} className={cx('btn', 'create')}>
+                    Tạo Phòng
+                </Link>
             </div>
         </div>
     );

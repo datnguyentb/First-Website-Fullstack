@@ -2,11 +2,12 @@ import classNames from 'classnames/bind';
 import 'tippy.js/dist/tippy.css';
 import styles from './Post.module.scss';
 import UserProfile from '~/components/UserProfile/index.jsx';
+import { FloatingLayer } from '~/components';
+import { ImgLightBox } from '../../components';
 import { useUserContext } from '~/contexts';
 import PostHeader from './PostHeader';
 import PostMoreAction from './PostMoreAction';
 import PostContent from './PostContent';
-import PostStatus from './PostStatus';
 import PostActions from './PostActions';
 import { usePost } from './usePost';
 import useLikePost from '~/hooks/postInteraction/useLikePost';
@@ -28,12 +29,14 @@ function Post({ post, setPosts }) {
         setLiked,
         likeCount,
         setLikeCount,
-        burstVisible,
-        setBurstVisible,
         showUserProfile,
         setShowUserProfile,
         settingVisible,
         setSettingVisible,
+        lightboxOpen,
+        setLightboxOpen,
+        currentImageIndex,
+        setCurrentImageIndex,
     } = usePost(post, user);
 
     // ========== HANDLERS ==========
@@ -47,11 +50,6 @@ function Post({ post, setPosts }) {
 
             if (setPosts) {
                 setPosts((prevPosts) => prevPosts.map((p) => (p._id === post._id ? updatedPost : p)));
-            }
-
-            if (isNowLiked) {
-                setBurstVisible(true);
-                setTimeout(() => setBurstVisible(false), 600);
             }
         } catch (error) {
             console.error('Like error:', error);
@@ -68,28 +66,50 @@ function Post({ post, setPosts }) {
     if (!user) return null;
 
     return (
-        <div className={cx('wrapper', 'mt-5')}>
-            {showUserProfile && (
-                <UserProfile
-                    setShowUserProfile={setShowUserProfile}
-                    onClose={handleCloseProfile}
-                    userId={post.author._id}
-                />
-            )}
-            <div className={cx('d-flex', 'justify-content-between')}>
-                <PostHeader setShowUserProfile={setShowUserProfile} userInfor={userInfor} post={post} />
-                <PostMoreAction
-                    settingVisible={settingVisible}
-                    handleClickOutsideSetting={handleClickOutsideSetting}
-                    handleToggleSetting={handleToggleSetting}
+        <>
+            <div className={cx('wrapper', 'mt-5')}>
+                {showUserProfile && (
+                    <UserProfile
+                        setShowUserProfile={setShowUserProfile}
+                        onClose={handleCloseProfile}
+                        userId={post.author._id}
+                    />
+                )}
+                <div className={cx('d-flex', 'justify-content-between')}>
+                    <PostHeader setShowUserProfile={setShowUserProfile} userInfor={userInfor} post={post} />
+                    <PostMoreAction
+                        settingVisible={settingVisible}
+                        handleClickOutsideSetting={handleClickOutsideSetting}
+                        handleToggleSetting={handleToggleSetting}
+                        post={post}
+                        isAuthor={isAuthor}
+                    />
+                </div>
+                <PostContent
                     post={post}
-                    isAuthor={isAuthor}
+                    currentImageIndex={currentImageIndex}
+                    setCurrentImageIndex={setCurrentImageIndex}
+                    lightboxOpen={lightboxOpen}
+                    setLightboxOpen={setLightboxOpen}
+                />
+                <PostActions
+                    handleClickLike={handleClickLike}
+                    liked={liked}
+                    likeCount={likeCount}
+                    setLightboxOpen={setLightboxOpen}
                 />
             </div>
-            <PostContent post={post} />
-            <PostStatus likeCount={likeCount} post={post} />
-            <PostActions handleClickLike={handleClickLike} liked={liked} burstVisible={burstVisible} />
-        </div>
+            {lightboxOpen && (
+                <FloatingLayer onClose={() => setLightboxOpen(false)}>
+                    <ImgLightBox
+                        onClose={() => setLightboxOpen(false)}
+                        currentImageIndex={currentImageIndex}
+                        setCurrentImageIndex={setCurrentImageIndex}
+                        post={post}
+                    />
+                </FloatingLayer>
+            )}
+        </>
     );
 }
 
