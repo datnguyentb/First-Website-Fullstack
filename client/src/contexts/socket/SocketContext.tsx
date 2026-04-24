@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useEffect, useReducer } from 'react';
-import { connectSocket, disconnectSocket, getSocket } from '../../socket/socket.js';
+import { getSocket } from '../../socket/socket.js';
 import { socketReducer, initialState } from './socketReducer.js';
 import { useConversationContext, useMessageCacheContext } from '~/contexts';
 import { SocketEventData } from './type.js';
-import { SOCKET_EVENTS, SOCKET_PAYLOAD_TYPES } from './socketTypes';
+import { SOCKET_EVENTS, SOCKET_PAYLOAD_TYPES } from '../../socket/socketTypes.js';
 import { useSocketConnect } from './useSocketConnect.js';
 
 export const SocketContext = createContext();
@@ -22,7 +22,6 @@ export function SocketProvider({ children }: { children: ReactNode }) {
         if (!socket) return;
 
         const handleRealtimeEvent = (data: SocketEventData) => {
-            console.log('Received realtime event:', data);
             switch (data.type) {
                 case SOCKET_PAYLOAD_TYPES.MESSAGE: {
                     const { conversation, payload } = data;
@@ -47,17 +46,11 @@ export function SocketProvider({ children }: { children: ReactNode }) {
         };
     }, []);
 
-    // 3️⃣ Helper
-    const setActiveConversation = (id: string) => {
-        dispatch({ type: SOCKET_PAYLOAD_TYPES.SET_ACTIVE_CONVERSATION, payload: id });
-    };
-
     return (
         <SocketContext.Provider
             value={{
                 ...state,
                 socket: state.socket || getSocket(),
-                setActiveConversation,
             }}
         >
             {children}

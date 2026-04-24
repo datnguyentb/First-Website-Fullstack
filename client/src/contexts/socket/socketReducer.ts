@@ -1,4 +1,4 @@
-import { SOCKET_EVENTS, SOCKET_PAYLOAD_TYPES } from './socketTypes';
+import { SOCKET_EVENTS, SOCKET_PAYLOAD_TYPES } from '../../socket/socketTypes';
 import { SocketAction, SocketState } from './type';
 
 export const initialState = {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connectSocket, disconnectSocket } from '../../socket/socket.js';
-import { SOCKET_EVENTS } from './socketTypes';
+import { SOCKET_EVENTS } from '../../socket/socketTypes.js';
 
 export const useSocketConnect = (dispatch: any) => {
     useEffect(() => {
