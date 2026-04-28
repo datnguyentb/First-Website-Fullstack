@@ -58,10 +58,6 @@ const ToastContainer: React.FC = () => {
 
     return (
         <>
-            <button className={cx('trigger')} onClick={addToast}>
-                Trigger Notification
-            </button>
-
             <div className={cx('container')}>
                 {toasts.map((toast) => (
                     <ToastItem key={toast.id} {...toast} onClose={removeToast} />

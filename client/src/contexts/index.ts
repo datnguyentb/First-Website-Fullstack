@@ -21,22 +21,37 @@ import { AdminAuthContextType } from './AdminAuthContext/AdminAuthContextTypes';
 import { ChatWidgetContextType } from './ChatWidgetContext/ChatWidgetContextTypes';
 
 // 🔹 Hooks
+
+//socket
 export const useSocketContext = () => useContext(SocketContext);
-export const usePlayerContext = () => useContext(PlayerContext);
+
+//modal & toast
+export const useToastContext = () => useContext(ToastContext);
 export const useModalContext = () => useContext(ModalContext);
-export const usePostsContext = () => useContext(PostContext);
+
+//user
 export const useUserContext = () => useContext(UserContext);
+
+//post
+export const usePostsContext = () => useContext(PostContext);
+
+//auth
 export const userAuthContext = () => useContext(UserAuthContext);
 export const useAdminAuthContext = () => {
     const context = useContext(AdminAuthContext);
     return context as AdminAuthContextType;
 };
+
+//music
+
+export const usePlayerContext = () => useContext(PlayerContext);
 export const usePlaylistContext = () => useContext(PlaylistContext);
 export const useFavoriteContext = () => useContext(FavoriteContext);
+
+//chat
 export const useChatWidgetContext = () => {
     const context = useContext(ChatWidgetContext);
     return context as ChatWidgetContextType;
 };
 export const useConversationContext = () => useContext(ConversationContext);
 export const useMessageCacheContext = () => useContext(MessageCacheContext);
-export const useToastContext = () => useContext(ToastContext);
