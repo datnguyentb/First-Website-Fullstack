@@ -6,7 +6,7 @@ import { ConversationActionType } from './conversationTypes';
 import { ConversationInfo } from '~/types/conversation';
 import { ConversationContextType, ConversationState } from './ConversationContextTypes';
 
-export const ConversationContext = createContext<ConversationContextType | []>([]);
+export const ConversationContext = createContext<ConversationContextType | null>(null);
 
 const initialState: ConversationState = {
     conversations: [],

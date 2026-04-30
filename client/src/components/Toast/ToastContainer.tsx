@@ -50,7 +50,7 @@ const ToastContainer: React.FC = () => {
             () => {
                 addToast();
             },
-            Math.random() * 3000 + 10000,
+            Math.random() * 3000 + 50000,
         ); // 10-13s
 
         return () => clearInterval(interval);

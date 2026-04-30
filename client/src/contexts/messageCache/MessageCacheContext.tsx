@@ -3,10 +3,11 @@ import { messageCacheReducer } from './messageCacheReducer';
 import { Message } from '~/types/message';
 import { MessageCacheActionType } from './messageCacheTypes';
 import { MessageCacheContextType } from './MessageCacheContextType';
+import { MessageCacheState } from './type';
 
-export const MessageCacheContext = createContext<MessageCacheContextType | {}>({});
+export const MessageCacheContext = createContext<MessageCacheContextType | null>(null);
 
-const initialState = {};
+const initialState: MessageCacheState = {};
 
 export const MessageCacheProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(messageCacheReducer, initialState);

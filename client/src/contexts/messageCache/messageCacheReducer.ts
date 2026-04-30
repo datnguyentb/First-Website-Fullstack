@@ -21,7 +21,7 @@ export const messageCacheReducer = (state: MessageCacheState, action: Action) =>
                 [conversationId]: {
                     messages: action.payload,
                     loading: false,
-                    hasMore: action.hasMore,
+                    hasMore: action.hasMore ? true : false,
                     isFullHistoryLoaded: true,
                 },
             };

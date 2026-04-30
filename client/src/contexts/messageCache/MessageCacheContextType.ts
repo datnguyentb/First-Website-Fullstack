@@ -2,11 +2,16 @@ import { Message } from '~/types';
 
 export interface MessageCacheContextType {
     messages: MessageCache;
-    setMessage: (conversationId: string, messages: Message[]) => void;
-    addIncomingMessage: (conversationId: string, messages: Message) => void;
-    addPendingMessage: (conversationId: string, messages: Message) => void;
-    deleteMessage: (conversationId: string, messages: string) => void;
+
+    setMessages: (conversationId: string, messages: Message[], hasMore?: boolean) => void;
+
+    addIncomingMessage: (conversationId: string, message: Message) => void;
+
+    addPendingMessage: (conversationId: string, message: Message) => void;
+
+    deleteMessage: (conversationId: string, messageId: string) => void;
 }
+
 interface MessageCache {
     [conversationId: string]: MessageCacheDetail;
 }

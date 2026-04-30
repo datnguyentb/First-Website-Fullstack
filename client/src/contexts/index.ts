@@ -19,6 +19,8 @@ import { ToastContext } from './ToastContext/ToastContext';
 // Types
 import { AdminAuthContextType } from './AdminAuthContext/AdminAuthContextTypes';
 import { ChatWidgetContextType } from './ChatWidgetContext/ChatWidgetContextTypes';
+import { MessageCacheContextType } from './messageCache/MessageCacheContextType';
+import { ConversationContextType } from './conversationContext/ConversationContextTypes';
 
 // 🔹 Hooks
 
@@ -53,5 +55,24 @@ export const useChatWidgetContext = () => {
     const context = useContext(ChatWidgetContext);
     return context as ChatWidgetContextType;
 };
-export const useConversationContext = () => useContext(ConversationContext);
-export const useMessageCacheContext = () => useContext(MessageCacheContext);
+
+export const useConversationContext = (): ConversationContextType => {
+    const context = useContext(ConversationContext);
+
+    if (!context) {
+        throw new Error('useConversationContext must be used within ConversationProvider');
+    }
+
+    return context;
+};
+
+//Message Cache
+export const useMessageCacheContext = (): MessageCacheContextType => {
+    const context = useContext(MessageCacheContext);
+
+    if (!context) {
+        throw new Error('useMessageCacheContext must be used within MessageCacheProvider');
+    }
+
+    return context;
+};

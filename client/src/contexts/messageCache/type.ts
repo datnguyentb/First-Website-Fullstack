@@ -4,7 +4,7 @@ export interface MessageCache {
     messages: Message[];
     loading: boolean;
     hasMore: boolean;
-    isFullHistoryLoaded?: boolean;
+    isFullHistoryLoaded: boolean;
 }
 
 export interface MessageCacheState {

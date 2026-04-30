@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './SearchResult.module.scss';
-import Song from '~/components/Song';
+import Song from '~/pages/MusicPlayer/components/Song';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowTrendUp } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';

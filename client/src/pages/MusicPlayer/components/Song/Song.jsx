@@ -13,7 +13,7 @@ import {
     faPlay,
     faSquareCaretRight,
 } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../Loading';
+import Loading from '../../../../components/Loading';
 import { useSong } from './useSong';
 import React, { useMemo } from 'react';
 
