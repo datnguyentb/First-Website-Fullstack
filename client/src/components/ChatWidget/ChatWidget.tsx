@@ -9,9 +9,12 @@ import { ChatWidgetProps } from './ChatWidgetTypes';
 
 const cx = classNames.bind(styles);
 
-const ChatWidget: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conversationId }) => {
-    const [isShowFriendsList, setIsShowFriendsList] = useState(false);
-
+const ChatWidget: React.FC<ChatWidgetProps> = ({
+    setIsOpenChatWidget,
+    conversationId,
+    isShowFriendsList,
+    setIsShowFriendsList,
+}) => {
     return (
         <div className={cx('chat-widget')}>
             {/* Friends list */}
@@ -23,6 +26,7 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conversati
                     setIsOpenChatWidget={setIsOpenChatWidget}
                     setIsShowFriendsList={setIsShowFriendsList}
                     conversationId={conversationId}
+                    isShowFriendsList={isShowFriendsList}
                 />
             </div>
 

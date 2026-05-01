@@ -41,3 +41,50 @@
     font-weight: 500;
     font-size: 0.9em;
 }
+
+.no-conversations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    height: 100%;
+
+    &-icon {
+        font-size: 48px;
+        color: var(--border-color);
+        margin-bottom: 16px;
+    }
+
+    h3 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 200px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+}
+
+.find-friend-btn {
+    padding: 8px 16px;
+    background-color: var(--accent-messenger);
+    color: white;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 10px;
+    xx &:hover {
+        opacity: 0.9;
+    }
+}

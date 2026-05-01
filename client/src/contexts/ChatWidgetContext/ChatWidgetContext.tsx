@@ -6,11 +6,19 @@ export const ChatWidgetContext = createContext<ChatWidgetContextType | undefined
 
 export const ChatWidgetProvider = ({ children }: { children: ReactNode }) => {
     const [isOpenChatWidget, setIsOpenChatWidget] = useState(false);
+    const [isShowFriendsList, setIsShowFriendsList] = useState(false);
     const [conversationId, setConversationId] = useState('');
 
     return (
         <ChatWidgetContext.Provider
-            value={{ isOpenChatWidget, setIsOpenChatWidget, setConversationId, conversationId }}
+            value={{
+                isOpenChatWidget,
+                setIsOpenChatWidget,
+                setConversationId,
+                conversationId,
+                isShowFriendsList,
+                setIsShowFriendsList,
+            }}
         >
             {children}
         </ChatWidgetContext.Provider>

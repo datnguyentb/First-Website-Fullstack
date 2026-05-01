@@ -24,7 +24,11 @@ const ChatWidgetWindow: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conv
     useEffect(() => {
         const fetData = async () => {
             const result = await getDetail(conversationId);
-            setConversationInfo(result.data);
+            if (result?.success) {
+                setConversationInfo(result.data);
+            } else {
+                setConversationInfo({});
+            }
         };
 
         fetData();
@@ -32,7 +36,12 @@ const ChatWidgetWindow: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conv
 
     useJoinConversation(conversationId);
 
-    if (!conversationId) return <NoChatSelected onClose={setIsOpenChatWidget} />;
+    if (!conversationId)
+        return (
+            <div className={cx('chat-window-inner')}>
+                <NoChatSelected onClose={setIsOpenChatWidget} />
+            </div>
+        );
     if (LoadingGetDetail) return <Loading />;
 
     return (

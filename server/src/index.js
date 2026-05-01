@@ -13,6 +13,9 @@ const io = new Server(server, {
     },
 });
 
+// 🔥 GẮN io vào app
+app.set('io', io);
+
 handleSocketEvents(io);
 
 // Khởi động server

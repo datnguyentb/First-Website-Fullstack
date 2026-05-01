@@ -9,8 +9,6 @@ export const useSocketListener = () => {
         if (!socket) return;
 
         const handleRealtimeEvent = (data: any) => {
-            console.log('📡 realtime:', data);
-
             emitEvent(data); // 🔥 chỉ emit thôi
         };
 

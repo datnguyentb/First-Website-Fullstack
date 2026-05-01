@@ -11,6 +11,36 @@ const conversationSchema = new mongoose.Schema(
             },
         ],
 
+        memberStates: [
+            {
+                userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+
+                status: {
+                    type: String,
+                    enum: ['REQUEST', 'ACTIVE', 'BLOCKED'],
+                    default: 'ACTIVE',
+                },
+
+                // user đã chấp nhận chưa
+                isAccepted: {
+                    type: Boolean,
+                    default: false,
+                },
+
+                // user có thấy request chưa
+                isSeen: {
+                    type: Boolean,
+                    default: false,
+                },
+
+                // user có ẩn chat không
+                isMuted: {
+                    type: Boolean,
+                    default: false,
+                },
+            },
+        ],
+
         // 🗂 Loại cuộc trò chuyện
         type: {
             type: String,

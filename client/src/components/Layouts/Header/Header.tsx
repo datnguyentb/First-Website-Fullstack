@@ -15,7 +15,8 @@ const cx = classNames.bind(styles);
 
 function Header({ style_2 = false }) {
     const [isVisibleMessagerWidget, setIsVisibleMessagerWidget] = useState(false); // Trạng thái hiển thị MessagerWidget
-    const { isOpenChatWidget, setIsOpenChatWidget, conversationId } = useChatWidgetContext();
+    const { isOpenChatWidget, setIsOpenChatWidget, conversationId, isShowFriendsList, setIsShowFriendsList } =
+        useChatWidgetContext();
     const { user } = useUserContext() ?? {};
 
     const [showProfile, setShowProfile] = useState(false);
@@ -28,8 +29,6 @@ function Header({ style_2 = false }) {
         setShowProfile(false);
     };
 
-    //Funtion to toggle MessagerWidget visibility
-    // Hàm đóng Popover
     const handleHideMessagerWidget = () => setIsVisibleMessagerWidget(false);
 
     // Hàm bật/tắt Popover
@@ -39,7 +38,12 @@ function Header({ style_2 = false }) {
         <div className={cx('wrapper')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
             {isOpenChatWidget && (
-                <ChatWidget setIsOpenChatWidget={setIsOpenChatWidget} conversationId={conversationId} />
+                <ChatWidget
+                    setIsOpenChatWidget={setIsOpenChatWidget}
+                    conversationId={conversationId}
+                    isShowFriendsList={isShowFriendsList}
+                    setIsShowFriendsList={setIsShowFriendsList}
+                />
             )}
             <div className={cx('container', style_2 && 'style_2')}>
                 <Search />

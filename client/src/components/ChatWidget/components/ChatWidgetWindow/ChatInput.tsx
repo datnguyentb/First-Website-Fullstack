@@ -30,6 +30,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversationId }) => {
                 placeholder="Type a message..."
                 value={inputValue || ''}
                 onChange={(e) => setInputValue(e.target.value)}
+                autoFocus={true}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault(); // ngăn xuống dòng

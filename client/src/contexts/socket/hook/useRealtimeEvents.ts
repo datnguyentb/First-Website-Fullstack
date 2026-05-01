@@ -21,6 +21,7 @@ const useRealtimeEvents = (dispatch: SocketDispatch): void => {
         if (!socket) return;
 
         const handleRealtimeEvent = (data: SocketEventData) => {
+            console.log('Received realtime event:', data);
             switch (data.type) {
                 case SOCKET_PAYLOAD_TYPES.MESSAGE: {
                     const { conversation, payload } = data;

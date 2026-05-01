@@ -132,6 +132,11 @@
 .wrapper.collapsed {
     width: $width-navigationSidebar-collapsed;
 
+    .logo {
+        width: 40px;
+        padding: 20px 0;
+    }
+
     .nav-item {
         justify-content: center;
 

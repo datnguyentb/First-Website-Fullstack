@@ -1,6 +1,5 @@
 import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
-import Post from '../../models/Post.js';
 import ReportPost from '../../models/Report.js';
 import mongoose from 'mongoose';
 
@@ -14,6 +13,9 @@ import {
 
 import { MESSAGE_RESPONSE } from '../../constants/index.js';
 import { formatItem } from '../../utils/formatter.js';
+import { emitRealtimeEvent } from '../../services/socketEmitter.js';
+import likePost from '../../services/post/likePostService.js';
+import { likeNotification } from '../../services/notifications/likeNotification.js';
 
 class PostInteractionController {
     async savePost(req, res) {
@@ -90,22 +92,21 @@ class PostInteractionController {
             const userId = req.user._id;
             const postId = req.params.postId;
 
-            const post = await Post.findById(postId);
-            if (!post) return notFoundResponse(res, MESSAGE_RESPONSE.POST.NOT_FOUND);
+            const result = await likePost({ userId, postId });
+            const { post, hasLiked } = result;
 
-            const hasLiked = post.likes.includes(userId);
+            likeNotification({ userId, post });
 
-            if (hasLiked) {
-                post.likes.pull(userId);
-                post.likeCount = Math.max(post.likeCount - 1, 0);
-            } else {
-                post.likes.push(userId);
-                post.likeCount += 1;
-            }
-
-            await post.save();
-            await post.populate('likes', '_id avatar firstName lastName');
-            await post.populate('author', '_id avatar firstName lastName');
+            // emitRealtimeEvent(req.app.get('io'), post.author._id, 'conversationId', 'POST_LIKED', {
+            //     postId: post._id,
+            //     likedBy: {
+            //         _id: req.user._id,
+            //         firstName: req.user.firstName,
+            //         lastName: req.user.lastName,
+            //         avatar: req.user.avatar,
+            //     },
+            //     likeCount: post.likeCount,
+            // });
 
             return okResponse(
                 res,

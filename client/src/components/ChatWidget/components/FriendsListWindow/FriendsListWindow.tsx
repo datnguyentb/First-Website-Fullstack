@@ -83,7 +83,7 @@ function FriendsListWindow({ setIsShowFriendsList }) {
                 </button>
             </div>
             <div className={cx('search-bar')}>
-                <input type="text" placeholder="Search friends..." />
+                <input type="text" placeholder="Search friends..." autoFocus={true} />
             </div>
             <div className={cx('friends-list', 'scrollbar')}>
                 {fakeUsers.map((user) => (
