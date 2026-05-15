@@ -1,6 +1,6 @@
 import { canAccessConversation } from '../helpers/permissions.js';
 
-const conversationEvents = (socket, io) => {
+const conversationEvents = (socket) => {
     const userId = socket.user._id;
 
     // Join conversation

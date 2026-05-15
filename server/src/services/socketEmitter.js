@@ -6,14 +6,24 @@
  * @param {Object} payload - Dữ liệu thực tế (savedMessage, user info,...)
  */
 import { SOCKET_EVENTS } from '../constants/socketTypes.js';
-export const emitRealtimeEvent = (io, targetRoom, conversationId, type, payload) => {
+import { getIO } from '../socket/socket.js';
+export const emitRealtimeEvent = (receiverIds, event, data, meta) => {
+    const io = getIO();
     if (!io) return;
 
-    io.to(targetRoom.toString()).emit(SOCKET_EVENTS.REALTIME_EVENT, {
-        type,
-        // Nếu truyền actualConversationId thì dùng, không thì mặc định dùng roomId
-        conversation: conversationId || roomId,
-        payload,
-        timestamp: new Date(),
+    // convert receiverIds to array if it's not already
+    if (!Array.isArray(receiverIds)) {
+        receiverIds = [receiverIds];
+    }
+
+    //emit to each receiver's room
+    receiverIds.forEach((receiverId) => {
+        const targetRoom = receiverId;
+        io.to(targetRoom.toString()).emit(SOCKET_EVENTS.REALTIME_EVENT, {
+            event,
+            data,
+            meta,
+            timestamp: new Date(),
+        });
     });
 };

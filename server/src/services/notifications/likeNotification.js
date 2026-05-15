@@ -2,7 +2,7 @@ import Notification from '../../models/Notification.js';
 
 export const likeNotification = async ({ userId, post }) => {
     // ❌ Không tự notify chính mình
-    if (post.author.toString() === userId.toString()) return null;
+    if (post.author._id.toString() === userId.toString()) return null;
 
     const existing = await Notification.findOne({
         recipient: post.author,
@@ -21,7 +21,7 @@ export const likeNotification = async ({ userId, post }) => {
             await existing.save();
         }
 
-        return existing;
+        return null;
     }
 
     // 🟢 CASE 2: Chưa có → tạo mới
@@ -35,6 +35,11 @@ export const likeNotification = async ({ userId, post }) => {
             type: 'POST',
             targetId: post._id,
         },
+    });
+
+    await newNotification.populate({
+        path: 'actors',
+        select: '_id firstName lastName avatar',
     });
 
     return newNotification;

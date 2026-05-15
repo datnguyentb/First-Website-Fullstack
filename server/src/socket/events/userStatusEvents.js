@@ -6,7 +6,7 @@
  * @param {object} io Đối tượng Server IO
  * @param {Map} onlineUsers Danh sách người dùng online
  */
-const userStatusEvents = (socket, io, onlineUsers) => {
+const userStatusEvents = (socket, onlineUsers) => {
     const userId = socket.user._id;
     // Khi ngắt kết nối
     socket.on('disconnect', () => {

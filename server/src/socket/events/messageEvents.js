@@ -1,10 +1,9 @@
-import { SOCKET_PAYLOAD_TYPES } from '../../constants/socketTypes.js';
 import MessageController from '../../controllers/chat/messageController.js';
 import ConversationService from '../../services/conversationService.js';
-import { emitRealtimeEvent } from '../../services/socketEmitter.js';
+import { messageEmitter } from '../../services/socket/messageEmitter.js';
 import { validateMessage } from '../helpers/validateMessage.js';
 
-const messageEvents = (socket, io) => {
+const messageEvents = (socket) => {
     const userId = socket.user._id;
 
     socket.on('send-message', async (data) => {
@@ -41,18 +40,7 @@ const messageEvents = (socket, io) => {
 
             // 5. Phát cho tắt cả mọi người
             const participantIds = conversationUpdate.participants;
-            participantIds.forEach((memberId) => {
-                const targetRoom = memberId.toString();
-                console.log('targetRoom', targetRoom);
-                emitRealtimeEvent(
-                    io,
-                    targetRoom,
-                    validatedData.conversation,
-                    SOCKET_PAYLOAD_TYPES.MESSAGE,
-                    savedMessage.data,
-                );
-            });
-            // emitRealtimeEvent(io, validatedData.conversation, SOCKET_PAYLOAD_TYPES.MESSAGE, validatedData);
+            messageEmitter(participantIds, savedMessage.data);
         } catch (err) {
             console.error('❌ Error in sendMessage:', err);
             socket.emit('error', 'Không gửi được tin nhắn.');

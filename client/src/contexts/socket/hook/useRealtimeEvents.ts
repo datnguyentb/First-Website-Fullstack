@@ -21,21 +21,24 @@ const useRealtimeEvents = (dispatch: SocketDispatch): void => {
         if (!socket) return;
 
         const handleRealtimeEvent = (data: SocketEventData) => {
-            console.log('Received realtime event:', data);
-            switch (data.type) {
+            switch (data.event) {
                 case SOCKET_PAYLOAD_TYPES.MESSAGE: {
-                    const { conversation, payload } = data;
-                    addIncomingMessage(conversation, payload);
-                    updateLastMessage(conversation, payload);
+                    const payload = data.data;
+                    const conversationId = data.data.conversation;
+                    addIncomingMessage(conversationId, payload);
+                    updateLastMessage(conversationId, payload);
                     break;
                 }
 
                 case SOCKET_PAYLOAD_TYPES.NOTIFICATION:
-                    dispatch({
-                        type: SOCKET_PAYLOAD_TYPES.NOTIFICATION,
-                        payload: data.payload,
-                    });
+                    console.log('Received notification:', data);
+                    // dispatch({
+                    //     type: SOCKET_PAYLOAD_TYPES.NOTIFICATION,
+                    //     payload: data.payload,
+                    // });
                     break;
+                default:
+                    console.log('No event');
             }
         };
 

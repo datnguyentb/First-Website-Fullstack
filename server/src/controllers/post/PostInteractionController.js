@@ -16,6 +16,8 @@ import { formatItem } from '../../utils/formatter.js';
 import { emitRealtimeEvent } from '../../services/socketEmitter.js';
 import likePost from '../../services/post/likePostService.js';
 import { likeNotification } from '../../services/notifications/likeNotification.js';
+import { notificationsEmitter } from '../../services/socket/notificationsEmitter.js';
+import { formatNotification } from '../../helper/notification/formatNotification.js';
 
 class PostInteractionController {
     async savePost(req, res) {
@@ -95,18 +97,15 @@ class PostInteractionController {
             const result = await likePost({ userId, postId });
             const { post, hasLiked } = result;
 
-            likeNotification({ userId, post });
+            if (!hasLiked) {
+                // Tạo notification
+                const notification = await likeNotification({ userId, post });
 
-            // emitRealtimeEvent(req.app.get('io'), post.author._id, 'conversationId', 'POST_LIKED', {
-            //     postId: post._id,
-            //     likedBy: {
-            //         _id: req.user._id,
-            //         firstName: req.user.firstName,
-            //         lastName: req.user.lastName,
-            //         avatar: req.user.avatar,
-            //     },
-            //     likeCount: post.likeCount,
-            // });
+                //create notification for post author
+                if (notification) {
+                    notificationsEmitter(post.author._id, formatNotification(notification));
+                }
+            }
 
             return okResponse(
                 res,

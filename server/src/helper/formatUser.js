@@ -49,3 +49,16 @@ export const formatOtherFullInfor = (user) => {
         createdAt: userFormat.createdAt,
     };
 };
+
+export const formatUserSimple = (user) => {
+    if (!user) return null;
+    const userFormat = user.toObject ? user.toObject() : user;
+
+    return {
+        _id: userFormat._id,
+        firstName: userFormat.firstName,
+        lastName: userFormat.lastName,
+        fullName: `${userFormat.firstName} ${userFormat.lastName}`.trim(),
+        avatar: userFormat.avatar || '/default-avatar.png',
+    };
+};

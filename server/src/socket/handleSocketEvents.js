@@ -32,13 +32,13 @@ const handleSocketEvents = (io) => {
         console.log(`🟢 Socket connected: ${socket.id} (User: ${socket.user._id})`);
 
         // Đăng ký các event handler cho Trạng thái người dùng
-        userStatusEvents(socket, io, onlineUsers);
+        userStatusEvents(socket, onlineUsers);
 
         // Đăng ký các event handler cho Cuộc trò chuyện
-        conversationEvents(socket, io);
+        conversationEvents(socket);
 
         // Đăng ký các event handler cho Tin nhắn và Conversation
-        messageEvents(socket, io, onlineUsers);
+        messageEvents(socket, onlineUsers);
     });
 };
 
