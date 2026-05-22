@@ -19,6 +19,7 @@ import EventTheme from './layouts/EventTheme';
 import { ProtectedUserRoute } from './components/ProtectedRoute';
 
 import { AppRoute } from './types/route';
+import { NotificationsProvider } from './contexts/NotificationsContext/NotificationsContext';
 
 function App() {
     const renderRoute = (route: AppRoute, index: number) => {
@@ -44,23 +45,25 @@ function App() {
             wrappedElement = (
                 <ProtectedUserRoute>
                     <UserAuthProvider>
-                        <UserProvider>
-                            <PlayerProvider>
-                                <ConversationProvider>
-                                    <MessageCacheProvider>
-                                        <SocketProvider>
-                                            {isChatWidgetRoute ? (
-                                                <ToastProvider>
-                                                    <ChatWidgetProvider>{element}</ChatWidgetProvider>
-                                                </ToastProvider>
-                                            ) : (
-                                                element
-                                            )}
-                                        </SocketProvider>
-                                    </MessageCacheProvider>
-                                </ConversationProvider>
-                            </PlayerProvider>
-                        </UserProvider>
+                        <NotificationsProvider>
+                            <UserProvider>
+                                <PlayerProvider>
+                                    <ConversationProvider>
+                                        <MessageCacheProvider>
+                                            <SocketProvider>
+                                                {isChatWidgetRoute ? (
+                                                    <ToastProvider>
+                                                        <ChatWidgetProvider>{element}</ChatWidgetProvider>
+                                                    </ToastProvider>
+                                                ) : (
+                                                    element
+                                                )}
+                                            </SocketProvider>
+                                        </MessageCacheProvider>
+                                    </ConversationProvider>
+                                </PlayerProvider>
+                            </UserProvider>
+                        </NotificationsProvider>
                     </UserAuthProvider>
                 </ProtectedUserRoute>
             );

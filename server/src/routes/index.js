@@ -6,11 +6,13 @@ import postInteraction from './post/postInteraction.js';
 import friendshipRouter from './friendship/index.js';
 import musicRouter from './music/index.js';
 import chatRouter from './chat/index.js';
+import NotificationsRouter from './notifications/index.js';
 
 function route(app) {
     app.use('/auth', authRouter);
     app.use('/user', userRouter);
     app.use('/posts', postRouter);
+    app.use('/notifications', NotificationsRouter);
     app.use('/post/interactions', postInteraction);
     app.use('/api/friends', friendshipRouter);
     app.use('/api/music', musicRouter);

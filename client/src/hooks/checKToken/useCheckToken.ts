@@ -15,7 +15,9 @@ export default function useCheckToken() {
                     const check = await authApi.checkToken();
                     if (check) setIsValid(true);
                 } catch (err) {
-                    console.error('Error checking token:', err);
+                    console.log(
+                        'Your session has expired. For security reasons, you have been logged out. Please log in again.',
+                    );
                     setIsValid(false);
                 }
             } else {

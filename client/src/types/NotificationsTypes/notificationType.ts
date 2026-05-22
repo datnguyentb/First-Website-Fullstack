@@ -49,9 +49,9 @@ export interface NotificationData {
 }
 
 export interface NotificationPayload {
-    event: 'NOTIFICATION';
+    event?: 'NOTIFICATION';
 
-    timestamp: string;
+    timestamp?: string;
 
     data: NotificationData;
 }

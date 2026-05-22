@@ -26,6 +26,7 @@ export const authenticateJWT = async (req, res, next) => {
         req.user = user;
         next();
     } catch (err) {
+        //Khi xác nhận token thất bại (hết hạn, không hợp lệ,...)
         return unauthorizedResponse(res, 'Unauthorized: Invalid or expired token');
     }
 };

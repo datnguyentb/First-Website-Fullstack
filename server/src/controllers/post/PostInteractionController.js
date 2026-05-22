@@ -13,7 +13,6 @@ import {
 
 import { MESSAGE_RESPONSE } from '../../constants/index.js';
 import { formatItem } from '../../utils/formatter.js';
-import { emitRealtimeEvent } from '../../services/socketEmitter.js';
 import likePost from '../../services/post/likePostService.js';
 import { likeNotification } from '../../services/notifications/likeNotification.js';
 import { notificationsEmitter } from '../../services/socket/notificationsEmitter.js';

@@ -5,6 +5,7 @@ import NotificationHeader from './NotificationHeader';
 import NotificationFooter from './NotificationFooter';
 import { useNotification } from './useNotification';
 import { getArrayItems } from '~/utils/getArrayItems';
+import { useNotificationsContext } from '~/contexts';
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,7 @@ function Notification() {
 
     const handleShow = () => {
         setIsLess(!isLess);
+
         if (!isLess) {
             setNotifications(getArrayItems(NOTI, 4));
         } else {
@@ -20,19 +22,31 @@ function Notification() {
         }
     };
 
+    const { notifications: contextNotifications } = useNotificationsContext();
+
     return (
         <div className={cx('wrapper')}>
             <NotificationHeader />
+
             <div className={cx('notification-content')}>
-                {notifications.map((item, index) => {
-                    return (
+                {contextNotifications.length > 0 ? (
+                    contextNotifications.map((item, index) => (
                         <li key={index}>
                             <NotificationItem item={item} />
                         </li>
-                    );
-                })}
+                    ))
+                ) : (
+                    <div className={cx('empty')}>
+                        <span className={cx('empty-icon')}>🔔</span>
+                        <p className={cx('empty-title')}>Chưa có thông báo nào</p>
+                        <span className={cx('empty-desc')}>Khi có hoạt động mới bạn sẽ thấy ở đây</span>
+                    </div>
+                )}
             </div>
-            <NotificationFooter handleShow={handleShow} isLess={isLess} setIsLess={setIsLess} />
+
+            {contextNotifications.length > 0 && (
+                <NotificationFooter handleShow={handleShow} isLess={isLess} setIsLess={setIsLess} />
+            )}
         </div>
     );
 }

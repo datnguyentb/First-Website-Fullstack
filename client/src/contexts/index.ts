@@ -15,6 +15,7 @@ import { ChatWidgetContext } from './ChatWidgetContext/ChatWidgetContext';
 import { ConversationContext } from './conversationContext/ConversationContext';
 import { MessageCacheContext } from './messageCache/MessageCacheContext';
 import { ToastContext } from './ToastContext/ToastContext';
+import { NotificationsContext } from './NotificationsContext/NotificationsContext';
 
 // Types
 import { AdminAuthContextType } from './AdminAuthContext/AdminAuthContextTypes';
@@ -76,3 +77,6 @@ export const useMessageCacheContext = (): MessageCacheContextType => {
 
     return context;
 };
+
+//Notifications
+export const useNotificationsContext = () => useContext(NotificationsContext);
