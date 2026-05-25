@@ -1,22 +1,16 @@
 export type ToastContextType = {
-    showToast: (data: {
-        title: string;
-        message: string;
-        duration?: number;
-        avatar?: string;
-        action?: () => void;
-    }) => void;
-    removeToast: (id: number) => void;
+    toasts: Toast[];
+    addToast: (data: Toast) => void;
+    removeToast: (id: string) => void;
 };
 
 export interface Toast {
-    id: number;
+    id: string;
     title: string;
     message: string;
     type?: 'success' | 'error' | 'info';
     eventType?: 'comment' | 'like' | 'mention' | 'follow';
     time?: string;
     avatar?: string;
-    duration?: number;
-    action?: () => void;
+    link?: string;
 }

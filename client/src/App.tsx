@@ -48,19 +48,19 @@ function App() {
                         <NotificationsProvider>
                             <UserProvider>
                                 <PlayerProvider>
-                                    <ConversationProvider>
-                                        <MessageCacheProvider>
-                                            <SocketProvider>
-                                                {isChatWidgetRoute ? (
-                                                    <ToastProvider>
+                                    <ToastProvider>
+                                        <ConversationProvider>
+                                            <MessageCacheProvider>
+                                                <SocketProvider>
+                                                    {isChatWidgetRoute ? (
                                                         <ChatWidgetProvider>{element}</ChatWidgetProvider>
-                                                    </ToastProvider>
-                                                ) : (
-                                                    element
-                                                )}
-                                            </SocketProvider>
-                                        </MessageCacheProvider>
-                                    </ConversationProvider>
+                                                    ) : (
+                                                        element
+                                                    )}
+                                                </SocketProvider>
+                                            </MessageCacheProvider>
+                                        </ConversationProvider>
+                                    </ToastProvider>
                                 </PlayerProvider>
                             </UserProvider>
                         </NotificationsProvider>

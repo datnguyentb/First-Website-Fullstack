@@ -3,6 +3,8 @@ import classNames from 'classnames/bind';
 import styles from './Toast.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { timeAgo } from '~/utils/dateUtils.js';
+import baseUrl from '~/helper/baseUrl';
 
 const cx = classNames.bind(styles);
 
@@ -16,8 +18,9 @@ export interface ToastProps {
     onClose: (id: number) => void;
 }
 
-const ToastItem: React.FC<ToastProps> = ({ id, title, message, time, avatar, duration = 5000, onClose }) => {
+const ToastItem: React.FC<ToastProps> = ({ toast, duration = 5000, onClose }) => {
     const [isHiding, setIsHiding] = useState(false);
+    console.log('toast item', toast);
 
     useEffect(() => {
         const timer = setTimeout(handleClose, duration);
@@ -26,17 +29,17 @@ const ToastItem: React.FC<ToastProps> = ({ id, title, message, time, avatar, dur
 
     const handleClose = () => {
         setIsHiding(true);
-        setTimeout(() => onClose(id), 400);
+        setTimeout(() => onClose(toast._id), 400);
     };
 
     return (
         <div className={cx('toast', { hide: isHiding })}>
-            <img className={cx('avatar')} src={avatar} />
+            <img className={cx('avatar')} src={baseUrl(toast.actors[0].avatar)} />
 
             <div className={cx('content')}>
-                <b>{title}</b>
-                <p>{message}</p>
-                <span className={cx('time')}>{time}</span>
+                <b>{toast.actors[0].firstName}</b>
+                <p>{toast.content}</p>
+                <span className={cx('time')}>{timeAgo(toast.createdAt)}</span>
             </div>
 
             <button className={cx('btn')}>Xem</button>

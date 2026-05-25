@@ -1,33 +1,22 @@
 import { createContext, useContext, useState } from 'react';
-import { ToastContextType } from './ToastContextTypes';
+import { Toast, ToastContextType } from './ToastContextTypes';
 import ToastContainer from '~/components/Toast/ToastContainer';
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
-export const ToastProvider = ({ children }) => {
-    const [toasts, setToasts] = useState([]);
+export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+    const [toasts, setToasts] = useState<Toast[]>([]);
 
-    const showToast = (data) => {
-        const id = Date.now();
-
-        const newToast = {
-            id,
-            ...data,
-        };
-
-        setToasts((prev) => [...prev, newToast]);
-
-        setTimeout(() => {
-            removeToast(id);
-        }, data.duration || 5000);
+    const addToast = (data: Toast) => {
+        setToasts((prev) => [...prev, data]);
     };
 
-    const removeToast = (id) => {
+    const removeToast = (id: string) => {
         setToasts((prev) => prev.filter((item) => item.id !== id));
     };
 
     return (
-        <ToastContext.Provider value={{ showToast, removeToast }}>
+        <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
             {children}
             {/* global container */}
             <div className="toast-container">

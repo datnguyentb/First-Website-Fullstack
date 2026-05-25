@@ -2,7 +2,7 @@ import { useEffect, Dispatch } from 'react';
 import { getSocket } from '~/socket/socket';
 import { SocketEventData } from '../type';
 import { SOCKET_EVENTS, SOCKET_PAYLOAD_TYPES } from '~/socket/socketTypes';
-import { useConversationContext, useMessageCacheContext, useNotificationsContext } from '~/contexts';
+import { useConversationContext, useMessageCacheContext, useNotificationsContext, useToastContext } from '~/contexts';
 
 // 👇 define action type (nên đặt chung với reducer)
 type SocketAction = {
@@ -15,7 +15,8 @@ type SocketDispatch = Dispatch<SocketAction>;
 const useRealtimeEvents = (dispatch: SocketDispatch): void => {
     const { addIncomingMessage } = useMessageCacheContext();
     const { updateLastMessage } = useConversationContext();
-    const { setNotifications } = useNotificationsContext();
+    const { addNewNotification } = useNotificationsContext();
+    const { addToast } = useToastContext();
 
     useEffect(() => {
         const socket = getSocket();
@@ -32,8 +33,8 @@ const useRealtimeEvents = (dispatch: SocketDispatch): void => {
                 }
 
                 case SOCKET_PAYLOAD_TYPES.NOTIFICATION:
-                    console.log('New notification received:', data.data);
-                    setNotifications(data.data);
+                    addNewNotification(data.data);
+                    addToast(data.data);
                     break;
                 default:
                     console.log('No event');
