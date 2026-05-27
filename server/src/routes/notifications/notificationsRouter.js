@@ -6,5 +6,6 @@ const router = express.Router();
 
 //NotificationsController
 router.get('/get/all', authenticateJWT, requireRole('user'), NotificationsController.getNotifications);
+router.post('/mark-all-as-read', authenticateJWT, requireRole('user'), NotificationsController.markAllAsRead);
 
 export default router;

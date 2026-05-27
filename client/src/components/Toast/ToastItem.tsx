@@ -20,7 +20,11 @@ export interface ToastProps {
 
 const ToastItem: React.FC<ToastProps> = ({ toast, duration = 5000, onClose }) => {
     const [isHiding, setIsHiding] = useState(false);
-    console.log('toast item', toast);
+    // const actions = [
+    //     { title: 'đã thích bài viết của bạn', message: '' },
+    //     { title: 'đã bình luận', message: '“Hay quá!”' },
+    //     { title: 'đã nhắc đến bạn', message: 'trong một bình luận.' },
+    // ];
 
     useEffect(() => {
         const timer = setTimeout(handleClose, duration);
@@ -37,8 +41,9 @@ const ToastItem: React.FC<ToastProps> = ({ toast, duration = 5000, onClose }) =>
             <img className={cx('avatar')} src={baseUrl(toast.actors[0].avatar)} />
 
             <div className={cx('content')}>
-                <b>{toast.actors[0].firstName}</b>
-                <p>{toast.content}</p>
+                <b className={cx('name')}>{toast.actors[0].firstName + ' ' + toast.actors[0].lastName + ' '}</b>
+                <b className={cx('title')}>{toast?.content}</b>
+                <p className={cx('message')}>{toast?.message}</p>
                 <span className={cx('time')}>{timeAgo(toast.createdAt)}</span>
             </div>
 

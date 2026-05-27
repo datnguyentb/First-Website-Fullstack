@@ -71,8 +71,14 @@
 .content {
     flex: 1;
 
-    b {
+    b.name {
         font-size: 14px;
+        color: black;
+    }
+
+    b.title {
+        font-size: 13px;
+        color: #333;
     }
 
     p {

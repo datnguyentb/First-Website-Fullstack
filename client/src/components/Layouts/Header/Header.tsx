@@ -8,7 +8,7 @@ import { Button, ChatWidget, Img } from '~/components';
 import Search from './components/Search';
 import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
 import baseUrl from '~/helper/baseUrl';
-import { useChatWidgetContext, useUserContext } from '~/contexts';
+import { useChatWidgetContext, useNotificationsContext, useUserContext } from '~/contexts';
 import TippyMenu from '~/components/TippyMenu/TippyMenu';
 
 const cx = classNames.bind(styles);
@@ -18,6 +18,7 @@ function Header({ style_2 = false }) {
     const { isOpenChatWidget, setIsOpenChatWidget, conversationId, isShowFriendsList, setIsShowFriendsList } =
         useChatWidgetContext();
     const { user } = useUserContext() ?? {};
+    const { unreadCount } = useNotificationsContext();
 
     const [showProfile, setShowProfile] = useState(false);
 
@@ -71,7 +72,7 @@ function Header({ style_2 = false }) {
                             >
                                 <Button
                                     className={cx('bell-icon', 'action-btn')}
-                                    badge={5}
+                                    badge={unreadCount > 0 ? unreadCount : undefined}
                                     leftIcon={<FontAwesomeIcon icon={faBell} />}
                                 ></Button>
                             </TippyMenu>

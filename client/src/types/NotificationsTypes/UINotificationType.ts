@@ -12,7 +12,7 @@ export interface NotificationActionHandler {
 }
 
 export interface UINotification {
-    id: string;
+    _id: string;
 
     user: string;
 
@@ -24,7 +24,7 @@ export interface UINotification {
 
     time: string;
 
-    unread: boolean;
+    isRead: boolean;
 
     isSeen: boolean;
 

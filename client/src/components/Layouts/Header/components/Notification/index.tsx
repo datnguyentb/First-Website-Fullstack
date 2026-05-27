@@ -3,30 +3,25 @@ import styles from './Notification.module.scss';
 import NotificationItem from './NotificationItem';
 import NotificationHeader from './NotificationHeader';
 import NotificationFooter from './NotificationFooter';
-import { useNotification } from './useNotification';
 import { getArrayItems } from '~/utils/getArrayItems';
 import { useNotificationsContext } from '~/contexts';
+import { useState } from 'react';
+import useMarkAllRead from '~/hooks/notifications/useMarkAllRead';
 
 const cx = classNames.bind(styles);
 
 function Notification() {
-    const { isLess, setIsLess, notifications, setNotifications, NOTI } = useNotification();
+    const { notifications: contextNotifications } = useNotificationsContext();
+    const [isLess, setIsLess] = useState(true);
+    const { handleMarkAllAsRead } = useMarkAllRead();
 
     const handleShow = () => {
-        setIsLess(!isLess);
-
-        if (!isLess) {
-            setNotifications(getArrayItems(NOTI, 4));
-        } else {
-            setNotifications(NOTI);
-        }
+        console.log('show-more');
     };
-
-    const { notifications: contextNotifications } = useNotificationsContext();
 
     return (
         <div className={cx('wrapper')}>
-            <NotificationHeader />
+            <NotificationHeader handleMarkAllAsRead={handleMarkAllAsRead} />
 
             <div className={cx('notification-content')}>
                 {contextNotifications.length > 0 ? (

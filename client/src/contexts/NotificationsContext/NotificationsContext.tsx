@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useMemo, useReducer } from 'react';
 import { notificationsReducer } from './notificationsReducer';
 import { UINotification } from '~/types/NotificationsTypes/UINotificationType';
 import { SOCKET_NOTIFICATION_ACTIONS } from './type';
@@ -7,13 +7,14 @@ import useGetNotifications from '~/hooks/notifications/useGetNotifications';
 interface NotificationsContextType {
     notifications: UINotification[];
     addNewNotification: (notification: UINotification) => void;
-    // Bạn có thể giữ hoặc bỏ setNotifications cũ tùy nhu cầu, nhưng nên đổi logic bên trong
+    markAllNotificationsAsRead: () => void;
+    unreadCount: number;
 }
 
 export const NotificationsContext = createContext<NotificationsContextType | null>(null);
 
 export const NotificationsProvider = ({ children }: { children: React.ReactNode }) => {
-    const [currentNotifications, dispatch] = useReducer(notificationsReducer, []);
+    const [state, dispatch] = useReducer(notificationsReducer, []);
     const { notifications: apiNotifications } = useGetNotifications();
 
     // 1. Tự động chạy khi web load và API trả về danh sách
@@ -34,11 +35,25 @@ export const NotificationsProvider = ({ children }: { children: React.ReactNode 
         });
     };
 
+    // 3. Mark all Notifications As Read
+    const markAllNotificationsAsRead = () => {
+        dispatch({
+            type: SOCKET_NOTIFICATION_ACTIONS.MARK_ALL_AS_READ,
+        });
+    };
+
+    //4. counter để đếm số thông báo chưa đọc, bạn có thể dùng trong component Header hoặc NotificationPanel
+    const unreadCount = useMemo(() => {
+        return state.filter((notification) => !notification.isRead).length;
+    }, [state]);
+
     return (
         <NotificationsContext.Provider
             value={{
-                notifications: currentNotifications,
-                addNewNotification, // Cung cấp hàm này xuống các component con hoặc hook socket
+                notifications: state,
+                unreadCount,
+                addNewNotification,
+                markAllNotificationsAsRead,
             }}
         >
             {children}

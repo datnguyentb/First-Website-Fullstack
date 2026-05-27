@@ -21,12 +21,8 @@ const actions = [
     { title: 'đã nhắc đến bạn', message: 'trong một bình luận.' },
 ];
 
-const getRandom = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)];
-
 const ToastContainer: React.FC = () => {
-    const { toasts, addToast, removeToast } = useToastContext();
-
-    console.log('toasts', toasts);
+    const { toasts, removeToast } = useToastContext();
     return (
         <>
             <div className={cx('container')}>
