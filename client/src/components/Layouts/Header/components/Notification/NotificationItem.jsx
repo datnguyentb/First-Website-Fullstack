@@ -4,12 +4,13 @@ import styles from './Notification.module.scss';
 import Img from '~/components/Img';
 import { timeAgo } from '../../../../../utils/dateUtils';
 import baseUrl from '~/helper/baseUrl';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function NotificationItem({ item }) {
     return (
-        <div className={cx('notification-item', item.isRead && 'readed')}>
+        <Link className={cx('notification-item', item.isRead && 'readed')} to={`/post/${item._id}`}>
             <div className={cx('avatar')} style={{ backgroundColor: item.avatarColor }}>
                 {item.actors[0].avatar ? <Img src={baseUrl(item.actors[0].avatar)} /> : <span>td</span>}
             </div>
@@ -23,7 +24,7 @@ function NotificationItem({ item }) {
                 <span className={cx('time')}>{timeAgo(item.createdAt)}</span>
             </div>
             <div className={cx(!item.isRead ? 'unread-dot' : 'readed')}></div>
-        </div>
+        </Link>
     );
 }
 

@@ -6,3 +6,4 @@ export { default as MusicPlaylist } from './MusicPlayer/Playlist';
 export { default as AdminDashboard } from './Admin/Dashboard';
 export { default as AdminUser } from './Admin/AdminUser';
 export { default as CoListening } from './CoListening';
+export { default as Post } from './Post';

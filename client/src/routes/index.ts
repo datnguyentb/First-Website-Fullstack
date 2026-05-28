@@ -5,6 +5,7 @@ import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
 import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
 import config from '../config';
 import { AppRoute } from '@/types/route';
+import Post from '~/pages/Post';
 
 const publicRoutes: AppRoute[] = [
     {
@@ -73,6 +74,11 @@ const publicRoutes: AppRoute[] = [
             { index: true, component: CoListening },
             { path: 'room/:id', component: RoomView },
         ],
+    },
+    {
+        path: config.routes.post,
+        component: Post,
+        layout: null,
     },
 ];
 

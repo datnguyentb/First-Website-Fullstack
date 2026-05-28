@@ -15,8 +15,10 @@ function Notification() {
     const [isLess, setIsLess] = useState(true);
     const { handleMarkAllAsRead } = useMarkAllRead();
 
+    const displayedNotifications = isLess ? getArrayItems(contextNotifications, 5) : contextNotifications;
+
     const handleShow = () => {
-        console.log('show-more');
+        setIsLess((prev) => !prev);
     };
 
     return (
@@ -24,8 +26,8 @@ function Notification() {
             <NotificationHeader handleMarkAllAsRead={handleMarkAllAsRead} />
 
             <div className={cx('notification-content')}>
-                {contextNotifications.length > 0 ? (
-                    contextNotifications.map((item, index) => (
+                {displayedNotifications.length > 0 ? (
+                    displayedNotifications.map((item, index) => (
                         <li key={index}>
                             <NotificationItem item={item} />
                         </li>
