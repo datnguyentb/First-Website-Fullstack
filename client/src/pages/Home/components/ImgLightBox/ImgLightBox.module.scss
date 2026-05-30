@@ -21,6 +21,7 @@
     justify-content: center;
     background-color: transparent;
     box-shadow: none;
+
     .media-section {
         display: none;
     }
@@ -54,27 +55,28 @@
             animation: slidePrev 0.4s ease-out;
         }
     }
+
     .dots-container {
         position: absolute;
         bottom: 20px;
         left: 50%;
-        transform: translateX(-50%); // Căn giữa thanh dots
+        transform: translateX(-50%);
         display: flex;
         flex-direction: row;
-        gap: 8px; // Khoảng cách giữa các chấm
+        gap: 8px;
         list-style: none;
         padding: 8px 12px;
-        background: rgba(0, 0, 0, 0.3); // Nền mờ nhẹ cho cả cụm dots
+        background: rgba(0, 0, 0, 0.3);
         border-radius: 20px;
-        backdrop-filter: blur(4px); // Làm mờ nền phía sau (glassmorphism)
+        backdrop-filter: blur(4px);
         z-index: 10;
 
         .dot-item {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5); // Màu trắng mờ cho dots thường
-            transition: all 0.3s ease; // Giúp chuyển màu/kích thước mượt mà
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
             cursor: pointer;
 
             &:hover {
@@ -83,9 +85,9 @@
             }
 
             &.active {
-                width: 8px; // Chấm active to hơn một chút
+                width: 8px;
                 height: 8px;
-                background-color: #fff; // Trắng tinh khôi
+                background-color: #fff;
                 box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
                 transform: scale(1.1);
             }
@@ -110,14 +112,17 @@
         cursor: pointer;
         transition: 0.3s;
         opacity: 0.7;
+
         &:hover {
             background: rgba(255, 255, 255, 0.2);
             opacity: 1;
         }
+
         &.preview {
             left: 20px;
             animation: slideNext 0.2s ease-out;
         }
+
         &.next {
             right: 20px;
             animation: slidePrev 0.2s ease-out;
@@ -147,6 +152,8 @@
         cursor: pointer;
         font-size: 16px;
         transition: 0.3s;
+        z-index: 10;
+
         &:hover {
             background: #ff4757;
             color: white;
@@ -165,11 +172,19 @@
             height: 40px;
             border-radius: 50%;
             overflow: hidden;
+            flex-shrink: 0;
         }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
         .username {
             font-weight: 600;
             display: block;
         }
+
         .time {
             font-size: 12px;
             color: #8e8e93;
@@ -185,7 +200,7 @@
             width: 6px;
         }
         &::-webkit-scrollbar-thumb {
-            background: #444;
+            background: #ccc;
             border-radius: 10px;
         }
 
@@ -197,53 +212,102 @@
         }
     }
 
-    .comment-item {
+    .comment-list {
         display: flex;
-        gap: 10px;
-        margin-bottom: 16px;
-        .comment-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            overflow: hidden;
-        }
+        flex-direction: column;
+        gap: 4px;
 
-        .comment-content {
-            background: #f0f2f5;
-            padding: 8px 12px;
-            border-radius: 12px;
-            .comment-user {
-                font-weight: 600;
-                font-size: 13px;
-                display: block;
-                color: rgb(3, 105, 161);
-            }
-            .comment-text {
-                font-size: 13px;
-                margin: 0;
-            }
-        }
+        .comment-wrapper {
+            position: relative;
+            margin-left: calc(var(--depth) * 28px);
 
-        .comment-footer {
-            margin-left: 4px;
-            font-size: 11px;
-            color: #8e8e93;
-            margin-top: 4px;
-            display: flex;
-            gap: 12px;
-
-            span.comment-reaction {
-                font-weight: bold;
+            // Mặc định ẩn đường kẻ kẻ ở tầng gốc (depth = 0)
+            &::before {
+                content: '';
+                display: none;
             }
 
-            span {
-                cursor: pointer;
-                transition: 0.3s;
-                &:hover {
-                    color: #0084ff;
-                    text-decoration: underline;
+            // Chỉ hiển thị đường dẫn luồng (Thread line) nếu là bình luận phản hồi (depth > 0)
+            &.reply-comment {
+                &::before {
+                    display: block;
+                    position: absolute;
+                    left: -16px;
+                    top: 0;
+                    width: 1.5px;
+                    height: 100%;
+                    background-color: #e4e6eb;
                 }
             }
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            position: relative;
+
+            .comment-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                overflow: hidden;
+                flex-shrink: 0;
+            }
+
+            .comment-body {
+                flex: 1;
+
+                .comment-content {
+                    background: #f0f2f5;
+                    padding: 8px 12px;
+                    border-radius: 12px;
+                    display: inline-block;
+                    max-width: 100%;
+
+                    .comment-user {
+                        font-weight: 600;
+                        font-size: 13px;
+                        display: block;
+                        color: rgb(3, 105, 161);
+                        margin-bottom: 2px;
+                    }
+
+                    .comment-text {
+                        font-size: 13px;
+                        margin: 0;
+                        word-break: break-word;
+                    }
+                }
+
+                .comment-footer {
+                    margin-left: 4px;
+                    font-size: 11px;
+                    color: #8e8e93;
+                    margin-top: 4px;
+                    display: flex;
+                    gap: 12px;
+
+                    span.comment-reaction {
+                        font-weight: bold;
+                    }
+
+                    span {
+                        cursor: pointer;
+                        transition: 0.3s;
+
+                        &:hover {
+                            color: #0084ff;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+
+        .comment-replies-container {
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -252,6 +316,7 @@
         border-top: 1px solid #ccc;
         display: flex;
         flex-direction: row;
+        align-items: center;
 
         .input-wrapper {
             flex: 1;
@@ -276,7 +341,13 @@
             border: none;
             color: #0084ff;
             cursor: pointer;
-            padding-left: 10px;
+            padding-left: 12px;
+            font-size: 16px;
+            transition: transform 0.2s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
     }
 }

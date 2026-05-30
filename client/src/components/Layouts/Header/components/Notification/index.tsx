@@ -35,8 +35,8 @@ function Notification() {
                 ) : (
                     <div className={cx('empty')}>
                         <span className={cx('empty-icon')}>🔔</span>
-                        <p className={cx('empty-title')}>Chưa có thông báo nào</p>
-                        <span className={cx('empty-desc')}>Khi có hoạt động mới bạn sẽ thấy ở đây</span>
+                        <p className={cx('empty-title')}>No notifications yet</p>
+                        <span className={cx('empty-desc')}>When there is new activity, you will see it here</span>
                     </div>
                 )}
             </div>

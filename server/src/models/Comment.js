@@ -29,7 +29,11 @@ const commentSchema = new mongoose.Schema(
 );
 
 // ✅ Lập chỉ mục để truy vấn con theo cha nhanh hơn
-commentSchema.index({ post_id: 1, parent_comment_id: 1, createdAt: 1 });
+commentSchema.index({
+    post: 1,
+    parent_comment_id: 1,
+    createdAt: 1,
+});
 
 // 🚫 Ẩn __v khi toJSON
 commentSchema.set('toJSON', {
