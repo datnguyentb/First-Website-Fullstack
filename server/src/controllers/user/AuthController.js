@@ -48,6 +48,7 @@ class AuthController {
 
             return createdResponse(res, MESSAGE_RESPONSE.AUTH.REGISTER_SUCCESS);
         } catch (error) {
+            console.error('Error during registration:', error);
             return serverErrorResponse(res);
         }
     }
@@ -78,6 +79,7 @@ class AuthController {
                 role: user.role,
             });
         } catch (error) {
+            console.error('Error during login:', error);
             return serverErrorResponse(res);
         }
     }

@@ -10,7 +10,7 @@ function MiniMusicControl() {
     const { currentSong, isPlaying, pauseSong, playSong } = usePlayerContext();
 
     if (!currentSong) {
-        return <div className={cx('floating-music-player')}>No song playing</div>;
+        return <div className={cx('floating-music-player', 'no-song')}>No</div>;
     }
 
     return (

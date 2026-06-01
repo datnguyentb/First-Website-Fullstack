@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 function NotificationItem({ item }) {
     return (
-        <Link className={cx('notification-item', item.isRead && 'readed')} to={`/post/${item._id}`}>
+        <Link className={cx('notification-item', item.isRead && 'readed')} c>
             <div className={cx('avatar')} style={{ backgroundColor: item.avatarColor }}>
                 {item.actors[0].avatar ? <Img src={baseUrl(item.actors[0].avatar)} /> : <span>td</span>}
             </div>

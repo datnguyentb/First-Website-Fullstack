@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { timeAgo } from '~/utils/dateUtils.js';
 import baseUrl from '~/helper/baseUrl';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +38,7 @@ const ToastItem: React.FC<ToastProps> = ({ toast, duration = 5000, onClose }) =>
     };
 
     return (
-        <div className={cx('toast', { hide: isHiding })}>
+        <Link className={cx('toast', { hide: isHiding })} to={`/post/${toast._id}`}>
             <img className={cx('avatar')} src={baseUrl(toast.actors[0].avatar)} />
 
             <div className={cx('content')}>
@@ -52,7 +53,7 @@ const ToastItem: React.FC<ToastProps> = ({ toast, duration = 5000, onClose }) =>
             <span className={cx('close')} onClick={handleClose}>
                 <FontAwesomeIcon icon={faClose} />
             </span>
-        </div>
+        </Link>
     );
 };
 

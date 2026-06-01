@@ -6,6 +6,7 @@ import { faArrowLeft, faArrowRight, faClose, faPaperPlane } from '@fortawesome/f
 import baseUrl from '~/helper/baseUrl';
 import { timeAgo } from '~/utils/dateUtils';
 import { useState } from 'react';
+import Comments from '../Comments/Comments';
 
 const cx = classNames.bind(styles);
 
@@ -185,7 +186,9 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post })
                             <p>{post.content}</p>
                         </div>
 
-                        <div className={cx('comment-list')}>{renderComments(nestedComments)}</div>
+                        <>
+                            <Comments></Comments>
+                        </>
                     </div>
 
                     <div className={cx('panel-footer')}>
