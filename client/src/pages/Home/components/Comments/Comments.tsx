@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Comments.module.scss';
-import { Img } from '~/components';
-import { timeAgo } from '~/utils/dateUtils';
 import CommentItem from './CommentItem';
+import { useState } from 'react';
+import AddCommentInput from './AddCommentInput';
 
 const cx = classNames.bind(styles);
 
@@ -161,23 +161,25 @@ const nestedComments = [
     },
 ];
 
-const renderComments = (commentList, depth = 0) => {
+const renderComments = (commentList, depth = 0, parentCommentId = null) => {
     return commentList.map((item) => (
         <div
             key={item.id}
-            className={cx('comment-wrapper', { 'reply-comment': depth > 0 })}
+            className={cx('comment-wrapper', {
+                'reply-comment': depth > 0,
+            })}
             style={{ '--depth': depth }}
         >
-            <CommentItem item={item} />
+            <CommentItem item={item} parentCommentId={parentCommentId} />
 
-            {item.replies && item.replies.length > 0 && (
-                <div className={cx('comment-replies-container')}>{renderComments(item.replies, depth + 1)}</div>
-            )}
+            <div className={cx('comment-replies-container')}>
+                {item.replies?.length > 0 && renderComments(item.replies, depth + 1, item.id)}
+            </div>
         </div>
     ));
 };
 
-function Comments({}) {
+function Comments() {
     return <div className={cx('comment-list')}>{renderComments(nestedComments)}</div>;
 }
 

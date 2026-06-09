@@ -132,7 +132,7 @@
 
 .side-panel {
     position: relative;
-    width: 400px;
+    width: 30%;
     background: white;
     display: flex;
     flex-direction: column;
@@ -214,43 +214,9 @@
 }
 
 .panel-footer {
-    padding: 16px;
+    width: 100%;
     border-top: 1px solid #ccc;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    .input-wrapper {
-        flex: 1;
-        display: flex;
-        background: #f0f2f5;
-        border-radius: 20px;
-        padding: 8px 16px;
-        align-items: center;
-
-        input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: black;
-            outline: none;
-            font-size: 14px;
-        }
-    }
-
-    .send-btn {
-        background: none;
-        border: none;
-        color: #0084ff;
-        cursor: pointer;
-        padding-left: 12px;
-        font-size: 16px;
-        transition: transform 0.2s;
-
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
+    padding: 16px;
 }
 
 @keyframes slideNext {

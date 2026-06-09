@@ -7,64 +7,9 @@ import baseUrl from '~/helper/baseUrl';
 import { timeAgo } from '~/utils/dateUtils';
 import { useState } from 'react';
 import Comments from '../Comments/Comments';
+import AddCommentInput from '../Comments/AddCommentInput';
 
 const cx = classNames.bind(styles);
-
-// Mockup dữ liệu bình luận NHIỀU LỚP (Cấu trúc cây dữ liệu)
-const nestedComments = [
-    {
-        id: 1,
-        user: 'Anh Tuấn',
-        text: 'Giao diện nhìn xịn quá bạn ơi! 🚀',
-        avatar: 'https://i.pravatar.cc/150?u=1',
-        replies: [
-            {
-                id: 11,
-                user: 'Minh Hoàng',
-                text: 'Đúng vậy, đặc biệt là phần animation mượt mà cực kỳ.',
-                avatar: 'https://i.pravatar.cc/150?u=3',
-                replies: [
-                    {
-                        id: 111,
-                        user: 'Anh Tuấn',
-                        text: 'Chuẩn luôn, chủ thớt tối ưu CSS tốt thật.',
-                        avatar: 'https://i.pravatar.cc/150?u=1',
-                        replies: [],
-                    },
-                ],
-            },
-            {
-                id: 12,
-                user: 'Thùy Linh',
-                text: 'Công nhận, mình cũng thích phong cách layout này.',
-                avatar: 'https://i.pravatar.cc/150?u=4',
-                replies: [],
-            },
-        ],
-    },
-    {
-        id: 2,
-        user: 'Bảo Ngọc',
-        text: 'Màu sắc phối hợp hài hòa lắm.',
-        avatar: 'https://i.pravatar.cc/150?u=2',
-        replies: [
-            {
-                id: 21,
-                user: 'Quốc Anh',
-                text: 'Nhìn dịu mắt ghê, có hỗ trợ Dark Mode không ta?',
-                avatar: 'https://i.pravatar.cc/150?u=5',
-                replies: [],
-            },
-        ],
-    },
-    {
-        id: 3,
-        user: 'Lan Hương',
-        text: 'Phần mobile responsive cần chỉnh lại một chút ở menu nhé.',
-        avatar: 'https://i.pravatar.cc/150?u=8',
-        replies: [],
-    },
-];
 
 function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }) {
     const [direction, setDirection] = useState('next');
@@ -88,46 +33,6 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post })
         } else {
             setCurrentImageIndex(0);
         }
-    };
-
-    const getRandomDateInLastWeek = () => {
-        const now = new Date();
-        const oneWeekInMs = 7 * 24 * 60 * 60 * 1000;
-        const randomMs = Math.floor(Math.random() * oneWeekInMs);
-        return new Date(now.getTime() - randomMs);
-    };
-
-    // Hàm ĐỆ QUY render bình luận nhiều lớp
-    const renderComments = (commentList, depth = 0) => {
-        return commentList.map((item) => (
-            <div
-                key={item.id}
-                className={cx('comment-wrapper', { 'reply-comment': depth > 0 })}
-                style={{ '--depth': depth }}
-            >
-                <div className={cx('comment-item')}>
-                    <div className={cx('comment-avatar')}>
-                        <Img src={item.avatar} />
-                    </div>
-                    <div className={cx('comment-body')}>
-                        <div className={cx('comment-content')}>
-                            <span className={cx('comment-user')}>{item.user}</span>
-                            <p className={cx('comment-text')}>{item.text}</p>
-                        </div>
-                        <div className={cx('comment-footer')}>
-                            <span className={cx('comment-time')}>{timeAgo(getRandomDateInLastWeek())}</span>
-                            <span className={cx('comment-reaction')}>Thích</span>
-                            <span className={cx('comment-reply')}>Trả lời</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Nếu có câu trả lời, gọi lại chính hàm này và tăng depth lên 1 */}
-                {item.replies && item.replies.length > 0 && (
-                    <div className={cx('comment-replies-container')}>{renderComments(item.replies, depth + 1)}</div>
-                )}
-            </div>
-        ));
     };
 
     return (
@@ -187,17 +92,16 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post })
                         </div>
 
                         <>
-                            <Comments></Comments>
+                            <Comments />
                         </>
                     </div>
 
                     <div className={cx('panel-footer')}>
-                        <div className={cx('input-wrapper')}>
-                            <input type="text" placeholder="Viết bình luận..." autoFocus={true} />
-                        </div>
-                        <button className={cx('send-btn')}>
-                            <FontAwesomeIcon icon={faPaperPlane} />
-                        </button>
+                        <AddCommentInput
+                            onSubmit={(commentText) => {
+                                console.log('New comment:', commentText);
+                            }}
+                        />
                     </div>
                 </div>
             </div>
