@@ -17,7 +17,7 @@ const commentSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        parenCommentId: {
+        parentCommentId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Comment',
             default: null,
@@ -38,7 +38,7 @@ const commentSchema = new mongoose.Schema(
 // ⚡ Lập chỉ mục giúp tăng tốc truy vấn hệ thống bình luận đa cấp
 commentSchema.index({
     post: 1,
-    parent_comment_id: 1,
+    parentCommentId: 1,
     createdAt: 1,
 });
 

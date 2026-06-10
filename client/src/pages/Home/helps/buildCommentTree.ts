@@ -4,11 +4,14 @@ export interface FlatComment {
     post: string;
     user: {
         _id: string;
-        username: string;
+        firstName: string;
+        lastName: string;
         avatar: string;
     };
     content: string;
-    parent_comment_id: string | null;
+    parentCommentId: string | null;
+    likes: string[];
+    likesCount: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -32,7 +35,7 @@ export const buildCommentTree = (flatComments: FlatComment[]): CommentTreeNode[]
     // Bước 2: Duyệt qua danh sách để xếp con vào cha
     flatComments.forEach((comment) => {
         const mappedComment = commentMap[comment._id];
-        const parentId = comment.parent_comment_id;
+        const parentId = comment.parentCommentId;
 
         if (parentId) {
             if (commentMap[parentId]) {

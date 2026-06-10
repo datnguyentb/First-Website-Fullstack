@@ -14,3 +14,4 @@ export { default as ChatWidget } from './ChatWidget';
 export { default as ErrorFallback } from './ErrorFallback';
 export { default as ActionMenu } from './ActionMenu';
 export { default as BaseModal } from './Common/Modal';
+export { default as UserHeader } from './UserHeader';

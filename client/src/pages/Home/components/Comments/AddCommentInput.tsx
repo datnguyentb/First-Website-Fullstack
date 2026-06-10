@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function AddCommentInput({ onSubmit, placeholder = 'Viết bình luận...' }) {
     const [content, setContent] = useState('');
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onSubmit(content);
             setContent('');
