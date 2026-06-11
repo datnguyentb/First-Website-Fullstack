@@ -70,7 +70,7 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }:
                         </div>
 
                         <>
-                            <Comments />
+                            <Comments postId={post?._id} />
                         </>
                     </div>
 

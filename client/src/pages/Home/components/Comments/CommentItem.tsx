@@ -4,6 +4,7 @@ import { Img } from '~/components';
 import { timeAgo } from '~/utils/dateUtils';
 import { memo, useState } from 'react';
 import AddCommentInput from './AddCommentInput';
+import baseUrl from '~/helper/baseUrl';
 
 const cx = classNames.bind(styles);
 
@@ -34,7 +35,7 @@ function CommentItem({ item, parentCommentId }: { item: any; parentCommentId: st
         <>
             <div className={cx('comment-item')}>
                 <div className={cx('comment-avatar')}>
-                    <Img src={item.user.avatar} />
+                    <Img src={baseUrl(item.user.avatar)} />
                 </div>
 
                 <div className={cx('comment-body')}>

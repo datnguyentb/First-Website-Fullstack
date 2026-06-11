@@ -10,6 +10,20 @@ const createComment = async (commentData) => {
     }
 };
 
+const getAllComments = async (id) => {
+    if (!id) {
+        throw new Error('Post ID is required');
+    }
+    try {
+        const comments = await Comment.find({ post: id }).populate('user', 'firstName lastName avatar').lean();
+        return comments;
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        throw error;
+    }
+};
+
 export default {
     createComment,
+    getAllComments,
 };

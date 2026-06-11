@@ -6,5 +6,6 @@ import PostCommentController from '../../controllers/post/PostCommentController.
 const router = express.Router();
 
 router.post('/add', authenticateJWT, requireRole('user'), PostCommentController.create);
+router.get('/get/all', authenticateJWT, PostCommentController.getAllCommentsByPostId);
 
 export default router;

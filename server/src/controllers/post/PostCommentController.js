@@ -19,6 +19,21 @@ class PostCommentController {
             return serverErrorResponse(res);
         }
     }
+
+    async getAllCommentsByPostId(req, res) {
+        try {
+            const id = req.query.id;
+            console.log('Received postId:', id);
+            if (!id) {
+                return res.status(400).json({ message: 'Post ID is required' });
+            }
+            const comments = await postCommentService.getAllComments(id);
+            return okResponse(res, 'Comments retrieved successfully', comments);
+        } catch (error) {
+            console.error('Error fetching comments:', error);
+            return serverErrorResponse(res);
+        }
+    }
 }
 
 export default new PostCommentController();

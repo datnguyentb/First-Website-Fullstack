@@ -2,11 +2,12 @@ import classNames from 'classnames/bind';
 import styles from './Comments.module.scss';
 import CommentItem from './CommentItem';
 import { useEffect, useState } from 'react';
-import { buildCommentTree, CommentTreeNode } from '../../helps/buildCommentTree';
+import { buildCommentTree, CommentTreeNode } from '../../helper/buildCommentTree';
 
 const cx = classNames.bind(styles);
 
-import { FlatComment } from '../../helps/buildCommentTree';
+import { FlatComment } from '../../helper/buildCommentTree';
+import { useGetAllComments } from '~/hooks/comment/useGetAllComments';
 
 const nestedComments: FlatComment[] = [
     // ==========================================
@@ -369,10 +370,22 @@ const renderComments = (comments: CommentTreeNode[], depth = 0, parentCommentId:
     ));
 };
 
-function Comments() {
+function Comments({ postId }: { postId: string }) {
     const [comments, setComments] = useState<CommentTreeNode[]>([]);
+    const { getAllComments } = useGetAllComments();
+
     useEffect(() => {
-        setComments(buildCommentTree(nestedComments));
+        //call API
+        const fetchComments = async () => {
+            try {
+                const commentsData = await getAllComments(postId);
+                setComments(buildCommentTree(commentsData));
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+
+        fetchComments();
     }, []);
     return <div className={cx('comment-list')}>{renderComments(comments)}</div>;
 }
