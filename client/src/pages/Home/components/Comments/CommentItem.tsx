@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './Comments.module.scss';
 import { Img } from '~/components';
 import { timeAgo } from '~/utils/dateUtils';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import AddCommentInput from './AddCommentInput';
 
 const cx = classNames.bind(styles);
@@ -73,4 +73,4 @@ function CommentItem({ item, parentCommentId }: { item: any; parentCommentId: st
     );
 }
 
-export default CommentItem;
+export default memo(CommentItem);

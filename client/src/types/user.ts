@@ -23,3 +23,11 @@ export interface UserInfo {
     phoneNumber: string;
     deleted: boolean;
 }
+
+export interface UserCompact {
+    _id: string;
+    fullName?: string;
+    firstName?: string;
+    lastName?: string;
+    avatar: string;
+}

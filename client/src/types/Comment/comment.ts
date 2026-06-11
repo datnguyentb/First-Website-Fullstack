@@ -1,3 +1,5 @@
+import { UserCompact } from '../user';
+
 export interface Comment {
     id: string;
     post: string;
@@ -7,6 +9,7 @@ export interface Comment {
     updatedAt?: string;
 }
 
+//comment nhận từ server
 export interface CommentResponse {
     _id: string;
     post: string;
@@ -14,12 +17,10 @@ export interface CommentResponse {
     content: string;
     createdAt: string;
     updatedAt: string;
-    user: {
-        id: string;
-        username: string;
-        avatar: string;
-    };
-    replies?: CommentResponse[]; // Thêm trường này để chứa các bình luận con
+    user: UserCompact;
+    likes: any[];
+    likeCount: number;
+    replies?: CommentResponse[];
 }
 
 export interface CreateCommentInput {

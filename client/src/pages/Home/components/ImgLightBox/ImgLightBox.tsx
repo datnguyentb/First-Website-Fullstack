@@ -1,13 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from './ImgLightBox.module.scss';
-import { Img, UserHeader } from '~/components';
+import { UserHeader } from '~/components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight, faClose, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import baseUrl from '~/helper/baseUrl';
-import { timeAgo } from '~/utils/dateUtils';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 import Comments from '../Comments/Comments';
-import AddCommentInput from '../Comments/AddCommentInput';
 import MediaSection from './components/MediaSection';
+import FooterSection from './components/FooterSection';
+import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -16,6 +15,7 @@ interface ImgLightBoxProps {
     currentImageIndex: number;
     setCurrentImageIndex: (index: number) => void;
     post: {
+        _id: string;
         images: string[];
         author: {
             _id: string;
@@ -31,7 +31,9 @@ interface ImgLightBoxProps {
 }
 
 function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }: ImgLightBoxProps) {
+    const [comments, setComments] = useState<string[]>([]);
     const isPostImagesEmpty = !post.images || post.images.length === 0;
+
     console.log('Post data in ImgLightBox:', post);
 
     return (
@@ -73,11 +75,7 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }:
                     </div>
 
                     <div className={cx('panel-footer')}>
-                        <AddCommentInput
-                            onSubmit={(commentText) => {
-                                console.log('New comment:', commentText);
-                            }}
-                        />
+                        <FooterSection postId={post?._id} />
                     </div>
                 </div>
             </div>
