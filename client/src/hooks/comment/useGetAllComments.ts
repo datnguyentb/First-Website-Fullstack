@@ -1,16 +1,26 @@
+import { useEffect, useState } from 'react';
 import commentApi from '~/api/post/commentApi';
 
-export const useGetAllComments = () => {
-    const getAllComments = async (postId: string) => {
-        try {
-            const res = await commentApi.getAllComments(postId);
-            console.log('Comments fetched successfully:', res);
-            return res.data.data;
-        } catch (error) {
-            console.error('Error fetching comments:', error);
-            throw error;
-        }
-    };
+export const useGetAllComments = (postId: string) => {
+    const [loading, setLoading] = useState(false);
+    const [comments, setComments] = useState([]);
 
-    return { getAllComments };
+    useEffect(() => {
+        const fetchComments = async () => {
+            setLoading(true);
+            try {
+                const res = await commentApi.getAllComments(postId);
+                console.log('Comments fetched successfully:', res);
+                setComments(res.data.data);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchComments();
+    }, [postId]);
+
+    return { loading, comments };
 };
