@@ -1,4 +1,5 @@
 import { verifyToken } from '../utils/jwt.js';
+import commentEvents from './events/commentEvents.js';
 import conversationEvents from './events/conversationEvents.js';
 import messageEvents from './events/messageEvents.js';
 import userStatusEvents from './events/userStatusEvents.js';
@@ -39,6 +40,9 @@ const handleSocketEvents = (io) => {
 
         // Đăng ký các event handler cho Tin nhắn và Conversation
         messageEvents(socket, onlineUsers);
+
+        // Đăng ký các event handler cho Bình luận
+        commentEvents(socket);
     });
 };
 

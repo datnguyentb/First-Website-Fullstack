@@ -7,6 +7,7 @@ const routes = {
     musicPlayer: '/music',
     adminLogin: '/admin/login',
     adminDashboard: '/admin/dashboard',
+    adminBanerMangement: '/admin/system_slider',
     adminUsers: '/admin/users',
     adminPosts: '/admin/posts',
     adminMusic: '/admin/music',

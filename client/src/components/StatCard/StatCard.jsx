@@ -5,16 +5,17 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function StatCard({ to, title, number }) {
+function StatCard({ to, title, number, icon, describe }) {
     let Comp = 'div';
     if (to) {
         Comp = Link;
     }
 
     return (
-        <Comp to={to} className={cx('wrapper', 'card')}>
-            <h3 className={cx('cardTitle')}>{title}</h3>
-            <p className={cx('cardValue')}>{number == 0 ? '0' : number ? number : 'Uknown'}</p>
+        <Comp to={to} className={cx('wrapper')}>
+            <div className={cx('card-icon')}>{icon}</div>
+            <div className={cx('card-title')}>{title}</div>
+            <div className={cx('card-desc')}>{describe}</div>
         </Comp>
     );
 }

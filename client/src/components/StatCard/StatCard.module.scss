@@ -1,18 +1,50 @@
-.card {
-    flex: 1;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.wrapper {
+    padding: 30px;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow:
+            0 20px 25px -5px rgba(79, 70, 229, 0.1),
+            0 10px 10px -5px rgba(79, 70, 229, 0.04);
+        border-color: $primary-color;
+
+        .card-icon {
+            background-color: rgba($primary-bg, 1);
+        }
+    }
 }
 
-.card h3 {
-    font-size: 19px;
-    margin-bottom: 19px;
-    color: $primary-color-2;
+.card-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($primary-bg, 0.3);
+
+    border-radius: 12px;
+    margin-bottom: 20px;
+    // color: white;
 }
 
-.card p {
-    font-size: 32px;
-    font-weight: bold;
+.card-title {
+    font-size: 1.8rem;
+    font-weight: $font-semi-bold;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 1.4rem;
+    color: #6b7280;
+    line-height: 1.5;
 }

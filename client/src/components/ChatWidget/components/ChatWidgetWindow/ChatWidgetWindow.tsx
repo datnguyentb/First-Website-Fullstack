@@ -18,6 +18,9 @@ const ChatWidgetWindow: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conv
     const { messages, loading } = useGetMessages(conversationId);
     const { getDetail, loading: LoadingGetDetail } = useGetConversationDetail();
 
+    // Join conversation
+    useJoinConversation(conversationId);
+
     //useState quản lý conversation
     const [conversationInfo, setConversationInfo] = useState<ConversationInfo | null>(null);
 
@@ -33,8 +36,6 @@ const ChatWidgetWindow: React.FC<ChatWidgetProps> = ({ setIsOpenChatWidget, conv
 
         fetData();
     }, [conversationId]);
-
-    useJoinConversation(conversationId);
 
     if (!conversationId)
         return (

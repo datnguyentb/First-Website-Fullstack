@@ -21,19 +21,21 @@ export interface CommentTreeNode extends FlatComment {
     replies: CommentTreeNode[];
 }
 
-// 3. Hàm chuẩn hóa sang cấu trúc cây với TypeScript
 export const buildCommentTree = (flatComments: FlatComment[]): CommentTreeNode[] => {
-    // Sử dụng Record để định nghĩa object map với key là string, value là CommentTreeNode
     const commentMap: Record<string, CommentTreeNode> = {};
     const tree: CommentTreeNode[] = [];
 
-    // Bước 1: Khởi tạo map và copy thuộc tính kèm mảng replies trống
+    // Bước 1: Khởi tạo map và mảng replies trống
     flatComments.forEach((comment) => {
         commentMap[comment._id] = { ...comment, replies: [] };
     });
 
-    // Bước 2: Duyệt qua danh sách để xếp con vào cha
-    flatComments.forEach((comment) => {
+    // Bước 2: Tạo một bản sao và đảo ngược mảng ngay từ đầu
+    // Điều này giúp cấu trúc phân cấp xuất hiện ngược lại một cách tự nhiên
+    const reversedFlatComments = [...flatComments].reverse();
+
+    // Bước 3: Duyệt qua danh sách đã đảo ngược và sử dụng .push() để đạt hiệu năng tối đa
+    reversedFlatComments.forEach((comment) => {
         const mappedComment = commentMap[comment._id];
         const parentId = comment.parentCommentId;
 

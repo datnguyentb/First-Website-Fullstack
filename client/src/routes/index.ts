@@ -1,7 +1,7 @@
 import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messenger, CoListening } from '../pages';
 import RoomView from '~/pages/CoListening/components/RoomView';
 import { Login, Register } from '../pages/Auth';
-import { AdminLogin, AdminUser, AdminPosts, AdminMusic } from '~/pages/Admin';
+import { AdminLogin, AdminUser, AdminPosts, AdminMusic, AdminBannerManagement } from '~/pages/Admin';
 import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
 import config from '../config';
 import { AppRoute } from '@/types/route';
@@ -64,6 +64,11 @@ const publicRoutes: AppRoute[] = [
     {
         path: config.routes.adminMusic,
         component: AdminMusic,
+        layout: AdminLayout,
+    },
+    {
+        path: config.routes.adminBanerMangement,
+        component: AdminBannerManagement,
         layout: AdminLayout,
     },
     {

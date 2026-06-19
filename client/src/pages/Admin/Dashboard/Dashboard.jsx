@@ -16,14 +16,53 @@ function Dashboard() {
     }, []);
 
     const statsData = [
-        { to: '/admin/users', title: 'Người dùng', number: userCount?.data },
-        { to: '/admin/posts', title: 'Bài viết', number: postsCount },
-        { title: 'Báo cáo vi phạm', number: postsReportedCount },
+        {
+            to: '/admin/users',
+            title: 'User Management',
+            icon: '👥',
+            describe: 'View, edit, suspend accounts, or assign system permissions to staff members.',
+            number: userCount?.data,
+        },
+        {
+            to: '/admin/posts',
+            title: 'Bài viết',
+            icon: '📝',
+            describe: 'Moderate blogs, create news articles, and handle user comments or feedback.',
+            number: postsCount,
+        },
+        {
+            to: '/admin/system_slider',
+            title: 'Slider & Marketing Banners',
+            icon: '🖼️',
+            describe: 'Update website carousels, change promotional banners, and toggle active campaign events.',
+            number: postsCount,
+        },
+        {
+            to: '/admin/violation_&_abuse_resports',
+            title: 'Violation & Abuse Reports',
+            icon: '🛡️',
+            describe:
+                'Review content flagged by users, moderate community violations, and manage temporary or permanent account bans.',
+            number: postsReportedCount,
+        },
+        {
+            to: '/admin/setting',
+            title: 'Global Settings',
+            icon: '⚙️',
+            describe: 'Configure site metadata, adjust maintenance status, and update third-party API integrations.',
+            number: postsCount,
+        },
     ];
 
     return (
         <div className={cx('wrapper')}>
-            <h2 className={cx('title')}>Dashboard</h2>
+            <header>
+                <h2 className={cx('title')}>Admin Control Dashboard</h2>
+                <span className={cx('sub')}>
+                    Welcome back, Admin. Please select a management module below to proceed.
+                </span>
+            </header>
+
             <div className={cx('stats')}>
                 {statsData.map((stat, index) => (
                     <StatCard key={index} {...stat} />

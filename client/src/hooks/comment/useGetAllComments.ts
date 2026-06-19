@@ -10,7 +10,6 @@ export const useGetAllComments = (postId: string) => {
             setLoading(true);
             try {
                 const res = await commentApi.getAllComments(postId);
-                console.log('Comments fetched successfully:', res);
                 setComments(res.data.data);
             } catch (error) {
                 console.error('Error fetching comments:', error);

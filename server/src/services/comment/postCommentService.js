@@ -1,9 +1,14 @@
 import Comment from '../../models/Comment.js';
+import { formatNewComment } from '../../utils/newCommentFormatter.js';
 
 const createComment = async (commentData) => {
+    const newCommentData = formatNewComment(commentData);
     try {
-        const comment = await Comment.create(commentData);
-        return comment;
+        let comment = await Comment.create(newCommentData);
+
+        comment = await comment.populate('user', 'firstName lastName avatar');
+
+        return comment.toObject();
     } catch (error) {
         console.error('Error creating comment:', error);
         throw error;

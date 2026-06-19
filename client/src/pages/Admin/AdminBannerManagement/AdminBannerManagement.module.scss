@@ -1,0 +1,29 @@
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+
+    .header {
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 15px;
+        h1 {
+            font-size: 24px;
+            color: #111827;
+        }
+        p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+
+    .main-layout {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+        }
+    }
+}

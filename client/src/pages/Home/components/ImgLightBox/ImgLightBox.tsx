@@ -6,7 +6,6 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import Comments from '../Comments/Comments';
 import MediaSection from './components/MediaSection';
 import FooterSection from './components/FooterSection';
-import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -31,10 +30,7 @@ interface ImgLightBoxProps {
 }
 
 function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }: ImgLightBoxProps) {
-    const [comments, setComments] = useState<string[]>([]);
     const isPostImagesEmpty = !post.images || post.images.length === 0;
-
-    console.log('Post data in ImgLightBox:', post);
 
     return (
         <div className={cx('lightbox-overlay')}>

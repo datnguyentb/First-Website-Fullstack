@@ -1,19 +1,21 @@
-import { useCreatePostComment } from '~/hooks/comment/useCreatePostComment';
 import AddCommentInput from '../../Comments/AddCommentInput';
+import useSendComment from '~/socket/hook/post/useSendComment';
 
 function FooterSection({ postId }: { postId: string }) {
-    const { createComment } = useCreatePostComment();
-    const handleAddComment = (commentText: string) => {
-        const commentData = {
-            content: commentText,
+    const { sendComment } = useSendComment();
+
+    const handleSubmit = (content: string) => {
+        const newReply = {
             post: postId,
-            parentCommentId: null,
+            parentCommentId: '',
+            content,
         };
-        createComment(commentData);
+
+        sendComment(postId, newReply);
     };
     return (
         <>
-            <AddCommentInput onSubmit={handleAddComment} />
+            <AddCommentInput onSubmit={handleSubmit} />
         </>
     );
 }

@@ -5,30 +5,23 @@ import { timeAgo } from '~/utils/dateUtils';
 import { memo, useState } from 'react';
 import AddCommentInput from './AddCommentInput';
 import baseUrl from '~/helper/baseUrl';
+import useSendComment from '~/socket/hook/post/useSendComment';
 
 const cx = classNames.bind(styles);
 
-const getRandomDateInLastWeek = () => {
-    const now = new Date();
-    const oneWeekInMs = 7 * 24 * 60 * 60 * 1000;
-    const randomMs = Math.floor(Math.random() * oneWeekInMs);
-
-    return new Date(now.getTime() - randomMs);
-};
-
-function CommentItem({ item, parentCommentId }: { item: any; parentCommentId: string | null }) {
+function CommentItem({ item }: { item: any }) {
     const [isRepliesVisible, setIsRepliesVisible] = useState(false);
+    const { sendComment } = useSendComment();
 
     const handleSubmit = (content: string) => {
         const newReply = {
             post: item.post,
-            parentCommentId,
+            parentCommentId: item._id,
             content,
         };
 
-        console.log('Submitting new reply:', newReply);
-
-        // Gọi API để tạo bình luận mới
+        sendComment(item.post, newReply);
+        setIsRepliesVisible(false);
     };
 
     return (
