@@ -2,43 +2,53 @@ import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './AdminBannerManagement.module.scss';
 import { BannerList, CreateBannerForm } from './components';
+import { useCreateBanner } from '~/hooks/admin/banner/useCreateBanner';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
-//  {
-//             id: '1',
-//             title: 'New Year Festive Event 2026',
-//             imageUrl: 'https://picsum.photos/id/10/800/400',
-//             link: 'https://example.com/festive-event',
-//             isActive: true,
-//         },
+interface BannerState {
+    _id: string;
+    title: string;
+    imageUrl: File | string;
+    link: string;
+}
 
 function AdminBannerManagement() {
-    // 1. Mock Data Initial State
-    const [banners, setBanners] = useState([]);
-
-    // 2. Form States
-    const [banner, setBanner] = useState({
-        id: '',
+    const [banners, setBanners] = useState<BannerState[]>([]);
+    const [banner, setBanner] = useState<BannerState>({
+        _id: '',
         title: '',
         imageUrl: '',
         link: '',
-        isActive: false,
     });
-    const [previewContent, setPreviewContent] = useState('');
 
-    const handleSubmit = () => {
-        console.log('submit');
-    };
+    const { createBanner } = useCreateBanner();
 
-    const handleFileChange = () => {
-        console.log('file change');
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (banner._id) {
+        } else {
+            const res = await createBanner(banner);
+            console.log(res);
+            if (res) {
+                toast.success(res.message);
+                setBanners((prevBanners) => [res.data, ...prevBanners]);
+                handleResetForm();
+            } else {
+                toast.error('Thêm thất bại');
+            }
+        }
     };
 
     const handleResetForm = () => {
-        console.log('reset form');
+        setBanner({
+            _id: '',
+            title: '',
+            imageUrl: '',
+            link: '',
+        });
     };
-
     return (
         <div className={cx('wrapper')}>
             <header className={cx('header')}>
@@ -48,10 +58,10 @@ function AdminBannerManagement() {
 
             <div className={cx('main-layout')}>
                 {/* LEFT: ADD/EDIT FORM */}
-                <CreateBannerForm />
+                <CreateBannerForm banner={banner} setBanner={setBanner} handleSubmit={handleSubmit} />
 
                 {/* RIGHT: BANNER LIST */}
-                <BannerList />
+                <BannerList banners={banners} setBanner={setBanner} />
             </div>
         </div>
     );

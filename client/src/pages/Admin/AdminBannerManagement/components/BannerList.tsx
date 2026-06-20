@@ -4,8 +4,7 @@ import BannerItem from './BannerItem';
 
 const cx = classNames.bind(styles);
 
-function BannerList({}) {
-    const banners = [];
+function BannerList({ banners, setBanner }) {
     return (
         <div className={cx('list-container')}>
             <div className={cx('list-header')}>
@@ -19,7 +18,7 @@ function BannerList({}) {
                 {banners.length === 0 ? (
                     <div className={cx('empty-msg')}>No banners found. Create one!</div>
                 ) : (
-                    banners.map((banner) => <BannerItem banner={banner} />)
+                    banners.map((banner) => <BannerItem key={banner._id} banner={banner} />)
                 )}
             </div>
         </div>

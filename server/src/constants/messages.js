@@ -11,6 +11,11 @@ export const MESSAGE = {
         UNKNOWN_ERROR: 'An unknown error occurred',
     },
 
+    BANNER: {
+        EMPTY_CONTENT: 'You have not entered any content',
+        CREATE_SUCCESS: 'Banner created successfully',
+    },
+
     AUTH: {
         LOGIN_SUCCESS: 'Login successful',
         REGISTER_SUCCESS: 'Registration successful',

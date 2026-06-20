@@ -149,6 +149,7 @@ function createSecureAudioUploader(subfolder) {
 }
 
 export const uploadAvatar = createSecureUploader('avatars', 1);
+export const uploadBannerImage = createSecureUploader('banners', 1);
 export const uploadPostImage = createSecureUploader('posts', 5);
 export const uploadAudio = createSecureAudioUploader('audios');
 export const uploadPlaylistAvatar = createSecureUploader('playlist-avatars', 1);

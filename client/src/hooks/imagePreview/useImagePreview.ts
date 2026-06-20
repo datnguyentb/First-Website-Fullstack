@@ -2,35 +2,29 @@ import { useState, useEffect } from 'react';
 
 type InputFile = File | Blob | string;
 
-export function useImagePreview(imageFiles: InputFile | InputFile[] | null | undefined): string[] {
-    const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+export function useImagePreview(imageFile: InputFile | null | undefined): string {
+    const [previewUrl, setPreviewUrl] = useState<string>('');
 
     useEffect(() => {
-        if (!imageFiles || (Array.isArray(imageFiles) && imageFiles.length === 0)) {
-            setPreviewUrls([]);
+        if (!imageFile) {
+            setPreviewUrl('');
             return;
         }
 
-        // Luôn biến thành mảng để xử lý
-        const filesArray = Array.isArray(imageFiles) ? imageFiles : [imageFiles];
+        if (typeof imageFile === 'string') {
+            setPreviewUrl(imageFile);
+            return;
+        }
 
-        const urls = filesArray.map((file) => {
-            if (file instanceof File || file instanceof Blob) {
-                return URL.createObjectURL(file);
-            }
-            return file;
-        });
-
-        setPreviewUrls(urls);
+        const objectUrl = URL.createObjectURL(imageFile);
+        setPreviewUrl(objectUrl);
 
         return () => {
-            urls.forEach((url) => {
-                if (url.startsWith('blob:')) {
-                    URL.revokeObjectURL(url);
-                }
-            });
+            if (objectUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(objectUrl);
+            }
         };
-    }, [imageFiles]);
+    }, [imageFile]);
 
-    return previewUrls;
+    return previewUrl;
 }

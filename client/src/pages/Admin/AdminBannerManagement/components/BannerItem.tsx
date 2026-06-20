@@ -1,19 +1,15 @@
 import classNames from 'classnames/bind';
 import styles from './BannerManagement.module.scss';
+import { Img } from '~/components';
 
 const cx = classNames.bind(styles);
 
 function BannerItem({ banner }) {
     return (
         <div key={banner.id} className={cx('banner-item')}>
-            <img
-                src={banner.imageUrl}
-                alt={banner.title}
-                className={cx('banner-thumb')}
-                onError={(e) => {
-                    e.target.src = 'https://placehold.co/160x90?text=Image+Error';
-                }}
-            />
+            <div className={cx('banner-thumb')}>
+                <Img src={banner.imageUrl} />
+            </div>
             <div className={cx('banner-info')}>
                 <div className={cx('banner-title')}>{banner.title}</div>
                 <div className={cx('banner-link')}>

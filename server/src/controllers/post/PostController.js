@@ -13,8 +13,6 @@ import Friendship from '../../models/Friendship.js';
 import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
 import ReportPost from '../../models/Report.js';
-
-import { formatItems, formatItem } from '../../utils/formatter.js';
 import { formatPost, formatPosts } from '../../helper/formatPost.js';
 
 class PostController {
