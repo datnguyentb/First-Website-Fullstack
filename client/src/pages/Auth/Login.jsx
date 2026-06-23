@@ -81,7 +81,7 @@ function Login() {
 
             <div className={cx('d-flex', 'justify-content-center', 'logo-forward-home')}>
                 <Button to="/">
-                    <Img src={logo_img.main_logo} />
+                    <Img src={logo_img.main_logo} sourceType="fontend" />
                 </Button>
             </div>
 

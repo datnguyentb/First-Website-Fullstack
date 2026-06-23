@@ -9,4 +9,5 @@ export interface ImgProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     shadow?: boolean;
     bordered?: boolean;
     darkOverlay?: boolean;
+    sourceType?: 'backend' | 'fontend';
 }

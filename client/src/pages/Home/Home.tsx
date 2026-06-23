@@ -1,14 +1,11 @@
 import classNames from 'classnames/bind';
 import { PostProvider } from '~/contexts/PostContext/PostContext';
 import styles from './Home.module.scss';
-import Slider from '~/components/Slider';
 import { Story, Posts, PostComposer } from './components';
-import { bg_slider } from '~/assets/imgs/background_slider';
 import { useEffect } from 'react';
+import HomeSLider from './components/HomeSLider';
 
 const cx = classNames.bind(styles);
-
-const defaultImages = [bg_slider.bg_slider_1, bg_slider.bg_slider_2, bg_slider.bg_slider_3];
 
 function Home() {
     useEffect(() => {
@@ -20,7 +17,7 @@ function Home() {
             <PostProvider>
                 <div className={cx('content-container')}>
                     <div className={cx('slider-wrapper')}>
-                        <Slider ArrImg={defaultImages} autoSlide={5000} />
+                        <HomeSLider />
                     </div>
                     <div className={cx('story', 'mt-5')}>
                         <Story />

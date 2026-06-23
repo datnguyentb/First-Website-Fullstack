@@ -8,7 +8,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Slider({ ArrImg, autoSlide, direction }) {
+function Slider({ banners, autoSlide, direction }) {
     const sliderRef = useRef(null);
     const intervalRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,17 +18,17 @@ function Slider({ ArrImg, autoSlide, direction }) {
 
         clearInterval(intervalRef.current);
         intervalRef.current = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex === ArrImg.length - 1 ? 0 : prevIndex + 1));
+            setCurrentIndex((prevIndex) => (prevIndex === banners.length - 1 ? 0 : prevIndex + 1));
         }, autoSlide);
     };
 
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === 0 ? ArrImg.length - 1 : prevIndex - 1));
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? banners.length - 1 : prevIndex - 1));
         resetInterval();
     };
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex === ArrImg.length - 1 ? 0 : prevIndex + 1));
+        setCurrentIndex((prevIndex) => (prevIndex === banners.length - 1 ? 0 : prevIndex + 1));
         resetInterval();
     };
 
@@ -52,10 +52,10 @@ function Slider({ ArrImg, autoSlide, direction }) {
     return (
         <div className={cx('wrapper')}>
             <div ref={sliderRef} className={cx('slider-cover')}>
-                {ArrImg.map((src, index) => (
-                    <div className={cx('item')} key={index}>
-                        <Img src={src} />
-                    </div>
+                {banners.map((banner, index) => (
+                    <a href={banner.link} target="_blank" className={cx('item')} key={banner._id}>
+                        <Img src={banner.imageUrl} />
+                    </a>
                 ))}
             </div>
             {direction && (
@@ -73,7 +73,7 @@ function Slider({ ArrImg, autoSlide, direction }) {
 }
 
 Slider.propTypes = {
-    ArrImg: PropTypes.array.isRequired,
+    banners: PropTypes.array.isRequired,
     autoSlide: PropTypes.bool,
     direction: PropTypes.bool,
 };

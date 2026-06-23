@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import bannerAdminApi from '~/api/admin/bannerAdminApi';
-
-interface BannerState {
-    id?: string | number;
-    title: string;
-    imageUrl: File | string;
-    link: string;
-}
+import { BannerState } from '~/types';
 
 export function useCreateBanner() {
     const [loading, setLoading] = useState<boolean>(false);
@@ -18,12 +12,9 @@ export function useCreateBanner() {
 
         const formData = new FormData();
 
-        if (bannerData.id) {
-            formData.append('id', String(bannerData.id));
-        }
-
         formData.append('title', bannerData.title);
         formData.append('link', bannerData.link);
+        formData.append('type', bannerData.type);
 
         // --- ĐOẠN XỬ LÝ IMAGEURL (FILE HOẶC LINK STRING) ---
         if (bannerData.imageUrl instanceof File) {

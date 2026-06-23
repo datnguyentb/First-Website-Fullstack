@@ -8,6 +8,7 @@ import musicRouter from './music/index.js';
 import chatRouter from './chat/index.js';
 import NotificationsRouter from './notifications/index.js';
 import PostCommentRouter from './comment/comment.js';
+import BannerRouter from './banner/banner.js';
 
 function route(app) {
     app.use('/auth', authRouter);
@@ -20,6 +21,7 @@ function route(app) {
     app.use('/api/friends', friendshipRouter);
     app.use('/api/music', musicRouter);
     app.use('/api/chat', chatRouter);
+    app.use('/api/banners', BannerRouter);
 }
 
 export default route;

@@ -3,7 +3,6 @@ import { usePostsContext } from '~/contexts';
 
 function Posts() {
     const { posts, setPosts, loading } = usePostsContext();
-
     if (loading) return <div>Đang tải bài viết...</div>;
     return (
         <div>

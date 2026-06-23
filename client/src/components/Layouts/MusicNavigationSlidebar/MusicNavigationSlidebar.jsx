@@ -21,7 +21,7 @@ function MusicNavigationSlidebar() {
                 <div className={cx('header')}>
                     <Link to="/" className={cx('logo-wrapper')}>
                         <div className={cx('logo')}>
-                            <Img src={logo_img.main_logo} />
+                            <Img src={logo_img.main_logo} sourceType="fontend" />
                         </div>
                         <div className={cx('title')}>Twirl</div>
                     </Link>

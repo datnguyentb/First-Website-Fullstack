@@ -10,10 +10,10 @@ const cx = classNames.bind(styles);
 // ĐỔI TẠI ĐÂY: Sử dụng URL của Backend (ví dụ port 5000 hoặc từ file env)
 const BACKEND_URL = 'http://localhost:5000';
 
-const formatImgSrc = (src: any, fallback: string) => {
+const formatImgSrc = (src: any, fallback: string, sourceType) => {
     if (!src) return fallback;
     if (typeof src === 'string') {
-        if (src.startsWith('http') || src.startsWith('blob:')) {
+        if (src.startsWith('http') || src.startsWith('blob:') || sourceType === 'fontend') {
             return src;
         }
         return baseUrl(src);
@@ -30,14 +30,15 @@ const Img: React.FC<ImgProps> = ({
     shadow = false,
     bordered = false,
     darkOverlay = false,
+    sourceType = 'backend',
     ...props
 }) => {
     // Định dạng src chuẩn ngay từ lần đầu tiên khởi tạo state
-    const [imgSrc, setImgSrc] = useState(() => formatImgSrc(src, fallback));
+    const [imgSrc, setImgSrc] = useState(() => formatImgSrc(src, fallback, sourceType));
 
     useEffect(() => {
-        setImgSrc(formatImgSrc(src, fallback));
-    }, [src, fallback]);
+        setImgSrc(formatImgSrc(src, fallback, sourceType));
+    }, [src, fallback, sourceType]);
 
     const handleError = () => {
         // Nếu ảnh định dạng xong vẫn lỗi (sai tên file, file không tồn tại trên server...)

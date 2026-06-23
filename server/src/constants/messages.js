@@ -14,6 +14,13 @@ export const MESSAGE = {
     BANNER: {
         EMPTY_CONTENT: 'You have not entered any content',
         CREATE_SUCCESS: 'Banner created successfully',
+        UPDATE_SUCCESS: 'Banner updated successfully',
+        EMPTY_CONTENT: 'You have not entered any content',
+        CREATE_SUCCESS: 'Banner created successfully',
+        UPDATE_SUCCESS: 'Banner updated successfully',
+        ID_REQUIRED: 'Banner ID is required',
+        NOT_FOUND: 'Banner not found',
+        DELETE_SUCCESS: 'Banner deleted successfully',
     },
 
     AUTH: {

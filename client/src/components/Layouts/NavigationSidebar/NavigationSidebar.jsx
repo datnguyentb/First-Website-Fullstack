@@ -64,7 +64,7 @@ function NavigationSidebar({ collapsed = false }) {
             <div className={cx('container')}>
                 <div>
                     <div className={cx('logo')}>
-                        <Img src={logo_img.main_logo} alt="Twirl" />
+                        <Img src={logo_img.main_logo} alt="Twirl" sourceType="fontend" />
                     </div>
                 </div>
                 <nav className={cx('nav')}>

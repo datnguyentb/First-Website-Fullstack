@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 function CreateBannerForm({ banner, setBanner, handleSubmit, handleResetForm }) {
     const previewImages = useImagePreview(banner.imageUrl);
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setBanner((prev) => ({
             ...prev,
@@ -29,7 +29,7 @@ function CreateBannerForm({ banner, setBanner, handleSubmit, handleResetForm }) 
 
     return (
         <div className={cx('wrapper', 'card')}>
-            <h2>{banner.id ? 'Edit Banner Details' : 'Add New Banner'}</h2>
+            <h2>{banner._id ? 'Edit Banner Details' : 'Add New Banner'}</h2>
             <form onSubmit={handleSubmit}>
                 <div className={cx('form-group')}>
                     <label htmlFor="title">Banner Title / Event Name</label>
@@ -43,6 +43,21 @@ function CreateBannerForm({ banner, setBanner, handleSubmit, handleResetForm }) 
                         onChange={handleChange}
                         required
                     />
+                </div>
+
+                <div className={cx('form-group')}>
+                    <label htmlFor="title">Banner Type</label>
+                    <select
+                        id="type"
+                        name="type"
+                        className={cx('form-control')}
+                        value={banner.type}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="normal">Normal (Homepage)</option>
+                        <option value="auth">Auth Interface (Login/Register)</option>
+                    </select>
                 </div>
 
                 <div className={cx('form-group')}>
@@ -93,10 +108,10 @@ function CreateBannerForm({ banner, setBanner, handleSubmit, handleResetForm }) 
                 </div>
 
                 <button type="submit" className={cx('btn', 'btn-primary')}>
-                    {banner.id ? 'Update Banner' : 'Save Banner'}
+                    {banner._id ? 'Update Banner' : 'Save Banner'}
                 </button>
 
-                {banner.id && (
+                {banner._id && (
                     <button type="button" className={cx('btn', 'btn-cancel')} onClick={handleResetForm}>
                         Cancel Edit
                     </button>

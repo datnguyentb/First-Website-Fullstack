@@ -6,7 +6,7 @@ import { uploadBannerImage } from '../../middleware/upload.js';
 
 const router = express.Router();
 
-//AuthController
+//create Banner router
 router.post(
     '/create',
     authenticateJWT,
@@ -14,12 +14,23 @@ router.post(
     uploadBannerImage('file'),
     AdminBannerController.createBanner,
 );
+
+//update Banner router
 router.put(
-    '/update/:id',
+    '/update',
     authenticateJWT,
     requireRole('admin'),
     uploadBannerImage('file'),
     AdminBannerController.updateBanner,
 );
+
+//get Banner router
+router.get('/get_all', authenticateJWT, requireRole('admin'), AdminBannerController.getAllBanners);
+
+//delete Banner
+router.delete('/:id', authenticateJWT, requireRole('admin'), AdminBannerController.deleteBanner);
+
+//toggle Status
+router.put('/:id/toggle', authenticateJWT, requireRole('admin'), AdminBannerController.toggleStatus);
 
 export default router;

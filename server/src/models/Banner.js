@@ -17,7 +17,16 @@ const bannerSchema = new mongoose.Schema(
             trim: true,
             default: '',
         },
+        type: {
+            type: String,
+            enum: ['normal', 'auth'],
+            default: 'normal',
+        },
         isActive: {
+            type: Boolean,
+            default: false,
+        },
+        isDeleted: {
             type: Boolean,
             default: false,
         },

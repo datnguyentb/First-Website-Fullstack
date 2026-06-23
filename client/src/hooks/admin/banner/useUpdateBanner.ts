@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import bannerAdminApi from '~/api/admin/bannerAdminApi';
-
-interface BannerState {
-    id?: string | number;
-    title: string;
-    imageUrl: File | string;
-    link: string;
-}
+import { BannerState } from '~/types';
 
 export function useUpdateBanner() {
     const [loading, setLoading] = useState<boolean>(false);
@@ -18,12 +12,13 @@ export function useUpdateBanner() {
 
         const formData = new FormData();
 
-        if (bannerData.id) {
-            formData.append('id', String(bannerData.id));
+        if (bannerData._id) {
+            formData.append('_id', String(bannerData._id));
         }
 
         formData.append('title', bannerData.title);
         formData.append('link', bannerData.link);
+        formData.append('type', bannerData.type);
 
         // --- ĐOẠN XỬ LÝ IMAGEURL (FILE HOẶC LINK STRING) ---
         if (bannerData.imageUrl instanceof File) {
@@ -33,7 +28,7 @@ export function useUpdateBanner() {
         }
 
         try {
-            const response = await bannerAdminApi.createBanner(formData);
+            const response = await bannerAdminApi.updateBanner(formData);
             setLoading(false);
             return response.data;
         } catch (err: any) {
@@ -44,5 +39,5 @@ export function useUpdateBanner() {
         }
     };
 
-    return { createBanner, loading, error };
+    return { updateBanner, loading, error };
 }

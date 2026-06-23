@@ -7,6 +7,7 @@ import styles from '../postComposer.module.scss';
 const cx = classNames.bind(styles);
 
 function ImagePreviewList({ previewImages, handleRemovePreview }) {
+    // console.log(previewImages);
     if (previewImages.length === 0) return null;
 
     return (

@@ -13,10 +13,8 @@ const useDeletePost = () => {
 
         try {
             const res = await postApi.deletePost(post_id);
-            toast.success(res.data.message);
             return res.data;
         } catch (err) {
-            toast.error(err.response.message);
             setError(err);
             return err.response;
         } finally {

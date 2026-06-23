@@ -25,7 +25,7 @@ function Dashboard() {
         },
         {
             to: '/admin/posts',
-            title: 'Bài viết',
+            title: 'Posts',
             icon: '📝',
             describe: 'Moderate blogs, create news articles, and handle user comments or feedback.',
             number: postsCount,
