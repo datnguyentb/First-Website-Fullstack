@@ -1,32 +1,16 @@
-.wrapper {
-    width: 100%;
-    min-height: 100vh;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-}
-
-.sticky-wall-header {
-    .title {
-        font-size: 3.5rem;
-        font-weight: $font-semi-bold;
-    }
-}
-
-.sticky-wall {
-    width: 100%;
-    background-color: $white;
+.container {
     display: flex;
-    flex-wrap: wrap;
     flex-direction: row;
-    padding: 20px;
-    border-radius: 20px;
-    margin-left: 0 !important;
-}
-
-.focus {
-    height: 340px;
+    justify-content: center;
     width: 100%;
-    background-color: $white;
-    border-radius: 20px;
-    overflow: hidden;
+    height: 100vh;
+    padding: 25px;
+
+    & > * {
+        flex: 1;
+
+        &:nth-child(2) {
+            flex: 1.5;
+        }
+    }
 }

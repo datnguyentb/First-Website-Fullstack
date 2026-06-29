@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import { toast } from 'react-toastify';
 import styles from './EditProfile.module.scss';
-import { handleImagePreview } from '~/utils/imagePreview';
 import EditAvatar from './EditAvatar';
 import EditInfoCard from './EditInfoCard';
 import EditActionBtn from './EditActionBtn';
@@ -12,7 +11,7 @@ import { useModalContext } from '~/contexts';
 const cx = classNames.bind(styles);
 
 function EditProfile({ onCancel, onUpdate }) {
-    const { user, setUser, form, setForm, preview, setPreview, file, setFile, disabled, setDisabled, setInitialForm } =
+    const { user, setUser, form, setForm, preview, file, setFile, disabled, setDisabled, setInitialForm } =
         useEditProfile();
 
     //hook Api
@@ -28,7 +27,6 @@ function EditProfile({ onCancel, onUpdate }) {
             ...prev,
             avatar: selectedFile.name,
         }));
-        handleImagePreview(selectedFile, setPreview, preview);
     };
 
     //[PUT] Save user

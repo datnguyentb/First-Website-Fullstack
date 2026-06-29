@@ -1,0 +1,131 @@
+$panel-bg: rgba(255, 255, 255, 0.9);
+$text-main: #2c3e50;
+$text-sub: #7f8c8d;
+$border-thin: 2px solid #e1e8ed;
+$accent-blue: #74b9ff;
+$accent-green: #2ecc71;
+$gold: #f1c40f;
+$purple: #a855f7;
+
+.premium-card {
+    background: $panel-bg;
+    border: $border-thin;
+    border-radius: 24px;
+    padding: 32px; // Đảm bảo đồng bộ độ lớn với cột Companion
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    min-height: 650px;
+    box-sizing: border-box;
+}
+
+.card-header-title {
+    font-size: 2.2rem; // Tăng từ 1.6rem (~16px) lên 2.2rem (~22px) giúp tiêu đề khối nổi bật
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $text-main;
+    margin-top: 8px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .icon-bolt {
+        color: $gold;
+        font-size: 2.4rem; // Tăng size icon lên 2.4rem để cân xứng với text tiêu đề
+    }
+    .icon-store {
+        color: $purple;
+        font-size: 2.4rem;
+    }
+    .icon-trophy {
+        color: $gold;
+        font-size: 2.4rem;
+    }
+}
+
+// --- KHỐI NHIỆM VỤ HẰNG NGÀY ---
+.quest-item {
+    background: #fffdf0;
+    border: 1px solid #ffeaa7;
+    padding: 18px 24px;
+    border-radius: 16px;
+    font-size: 1.5rem; // Tăng từ 1.1rem lên 1.5rem (~15px) giúp đọc tên nhiệm vụ rõ hơn
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $text-main;
+
+    .quest-status {
+        color: $text-sub;
+        font-weight: 700;
+        font-size: 1.4rem; // Đảm bảo text trạng thái rõ ràng
+    }
+
+    .claimed-text {
+        color: $accent-green;
+    }
+}
+
+// --- KHỐI CỬA HÀNG OASIS SHOP ---
+.shop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.shop-item {
+    background: #ffffff;
+    border: $border-thin;
+    border-radius: 18px;
+    padding: 24px 14px; // Tăng nhẹ padding dọc từ 20px lên 24px để tạo không gian thông thoáng
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: scale(1.04);
+        border-color: $gold;
+        box-shadow: 0 6px 16px rgba(241, 196, 15, 0.15);
+    }
+
+    .shop-emoji {
+        font-size: 3.5rem; // Tăng từ 2.5rem lên 3.5rem (~35px) để vật phẩm nhìn "pop" và đáng yêu hơn
+        margin-bottom: 12px;
+    }
+
+    .shop-item-text {
+        font-size: 1.4rem; // Tăng từ 0.95rem (~9.5px - quá nhỏ) lên 1.4rem (~14px)
+        font-weight: 700;
+        color: $text-main;
+    }
+}
+
+// --- KHỐI BẢNG XẾP HẠNG ARENA ---
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.leader-row {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 1.5rem; // Tăng từ 1.1rem lên 1.5rem (~15px) giúp thông tin bảng xếp hạng dễ theo dõi
+    font-weight: 500;
+    color: $text-main;
+
+    &.me {
+        background: #e3fafc;
+        border: 1px solid $accent-blue;
+        font-weight: 700;
+        color: #0b7285;
+    }
+}

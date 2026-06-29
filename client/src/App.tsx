@@ -27,8 +27,10 @@ function App() {
 
         const element = <Layout>{route.children ? <Outlet /> : <route.component />}</Layout>;
 
+        //Định nghĩa các trang
         const isAdminRoute = route.path?.startsWith('/admin');
         const isAuthRoute = route.path?.startsWith('/auth');
+        const isCoListeningRoute = route.path?.startsWith('/co-listening');
         const isChatWidgetRoute = route.path === '/' || route.path?.startsWith('/todo');
 
         let wrappedElement: ReactNode;
@@ -40,6 +42,14 @@ function App() {
                 <UserAuthProvider>
                     <UserProvider>{element}</UserProvider>
                 </UserAuthProvider>
+            );
+        } else if (isCoListeningRoute) {
+            wrappedElement = (
+                <ProtectedUserRoute>
+                    <UserAuthProvider>
+                        <UserProvider>{element}</UserProvider>
+                    </UserAuthProvider>
+                </ProtectedUserRoute>
             );
         } else {
             wrappedElement = (
@@ -90,6 +100,10 @@ function App() {
                         {publicRoutes.map(renderRoute)}
 
                         <Route path="/admin/*" element={<Navigate to="/admin/dashboard" replace />} />
+                        <Route path="/co-listening/*" element={<Navigate to="/co-listening" replace />} />
+                        <Route path="/music/*" element={<Navigate to="/music" replace />} />
+                        <Route path="/todo/*" element={<Navigate to="/todo" replace />} />
+                        <Route path="/messenger/*" element={<Navigate to="/messenger" replace />} />
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
                 </Router>

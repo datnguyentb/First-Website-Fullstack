@@ -6,6 +6,7 @@ import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } fro
 import config from '../config';
 import { AppRoute } from '@/types/route';
 import Post from '~/pages/Post';
+import Lobby from '~/pages/CoListening/components/Lobby';
 
 const publicRoutes: AppRoute[] = [
     {
@@ -16,7 +17,7 @@ const publicRoutes: AppRoute[] = [
     {
         path: config.routes.todo,
         component: Todo,
-        layout: MainLayout,
+        layout: NavigationOnly,
     },
     {
         path: config.routes.login,
@@ -78,6 +79,7 @@ const publicRoutes: AppRoute[] = [
         children: [
             { index: true, component: CoListening },
             { path: 'room/:id', component: RoomView },
+            { path: 'public-rooms', component: Lobby },
         ],
     },
     {

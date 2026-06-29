@@ -15,6 +15,7 @@ import { formatFullUser } from '../../helper/formatUser.js';
 class AuthController {
     async register(req, res) {
         const { firstName, lastName, email, password } = req.body;
+        console.log('password: ', password);
 
         const { error } = registerValidator(req.body);
         if (error) {

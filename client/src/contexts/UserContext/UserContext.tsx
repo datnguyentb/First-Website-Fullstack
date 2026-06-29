@@ -1,10 +1,10 @@
-import { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import useGetMe from '~/hooks/user/useGetMeInfor';
 import { userAuthContext } from '..';
 
 export const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const { auth } = userAuthContext();
     const { getMe } = useGetMe();
     const [user, setUser] = useState(null);
@@ -14,10 +14,10 @@ export const UserProvider = ({ children }) => {
             setUser(null);
             return;
         }
-        async function fetchUser() {
+        const fetchUser = async () => {
             const result = await getMe();
             setUser(result);
-        }
+        };
         fetchUser();
     }, [auth, getMe]);
 

@@ -9,6 +9,7 @@ import chatRouter from './chat/index.js';
 import NotificationsRouter from './notifications/index.js';
 import PostCommentRouter from './comment/comment.js';
 import BannerRouter from './banner/banner.js';
+import ColisteningRouter from './coListening/coListening.js';
 
 function route(app) {
     app.use('/auth', authRouter);
@@ -22,6 +23,7 @@ function route(app) {
     app.use('/api/music', musicRouter);
     app.use('/api/chat', chatRouter);
     app.use('/api/banners', BannerRouter);
+    app.use('/api/co_listening', ColisteningRouter);
 }
 
 export default route;

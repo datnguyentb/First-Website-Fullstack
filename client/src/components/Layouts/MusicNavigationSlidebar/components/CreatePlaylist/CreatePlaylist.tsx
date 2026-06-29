@@ -4,86 +4,19 @@ import styles from './CreatePlaylist.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faMusic, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Img from '~/components/Img';
-import { handleImagePreview } from '~/utils/imagePreview';
-import useCreatePlaylist from '~/hooks/music/playlist/useCreatePlaylist';
-import { toast } from 'react-toastify';
-import { usePlaylistContext } from '~/contexts';
+import { useEnterKeySubmit } from '~/hooks/common/useEnterKeySubmit';
+import useCreatePlaylistForm from './useCreatePlaylist';
 
 const cx = classNames.bind(styles);
 
 function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Dispatch<SetStateAction<boolean>> }) {
-    //useRef
     const createButtonRef = useRef<HTMLButtonElement>(null);
 
-    //useContext
-    const { setPlaylists } = usePlaylistContext();
+    // Gọi đúng hook quản lý form
+    const { formData, preview, handleChange, handleImageChange, handlePrivacyChange, handleSubmit } =
+        useCreatePlaylistForm({ setShowCreatePlaylist });
 
-    //useHook UseState
-    const [preview, setPreview] = useState<string | null>(null);
-    const [formData, setFormData] = useState({
-        playlistAvatar: null,
-        playlistName: '',
-        playlistDescription: '',
-        isPublic: true,
-    });
-
-    //Xử lý nhấn enter
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent): void => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                if (createButtonRef.current) {
-                    createButtonRef.current.click();
-                }
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
-
-    //Call Api
-    const { createPlaylist } = useCreatePlaylist();
-
-    //useHook UseEffect
-    useEffect(() => {
-        return () => {
-            if (preview) URL.revokeObjectURL(preview);
-        };
-    }, [preview]);
-
-    //Handle Funtion
-    const handleImageChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (!selectedFile) return;
-        setFormData((prev) => ({
-            ...prev,
-            playlistAvatar: selectedFile,
-        }));
-        handleImagePreview(selectedFile, setPreview, preview);
-    };
-
-    const handleSubmit = async () => {
-        if (!formData.playlistName.trim()) return;
-        const data = new FormData();
-        // Xử lý avatar
-        if (formData.playlistAvatar) {
-            data.append('playlistAvatar', formData.playlistAvatar);
-        }
-        data.append('playlistName', formData.playlistName);
-        data.append('playlistDescription', formData.playlistDescription);
-        data.append('isPublic', String(formData.isPublic));
-        const res = await createPlaylist(data);
-        if (res?.success) {
-            toast.success(res?.message);
-            setShowCreatePlaylist(false);
-            setPlaylists((prev) => [res.data, ...prev]);
-        } else {
-            toast.error('error');
-        }
-    };
+    useEnterKeySubmit(createButtonRef);
 
     return (
         <div className={cx('wrapper')}>
@@ -97,10 +30,7 @@ function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Disp
 
                 <form>
                     <div className={cx('avatar-upload')}>
-                        <div
-                            className={cx('avatar-upload-box')}
-                            onClick={() => document.getElementById('image-upload').click()}
-                        >
+                        <label className={cx('avatar-upload-box')} htmlFor="image-upload">
                             {preview ? (
                                 <Img id="avatar-preview" src={preview} alt="Playlist Avatar Preview" />
                             ) : (
@@ -108,7 +38,7 @@ function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Disp
                                     <FontAwesomeIcon icon={faCamera} />
                                 </div>
                             )}
-                        </div>
+                        </label>
                         <label htmlFor="image-upload" style={{ cursor: 'pointer' }}>
                             Upload Image (Optional)
                         </label>
@@ -127,14 +57,9 @@ function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Disp
                         <input
                             type="text"
                             id="playlist-name"
-                            name="playlist_name"
+                            name="playlistName"
                             placeholder="E.g., Weekend Vibes"
-                            onChange={(e) =>
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    playlistName: e.target.value,
-                                }))
-                            }
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -143,15 +68,10 @@ function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Disp
                         <label htmlFor="description">Description (Optional)</label>
                         <textarea
                             id="description"
-                            name="description"
+                            name="playlistDescription"
                             rows={3}
                             placeholder="A brief description of your playlist..."
-                            onChange={(e) =>
-                                setFormData((prev) => ({
-                                    ...prev,
-                                    playlistDescription: e.target.value,
-                                }))
-                            }
+                            onChange={handleChange}
                         />
                     </div>
 
@@ -165,12 +85,7 @@ function CreatePlaylist({ setShowCreatePlaylist }: { setShowCreatePlaylist: Disp
                                 id="privacy-toggle"
                                 name="privacy_toggle"
                                 defaultChecked
-                                onChange={(e) =>
-                                    setFormData((prev) => ({
-                                        ...prev,
-                                        isPublic: e.target.value,
-                                    }))
-                                }
+                                onChange={handlePrivacyChange}
                             />
                             <span className={cx('slider')}></span>
                         </label>

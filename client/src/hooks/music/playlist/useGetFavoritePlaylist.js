@@ -13,7 +13,6 @@ export default function useGetFavoritePlaylist() {
         const getPlaylists = async () => {
             try {
                 const res = await musicPlayerApi.getFavoritePlaylistIds();
-                console.log(res.data.data);
                 setFavoriteTrackIds(res.data.data);
             } catch (err) {
                 setError(err.response);

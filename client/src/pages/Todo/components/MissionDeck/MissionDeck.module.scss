@@ -1,0 +1,237 @@
+$panel-bg: rgba(255, 255, 255, 0.9);
+$text-main: #2c3e50;
+$text-sub: #7f8c8d;
+$border-thin: 2px solid #e1e8ed;
+$accent-blue: #74b9ff;
+$accent-green: #2ecc71;
+$accent-orange: #ff7675;
+
+.premium-card {
+    background: $panel-bg;
+    border: $border-thin;
+    border-radius: 24px;
+    padding: 32px; // Rộng rãi tuyệt đối đồng bộ với Companion và DailyQuests
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    min-height: 650px;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+// --- THANH TABS ĐIỀU HƯỚNG HEADER ---
+.deck-nav-header {
+    display: flex;
+    background: #f1f5f9;
+    border-radius: 14px;
+    padding: 6px;
+    gap: 8px;
+}
+
+.nav-tab-btn {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+    font-size: 1.5rem; // Tăng từ 1.05rem lên 1.5rem (~15px) để text menu tab rõ ràng, dễ click
+    font-weight: 600;
+    color: $text-sub;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: $text-main;
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+    &.active {
+        background: #ffffff;
+        color: $text-main;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+}
+
+// --- VÙNG INPUT THÊM TASK ---
+.modern-input-row {
+    display: flex;
+    background: #ffffff;
+    border: $border-thin;
+    border-radius: 100px;
+    padding: 6px 6px 6px 24px;
+    gap: 12px;
+    align-items: center;
+}
+
+.modern-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 1.6rem; // Tăng từ 1.15rem lên 1.6rem (~16px) giúp chữ khi gõ nhập task to rõ, không bị lọt thỏm
+    background: transparent;
+    font-weight: 500;
+    color: $text-main;
+
+    &::placeholder {
+        color: #b2bec3;
+    }
+}
+
+.pill-btn {
+    background: $text-main;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.5rem; // Tăng từ 1.1rem lên 1.5rem (~15px) giúp nút Add/Thêm có lực bấm tốt hơn
+    font-weight: 600;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        background: $accent-orange;
+    }
+}
+
+// --- DANH SÁCH CUỘN TASK THÀNH PHẦN ---
+.task-scroller {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.empty-tasks {
+    text-align: center;
+    padding: 60px;
+    color: $text-sub;
+    font-size: 1.6rem; // Tăng từ 1.1rem lên 1.6rem (~16px) cho thông báo trống vừa mắt
+    font-weight: 500;
+}
+
+.modern-task-item {
+    background: #ffffff;
+    border: $border-thin;
+    border-radius: 18px;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+
+    &:hover {
+        border-color: $accent-blue;
+        transform: translateX(3px);
+    }
+
+    &.completed {
+        background: #f8f9fa;
+        opacity: 0.6;
+
+        .task-text-display {
+            text-decoration: line-through;
+            color: $text-sub;
+        }
+    }
+}
+
+.task-left-block {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.modern-checkbox {
+    width: 26px;
+    height: 26px;
+    border: 2px solid #b2bec3;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+
+    &.checked {
+        background: $accent-green;
+        border-color: $accent-green;
+
+        &:after {
+            content: '✓';
+            color: white;
+            font-size: 1.6rem; // Đưa dấu tick lên thành 1.6rem (~16px) để hiển thị đầy đặn trong ô checkbox 26px
+            font-weight: 700;
+        }
+    }
+}
+
+.task-text-display {
+    font-size: 1.6rem; // Tăng từ 1.2rem lên 1.6rem (~16px) - kích thước tiêu chuẩn cho nội dung Text Task
+    font-weight: 500;
+    margin-left: 16px;
+    color: $text-main;
+}
+
+.delete-icon {
+    font-size: 2rem; // Tăng từ 1.3rem lên 2.0rem (~20px) giúp icon thùng rác/xóa dễ rê chuột trúng và cân bằng tỉ lệ chữ
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+// --- CẤU TRÚC TAB LỊCH SỬ ---
+.history-view-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-label {
+    font-size: 1.6rem; // Tăng từ 1.1rem lên 1.6rem (~16px) làm tiêu đề nhỏ trong tab lịch sử rõ nét hơn
+    font-weight: 700;
+    color: $text-main;
+}
+
+.history-selector {
+    padding: 14px 20px;
+    font-size: 1.5rem; // Tăng từ 1.1rem lên 1.5rem (~15px) cho phần chọn dropdown lịch sử
+    font-weight: 600;
+    border: $border-thin;
+    border-radius: 14px;
+    outline: none;
+    background: #ffffff;
+    color: $text-main;
+    cursor: pointer;
+    font-family: inherit;
+
+    &:focus {
+        border-color: $accent-blue;
+    }
+}
+
+// --- CẤU TRÚC KHU VỰC BIỂU ĐỒ ---
+.analytics-view-container {
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 24px;
+    border: 1px solid #edf2f7;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chart-wrapper-box {
+    min-height: 360px;
+    position: relative;
+}

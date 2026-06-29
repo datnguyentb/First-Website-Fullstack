@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useUserContext } from '~/contexts';
+import { useImagePreview } from '~/hooks/imagePreview/useImagePreview';
 import useFetchMeProfile from '~/hooks/user/useFetchMeProfile';
 import { formatDate } from '~/utils/dateUtils';
 
@@ -8,7 +9,6 @@ export const useEditProfile = () => {
 
     const [initialForm, setInitialForm] = useState({});
     const [file, setFile] = useState(null);
-    const [preview, setPreview] = useState(null);
     const [disabled, setDisabled] = useState(true);
     const [form, setForm] = useState({
         firstName: user.firstName || '',
@@ -22,12 +22,13 @@ export const useEditProfile = () => {
         avatar: user.avatar || '',
     });
 
-    // [GET] User
-    const { userData, loading, error } = useFetchMeProfile();
-
+    //state lưu form ban đầu
     useEffect(() => {
         setInitialForm(form);
     }, []);
+
+    // Create Image Preview Url
+    const preview = useImagePreview(file);
 
     // 👉 Revoke preview URL when unmounted
     useEffect(() => {
@@ -48,13 +49,10 @@ export const useEditProfile = () => {
         form,
         setForm,
         preview,
-        setPreview,
         file,
         setFile,
         disabled,
         setDisabled,
         setInitialForm,
-        loading,
-        error,
     };
 };

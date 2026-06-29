@@ -79,4 +79,17 @@ export const MESSAGE = {
         UNSUPPORTED_TYPE: 'Unsupported file type',
         TOO_LARGE: 'File size exceeds the allowed limit',
     },
+    CO_LISTENING: {
+        EMPTY_NAME: 'Room name is required',
+        CREATE_SUCCESS: 'Room created successfully',
+        NOT_FOUND: 'Room not found',
+        INCORRECT_PASSWORD: 'Incorrect room password',
+        PASSWORD_REQUIRED: 'Password is required for private rooms',
+        HOST_ONLY: 'Only the host can modify this action',
+        TRACK_ADDED: 'Track added to queue successfully',
+        TRACK_REMOVED: 'Track removed from queue successfully',
+        QUEUE_EMPTY: 'The queue is currently empty',
+        JOIN_SUCCESS: 'Joined room successfully',
+        LEAVE_SUCCESS: 'Left room successfully',
+    },
 };

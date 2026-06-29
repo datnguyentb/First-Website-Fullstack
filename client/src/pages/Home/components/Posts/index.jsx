@@ -1,9 +1,15 @@
 import Post from './Post.jsx';
 import { usePostsContext } from '~/contexts';
+import Loading from '~/components/Loading';
 
 function Posts() {
     const { posts, setPosts, loading } = usePostsContext();
-    if (loading) return <div>Đang tải bài viết...</div>;
+    if (loading)
+        return (
+            <div>
+                <Loading />
+            </div>
+        );
     return (
         <div>
             {posts.map((post) => (
