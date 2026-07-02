@@ -1,0 +1,50 @@
+.wrapper {
+    background-color: $white;
+    min-height: 100px;
+    max-width: 463px;
+    width: 463px;
+    box-shadow: 0 4px 6px 0 rgba(32, 33, 36, 0.28);
+    border-radius: 15px;
+    padding: 13px 10px;
+}
+
+.section-title {
+    padding: 0px 10px 8px 10px;
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+}
+
+.suggest-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    .icon {
+        margin-right: 10px;
+        color: $text-tertiary;
+    }
+
+    span {
+        font-size: 1.4rem;
+        color: $text-primary;
+    }
+
+    &:hover {
+        background-color: $secondary-hover;
+        border-radius: 3px;
+    }
+}
+
+.view-more {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 1.4rem;
+    color: $primary-color;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba($primary-color, 0.01);
+        text-decoration: underline;
+    }
+}

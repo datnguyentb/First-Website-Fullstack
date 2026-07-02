@@ -1,0 +1,90 @@
+:root {
+    --text-dark: #1c1e21; /* Gần như đen */
+    --text-muted: #606770; /* Text xám mờ */
+    --bg-light: #f0f2f5; /* Nền nhẹ */
+    --bg-card: #ffffff;
+    --accent-blue: #007bff; /* Màu xanh chủ đạo cho các hành động/nút */
+    --accent-messenger: #0084ff; /* Xanh Messenger */
+    --border-color: #e4e6eb;
+    --radius-default: 8px;
+}
+
+/* Container Chính (Khối Messenger) */
+.messenger-widget {
+    width: 380px;
+    background-color: var(--bg-card);
+    border-radius: var(--radius-default);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow mềm mại */
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Danh Sách Cuộc Trò Chuyện */
+.chat-list {
+    list-style: none;
+    padding: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* Footer (Xem tất cả) */
+.chat-footer {
+    padding: 10px 15px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-footer button {
+    color: var(--accent-messenger);
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.no-conversations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    height: 100%;
+
+    &-icon {
+        font-size: 48px;
+        color: var(--border-color);
+        margin-bottom: 16px;
+    }
+
+    h3 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 200px;
+        line-height: 1.4;
+        margin-bottom: 20px;
+    }
+}
+
+.find-friend-btn {
+    padding: 8px 16px;
+    background-color: var(--accent-messenger);
+    color: white;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 10px;
+    xx &:hover {
+        opacity: 0.9;
+    }
+}
