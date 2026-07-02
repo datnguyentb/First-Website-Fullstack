@@ -26,7 +26,7 @@ const useRealtimeEvents = (dispatch: SocketDispatch): void => {
             switch (data.event) {
                 case SOCKET_PAYLOAD_TYPES.MESSAGE: {
                     const payload = data.data;
-                    const conversationId = data.data.conversation;
+                    const conversationId = payload.conversation;
                     addIncomingMessage(conversationId, payload);
                     updateLastMessage(conversationId, payload);
                     break;

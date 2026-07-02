@@ -1,18 +1,30 @@
 import Comment from '../../models/Comment.js';
+import { canAccessPost } from '../../middleware/hook/canAccessPost.js';
+import PostCommentRepository from '../../repositories/postCommentRepository.js';
 import { formatNewComment } from '../../utils/newCommentFormatter.js';
 
-const createComment = async (commentData) => {
-    const newCommentData = formatNewComment(commentData);
-    try {
-        let comment = await Comment.create(newCommentData);
+const sendComment = async (postId, userId, commentData, socket) => {
+    //new code
+    const allowed = await canAccessPost(postId, userId);
 
-        comment = await comment.populate('user', 'firstName lastName avatar');
-
-        return comment.toObject();
-    } catch (error) {
-        console.error('Error creating comment:', error);
-        throw error;
+    if (!allowed) {
+        throw new Error('You do not have permission to send comments on this post.');
     }
+
+    const comment = formatNewComment({
+        post: postId,
+        content: commentData.content,
+        parentCommentId: commentData.parentCommentId,
+        user: userId,
+    });
+
+    const newComment = await PostCommentRepository.create(comment);
+    if (!newComment) {
+        throw new Error('Failed to save comment.');
+    }
+    socket.emit(`post_comments:${postId}`, newComment);
+
+    return newComment;
 };
 
 const getAllComments = async (id) => {
@@ -29,6 +41,6 @@ const getAllComments = async (id) => {
 };
 
 export default {
-    createComment,
+    sendComment,
     getAllComments,
 };

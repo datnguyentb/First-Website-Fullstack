@@ -46,6 +46,16 @@ class CoListeningController {
             return serverErrorResponse(res, MESSAGE.COMMON.SERVER_ERROR);
         }
     }
+
+    async getAllRoom(req, res) {
+        try {
+            const allRooms = await RoomService.getAllRoom();
+            return okResponse(res, MESSAGE.CO_LISTENING.GET_ALL_SUCCESS, allRooms);
+        } catch (err) {
+            console.error(MESSAGE.CO_LISTENING.GET_ALL_FAIL);
+            return serverErrorResponse(res, MESSAGE.CO_LISTENING.GET_ALL_FAIL);
+        }
+    }
 }
 
 export default new CoListeningController();

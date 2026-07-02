@@ -7,5 +7,6 @@ const router = express.Router();
 
 //AuthController
 router.post('/room/create', authenticateJWT, requireRole('user'), CoListeningController.create);
+router.get('/room/get_all', authenticateJWT, requireRole('user'), CoListeningController.getAllRoom);
 
 export default router;

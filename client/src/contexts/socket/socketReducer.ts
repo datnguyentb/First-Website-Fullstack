@@ -27,7 +27,7 @@ export function socketReducer(state: SocketState, action: SocketAction) {
             return {
                 ...state,
                 activeConversationId: action.payload,
-                realTimeMessages: [], // Xóa tin nhắn cũ khi đổi phòng chat nếu cần
+                realTimeMessages: [],
             };
 
         default:

@@ -47,7 +47,7 @@ export const messageCacheReducer = (state: MessageCacheState, action: Action) =>
 
             // 2. Tìm vị trí của tin nhắn tạm (Pending) dựa trên tempId
             const existingIndex = current.messages.findIndex((m) => {
-                return m._id.toString() === incomingMsg.metadata?.clientSideId;
+                return m._id.toString() === incomingMsg.metadata?.clientSideId.toString();
             });
 
             let newMessages;

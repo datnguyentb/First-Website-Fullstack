@@ -91,5 +91,7 @@ export const MESSAGE = {
         QUEUE_EMPTY: 'The queue is currently empty',
         JOIN_SUCCESS: 'Joined room successfully',
         LEAVE_SUCCESS: 'Left room successfully',
+        GET_ALL_SUCCESS: 'Rooms fetched successfully',
+        GET_ALL_FAIL: 'Failed to fetch rooms',
     },
 };

@@ -6,7 +6,7 @@
  * @param {object} io Đối tượng Server IO
  * @param {Map} onlineUsers Danh sách người dùng online
  */
-const userStatusEvents = (socket, onlineUsers) => {
+const userStatusHandler = (socket, onlineUsers) => {
     const userId = socket.user._id;
     // Khi ngắt kết nối
     socket.on('disconnect', () => {
@@ -19,4 +19,4 @@ const userStatusEvents = (socket, onlineUsers) => {
     });
 };
 
-export default userStatusEvents;
+export default userStatusHandler;

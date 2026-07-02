@@ -1,8 +1,8 @@
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import app from './app.js';
-import handleSocketEvents from './socket/handleSocketEvents.js';
-import { initIO } from './socket/socket.js';
+import handleSocketEvents from './socket/index.js';
+import { initIO } from './socket/io.js';
 
 const server = createServer(app);
 
@@ -14,7 +14,6 @@ const io = new Server(server, {
     },
 });
 
-//getIo
 initIO(io);
 
 handleSocketEvents(io);

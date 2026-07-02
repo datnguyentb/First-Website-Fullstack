@@ -1,22 +1,22 @@
 // hooks/post/useCreatePost.js
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import roomApi from '~/api/coListening/roomApi';
 import { CoListeningRoom } from '~/types/coListeningRoom';
 
-const useCreateRoom = () => {
+const useGetAllRoom = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const createRoom = async (roomData: any) => {
+    const getAllRoom = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            const newRoom = await roomApi.createRoom(roomData);
-            return newRoom.data.data;
+            const Rooms = await roomApi.getAllRoom();
+            return Rooms.data.data;
         } catch (err: any) {
-            const message = err?.response?.data?.message || 'Failed to create!';
+            const message = err?.response?.data?.message || 'Failed to get!';
             toast.error(message);
             setError(err);
             return null;
@@ -25,7 +25,7 @@ const useCreateRoom = () => {
         }
     };
 
-    return { createRoom, loading, error };
+    return { getAllRoom, loading, error };
 };
 
-export default useCreateRoom;
+export default useGetAllRoom;

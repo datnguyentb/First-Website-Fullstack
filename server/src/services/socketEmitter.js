@@ -6,8 +6,8 @@
  * @param {Object} payload - Dữ liệu thực tế (savedMessage, user info,...)
  */
 import { SOCKET_EVENTS } from '../constants/socketTypes.js';
-import { getIO } from '../socket/socket.js';
-export const emitRealtimeEvent = (receiverIds, event, data, meta) => {
+import { getIO } from '../socket/io.js';
+export const socketEmitter = (receiverIds, event, data, meta) => {
     const io = getIO();
     if (!io) return;
 

@@ -1,7 +1,7 @@
 // src/constants/socketTypes.js
 export enum SOCKET_EVENTS {
-    REALTIME_EVENT = 'realtimeEvent', //LẮNG NGHE
-    SET_SOCKET = 'SET_SOCKET', //CONNECT
+    REALTIME_EVENT = 'realtime-event',
+    SET_SOCKET = 'SET_SOCKET',
 }
 
 export enum SOCKET_PAYLOAD_TYPES {

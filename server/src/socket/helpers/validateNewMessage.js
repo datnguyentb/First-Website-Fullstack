@@ -1,4 +1,4 @@
-export function validateMessage(data) {
+export function validateNewMessage(data) {
     if (!data || typeof data !== 'object') return null;
 
     const { content, attachments, replyTo, conversation, sender } = data;
@@ -20,7 +20,6 @@ export function validateMessage(data) {
     }
 
     return {
-        _id: data._id,
         conversation,
         content: hasContent ? content.trim() : '',
         attachments: hasAttachments ? attachments : [],
@@ -29,7 +28,7 @@ export function validateMessage(data) {
         type,
         createdAt: data.createdAt || new Date().toISOString(),
         metadata: {
-            clientSideId: data._id,
+            clientSideId: data._id || null,
         },
     };
 }

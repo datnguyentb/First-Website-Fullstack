@@ -5,17 +5,6 @@ import messageService from '../../services/messageService.js';
 import { formatMessage } from '../../helper/formatMessage.js';
 
 class MessageController {
-    // Lưu tin nhắn
-    saveMessage = async (payload) => {
-        try {
-            const newMessage = await messageService.saveMessage(payload);
-            return { status: 'success', data: formatMessage(newMessage) };
-        } catch (error) {
-            console.error(error);
-            return { status: 'error', error: 'Cannot save message' };
-        }
-    };
-
     // Lấy tin nhắn trong cuộc trò chuyện
     getMessages = async (req, res) => {
         try {

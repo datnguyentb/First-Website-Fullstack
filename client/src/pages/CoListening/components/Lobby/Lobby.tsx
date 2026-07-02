@@ -1,65 +1,48 @@
 import classNames from 'classnames/bind';
 import styles from './Lobby.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useGetAllRoom from '~/hooks/coListeningRoom/useGetAllRoom';
+import { RoomListItem } from '~/types/room.types';
 
 const cx = classNames.bind(styles);
 
-// Mock room data translated to global English titles
-const mockRooms = [
-    {
-        id: 'ROOM-A93B',
-        name: 'Late Night Lofi Chill 🎧',
-        hostName: 'Guest 123',
-        playbackMode: 'radio',
-        currentTrack: { title: 'Left Hand Pointing at the Moon', artist: 'Charlie Zhou' },
-        membersCount: 42,
-    },
-    {
-        id: 'ROOM-KF82',
-        name: 'Rap Beats & High Energy 🔥',
-        hostName: 'Alex Minh',
-        playbackMode: 'party',
-        currentTrack: { title: 'Behind the Glamour', artist: 'RHYDER' },
-        membersCount: 128,
-    },
-    {
-        id: 'ROOM-X721',
-        name: 'Timeless 2000s US-UK Pop Hits',
-        hostName: 'Jessica',
-        playbackMode: 'radio',
-        currentTrack: { title: 'Until I Found You', artist: 'Stephen Sanchez' },
-        membersCount: 15,
-    },
-    {
-        id: 'ROOM-M302',
-        name: 'Coding & Coffee ☕ Open Queue - Add Tracks!',
-        hostName: 'Dev_Sean',
-        playbackMode: 'party',
-        currentTrack: { title: 'Lover', artist: 'Taylor Swift' },
-        membersCount: 8,
-    },
-    {
-        id: 'ROOM-T988',
-        name: 'Club Remix & Dance Anthems 💥',
-        hostName: 'Guest 999',
-        playbackMode: 'radio',
-        currentTrack: { title: 'Love Sorrow', artist: 'Dam Vinh Hung' },
-        membersCount: 256,
-    },
-];
-
 export default function Lobby() {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filterMode, setFilterMode] = useState('all');
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [filterMode, setFilterMode] = useState<string>('all');
 
-    // Filter logic handling live interactions
-    const filteredRooms = mockRooms.filter((room) => {
+    const [rooms, setRooms] = useState<RoomListItem[]>([]);
+
+    const { getAllRoom } = useGetAllRoom();
+
+    useEffect(() => {
+        const fetchRooms = async () => {
+            try {
+                // Nếu hàm getAllRoom của cậu chưa định nghĩa kiểu, ta ép kiểu (Type Assertion) ở đây
+                const data = (await getAllRoom()) as RoomListItem[];
+                setRooms(data || []);
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu phòng:', error);
+            }
+        };
+
+        fetchRooms();
+    }, []);
+
+    // Logic tìm kiếm và bộ lọc đã có Type bảo vệ
+    const filteredRooms = rooms.filter((room: RoomListItem) => {
+        const query = searchQuery.toLowerCase();
+
+        const hostFullName = room.host ? `${room.host.firstName || ''} ${room.host.lastName || ''}`.toLowerCase() : '';
+
         const matchesSearch =
-            room.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.hostName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.currentTrack.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.currentTrack.artist.toLowerCase().includes(searchQuery.toLowerCase());
+            room.name?.toLowerCase().includes(query) ||
+            false ||
+            hostFullName.includes(query) ||
+            room.currentTrack?.title?.toLowerCase().includes(query) ||
+            false ||
+            room.currentTrack?.artist?.toLowerCase().includes(query) ||
+            false;
 
         const matchesMode = filterMode === 'all' || room.playbackMode === filterMode;
 
@@ -86,7 +69,7 @@ export default function Lobby() {
                         </p>
                     </div>
 
-                    {/* Toolbar: Search input & Filter drop-down list */}
+                    {/* Toolbar */}
                     <div className={cx('toolbar')}>
                         <div className={cx('search-box')}>
                             <i className={cx('fa-solid', 'fa-magnifying-glass', 'search-icon')}></i>
@@ -110,8 +93,8 @@ export default function Lobby() {
                     <div className={cx('body')}>
                         {filteredRooms.length > 0 ? (
                             <div className={cx('room-grid')}>
-                                {filteredRooms.map((room) => (
-                                    <div key={room.id} className={cx('room-card')}>
+                                {filteredRooms.map((room: RoomListItem) => (
+                                    <div key={room._id} className={cx('room-card')}>
                                         <div className={cx('room-top')}>
                                             <div className={cx('room-title')} title={room.name}>
                                                 {room.name}
@@ -125,33 +108,47 @@ export default function Lobby() {
                                             <div>
                                                 <i className="fa-solid fa-circle-user"></i>
                                                 <span>
-                                                    Host: <b>{room.hostName}</b>
+                                                    Host:{' '}
+                                                    <b>
+                                                        {room.host
+                                                            ? `${room.host.firstName} ${room.host.lastName}`
+                                                            : 'Unknown'}
+                                                    </b>
                                                 </span>
                                             </div>
                                             <div>
                                                 <i className="fa-solid fa-music"></i>
                                                 <span className={cx('track-name')}>
-                                                    {room.currentTrack.title} &bull; {room.currentTrack.artist}
+                                                    {room.currentTrack ? (
+                                                        `${room.currentTrack.title} • ${room.currentTrack.artist}`
+                                                    ) : (
+                                                        <span
+                                                            className={cx('no-track')}
+                                                            style={{ color: '#888', fontStyle: 'italic' }}
+                                                        >
+                                                            No track playing
+                                                        </span>
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div className={cx('room-bottom')}>
                                             <div className={cx('member-count')}>
-                                                <i className="fa-solid fa-headphones"></i> {room.membersCount} listening
+                                                <i className="fa-solid fa-headphones"></i> {room.membersCount || 0}{' '}
+                                                listening
                                             </div>
                                             <Link
-                                                to={`/co-listening/room/${room.id}`}
+                                                to={`/co-listening/room/${room.slug}`}
                                                 className={cx('join-action-btn')}
                                             >
-                                                Join Room
+                                                {room.roomMode == 'private' && '🔒'} Join Room
                                             </Link>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            /* Empty State Context Fallback */
                             <div className={cx('empty-state')}>
                                 <i className="fa-solid fa-music-slash"></i>
                                 <p>No listening rooms found matching your criteria.</p>
@@ -159,7 +156,7 @@ export default function Lobby() {
                         )}
                     </div>
 
-                    {/* Footer Component */}
+                    {/* Footer */}
                     <div className={cx('footer')}>
                         <p className={cx('copy')}>&copy; 2026 Co-Listening. All rights reserved.</p>
                     </div>
