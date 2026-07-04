@@ -1,9 +1,17 @@
 import classNames from 'classnames/bind';
 import styles from './AdminNavigationSlidebar.module.scss';
 import { Link, useLocation } from 'react-router-dom';
-import { ADMIN_MENU } from '~/constants/ADMIN_MENU';
+import { AdminMenuItem } from './types/adminNavigation.type';
 
 const cx = classNames.bind(styles);
+
+const ADMIN_MENU: AdminMenuItem[] = [
+    { id: 1, title: 'Dashboard', to: '/admin/dashboard' },
+    { id: 2, title: 'Users', to: '/admin/users' },
+    { id: 3, title: 'Posts', to: '/admin/posts' },
+    { id: 4, title: 'Music Manage', to: '/admin/music' },
+    { id: 5, title: 'Settings', to: '/admin/setting' },
+];
 
 function AdminNavigationSlidebar() {
     const location = useLocation();

@@ -3,7 +3,7 @@ import styles from './RightSlidebarDefault.module.scss';
 import Img from '~/components/Img';
 import Button from '~/components/Button';
 import Calendar from './components/Calendar/Calendar';
-import { desktopBackground } from '../../../assets/imgs/background';
+import { desktopBackground } from '~/assets/imgs/background';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 

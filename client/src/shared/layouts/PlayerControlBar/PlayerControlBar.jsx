@@ -5,8 +5,8 @@ import PlayerProgress from './PlayerProgress.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faShuffle, faBackwardStep, faForwardStep, faRepeat } from '@fortawesome/free-solid-svg-icons';
 import { usePlayerContext } from '~/contexts';
-import NowPlayingInfo from './NowPlayingInfo';
-import ChangeVolume from './ChangeVolume';
+import NowPlayingInfo from './NowPlayingInfo.jsx';
+import ChangeVolume from './ChangeVolume.jsx';
 
 const cx = classNames.bind(styles);
 

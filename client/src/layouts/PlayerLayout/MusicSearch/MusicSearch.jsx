@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './MusicSearch.module.scss';
-import Search from '~/components/Layouts/Header/components/Search';
+import Search from '~/shared/Layouts/Header/components/Search';
 
 const cx = classNames.bind(styles);
 

@@ -2,7 +2,7 @@ import { Home, Todo, MusicPlayer, AdminDashboard, MusicPlaylist, Messenger, CoLi
 import RoomView from '~/pages/CoListening/components/RoomView';
 import { Login, Register } from '../pages/Auth';
 import { AdminLogin, AdminUser, AdminPosts, AdminMusic, AdminBannerManagement } from '~/pages/Admin';
-import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '../layouts';
+import { MainLayout, AuthLayout, PlayerLayout, AdminLayout, NavigationOnly } from '~/layouts';
 import config from '../config';
 import { AppRoute } from '@/types/route';
 import Post from '~/pages/Post';

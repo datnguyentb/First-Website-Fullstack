@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import styles from './Header.module.scss';
@@ -101,9 +100,5 @@ function Header({ style_2 = false }) {
         </div>
     );
 }
-
-Header.propTypes = {
-    style_2: PropTypes.bool,
-};
 
 export default Header;

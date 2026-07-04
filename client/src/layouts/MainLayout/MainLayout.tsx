@@ -1,6 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './MainLayout.module.scss';
-import { Header, Footer, NavigationSidebar, RightSlidebarDefault, MiniMusicControl } from '~/shared/layouts';
+import Header from '~/shared/layouts/Header';
+import Footer from '~/shared/layouts/Footer';
+import MiniMusicControl from '~/shared/layouts/MiniMusicControl';
+import NavigationSidebar from '~/shared/layouts/NavigationSidebar';
+import RightSlidebarDefault from '~/shared/layouts/RightSlidebarDefault';
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +19,7 @@ function MainLayout({ children }) {
                 <div className={cx('content-container', 'd-flex')}>
                     <div className={cx('content', 'flex-grow-1')}>
                         <div className={cx('primary-content')}>{children}</div>
-                        {/* <Footer /> */}
+                        <Footer />
                     </div>
                     <RightSlidebarDefault />
                 </div>

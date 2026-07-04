@@ -1,10 +1,12 @@
 import classNames from 'classnames/bind';
 import styles from './PlayerLayout.module.scss';
-import { MusicNavigationSlidebar, RightSlidebarMusicPlayer, PlayerControlBar } from '~/shared/layouts';
 import { ProtectedUserRoute } from '~/components/ProtectedRoute';
 import { PlaylistProvider } from '~/contexts/PlaylistContext';
 import { FavoriteProvider } from '~/contexts/FavoriteContext';
 import MusicSearch from './MusicSearch';
+import MusicNavigationSlidebar from '~/shared/layouts/MusicNavigationSlidebar';
+import PlayerControlBar from '~/shared/layouts/PlayerControlBar';
+import RightSlidebarMusicPlayer from '~/shared/layouts/RightSlidebarMusicPlayer';
 
 const cx = classNames.bind(styles);
 

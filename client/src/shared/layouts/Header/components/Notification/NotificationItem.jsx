@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import styles from './Notification.module.scss';
 import Img from '~/components/Img';
-import { timeAgo } from '../../../../../utils/dateUtils';
+import { timeAgo } from '~/utils/dateUtils';
 import baseUrl from '~/helper/baseUrl';
 import { Link } from 'react-router-dom';
 
