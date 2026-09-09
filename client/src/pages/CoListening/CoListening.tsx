@@ -4,7 +4,6 @@ import HomeView from './components/HomeView/HomeView';
 import CreateRoom from './components/CreateRoom/CreateRoom';
 import { FloatingLayer } from '~/components';
 import { useState } from 'react';
-import RoomView from './components/RoomView/RoomView';
 
 const cx = classNames.bind(styles);
 
