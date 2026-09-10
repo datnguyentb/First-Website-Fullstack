@@ -1,6 +1,6 @@
 import { Button } from '~/components';
 import classNames from 'classnames/bind';
-import styles from '../PostComposer.module.scss';
+import styles from '../../PostComposer.module.scss';
 import ImageUpload from './ImageUpload';
 
 const cx = classNames.bind(styles);
