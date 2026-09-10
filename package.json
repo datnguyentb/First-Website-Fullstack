@@ -15,8 +15,6 @@
     "@fortawesome/react-fontawesome": "^3.3.1",
     "bcrypt": "^6.0.0",
     "bootstrap-icons": "^1.13.1",
-    "chart.js": "^4.5.1",
-    "dotenv": "^16.5.0",
-    "react-chartjs-2": "^5.3.1"
+    "dotenv": "^16.5.0"
   }
 }
