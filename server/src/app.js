@@ -14,7 +14,7 @@ dotenv.config();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-//connect to DB
+//connect to D
 db_connect();
 
 app.use(
