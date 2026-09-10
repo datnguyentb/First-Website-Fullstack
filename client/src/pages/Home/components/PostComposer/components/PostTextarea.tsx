@@ -1,6 +1,6 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import classNames from 'classnames/bind';
-import styles from '../postComposer.module.scss';
+import styles from '../PostComposer.module.scss';
 
 const cx = classNames.bind(styles);
 
