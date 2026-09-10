@@ -16,7 +16,8 @@ const useRegister = () => {
             setMessenge(res.data.message);
             return res;
         } catch (error: any) {
-            setMessenge(error.response.data.message);
+            console.log('Lỗi: ', error);
+            setMessenge(error?.response?.data?.message || error.message);
         } finally {
             //
         }

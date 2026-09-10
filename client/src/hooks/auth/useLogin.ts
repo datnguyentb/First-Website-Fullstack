@@ -10,9 +10,11 @@ const useLogin = () => {
 
         try {
             const res = await authApi.login(form);
+            console.log('res', res);
             return res.data;
         } catch (error: any) {
-            return error.response.data;
+            console.log('error', error);
+            return error?.response?.data || error;
         } finally {
             //
         }
