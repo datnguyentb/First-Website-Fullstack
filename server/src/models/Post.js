@@ -13,13 +13,15 @@ const postSchema = new mongoose.Schema(
             type: String,
             trim: true,
         },
-        images: {
-            type: [String],
-            default: [],
-        },
+        images: [
+            {
+                url: { type: String, required: true },
+                public_id: { type: String, required: true },
+            },
+        ],
         video: {
-            type: String,
-            default: '',
+            url: { type: String, default: '' },
+            public_id: { type: String, default: '' },
         },
         privacy: {
             type: String,

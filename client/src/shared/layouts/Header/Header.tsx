@@ -6,7 +6,6 @@ import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { Button, ChatWidget, Img } from '~/components';
 import Search from './components/Search';
 import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
-import baseUrl from '~/helper/baseUrl';
 import { useChatWidgetContext, useNotificationsContext, useUserContext } from '~/contexts';
 import TippyMenu from '~/components/TippyMenu/TippyMenu';
 
@@ -83,7 +82,7 @@ function Header({ style_2 = false }) {
                                 trigger="click"
                             >
                                 <div className={cx('user-avatar', 'ms-3')}>
-                                    <Img src={baseUrl(user.avatar)} />
+                                    <Img src={user.avatar.url} />
                                 </div>
                             </TippyMenu>
                         </div>

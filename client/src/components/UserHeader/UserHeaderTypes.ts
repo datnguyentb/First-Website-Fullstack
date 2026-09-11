@@ -4,7 +4,10 @@ export interface UserHeaderProps {
         fullName?: string;
         firstName?: string;
         lastName?: string;
-        avatar: string;
+        avatar: {
+            url: string;
+            public_id: string;
+        };
     };
     createdAt: string;
     type?: 'default' | 'post';

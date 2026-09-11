@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './UserProfile.module.scss';
-import baseUrl from '~/helper/baseUrl';
 import Img from '../Img';
 
 const cx = classNames.bind(styles);
@@ -8,7 +7,7 @@ function UserInfoCard({ userDisplay }) {
     return (
         <div>
             <div className={cx('avatar')}>
-                <Img src={baseUrl(userDisplay.avatar)} alt="avatar" />
+                <Img src={userDisplay.avatar.url} alt="avatar" />
             </div>
             <h2 className={cx('name')}>{`${userDisplay.firstName} ${userDisplay.lastName}`}</h2>
             <div className={cx('joined', 'd-flex', 'justify-content-center', 'align-items-center')}>

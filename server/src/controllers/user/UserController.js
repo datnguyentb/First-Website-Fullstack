@@ -1,8 +1,7 @@
 import User from '../../models/User.js';
 import { okResponse, badRequestResponse, notFoundResponse, serverErrorResponse } from '../../utils/responseHelper.js';
-import fs from 'fs';
-import path from 'path';
 import { formatFullUser, formatOtherFullInfor } from '../../helper/formatUser.js';
+import { v2 as cloudinary } from 'cloudinary';
 
 class UserController {
     // GET /me/less
@@ -25,13 +24,22 @@ class UserController {
                 return badRequestResponse(res, 'No image file uploaded');
             }
 
-            const newAvatar = `/uploads/avatars/${req.file.filename}`;
-            const oldAvatarPath = req.user.avatar ? path.join(process.cwd(), 'src', req.user.avatar) : null;
+            // 1. Lấy thông tin URL và public_id do Cloudinary middleware trả về
+            const newAvatar = {
+                url: req.file.url,
+                public_id: req.file.public_id,
+            };
 
+            // 2. Lấy thông tin user hiện tại để kiểm tra avatar cũ trên cloud
+            const currentUser = await User.findById(req.user._id);
+            const oldAvatarPublicId = currentUser?.avatar?.public_id;
+
+            // 3. Cập nhật avatar mới vào MongoDB
             const updatedUser = await User.findByIdAndUpdate(req.user._id, { avatar: newAvatar }, { new: true });
 
-            if (oldAvatarPath && fs.existsSync(oldAvatarPath)) {
-                fs.unlinkSync(oldAvatarPath);
+            // 4. Nếu trước đó user có avatar trên Cloudinary thì tiến hành xóa file cũ đi để tránh rác cloud
+            if (oldAvatarPublicId) {
+                await cloudinary.uploader.destroy(oldAvatarPublicId);
             }
 
             return okResponse(res, 'Avatar updated successfully', formatFullUser(updatedUser));

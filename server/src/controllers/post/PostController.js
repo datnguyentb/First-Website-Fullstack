@@ -14,23 +14,32 @@ import SavedPost from '../../models/SavedPost.js';
 import HiddenPost from '../../models/HiddenPost.js';
 import ReportPost from '../../models/Report.js';
 import { formatPost, formatPosts } from '../../helper/formatPost.js';
+import { v2 as cloudinary } from 'cloudinary';
 
 class PostController {
     async create(req, res) {
         try {
             const { content, privacy } = req.body;
 
-            if (!content && !req.files) {
+            // Kiểm tra nếu không có content và không có file nào được upload
+            if (!content && (!req.files || req.files.length === 0)) {
                 return badRequestResponse(res, MESSAGE_RESPONSE.POST.EMPTY_CONTENT, {
-                    content: 'Chưa nhập nội dung',
+                    content: 'Chưa nhập nội dung hoặc tệp đính kèm',
                 });
             }
+
+            const images = req.files
+                ? req.files.map((file) => ({
+                      url: file.url,
+                      public_id: file.public_id,
+                  }))
+                : [];
 
             const post = new Post({
                 content,
                 privacy,
                 author: req.user._id,
-                images: req.files?.map((file) => `/uploads/posts/${file.filename}`) || [],
+                images,
             });
 
             await post.save();
@@ -39,6 +48,7 @@ class PostController {
 
             return createdResponse(res, MESSAGE_RESPONSE.POST.CREATE_SUCCESS, formatPost(post));
         } catch (err) {
+            console.error('Create post error:', err);
             return serverErrorResponse(res);
         }
     }
@@ -122,10 +132,26 @@ class PostController {
                 return forbiddenResponse(res, MESSAGE_RESPONSE.POST.NO_ACCESS);
             }
 
+            // 1. Xóa các ảnh liên quan trên Cloudinary (nếu có)
+            if (post.images && post.images.length > 0) {
+                for (const img of post.images) {
+                    if (img.public_id) {
+                        await cloudinary.uploader.destroy(img.public_id);
+                    }
+                }
+            }
+
+            // 2. Xóa video trên Cloudinary (nếu model của bạn có hỗ trợ video dạng object)
+            if (post.video && post.video.public_id) {
+                await cloudinary.uploader.destroy(post.video.public_id, { resource_type: 'video' });
+            }
+
+            // 3. Thực hiện xóa bài viết (soft-delete thông qua plugin mongoose-delete)
             await post.delete();
 
             return okResponse(res, MESSAGE_RESPONSE.POST.DELETE_SUCCESS);
         } catch (err) {
+            console.error('Delete post error:', err);
             return serverErrorResponse(res);
         }
     }

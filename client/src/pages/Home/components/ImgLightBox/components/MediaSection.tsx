@@ -12,7 +12,11 @@ interface MediaSectionProps {
     currentImageIndex: number;
     setCurrentImageIndex: (index: number) => void;
     post: {
-        images: string[];
+        images: {
+            url: string;
+            public_id: string;
+            _id?: string;
+        }[];
     };
 }
 
@@ -42,7 +46,7 @@ function MediaSection({ currentImageIndex, setCurrentImageIndex, post }: MediaSe
             <Img
                 key={currentImageIndex}
                 className={cx('main-img', direction === 'next' ? 'slide-next' : 'slide-prev')}
-                src={baseUrl(post.images[currentImageIndex])}
+                src={post.images[currentImageIndex].url}
             />
 
             <ul className={cx('dots-container')}>

@@ -1,7 +1,6 @@
 import Tippy from '@tippyjs/react';
 import { getPrivacyIcon } from '~/utils/postUtils';
 import { formatDateTimeFullEN, timeAgo } from '~/utils/dateUtils';
-import baseUrl from '~/helper/baseUrl';
 import classNames from 'classnames/bind';
 import styles from './UserHeader.module.scss';
 import 'tippy.js/dist/tippy.css';
@@ -20,7 +19,7 @@ function UserHeader({
     return (
         <div className={cx('wrapper', 'd-flex', 'align-items-center')}>
             <div className={cx('avatar-img')}>
-                <Img src={baseUrl(userInfor.avatar)} alt="Avatar" className={cx('avatar')} />
+                <Img src={userInfor.avatar.url} alt="Avatar" className={cx('avatar')} />
             </div>
             <div className={cx('ms-3')}>
                 <h3 onClick={handleClickUserProfile} className={cx('name')}>

@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './Post.module.scss';
-import baseUrl from '~/helper/baseUrl';
 import { Img } from '~/components';
 import ReactLinkify from 'react-linkify';
 import { useState, useEffect } from 'react';
@@ -47,13 +46,13 @@ function PostContent({ post, setCurrentImageIndex, setLightboxOpen }) {
             </ReactLinkify>
 
             <div className={cx('post-images', `count-${post.images.length}`)}>
-                {post.images.map((imgUrl, index) => (
+                {post.images.map((img, index) => (
                     <div
                         key={index}
                         className={cx('image-wrapper', `image-${index}`)}
                         onClick={() => handleOpenLightbox(index)}
                     >
-                        <Img src={baseUrl(imgUrl)} alt={`post-image-${index}`} className={cx('post-image')} />
+                        <Img src={img.url} alt={`post-image-${index}`} className={cx('post-image')} />
                     </div>
                 ))}
             </div>
