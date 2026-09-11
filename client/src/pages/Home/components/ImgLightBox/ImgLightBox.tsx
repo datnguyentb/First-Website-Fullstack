@@ -36,13 +36,17 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }:
         <div className={cx('lightbox-overlay')}>
             <div className={cx('lightbox-container', { 'no-images': isPostImagesEmpty })}>
                 {/* PHẦN TRÁI: HIỂN THỊ MEDIA */}
-                <div className={cx('media-section')}>
-                    <MediaSection
-                        currentImageIndex={currentImageIndex}
-                        setCurrentImageIndex={setCurrentImageIndex}
-                        post={post}
-                    />
-                </div>
+                {isPostImagesEmpty ? (
+                    <></>
+                ) : (
+                    <div className={cx('media-section')}>
+                        <MediaSection
+                            currentImageIndex={currentImageIndex}
+                            setCurrentImageIndex={setCurrentImageIndex}
+                            post={post}
+                        />
+                    </div>
+                )}
 
                 {/* PHẦN PHẢI: CHI TIẾT & BÌNH LUẬN */}
                 <div className={cx('side-panel')}>

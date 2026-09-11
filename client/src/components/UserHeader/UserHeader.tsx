@@ -19,7 +19,7 @@ function UserHeader({
     return (
         <div className={cx('wrapper', 'd-flex', 'align-items-center')}>
             <div className={cx('avatar-img')}>
-                <Img src={userInfor.avatar.url} alt="Avatar" className={cx('avatar')} />
+                <Img src={userInfor?.avatar.url} alt="Avatar" className={cx('avatar')} />
             </div>
             <div className={cx('ms-3')}>
                 <h3 onClick={handleClickUserProfile} className={cx('name')}>
