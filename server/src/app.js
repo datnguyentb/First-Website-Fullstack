@@ -19,7 +19,7 @@ db_connect();
 
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: process.env.FONTEND_URL,
         credentials: true,
     }),
 );
