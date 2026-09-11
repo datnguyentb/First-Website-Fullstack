@@ -7,7 +7,7 @@ function UserInfoCard({ userDisplay }) {
     return (
         <div>
             <div className={cx('avatar')}>
-                <Img src={userDisplay.avatar.url} alt="avatar" />
+                <Img src={userDisplay?.avatar?.url} alt="avatar" />
             </div>
             <h2 className={cx('name')}>{`${userDisplay.firstName} ${userDisplay.lastName}`}</h2>
             <div className={cx('joined', 'd-flex', 'justify-content-center', 'align-items-center')}>

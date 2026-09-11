@@ -46,7 +46,7 @@ function MediaSection({ currentImageIndex, setCurrentImageIndex, post }: MediaSe
             <Img
                 key={currentImageIndex}
                 className={cx('main-img', direction === 'next' ? 'slide-next' : 'slide-prev')}
-                src={post.images[currentImageIndex].url}
+                src={post?.images[currentImageIndex]?.url}
             />
 
             <ul className={cx('dots-container')}>

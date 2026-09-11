@@ -82,7 +82,7 @@ function Header({ style_2 = false }) {
                                 trigger="click"
                             >
                                 <div className={cx('user-avatar', 'ms-3')}>
-                                    <Img src={user.avatar.url} />
+                                    <Img src={user?.avatar?.url} />
                                 </div>
                             </TippyMenu>
                         </div>
