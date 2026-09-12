@@ -54,7 +54,7 @@ function Slider({ banners, autoSlide, direction }) {
             <div ref={sliderRef} className={cx('slider-cover')}>
                 {banners.map((banner, index) => (
                     <a href={banner.link} target="_blank" className={cx('item')} key={banner._id}>
-                        <Img src={banner.imageUrl} />
+                        <Img src={banner.imageUrl.url} />
                     </a>
                 ))}
             </div>

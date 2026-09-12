@@ -3,7 +3,6 @@ import styles from './RightSlidebarDefault.module.scss';
 import Img from '~/components/Img';
 import Button from '~/components/Button';
 import Calendar from './components/Calendar/Calendar';
-import { desktopBackground } from '~/assets/imgs/background';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,7 +13,7 @@ const eventMock = {
     description: 'Immerse yourself in electrifying performances',
     date: 'Apr 20, 2025',
     time: '5:00 PM - 11:00 PM',
-    imageSrc: desktopBackground.piture_1, // giả định đường dẫn ảnh
+    imageSrc: 'https://cdn.pixabay.com/photo/2020/07/01/23/23/music-5361245_1280.jpg', // giả định đường dẫn ảnh
     altText: 'upcomming event',
     buttonText: 'View Details',
 };

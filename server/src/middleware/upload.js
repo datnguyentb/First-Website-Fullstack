@@ -95,7 +95,7 @@ const imageTypes = [
 const audioTypes = ['audio/mpeg', 'audio/wav', 'audio/x-wav', 'audio/flac', 'audio/x-flac', 'audio/aac', 'audio/mp4'];
 
 export const uploadAvatar = createCloudUploader('avatar', 1, imageTypes, 5);
-export const uploadBannerImage = createCloudUploader('banners', 1, imageTypes, 5);
+export const uploadBannerImage = createCloudUploader('file', 1, imageTypes, 5);
 export const uploadPostImage = createCloudUploader('posts', 5, imageTypes, 10);
 export const uploadAudio = createCloudUploader('audios', 1, audioTypes, 20);
 export const uploadPlaylistAvatar = createCloudUploader('playlist-avatars', 1, imageTypes, 5);

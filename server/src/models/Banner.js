@@ -8,9 +8,16 @@ const bannerSchema = new mongoose.Schema(
             trim: true,
         },
         imageUrl: {
-            type: String,
-            required: true,
-            trim: true,
+            url: {
+                type: String,
+                required: true,
+                trim: true,
+            },
+            public_id: {
+                type: String,
+                default: null,
+                trim: true,
+            },
         },
         link: {
             type: String,

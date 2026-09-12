@@ -4,7 +4,6 @@ import Loading from '~/components/Loading';
 
 function Posts() {
     const { posts, setPosts, loading } = usePostsContext();
-    console.log(posts);
     if (loading)
         return (
             <div>

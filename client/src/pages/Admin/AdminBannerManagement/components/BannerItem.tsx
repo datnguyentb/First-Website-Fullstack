@@ -14,7 +14,7 @@ function BannerItem({ banner, setBanner, setBanners }) {
         setBanner({
             _id: banner._id,
             title: banner.title,
-            imageUrl: banner.imageUrl,
+            imageUrl: banner.imageUrl.url,
             link: banner.link,
             type: banner.type,
         });
@@ -48,7 +48,7 @@ function BannerItem({ banner, setBanner, setBanners }) {
     return (
         <div key={banner.id} className={cx('banner-item')}>
             <div className={cx('banner-thumb')}>
-                <Img src={banner.imageUrl} />
+                <Img src={banner.imageUrl.url} />
             </div>
             <div className={cx('banner-info')}>
                 <div className={cx('banner-title')}>

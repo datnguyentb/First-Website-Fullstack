@@ -60,8 +60,8 @@ const userSchema = new mongoose.Schema(
         ],
         birthdate: { type: Date, default: new Date('2000-01-01') },
         avatar: {
-            url: { type: String, required: true },
-            public_id: { type: String, required: true },
+            url: { type: String },
+            public_id: { type: String },
         },
         coverImage: { type: String, default: '' },
         gender: {
