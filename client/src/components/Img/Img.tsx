@@ -7,9 +7,6 @@ import baseUrl from '~/helper/baseUrl';
 
 const cx = classNames.bind(styles);
 
-// ĐỔI TẠI ĐÂY: Sử dụng URL của Backend (ví dụ port 5000 hoặc từ file env)
-const BACKEND_URL = 'http://localhost:5000';
-
 const formatImgSrc = (src: any, fallback: string, sourceType) => {
     if (!src) return fallback;
     if (typeof src === 'string') {
