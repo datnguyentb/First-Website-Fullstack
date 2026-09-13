@@ -33,8 +33,22 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }:
     const isPostImagesEmpty = !post.images || post.images.length === 0;
 
     return (
-        <div className={cx('lightbox-overlay')}>
-            <div className={cx('lightbox-container', { 'no-images': isPostImagesEmpty })}>
+        <div
+            className={cx('lightbox-overlay', 'w-[90vw] h-[90vh] flex justify-center items-center')}
+            onClick={(e) => {
+                onClose();
+            }}
+        >
+            <div
+                className={cx(
+                    'lightbox-container',
+                    'flex flex-col lg:flex-row w-full h-full bg-black rounded-[12px] overflow-hidden',
+                    {
+                        'no-images': isPostImagesEmpty,
+                    },
+                )}
+                onClick={(e) => e.stopPropagation()}
+            >
                 {/* PHẦN TRÁI: HIỂN THỊ MEDIA */}
                 {isPostImagesEmpty ? (
                     <></>
@@ -49,7 +63,7 @@ function ImgLightBox({ onClose, currentImageIndex, setCurrentImageIndex, post }:
                 )}
 
                 {/* PHẦN PHẢI: CHI TIẾT & BÌNH LUẬN */}
-                <div className={cx('side-panel')}>
+                <div className={cx('side-panel', 'w-full lg:w-[30%] h-[60%] lg:h-full')}>
                     <button className={cx('close-all')} onClick={onClose}>
                         <FontAwesomeIcon icon={faClose} />
                     </button>

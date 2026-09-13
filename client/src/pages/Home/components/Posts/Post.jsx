@@ -69,7 +69,7 @@ function Post({ post, setPosts }) {
 
     return (
         <>
-            <div className={cx('wrapper', 'mt-5')}>
+            <div className={cx('wrapper', 'mt-3 w-full')}>
                 {showUserProfile && (
                     <UserProfile
                         setShowUserProfile={setShowUserProfile}

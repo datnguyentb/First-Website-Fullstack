@@ -45,7 +45,7 @@ function MainLayout({ children }) {
 
                 <div className="flex-1 flex min-h-0 py-[15px]">
                     <div className={cx('main-content', 'flex-1 overflow-y-auto h-full flex justify-center min-w-0')}>
-                        <div className="max-w-[1200px] w-full px-0 md:px-[15px]">
+                        <div className="max-w-[1200px] w-full px-[0px] md:px-[15px] lg:px-[30px]">
                             <div className="overflow-hidden">{children}</div>
                             <Footer />
                         </div>

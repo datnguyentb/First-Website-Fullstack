@@ -16,9 +16,9 @@ function AuthLayout({ children }) {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="h-[769px] flex flex-row justify-center items-center">
+            <div className="max-h-[769px] h-full max-w-[1200px] flex flex-row justify-center items-center">
                 {/* Slider section: ẩn đi khi màn hình nhỏ, hiển thị từ màn hình lg trở lên */}
-                <div className="w-[539px] h-full hidden lg:block">
+                <div className="flex-1 h-full hidden lg:block">
                     <div className="relative h-full">
                         <AuthSlider />
                         <div className="absolute bottom-0 left-0 w-full h-[243px] bg-black bg-opacity-70 px-[34px] py-[52px]">
@@ -43,7 +43,7 @@ function AuthLayout({ children }) {
                 </div>
 
                 {/* Content section */}
-                <div className="w-[539px] h-full flex flex-col justify-center items-center">
+                <div className="flex-1 p-[20px_40px] h-full flex flex-col justify-center items-center">
                     <div className="max-w-[354px] w-full">{children}</div>
                 </div>
             </div>

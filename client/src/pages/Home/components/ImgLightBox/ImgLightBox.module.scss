@@ -1,19 +1,4 @@
-.lightbox-overlay {
-    width: 95vw;
-    height: 95vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .lightbox-container {
-    display: flex;
-    width: 100%;
-    max-width: 90vw;
-    height: 90vh;
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
@@ -132,7 +117,7 @@
 
 .side-panel {
     position: relative;
-    width: 30%;
+    // width: 30%;
     background: white;
     display: flex;
     flex-direction: column;

@@ -13,19 +13,19 @@ function Home() {
     }, []);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'min-h-full w-full')}>
             <PostProvider>
-                <div className={cx('content-container')}>
-                    <div className={cx('slider-wrapper')}>
+                <div className={'max-w-[900px] m-[0_auto]'}>
+                    <div className={cx('slider-wrapper', 'h-[200px] lg:h-[250px] brounder-[10px] overflow-hidden')}>
                         <HomeSLider />
                     </div>
-                    <div className={cx('story', 'mt-5')}>
+                    <div className={cx('story', 'mt-5 overflow-hidden rounded-[10px] w-full m-[0_auto] ')}>
                         <Story />
                     </div>
                     <div className={cx('post_composer_wrapper')}>
                         <PostComposer />
                     </div>
-                    <ul className={cx('post_wrapper', 'mt-3')}>
+                    <ul className={cx('post_wrapper', 'mt-3 w-full')}>
                         <Posts />
                     </ul>
                 </div>
