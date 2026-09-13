@@ -1,36 +1,8 @@
-.wrapper {
-    height: 100vh;
-    width: calc(100vw - $width-scrollbar);
-    position: relative;
-}
-
-.header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 999;
-    margin-left: $width-navigationSidebar;
-}
-
 .main-content {
-    width: 100%;
-}
-
-.content-container {
-    margin-top: $header-height;
-    padding-top: $content-padding-top;
-}
-
-.content {
-    margin-left: $width-navigationSidebar;
-    margin-right: calc($width-right-slidebar);
-}
-
-.primary-content {
-    padding: 0 30px;
-    margin: 0 auto;
-    max-width: 1200px;
-    width: 100%;
-    overflow: hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    /* Cho IE, Edge và Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

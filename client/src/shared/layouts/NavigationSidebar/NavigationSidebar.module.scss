@@ -1,11 +1,6 @@
 .wrapper {
-    position: fixed;
-    width: $width-navigationSidebar;
-    bottom: 0;
-    background-color: $white;
     box-shadow: 5px 4px 20px rgba(0, 0, 0, 0.03);
-    top: 0;
-    left: 0;
+    width: $width-navigationSidebar;
 }
 
 .container {
@@ -152,4 +147,40 @@
             margin-right: 0;
         }
     }
+}
+
+@media screen and (max-width: 1024px) {
+    .wrapper {
+        width: auto;
+    }
+
+    .title {
+        display: none;
+    }
+
+    .badge {
+        display: none;
+    }
+
+    .nav-item {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .wrapper {
+        width: 100px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 99999;
+    }
+    .logo {
+        width: 40px;
+        padding: 20px 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
 }

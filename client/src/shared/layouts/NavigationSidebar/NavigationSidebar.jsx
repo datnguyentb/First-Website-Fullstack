@@ -60,8 +60,8 @@ function NavigationSidebar({ collapsed = false }) {
     const location = useLocation();
 
     return (
-        <div className={cx('wrapper', { collapsed })}>
-            <div className={cx('container')}>
+        <div className={cx('wrapper', { collapsed }, 'h-full bg-white')}>
+            <div className={cx('container', 'flex justify-center flex-col')}>
                 <div>
                     <div className={cx('logo')}>
                         <Img src={logo_img.main_logo} alt="Twirl" sourceType="fontend" />

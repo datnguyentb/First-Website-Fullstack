@@ -7,13 +7,13 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
 // ✅ Cuối cùng là các CSS rule
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none;
-    border: none;
-}
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//     user-select: none;
+//     border: none;
+// }
 
 html {
     font-size: 62.5%;
@@ -21,8 +21,6 @@ html {
 
 body {
     font-family: $thirty-font;
-    // font-family: 'Comic Sans MS', 'Segoe UI', cursive, sans-serif;
-    // background-color: #fce4ec; /* Nền hồng pastel */
     font-weight: 400;
     color: #333;
     background-color: #f4f4f4;

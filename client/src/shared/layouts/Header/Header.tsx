@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import styles from './Header.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBell, faMessage } from '@fortawesome/free-solid-svg-icons';
 import { Button, ChatWidget, Img } from '~/components';
 import Search from './components/Search';
 import { MessagerWidget, Notification, UserDropdownPanel, UserProfile } from './components';
@@ -11,7 +11,7 @@ import TippyMenu from '~/components/TippyMenu/TippyMenu';
 
 const cx = classNames.bind(styles);
 
-function Header({ style_2 = false }) {
+function Header({ style_2 = false, onToggleMenu }) {
     const [isVisibleMessagerWidget, setIsVisibleMessagerWidget] = useState(false); // Trạng thái hiển thị MessagerWidget
     const { isOpenChatWidget, setIsOpenChatWidget, conversationId, isShowFriendsList, setIsShowFriendsList } =
         useChatWidgetContext();
@@ -34,7 +34,7 @@ function Header({ style_2 = false }) {
     const handleToggle = () => setIsVisibleMessagerWidget((prev) => !prev);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'w-full bg-transparent')}>
             <div>{user && showProfile && <UserProfile onClose={handleCloseProfile} userId={user._id} />}</div>
             {isOpenChatWidget && (
                 <ChatWidget
@@ -44,11 +44,20 @@ function Header({ style_2 = false }) {
                     setIsShowFriendsList={setIsShowFriendsList}
                 />
             )}
-            <div className={cx('container', style_2 && 'style_2')}>
+            <div
+                className={cx(
+                    'container',
+                    'h-full flex flex-row z-[999] bg-white bg-opacity-[0.98] justify-between items-center px-[20px]',
+                    style_2 && 'style_2',
+                )}
+            >
+                <div className="pt-3 pr-3 pb-3 pl-0 cursor-pointer md:hidden" onClick={onToggleMenu}>
+                    <FontAwesomeIcon className="text-[24px]" icon={faBars} />
+                </div>
                 <Search />
                 {user ? (
-                    <div className={cx('user-wrapper')}>
-                        <div>
+                    <div className={cx('user-wrapper', 'flex items-center')}>
+                        <div className="hidden md:block">
                             <TippyMenu
                                 renderMenu={<MessagerWidget handleHideMessagerWidget={handleHideMessagerWidget} />}
                                 interactive={true}
@@ -56,12 +65,18 @@ function Header({ style_2 = false }) {
                                 onClickOutside={handleHideMessagerWidget}
                                 visible={isVisibleMessagerWidget}
                             >
-                                <div className={cx('message-icon', 'action-btn')} onClick={handleToggle}>
+                                <div
+                                    className={cx(
+                                        'action-btn',
+                                        'p-0 flex justify-center items-center rounded-full bg-[#ccc] cursor-pointer',
+                                    )}
+                                    onClick={handleToggle}
+                                >
                                     <FontAwesomeIcon icon={faMessage} />
                                 </div>
                             </TippyMenu>
                         </div>
-                        <div>
+                        <div className="hidden md:block">
                             <TippyMenu
                                 renderMenu={<Notification />}
                                 placement="bottom-end"
@@ -69,19 +84,23 @@ function Header({ style_2 = false }) {
                                 trigger="click"
                             >
                                 <Button
-                                    className={cx('bell-icon', 'action-btn')}
+                                    className={cx(
+                                        'bell-icon',
+                                        'action-btn',
+                                        'p-0 flex justify-center items-center rounded-full bg-[#ccc] cursor-pointer',
+                                    )}
                                     badge={unreadCount > 0 ? unreadCount : undefined}
                                     leftIcon={<FontAwesomeIcon icon={faBell} />}
                                 ></Button>
                             </TippyMenu>
                         </div>
-                        <div className={cx('user_notice')}>
+                        <div className={cx('user_notice', 'flex items-center justify-center')}>
                             <TippyMenu
                                 renderMenu={<UserDropdownPanel user_onclick={handleShowProfile} />}
                                 placement="bottom"
                                 trigger="click"
                             >
-                                <div className={cx('user-avatar', 'ms-3')}>
+                                <div className={cx('user-avatar', 'ms-3 rounded-full overflow-hidden cursor-pointer')}>
                                     <Img src={user?.avatar?.url} />
                                 </div>
                             </TippyMenu>

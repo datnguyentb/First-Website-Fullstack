@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'; // 1. Import plugin Tailwind mới nhất
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
@@ -8,7 +9,10 @@ const __dirname = dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        tailwindcss(), // 2. Thêm vào mảng plugins
+    ],
     resolve: {
         alias: {
             '~': resolve(__dirname, 'src'),
@@ -22,7 +26,7 @@ export default defineConfig({
         },
     },
     server: {
-        host: true, // Cho phép truy cập từ 127.0.0.1
+        host: true,
         port: 5173,
     },
 });

@@ -24,3 +24,16 @@
 .post_wrapper {
     width: 100%;
 }
+
+@media screen and (max-width: 1024px) {
+    .content-container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 480px) {
+}
